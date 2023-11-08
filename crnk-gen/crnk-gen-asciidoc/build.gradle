@@ -1,18 +1,25 @@
 apply plugin: 'java'
 
 dependencies {
-    compile project(':crnk-meta')
-    compile project(':crnk-client')
-    compile project(':crnk-gen:crnk-gen-base')
 
-    compile 'guru.nidi:graphviz-java:0.12.1'
+    compileOnly project(':crnk-client')
+    compileOnly project(':crnk-core')
+    compileOnly project(':crnk-gen:crnk-gen-base')
+    compileOnly project(':crnk-meta')
 
-    testCompile 'commons-io:commons-io:2.5'
-    testCompile project(':crnk-meta')
-    testCompile project(':crnk-test')
-    testCompile project(':crnk-format:crnk-format-plain-json')
+    compileOnly 'guru.nidi:graphviz-java:0.12.1'
+    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+
+    testCompileOnly project(':crnk-client')
+    testCompileOnly project(':crnk-core')
+    testCompileOnly project(':crnk-format:crnk-format-plain-json')
+    testCompileOnly project(':crnk-gen:crnk-gen-base')
+    testCompileOnly project(':crnk-meta')
+    testCompileOnly project(':crnk-test')
+
+    testCompileOnly 'commons-io:commons-io:2.5'
+
 }
-
 
 apply plugin: 'org.asciidoctor.convert'
 

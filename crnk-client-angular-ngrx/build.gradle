@@ -8,12 +8,7 @@ sourceSets {
     }
 }
 
-dependencies {
-    genCompile project(':crnk-meta')
-    genCompile project(':crnk-gen-typescript')
-
-    genCompile 'com.google.guava:guava:18.0'
-}
+dependencies {}
 
 ClassLoader getClassLoader(Configuration config) {
     ArrayList urls = new ArrayList()
@@ -181,5 +176,3 @@ task publishNpmPackage(type: NpmTask, dependsOn: [npmRunBuild]) {
 }
 
 // tasks.publish.dependsOn publishNpmPackage
-
-

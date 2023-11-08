@@ -1,8 +1,12 @@
 apply plugin: 'java'
 
 dependencies {
-	compile project(':crnk-core')
 
-	testCompile project(':crnk-client')
-	testCompile project(':crnk-test')
+    compileOnly project(':crnk-core')
+
+    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+
+    testCompileOnly project(':crnk-core')
+    testCompileOnly project(':crnk-test')
+
 }

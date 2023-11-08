@@ -5,12 +5,20 @@
 apply plugin: 'java'
 
 dependencies {
-    compile project(':crnk-core')
-    compile project(':crnk-data:crnk-data-facet')
-    compile project(':crnk-meta')
+
+    compileOnly project(':crnk-core')
+    compileOnly project(':crnk-data:crnk-data-facet')
+    compileOnly project(':crnk-data:crnk-data-jpa')
     compileOnly project(':crnk-home')
-    testCompile project(':crnk-test')
-    testCompile project(':crnk-home')
+    compileOnly project(':crnk-meta')
+
+    compileOnly 'com.fasterxml.jackson.core:jackson-databind'
+    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+
+    testCompileOnly project(':crnk-core')
+    testCompileOnly project(':crnk-home')
+    testCompileOnly project(':crnk-test')
+
 }
 
 /*
@@ -50,4 +58,3 @@ clean {
     delete 'build/npm'
 }
  */
-

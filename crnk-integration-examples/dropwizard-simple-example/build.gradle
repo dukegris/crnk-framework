@@ -5,7 +5,10 @@ apply plugin: 'application'
 mainClassName = "io.crnk.example.dropwizard.simple.DropwizardService"
 
 dependencies {
-	compile project(':crnk-setup:crnk-setup-rs')
 
-	compile group: 'io.dropwizard', name: 'dropwizard-core', version: '1.0.0'
+    compileOnly project(':crnk-core')
+    compileOnly project(':crnk-setup:crnk-setup-rs')
+
+    compileOnly 'io.dropwizard:dropwizard-core:1.0.0'
+
 }

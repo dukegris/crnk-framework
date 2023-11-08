@@ -31,34 +31,21 @@ sourceSets {
 }
 
 dependencies {
-    compile project(':crnk-setup:crnk-setup-vertx')
-    compile project(':crnk-home')
-    compile project(':crnk-security')
-    compile project(':crnk-data:crnk-data-facet')
-    compile project(':crnk-data:crnk-data-jpa')
-    compile project(':crnk-validation')
-    compile project(':crnk-format:crnk-format-plain-json')
-
-    compile 'javax:javaee-api:7.0'
-    compile 'org.hibernate:hibernate-validator:5.2.1.Final'
-    compile 'org.hibernate:hibernate-core:5.2.10.Final'
-    compile 'org.hibernate:hibernate-entitymanager:5.2.10.Final'
-    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
-    compile 'com.h2database:h2:1.4.187'
-
-    compile 'io.vertx:vertx-auth-common:3.7.1'
-
-    // add in the future
-    // compile project(':crnk-meta')
-    // compile project(':crnk-operations')
-    // compile project(':crnk-ui')
-    // compile project(':crnk-validation')
-
-    compile 'ch.qos.logback:logback-classic:1.2.3'
-    compile 'javax.inject:javax.inject:1'
-    compile 'com.google.dagger:dagger:2.16'
 
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
+
+    compileOnly project(':crnk-core')
+    compileOnly project(':crnk-home')
+    compileOnly project(':crnk-security')
+    compileOnly project(':crnk-setup:crnk-setup-vertx')
+
+    compileOnly 'com.google.dagger:dagger:2.16'
+    compileOnly 'io.projectreactor.addons:reactor-adapter:3.2.3.RELEASE'
+    compileOnly 'io.vertx:vertx-rx-java2:3.7.1'
+    compileOnly 'io.vertx:vertx-auth-common:3.7.1'
+    compileOnly 'javax.inject:javax.inject:1'
+    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+
 }
 
 // https://github.com/immutables/immutables/issues/134 issues with incremental compilation

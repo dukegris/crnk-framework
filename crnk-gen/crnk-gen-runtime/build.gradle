@@ -1,31 +1,25 @@
 apply plugin: 'java'
 
 dependencies {
-    compile project(':crnk-meta')
 
-    compile 'org.reflections:reflections'
-    compile project(':crnk-gen:crnk-gen-base')
-    compile project(':crnk-meta')
-    compile 'com.fasterxml.jackson.core:jackson-databind'
+    compileOnly project(':crnk-core')
+    compileOnly project(':crnk-gen:crnk-gen-base')
+    compileOnly project(':crnk-meta')
 
-    compileOnly 'junit:junit:4.12'
-    compileOnly 'org.apache.deltaspike.modules:deltaspike-test-control-module-api:1.7.1'
-    compileOnly 'org.apache.deltaspike.cdictrl:deltaspike-cdictrl-api:1.7.1'
     compileOnly 'org.jboss.weld.se:weld-se-core:2.4.0.Final'
-    compileOnly 'org.springframework.boot:spring-boot:2.1.0.RELEASE'
-    compileOnly 'javax:javaee-api:7.0'
+    compileOnly 'net.jodah:typetools:0.6.3'
+    compileOnly 'org.reflections:reflections:0.9.11'
+    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+    compileOnly 'org.springframework:spring-beans:5.1.20.RELEASE'
+    compileOnly 'org.springframework:spring-context:5.1.20.RELEASE'
+    compileOnly 'org.springframework.boot:spring-boot:2.3.12.RELEASE'
 
-    testCompile project(':crnk-meta')
-    testCompile project(':crnk-test')
-    testCompile project(':crnk-setup:crnk-setup-cdi')
-    testCompile project(':crnk-setup:crnk-setup-spring-boot2')
-    testCompile 'commons-io:commons-io:2.5'
-    testCompile 'org.apache.deltaspike.modules:deltaspike-test-control-module-api:1.7.1'
-    testCompile 'org.apache.deltaspike.core:deltaspike-core-impl:1.7.1'
-    testCompile 'org.apache.deltaspike.modules:deltaspike-test-control-module-api:1.7.1'
-    testCompile 'org.apache.deltaspike.modules:deltaspike-test-control-module-impl:1.7.1'
-    testCompile 'org.apache.deltaspike.cdictrl:deltaspike-cdictrl-weld:1.7.1'
-    testCompile 'org.jboss.weld.se:weld-se-core:2.4.0.Final'
-    testCompile 'javax:javaee-api:7.0'
-    testCompile 'org.springframework.boot:spring-boot:2.1.0.RELEASE'
+    testCompileOnly project(':crnk-gen:crnk-gen-base')
+    testCompileOnly project(':crnk-meta')
+    testCompileOnly project(':crnk-setup:crnk-setup-spring-boot2')
+    testCompileOnly project(':crnk-test')
+
+    testCompileOnly 'com.fasterxml.jackson.core:jackson-databind'
+    testCompileOnly 'org.springframework:spring-context:5.1.20.RELEASE'
+
 }

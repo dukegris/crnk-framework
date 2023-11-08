@@ -1,18 +1,23 @@
 apply plugin: 'java'
 
 dependencies {
-	compile project(':crnk-core')
-	compileOnly project(':crnk-meta')
-	compileOnly project(':crnk-client')
-	compileOnly group: 'org.hibernate', name: 'hibernate-validator', version: '5.2.1.Final'
 
-	testCompile project(':crnk-client')
-	testCompile project(':crnk-setup:crnk-setup-rs')
-	testCompile project(':crnk-test')
-	testCompile project(':crnk-meta')
-	testCompile group: 'org.hibernate', name: 'hibernate-validator', version: '5.2.1.Final'
-	testCompile group: 'org.springframework', name: 'spring-orm', version: '4.3.1.RELEASE'
-	testCompile group: 'org.springframework', name: 'spring-context', version: '4.3.1.RELEASE'
-	testCompile group: 'org.springframework', name: 'spring-test', version: '4.3.1.RELEASE'
-	testCompile(group: 'javax', name: 'javaee-api', version: '7.0')
+    compileOnly project(':crnk-client')
+    compileOnly project(':crnk-core')
+    compileOnly project(':crnk-meta')
+
+    compileOnly 'javax.validation:validation-api:2.0.1.Final'
+    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+
+    testCompileOnly project(':crnk-client')
+    testCompileOnly project(':crnk-core')
+    testCompileOnly project(':crnk-meta')
+    testCompileOnly project(':crnk-setup:crnk-setup-rs')
+    testCompileOnly project(':crnk-test')
+
+    testCompileOnly 'com.fasterxml.jackson.core:jackson-annotations'
+    testCompileOnly 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+    testCompileOnly 'org.glassfish.jersey.core:jersey-server:2.25.1'
+    testCompileOnly 'org.glassfish.jersey.test-framework:jersey-test-framework-core:2.25.1'
+
 }

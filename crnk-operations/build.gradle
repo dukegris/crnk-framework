@@ -1,27 +1,40 @@
 apply plugin: 'java'
 
 dependencies {
-	compile project(':crnk-core')
-	compileOnly project(':crnk-client')
-	compileOnly project(':crnk-setup:crnk-setup-rs')
-	compileOnly 'javax.ws.rs:javax.ws.rs-api:2.1'
 
-	testCompile project(':crnk-client')
-	testCompile project(':crnk-setup:crnk-setup-rs')
-	testCompile project(':crnk-test')
-	testCompile project(':crnk-data:crnk-data-jpa')
-	testCompile project(':crnk-setup:crnk-setup-spring')
-	testCompile project(':crnk-validation')
+    compileOnly project(':crnk-client')
+    compileOnly project(':crnk-core')
 
-	compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+    compileOnly 'com.fasterxml.jackson.core:jackson-databind'
+    compileOnly 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+    compileOnly 'org.slf4j:slf4j-api:1.7.13'
 
-	testCompile group: 'org.hibernate', name: 'hibernate-validator', version: '5.2.1.Final'
-	testCompile group: 'javax', name: 'javaee-api', version: '7.0'
-	testCompile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.10.Final'
-	testCompile group: 'org.springframework', name: 'spring-orm', version: '4.3.1.RELEASE'
-	testCompile group: 'org.springframework', name: 'spring-context', version: '4.3.1.RELEASE'
-	testCompile group: 'org.springframework', name: 'spring-test', version: '4.3.1.RELEASE'
-	testCompile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.10.Final'
-	testCompile group: 'com.h2database', name: 'h2', version: '1.4.187'
-	testCompile(group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final')
+    testCompileOnly project(':crnk-client')
+    testCompileOnly project(':crnk-core')
+    testCompileOnly project(':crnk-data:crnk-data-jpa')
+    testCompileOnly project(':crnk-meta')
+    testCompileOnly project(':crnk-setup:crnk-setup-rs')
+    testCompileOnly project(':crnk-setup:crnk-setup-spring')
+    testCompileOnly project(':crnk-test')
+    testCompileOnly project(':crnk-validation')
+
+    testCompileOnly 'com.fasterxml.jackson.core:jackson-databind'
+    testCompileOnly 'com.h2database:h2:1.4.195'
+    testCompileOnly 'com.querydsl:querydsl-jpa:4.1.3'
+    testCompileOnly 'com.squareup.okhttp3:okhttp:3.4.1'
+    testCompileOnly 'javax.persistence:javax.persistence-api:2.2'
+    testCompileOnly 'nl.jqno.equalsverifier:equalsverifier:1.7.2'
+    testCompileOnly 'org.glassfish.jersey.core:jersey-server:2.25.1'
+    testCompileOnly 'org.glassfish.jersey.test-framework:jersey-test-framework-core:2.25.1'
+    testCompileOnly 'org.hibernate:hibernate-core:5.2.10.Final'
+    testCompileOnly 'org.springframework:spring-context:5.1.20.RELEASE'
+    testCompileOnly 'org.springframework:spring-orm:5.1.20.RELEASE'
+    testCompileOnly 'org.springframework:spring-tx:5.1.20.RELEASE'
+
+    testAnnotationProcessor(
+        'com.querydsl:querydsl-apt:4.1.3:jpa',
+        'javax.annotation:javax.annotation-api:1.3.2',
+        'javax.persistence:javax.persistence-api:2.2'
+    )
+
 }

@@ -1,15 +1,26 @@
 apply plugin: 'java'
 
 dependencies {
-    compile project(':crnk-meta')
-    compile project(':crnk-gen:crnk-gen-base')
 
+    compileOnly project(':crnk-core')
+    compileOnly project(':crnk-gen:crnk-gen-base')
+    compileOnly project(':crnk-meta')
 
-    testCompile 'commons-io:commons-io:2.5'
-    testCompile project(':crnk-meta')
-    testCompile project(':crnk-test')
-    testCompile project(':crnk-data:crnk-data-facet')
+    compileOnly 'com.fasterxml.jackson.core:jackson-databind'
+    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+
+    testCompileOnly project(':crnk-core')
+    testCompileOnly project(':crnk-data:crnk-data-facet')
+    testCompileOnly project(':crnk-gen:crnk-gen-base')
+    testCompileOnly project(':crnk-meta')
+    testCompileOnly project(':crnk-test')
+
+    testCompileOnly 'commons-io:commons-io:2.5'
+    testCompileOnly 'org.apache.commons:commons-lang3:3.13.0'
+    testCompileOnly "org.junit.jupiter:junit-jupiter-api:$JUNIT_VERSION"
+    testCompileOnly "org.junit.jupiter:junit-jupiter-params:$JUNIT_VERSION"
+    testCompileOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
+    testCompileOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+    testCompileOnly 'org.slf4j:slf4j-api:1.7.13'
+
 }
-
-
-

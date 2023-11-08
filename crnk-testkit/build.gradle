@@ -1,11 +1,16 @@
 apply plugin: 'java'
 
 dependencies {
-	compile project(':crnk-core')
-	compile project(':crnk-client')
-	testCompile project(':crnk-test')
-	testCompile project(':crnk-home')
 
-	compile 'org.assertj:assertj-core:3.9.1'
-	compile 'org.apache.httpcomponents:httpclient:4.5.2'
+    compileOnly project(':crnk-client')
+    compileOnly project(':crnk-core')
+
+    compileOnly 'com.fasterxml.jackson.core:jackson-databind'
+    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+
+    testCompileOnly project(':crnk-client')
+    testCompileOnly project(':crnk-core')
+    testCompileOnly project(':crnk-home')
+    testCompileOnly project(':crnk-test')
+
 }

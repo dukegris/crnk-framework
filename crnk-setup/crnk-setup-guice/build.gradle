@@ -1,10 +1,14 @@
 apply plugin: 'java'
 
 dependencies {
-	compile project(':crnk-core')
-	testCompile project(':crnk-test')
 
-	compileOnly 'com.google.inject:guice:4.1.0'
-	testCompile 'com.google.inject:guice:4.1.0'
+    compileOnly project(':crnk-core')
+
+    compileOnly 'com.google.inject:guice:4.1.0'
+
+    testCompileOnly project(':crnk-core')
+    testCompileOnly project(':crnk-test')
+
+    testCompileOnly 'com.google.inject:guice:4.1.0'
+
 }
-

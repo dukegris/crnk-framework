@@ -3,60 +3,50 @@ apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 dependencyManagement {
 	imports {
-		mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.8.RELEASE'
+		mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.22.RELEASE'
 	}
 }
 
 dependencies {
 
-	compile project(':crnk-setup:crnk-setup-servlet')
-	compile project(':crnk-setup:crnk-setup-spring')
-	compileOnly project(':crnk-data:crnk-data-jpa')
-	compileOnly project(':crnk-validation')
-	compileOnly project(':crnk-home')
-	compileOnly project(':crnk-meta')
-	compileOnly project(':crnk-operations')
-	compileOnly project(':crnk-security')
-	compileOnly project(':crnk-ui')
-	compileOnly project(':crnk-client')
+    compileOnly project(':crnk-core')
+    compileOnly project(':crnk-data:crnk-data-jpa')
+    compileOnly project(':crnk-home')
+    compileOnly project(':crnk-meta')
+    compileOnly project(':crnk-operations')
+    compileOnly project(':crnk-security')
+    compileOnly project(':crnk-setup:crnk-setup-servlet')
+    compileOnly project(':crnk-setup:crnk-setup-spring')
+    compileOnly project(':crnk-ui')
+    compileOnly project(':crnk-validation')
 
-	compileOnly 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
-	compileOnly 'org.springframework.boot:spring-boot-starter-actuator'
-	compileOnly 'org.springframework.security:spring-security-core'
-	compileOnly 'org.springframework.cloud:spring-cloud-starter-sleuth:1.3.0.RELEASE'
-	compileOnly 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+    compileOnly 'com.fasterxml.jackson.core:jackson-databind'
+    compileOnly 'javax.persistence:javax.persistence-api:2.2'
+	compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+    compileOnly 'javax.validation:validation-api:2.0.1.Final'
+    compileOnly 'org.springframework:spring-context:4.3.30.RELEASE'
+    compileOnly 'org.springframework:spring-webmvc:4.3.30.RELEASE'
+    compileOnly 'org.springframework.boot:spring-boot:1.5.22.RELEASE'
+    compileOnly 'org.springframework.boot:spring-boot-autoconfigure:1.5.22.RELEASE'
 
-	compileOnly 'org.springframework:spring-orm'
+    testCompileOnly project(':crnk-core')
+    testCompileOnly project(':crnk-client')
+    testCompileOnly project(':crnk-data:crnk-data-facet')
+    testCompileOnly project(':crnk-data:crnk-data-jpa')
+    testCompileOnly project(':crnk-meta')
+    testCompileOnly project(':crnk-setup:crnk-setup-spring')
+    testCompileOnly project(':crnk-test')
 
-	testCompile project(':crnk-data:crnk-data-jpa')
-	testCompile project(':crnk-data:crnk-data-jpa')
-	testCompile project(':crnk-validation')
-	testCompile project(':crnk-home')
-	testCompile project(':crnk-meta')
-	testCompile project(':crnk-operations')
-	testCompile project(':crnk-security')
-	testCompile project(':crnk-ui')
-	testCompile project(':crnk-client')
-	testCompile project(':crnk-test')
-	testCompile group: 'javax', name: 'javaee-api', version: '7.0'
-	testCompile 'javax.el:javax.el-api:2.2.4'
-	testCompile 'org.glassfish.web:javax.el:2.2.6'
+    testCompileOnly 'com.fasterxml.jackson.core:jackson-databind'
+    testCompileOnly 'javax.persistence:javax.persistence-api:2.2'
+    testCompileOnly 'javax.security.auth.message:javax.security.auth.message-api:1.1.1'
+    testCompileOnly 'net.javacrumbs.json-unit:json-unit-fluent:1.5.3'
+    testCompileOnly 'org.apache.tomcat:tomcat-catalina:8.5.95'
+    testCompileOnly 'org.glassfish.jersey.test-framework:jersey-test-framework-core:2.25.1'
+    testCompileOnly 'org.springframework:spring-test:4.3.30.RELEASE'
+    testCompileOnly 'org.springframework:spring-web:4.3.30.RELEASE'
+    testCompileOnly 'org.springframework.security:spring-security-core:4.2.20.RELEASE'
+    testCompileOnly 'org.springframework.cloud:spring-cloud-starter-sleuth:1.3.6.RELEASE'
+    testCompileOnly 'org.springframework.boot:spring-boot-starter-test:1.5.22.RELEASE'
 
-	testCompile 'org.springframework.boot:spring-boot-starter-data-jpa'
-	testCompile 'org.springframework.boot:spring-boot-starter-web'
-	testCompile 'org.springframework.boot:spring-boot-starter-test'
-	testCompile 'org.springframework.boot:spring-boot-starter-actuator'
-	testCompile 'org.springframework.cloud:spring-cloud-starter-sleuth:1.3.0.RELEASE'
-
-	testCompile 'org.hibernate:hibernate-core'
-	testCompile 'org.hibernate:hibernate-entitymanager'
-	testCompile 'com.h2database:h2'
-
-	testCompile 'org.springframework.boot:spring-boot-configuration-processor'
-	testCompile 'org.springframework:spring-orm'
-	testCompile 'org.springframework.security:spring-security-core'
-	testCompile 'net.javacrumbs.json-unit:json-unit-fluent:1.5.3'
 }
-
-

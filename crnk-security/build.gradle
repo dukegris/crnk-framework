@@ -1,10 +1,22 @@
 apply plugin: 'java'
 
 dependencies {
-	compile project(':crnk-core')
-	compileOnly project(':crnk-client')
 
-	testCompile project(':crnk-client')
-	testCompile project(':crnk-setup:crnk-setup-rs')
-	testCompile project(':crnk-test')
+    compileOnly project(':crnk-client')
+    compileOnly project(':crnk-core')
+
+    compileOnly 'com.fasterxml.jackson.core:jackson-annotations'
+    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+
+    testCompileOnly project(':crnk-client')
+    testCompileOnly project(':crnk-core')
+    testCompileOnly project(':crnk-setup:crnk-setup-rs')
+    testCompileOnly project(':crnk-test')
+
+    testCompileOnly 'com.squareup.okhttp3:okhttp:3.4.1'
+    testCompileOnly 'nl.jqno.equalsverifier:equalsverifier:1.7.2'
+    testCompileOnly 'org.eclipse.jetty:jetty-security:9.4.9.v20180320'
+    testCompileOnly 'org.glassfish.jersey.core:jersey-server:2.25.1'
+    testCompileOnly 'org.glassfish.jersey.test-framework:jersey-test-framework-core:2.25.1'
+
 }
