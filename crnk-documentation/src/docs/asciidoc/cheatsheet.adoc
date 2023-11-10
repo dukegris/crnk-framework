@@ -55,7 +55,7 @@ dependencies {
 
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
 	testCompile "io.crnk:crnk-client"
-	testCompile 'com.squareup.okhttp3:okhttp:3.4.1'
+	testCompile 'com.squareup.okhttp3:okhttp:4.12.0'
 }
 ----
 

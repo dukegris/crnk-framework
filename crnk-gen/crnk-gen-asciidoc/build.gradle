@@ -1,24 +1,41 @@
-apply plugin: 'java'
-
-dependencies {
-    compile project(':crnk-meta')
-    compile project(':crnk-client')
-    compile project(':crnk-gen:crnk-gen-base')
-
-    compile 'guru.nidi:graphviz-java:0.12.1'
-
-    testCompile 'commons-io:commons-io:2.5'
-    testCompile project(':crnk-meta')
-    testCompile project(':crnk-test')
-    testCompile project(':crnk-format:crnk-format-plain-json')
+// RCS
+// apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'org.asciidoctor.jvm.convert'
 }
 
+dependencies {
 
-apply plugin: 'org.asciidoctor.convert'
+    implementation project(':crnk-client')
+    implementation project(':crnk-core')
+    implementation project(':crnk-gen:crnk-gen-base')
+    implementation project(':crnk-meta')
+
+    implementation 'guru.nidi:graphviz-java:0.12.1'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
+
+    // RCS unneeded:
+    // testImplementation project(':crnk-client')
+    // testImplementation project(':crnk-core')
+    // testImplementation project(':crnk-gen:crnk-gen-base')
+    // testImplementation project(':crnk-meta')
+    testImplementation project(':crnk-format:crnk-format-plain-json')
+    testImplementation project(':crnk-test')
+
+    testImplementation 'commons-io:commons-io:2.5'
+
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+
+}
+
+// RCS
+// apply plugin: 'org.asciidoctor.convert'
 
 asciidoctor {
     sourceDir = file('build/tmp/asciidoc/generated/sources/asciidoc')
-    backends = ['html5']
+    // RCS
+    // backends = ['html5']
     attributes 'source-highlighter': 'coderay'
     sources {
         include 'index.adoc'

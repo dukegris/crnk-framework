@@ -1,49 +1,46 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 apply plugin: 'io.spring.dependency-management'
 dependencyManagement {
-	imports {
-		mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.8.RELEASE'
-	}
+    imports {
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.8.RELEASE'
+    }
 }
 
 dependencies {
 
-	compile project(':crnk-setup:crnk-setup-servlet')
-	compileOnly project(':crnk-client')
+    implementation project(':crnk-client')
+    implementation project(':crnk-core')
 
-	compileOnly 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
-	compileOnly 'org.springframework.boot:spring-boot-starter-actuator'
-	compileOnly 'org.springframework.security:spring-security-core'
-	compileOnly 'org.springframework.cloud:spring-cloud-starter-sleuth:1.3.0.RELEASE'
-	compileOnly 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.springframework:spring-tx:5.2.25.RELEASE'
+    implementation 'org.springframework:spring-web:5.2.25.RELEASE'
+    implementation 'org.springframework.security:spring-security-core:5.3.13.RELEASE'
 
-	compileOnly 'org.springframework:spring-orm'
+    // RCS unneeded:
+    // testImplementation project(':crnk-client')
+    // testImplementation project(':crnk-core')
+    testImplementation project(':crnk-setup:crnk-setup-servlet')
+    testImplementation project(':crnk-test')
 
-	testCompile project(':crnk-data:crnk-data-jpa')
-	testCompile project(':crnk-home')
-	testCompile project(':crnk-ui')
-	testCompile project(':crnk-client')
-	testCompile project(':crnk-test')
-	testCompile group: 'javax', name: 'javaee-api', version: '7.0'
-	testCompile 'javax.el:javax.el-api:2.2.4'
-	testCompile 'org.glassfish.web:javax.el:2.2.6'
+    // RCS unneeded:
+    // testImplementation 'org.springframework:spring-web:5.2.25.RELEASE'
+    // testImplementation 'org.springframework.security:spring-security-core:5.3.13.RELEASE'
+    testImplementation 'com.fasterxml.jackson.core:jackson-annotations'
+    testImplementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    testImplementation 'javax.persistence:javax.persistence-api:2.2'
+    testImplementation 'org.springframework:spring-test:5.2.25.RELEASE'
+    testImplementation 'org.springframework.boot:spring-boot:2.3.12.RELEASE'
+    testImplementation 'org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.3.12.RELEASE'
 
-	testCompile 'org.springframework.boot:spring-boot-starter-data-jpa'
-	testCompile 'org.springframework.boot:spring-boot-starter-web'
-	testCompile 'org.springframework.boot:spring-boot-starter-test'
-	testCompile 'org.springframework.boot:spring-boot-starter-actuator'
-	testCompile 'org.springframework.cloud:spring-cloud-starter-sleuth:1.3.0.RELEASE'
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-jetty:2.3.12.RELEASE'
+    testRuntimeOnly 'org.springframework:spring-core:5.2.25.RELEASE'
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
-	testCompile 'org.hibernate:hibernate-core'
-	testCompile 'org.hibernate:hibernate-entitymanager'
-	testCompile 'com.h2database:h2'
-
-	testCompile 'org.springframework.boot:spring-boot-configuration-processor'
-	testCompile 'org.springframework:spring-orm'
-	testCompile 'org.springframework.security:spring-security-core'
-	testCompile 'net.javacrumbs.json-unit:json-unit-fluent:1.5.3'
 }
-
-

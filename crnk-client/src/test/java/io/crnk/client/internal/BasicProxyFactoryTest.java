@@ -54,7 +54,9 @@ public class BasicProxyFactoryTest {
         factory.createCollectionProxy(Task.class, InvalidList.class, "http://127.0.0.1:99999", null, null);
     }
 
-    public static class InvalidList extends DefaultResourceList {
+    // RCS
+    // public static class InvalidList extends DefaultResourceList {
+    public static class InvalidList<T> extends DefaultResourceList {
 
         public InvalidList(String invalidParameter) { // NOSONAR
         }

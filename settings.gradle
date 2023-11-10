@@ -49,37 +49,3 @@ include ':crnk-integration-examples:spring-boot-minimal-example'
 include ':crnk-integration-examples:spring-boot-microservice-example'
 include ':crnk-integration-examples:dagger-vertx-example'
 include ':crnk-integration-examples:openliberty-microprofile-example'
-
-gradle.beforeProject { Project project ->
-    project.with {
-
-        ext {
-            dockerHubUser = System.getenv('DOCKER_HUB_USER')
-            dockerHubPass = System.getenv('DOCKER_HUB_PASS')
-        }
-
-        // get password from environment if available
-        String sonarLogin = System.env['SONAR_LOGIN']
-        if (sonarLogin) {
-            System.setProperty("sonar.login", sonarLogin)
-        }
-
-        buildscript {
-            repositories {
-                maven {
-                    url('https://plugins.gradle.org/m2')
-                }
-            }
-        }
-        repositories {
-            mavenCentral()
-            maven {
-                url('https://plugins.gradle.org/m2')
-            }
-        }
-        version = rootProject.version
-        group = rootProject.group
-    }
-}
-
-

@@ -1,8 +1,12 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 dependencies {
-	compile project(':crnk-meta')
 
-	testCompile project(':crnk-meta')
-	testCompile project(':crnk-test')
+    compileOnly 'com.fasterxml.jackson.core:jackson-annotations'
+
 }

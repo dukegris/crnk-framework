@@ -1,20 +1,38 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 dependencies {
-    compile project(':crnk-meta')
-    compile project(':crnk-client')
-    compile project(':crnk-gen:crnk-gen-base')
 
-    compile 'guru.nidi:graphviz-java:0.8.3'
-    compile 'io.swagger.core.v3:swagger-integration:2.0.8'
-    compile 'io.swagger.core.v3:swagger-core:2.0.8'
-    compile 'io.swagger.core.v3:swagger-models:2.0.8'
-    compile 'io.swagger.parser.v3:swagger-parser:2.0.8'
+    implementation project(':crnk-core')
+    implementation project(':crnk-gen:crnk-gen-base')
+    implementation project(':crnk-meta')
 
-    testCompile 'commons-io:commons-io:2.5'
-    testCompile project(':crnk-meta')
-    testCompile project(':crnk-test')
-    testCompile project(':crnk-format:crnk-format-plain-json')
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'io.swagger.core.v3:swagger-core:2.0.8'
+    //implementation 'io.swagger.core.v3:swagger-integration:2.0.8'
+    implementation 'io.swagger.core.v3:swagger-models:2.0.8'
+    implementation 'io.swagger.parser.v3:swagger-parser:2.0.8'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
+
+    // RCS unneeded:
+    // testImplementation project(':crnk-core')
+    // testImplementation project(':crnk-gen:crnk-gen-base')
+    // testImplementation project(':crnk-meta')
+    testImplementation project(':crnk-client')
+    testImplementation project(':crnk-test')
+
+    // RCS unneeded:
+    // testImplementation 'io.swagger.parser.v3:swagger-parser:2.0.8'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$JUNIT_VERSION"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$JUNIT_VERSION"
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+
 }
 
 test {

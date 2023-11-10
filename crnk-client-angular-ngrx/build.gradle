@@ -1,6 +1,10 @@
-apply plugin: 'com.moowork.node'
-
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'java-library'
+    id com.moowork.node
+}
 
 sourceSets {
     gen {
@@ -8,12 +12,7 @@ sourceSets {
     }
 }
 
-dependencies {
-    genCompile project(':crnk-meta')
-    genCompile project(':crnk-gen-typescript')
-
-    genCompile 'com.google.guava:guava:18.0'
-}
+dependencies {}
 
 ClassLoader getClassLoader(Configuration config) {
     ArrayList urls = new ArrayList()
@@ -67,7 +66,6 @@ def npmStagingDir = file("${buildDir}/npm")
 npmInstall.inputs.file(file('package.json'))
 npmInstall.inputs.file(file('package-lock.json'))
 npmInstall.outputs.dir(file('node_modules'))
-
 
 def inputFileTree = fileTree('.') {
     include 'package.json'
@@ -181,5 +179,3 @@ task publishNpmPackage(type: NpmTask, dependsOn: [npmRunBuild]) {
 }
 
 // tasks.publish.dependsOn publishNpmPackage
-
-

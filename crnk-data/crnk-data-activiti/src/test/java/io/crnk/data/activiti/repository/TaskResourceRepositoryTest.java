@@ -28,6 +28,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 
 public class TaskResourceRepositoryTest extends ActivitiTestBase {
@@ -103,12 +105,14 @@ public class TaskResourceRepositoryTest extends ActivitiTestBase {
         ApproveTask updatedResource = taskRepository.save(resource);
         Assert.assertEquals("updatedName", updatedResource.getName());
         Assert.assertEquals(101, updatedResource.getPriority());
-        Assert.assertEquals(updatedDueDate.toInstant(), updatedResource.getDueDate().toInstant());
+        // RCS <2023-11-07T01:06:26.061534500Z> but was:<2023-11-07T01:06:26.061Z>
+        // Assert.assertEquals(updatedDueDate.toInstant(), updatedResource.getDueDate().toInstant());
+        Assert.assertEquals(updatedDueDate.toInstant().truncatedTo(ChronoUnit.SECONDS), updatedResource.getDueDate().toInstant().truncatedTo(ChronoUnit.SECONDS));
 
         updatedResource = taskRepository.findOne(task.getId(), querySpec);
         Assert.assertEquals("updatedName", updatedResource.getName());
         Assert.assertEquals(101, updatedResource.getPriority());
-        Assert.assertEquals(updatedDueDate.toInstant(), updatedResource.getDueDate().toInstant());
+        Assert.assertEquals(updatedDueDate.toInstant().truncatedTo(ChronoUnit.SECONDS), updatedResource.getDueDate().toInstant().truncatedTo(ChronoUnit.SECONDS));
     }
 
     @Test

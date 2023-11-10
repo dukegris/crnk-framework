@@ -10,6 +10,7 @@ import io.crnk.reactive.ReactiveModule;
 import io.crnk.reactive.internal.MonoResult;
 import io.crnk.setup.vertx.internal.VertxModule;
 import io.crnk.setup.vertx.internal.VertxRequestContext;
+import io.reactivex.Flowable;
 import io.reactivex.subjects.SingleSubject;
 import io.vertx.core.Handler;
 import io.vertx.reactivex.core.buffer.Buffer;
@@ -62,12 +63,18 @@ public class CrnkVertxHandler {
 
     public Publisher<HttpServerRequest> process(HttpServerRequest serverRequest) {
         VertxRequestContext vertxRequestContext = new VertxRequestContext(serverRequest, boot.getWebPathPrefix());
-        Mono waitForBody = getBody(vertxRequestContext);
-        Mono<HttpRequestContext> setupContext = waitForBody.flatMap(body -> createContext(vertxRequestContext));
+        // RCS Cambio para Flow
+        //Mono waitForBody = getBody(vertxRequestContext);
+        Flowable<VertxRequestContext> waitForBody = getBody(vertxRequestContext);
+        // RCS Cambio para Flow
+        //Mono<HttpRequestContext> setupContext = waitForBody.flatMap(body -> createContext(vertxRequestContext));
+        Flowable<HttpRequestContext> setupContext = waitForBody.flatMap(body -> createContext(vertxRequestContext));
         return setupContext.flatMap(context -> processRequest(context, serverRequest));
     }
 
-    private Mono getBody(VertxRequestContext vertxRequestContext) {
+    // RCS Cambio para Flow
+    // private Mono getBody(VertxRequestContext vertxRequestContext) {
+    private Flowable<VertxRequestContext> getBody(VertxRequestContext vertxRequestContext) {
         HttpServerRequest serverRequest = vertxRequestContext.getServerRequest();
         SingleSubject<VertxRequestContext> bodySubject = SingleSubject.create();
         Handler<Buffer> bodyHandler = (event) -> {
@@ -75,7 +82,9 @@ public class CrnkVertxHandler {
             bodySubject.onSuccess(vertxRequestContext);
         };
         serverRequest.bodyHandler(bodyHandler);
-        return Mono.from(bodySubject.toFlowable());
+        // RCS Cambio para Flow
+        //return Mono.from(bodySubject.toFlowable());
+        return bodySubject.toFlowable();
     }
 
     private Mono<HttpRequestContext> createContext(VertxRequestContext vertxRequestContext) {

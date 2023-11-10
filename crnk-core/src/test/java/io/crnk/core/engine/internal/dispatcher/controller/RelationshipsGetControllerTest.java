@@ -1,6 +1,5 @@
 package io.crnk.core.engine.internal.dispatcher.controller;
 
-import com.jayway.jsonpath.ReadContext;
 import io.crnk.core.engine.dispatcher.Response;
 import io.crnk.core.engine.internal.dispatcher.path.JsonPath;
 import io.crnk.core.mock.models.Project;
@@ -156,7 +155,6 @@ public class RelationshipsGetControllerTest extends ControllerTestBase {
 		assertIncludeDoNotCareAboutOrder(new ArrayList<>(Arrays.asList("44", "45")), Arrays.asList(0, 1), resultCtx);
 
 	}
-	*/
 
     private void assertIncludeDoNotCareAboutOrder(List<String> ids, List<Integer> indexes, ReadContext resultCtx) {
 
@@ -178,4 +176,5 @@ public class RelationshipsGetControllerTest extends ControllerTestBase {
 
 
     }
+	*/
 }

@@ -17,6 +17,9 @@ public class CdiRunner {
         Weld weld = new Weld();
         try {
             weld.setClassLoader(context.getClassLoader());
+            // RCS Necesita cargar beans
+            weld.scanClasspathEntries();
+            
             weld.initialize();
 
             CrnkBoot boot = new CrnkBoot();

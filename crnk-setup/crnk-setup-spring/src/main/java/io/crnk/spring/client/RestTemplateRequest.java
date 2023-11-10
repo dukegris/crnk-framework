@@ -70,7 +70,10 @@ public class RestTemplateRequest implements HttpAdapterRequest {
                 throw new IllegalStateException(e);
             }
         } catch (HttpClientErrorException e) {
-            return new RestTemplateResponse(e.getRawStatusCode(), e.getStatusCode().getReasonPhrase(), e.getResponseBodyAsString
+        	// RCS getReasonPhrase removed
+            // return new RestTemplateResponse(e.getRawStatusCode(), e.getStatusCode().getReasonPhrase(), e.getResponseBodyAsString
+            //        (), e.getResponseHeaders());
+            return new RestTemplateResponse(e.getRawStatusCode(), e.getStatusCode().toString(), e.getResponseBodyAsString
                     (), e.getResponseHeaders());
         }
     }

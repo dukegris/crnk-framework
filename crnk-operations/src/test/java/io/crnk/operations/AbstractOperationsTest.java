@@ -4,17 +4,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.metamodel.ManagedType;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+
+import org.glassfish.jersey.server.ResourceConfig;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import io.crnk.client.CrnkClient;
 import io.crnk.client.action.JerseyActionStubFactory;
+import io.crnk.client.http.HttpAdapterProvider;
 import io.crnk.client.http.okhttp.OkHttpAdapter;
 import io.crnk.client.http.okhttp.OkHttpAdapterListenerBase;
+import io.crnk.client.http.okhttp.OkHttpAdapterProvider;
 import io.crnk.data.jpa.JpaModule;
 import io.crnk.data.jpa.JpaModuleConfig;
 import io.crnk.data.jpa.JpaRepositoryConfig;
@@ -37,12 +39,13 @@ import io.crnk.spring.jpa.SpringTransactionRunner;
 import io.crnk.test.JerseyTestBase;
 import io.crnk.test.mock.models.Task;
 import io.crnk.validation.ValidationModule;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.metamodel.ManagedType;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 import okhttp3.OkHttpClient.Builder;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public abstract class AbstractOperationsTest extends JerseyTestBase {
 
@@ -53,9 +56,21 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 	protected OperationsModule operationsModule;
 
 	public static void setNetworkTimeout(CrnkClient client, final int timeout, final TimeUnit timeUnit) {
-		OkHttpAdapter httpAdapter = (OkHttpAdapter) client.getHttpAdapter();
+		// RCS Blindar el tipo de adaptador
+		List<HttpAdapterProvider> httpAdapterProviders = client.getHttpAdapterProviders();
+		OkHttpAdapter httpAdapter = null;
+		for (HttpAdapterProvider httpAdapterProvider : httpAdapterProviders) {
+			if (httpAdapterProvider.isAvailable() && httpAdapterProvider instanceof OkHttpAdapterProvider) {
+				httpAdapter = (OkHttpAdapter) httpAdapterProvider.newInstance();
+				break;
+			}
+		}		
+		// RCS Blindar el tipo de adaptador
+		if (httpAdapter == null) {
+			httpAdapter = (OkHttpAdapter) client.getHttpAdapter();
+		}
+		// OkHttpAdapter httpAdapter = (OkHttpAdapter) client.getHttpAdapter();
 		httpAdapter.addListener(new OkHttpAdapterListenerBase() {
-
 			@Override
 			public void onBuild(Builder builder) {
 				builder.readTimeout(timeout, timeUnit);
@@ -148,7 +163,9 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 		clear();
 
 		if (context != null) {
-			context.destroy();
+			// RCS deprecated
+			// context.destroy();
+			context.close();
 		}
 	}
 

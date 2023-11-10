@@ -1,11 +1,25 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 dependencies {
-    compile project(':crnk-meta')
-    compile 'com.squareup:javapoet:1.11.1'
-    testCompile project(':crnk-meta')
-    testCompile project(':crnk-test')
-    testCompile 'com.google.testing.compile:compile-testing:0.15'
-    testCompile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final'
+
+    implementation project(':crnk-core')
+
+    implementation 'com.squareup:javapoet:1.11.1'
+
+    // RCS unneeded:
+    // testImplementation project(':crnk-core')
+
+    testImplementation 'com.fasterxml.jackson.core:jackson-annotations'
+    testImplementation 'com.google.guava:guava:23.0'
+    testImplementation 'com.google.testing.compile:compile-testing:0.15'
+    testImplementation 'org.slf4j:slf4j-api:1.7.13'
+
+	testRuntimeOnly 'javax.persistence:javax.persistence-api:2.2'
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }

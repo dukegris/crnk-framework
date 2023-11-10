@@ -13,7 +13,9 @@ import reactor.core.scheduler.Schedulers;
 
 public class ReactiveModule implements Module {
 
-	private Scheduler workerScheduler = Schedulers.elastic();
+	// RCS Deprecated https://github.com/reactor/reactor-core/issues/1893 
+	// private Scheduler workerScheduler = Schedulers.elastic();
+	private Scheduler workerScheduler = Schedulers.boundedElastic();
 
 
 	@Override

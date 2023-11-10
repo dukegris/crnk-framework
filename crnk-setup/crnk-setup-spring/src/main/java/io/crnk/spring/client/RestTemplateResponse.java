@@ -3,6 +3,7 @@ package io.crnk.spring.client;
 import io.crnk.client.http.HttpAdapterResponse;
 import io.crnk.core.engine.internal.utils.StringUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -22,7 +23,8 @@ public class RestTemplateResponse implements HttpAdapterResponse {
     public RestTemplateResponse(ResponseEntity<String> response) {
         this.body = response.getBody();
         this.status = response.getStatusCodeValue();
-        this.message = response.getStatusCode().getReasonPhrase();
+        // RCS getReasonPhrase removed
+        this.message = response.getStatusCode().toString();
         this.headers = response.getHeaders();
     }
 

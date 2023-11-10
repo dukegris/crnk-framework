@@ -25,7 +25,9 @@ public class ErrorDataTest {
 
 	@Test
 	public void shouldFulfillEqualsHashCodeContract() {
-		EqualsVerifier.forClass(ErrorData.class).allFieldsShouldBeUsed().verify();
+		EqualsVerifier.forClass(ErrorData.class).verify();
+		//RCS https://jqno.nl/equalsverifier/migration1to2/
+		// EqualsVerifier.forClass(ErrorData.class).allFieldsShouldBeUsed().verify();
 	}
 
 	@Test

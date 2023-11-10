@@ -29,8 +29,8 @@ import zipkin2.Endpoint;
 import zipkin2.Span;
 import zipkin2.reporter.Reporter;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -66,7 +66,9 @@ public abstract class AbstractBraveModuleTest extends JerseyTestBase {
         clientReporter = Mockito.mock(Reporter.class);
         Tracing clientTracing = Tracing.newBuilder()
                 .spanReporter(clientReporter)
-                .localEndpoint(localEndpoint)
+                .endpoint(localEndpoint)
+                // RCS deprecated
+                //.localEndpoint(localEndpoint)
                 .build();
 
         client = new CrnkClient(getBaseUri().toString());

@@ -3,8 +3,8 @@ package io.crnk.example.springboot.simple;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.response.Response;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import io.crnk.client.CrnkClient;
 import io.crnk.client.http.HttpAdapter;
 import io.crnk.core.queryspec.QuerySpec;

@@ -8,8 +8,8 @@ import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.PathSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 public class JsonApiUrlBuilderTest {
 
@@ -17,7 +17,7 @@ public class JsonApiUrlBuilderTest {
 	private Task task;
 	private QueryContext context;
 
-	@BeforeEach
+	@Before
 	public void setup() {
 		CrnkBoot boot = new CrnkBoot();
 		boot.addModule(new CoreTestModule());

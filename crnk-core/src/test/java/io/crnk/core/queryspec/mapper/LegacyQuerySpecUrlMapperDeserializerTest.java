@@ -3,7 +3,7 @@ package io.crnk.core.queryspec.mapper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
+import org.junit.Ignore;
 
 public class LegacyQuerySpecUrlMapperDeserializerTest extends DefaultQuerySpecUrlMapperDeserializerTestBase {
 
@@ -14,7 +14,7 @@ public class LegacyQuerySpecUrlMapperDeserializerTest extends DefaultQuerySpecUr
 	}
 
 	@Test
-	@Disabled // not support on old filter
+	//@Disabled // not support on old filter
 	@Ignore
 	public void testFilterOnRelatedWithJson() {
 		super.testFilterOnRelatedWithJson();

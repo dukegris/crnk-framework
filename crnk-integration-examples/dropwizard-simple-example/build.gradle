@@ -1,11 +1,19 @@
-apply plugin: 'java'
-
-apply plugin: 'application'
+// RCS
+// apply plugin: 'java'
+// apply plugin: 'application'
+plugins {
+	id 'java'
+	id 'java-library'
+	id 'application'
+}
 
 mainClassName = "io.crnk.example.dropwizard.simple.DropwizardService"
 
 dependencies {
-	compile project(':crnk-setup:crnk-setup-rs')
 
-	compile group: 'io.dropwizard', name: 'dropwizard-core', version: '1.0.0'
+    implementation project(':crnk-core')
+    implementation project(':crnk-setup:crnk-setup-rs')
+
+    implementation 'io.dropwizard:dropwizard-core:1.0.0'
+
 }

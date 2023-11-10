@@ -1,67 +1,79 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 apply plugin: 'io.spring.dependency-management'
 dependencyManagement {
-	imports {
-		mavenBom 'org.springframework.boot:spring-boot-dependencies:2.3.12.RELEASE'
-	}
+    imports {
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:2.3.12.RELEASE'
+    }
 }
 
 dependencies {
 
-	compile project(':crnk-setup:crnk-setup-servlet')
-	compile project(':crnk-setup:crnk-setup-spring')
-	compileOnly project(':crnk-data:crnk-data-jpa')
-	compileOnly project(':crnk-validation')
-	compileOnly project(':crnk-home')
-	compileOnly project(':crnk-meta')
-	compileOnly project(':crnk-operations')
-	compileOnly project(':crnk-security')
-	compileOnly project(':crnk-ui')
-	compileOnly project(':crnk-client')
-	compileOnly project(':crnk-data:crnk-data-facet')
-	compileOnly project(':crnk-format:crnk-format-plain-json')
-	compileOnly project(':crnk-monitor:crnk-monitor-opentracing')
+    implementation project(':crnk-core')
+    implementation project(':crnk-data:crnk-data-facet')
+    implementation project(':crnk-data:crnk-data-jpa')
+    implementation project(':crnk-format:crnk-format-plain-json')
+    implementation project(':crnk-home')
+    implementation project(':crnk-meta')
+    implementation project(':crnk-monitor:crnk-monitor-opentracing')
+    implementation project(':crnk-operations')
+    implementation project(':crnk-security')
+    implementation project(':crnk-setup:crnk-setup-servlet')
+    implementation project(':crnk-setup:crnk-setup-spring')
+    implementation project(':crnk-ui')
+    implementation project(':crnk-validation')
 
-	compileOnly 'io.opentracing:opentracing-api:0.31.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'io.micrometer:micrometer-core:1.11.5'
+    implementation 'io.opentracing:opentracing-api:0.31.0'
+    implementation 'javax.persistence:javax.persistence-api:2.2'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    compileOnly 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'org.apache.tomcat:tomcat-catalina:9.0.82'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.springframework:spring-beans:5.2.25.RELEASE'
+    implementation 'org.springframework:spring-context:5.2.25.RELEASE'
+    implementation 'org.springframework:spring-web:5.2.25.RELEASE'
+    implementation 'org.springframework:spring-webmvc:5.2.25.RELEASE'
+    implementation 'org.springframework.security:spring-security-core:5.3.13.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-actuator:2.3.12.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.3.12.RELEASE'
 
-	compileOnly 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
-	compileOnly 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
-	compileOnly 'org.springframework.boot:spring-boot-starter-actuator'
-    compileOnly 'org.springframework.boot:spring-boot-starter-validation'
-	compileOnly 'org.springframework.security:spring-security-core'
+    // RCS unneeded:
+    // testImplementation project(':crnk-core')
+    // testImplementation project(':crnk-data:crnk-data-facet')
+    // testImplementation project(':crnk-data:crnk-data-jpa')
+    // testImplementation project(':crnk-meta')
+    // testImplementation project(':crnk-setup:crnk-setup-spring')
+    testImplementation project(':crnk-client')
+    testImplementation project(':crnk-test')
 
-	compileOnly 'org.springframework:spring-orm'
+    // RCS unneeded:
+    // testImplementation 'com.fasterxml.jackson.core:jackson-databind'
+    // testImplementation 'io.micrometer:micrometer-core:1.11.5'
+    // testImplementation 'javax.persistence:javax.persistence-api:2.2'
+    // testImplementation 'org.apache.tomcat:tomcat-catalina:9.0.82'
+    // testImplementation 'org.springframework:spring-web:5.2.25.RELEASE'
+    // testImplementation 'org.springframework:spring-webmvc:5.2.25.RELEASE'
+    // testImplementation 'org.springframework.security:spring-security-core:5.3.13.RELEASE'
+    // testImplementation 'org.springframework.boot:spring-boot-actuator:2.3.12.RELEASE'
+    testImplementation 'javax.security.auth.message:javax.security.auth.message-api:1.1.1'
+    testImplementation 'net.javacrumbs.json-unit:json-unit-fluent:1.5.3'
+    testImplementation 'org.springframework:spring-test:5.2.25.RELEASE'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.3.12.RELEASE'
+    testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
 
-	testCompile project(':crnk-data:crnk-data-jpa')
-	testCompile project(':crnk-validation')
-	testCompile project(':crnk-home')
-	testCompile project(':crnk-meta')
-	testCompile project(':crnk-operations')
-	testCompile project(':crnk-security')
-	testCompile project(':crnk-ui')
-	testCompile project(':crnk-client')
-	testCompile project(':crnk-test')
-	testCompile project(':crnk-data:crnk-data-facet')
-	testCompile project(':crnk-format:crnk-format-plain-json')
+    testRuntimeOnly 'org.mockito:mockito-core:1.10.19'
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-web:2.3.12.RELEASE'
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-data-jpa:2.3.12.RELEASE'
+    testRuntimeOnly 'com.h2database:h2:1.4.195'
+    testRuntimeOnly 'org.hibernate:hibernate-validator:5.2.1.Final'
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
-	testCompile 'org.springframework.boot:spring-boot-starter-data-jpa'
-	testCompile 'org.springframework.boot:spring-boot-starter-web'
-	testCompile 'org.springframework.boot:spring-boot-starter-test'
-	testCompile 'org.springframework.boot:spring-boot-starter-actuator'
-	testCompile 'org.springframework.boot:spring-boot-starter-validation'
-
-	testCompile 'org.hibernate:hibernate-core'
-	testCompile 'org.hibernate:hibernate-entitymanager'
-	testCompile 'com.h2database:h2'
-
-	testCompile 'org.springframework.boot:spring-boot-configuration-processor'
-	testCompile 'org.springframework:spring-orm'
-	testCompile 'org.springframework.security:spring-security-core'
-	testCompile 'net.javacrumbs.json-unit:json-unit-fluent:1.5.3'
-	testCompile 'org.mockito:mockito-core:2.18.3'
-	testCompile 'pl.pragmatists:JUnitParams:1.1.1'
 }
-
-

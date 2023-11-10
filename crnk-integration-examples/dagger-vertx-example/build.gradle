@@ -5,6 +5,7 @@ import com.bmuschko.gradle.docker.tasks.container.DockerStopContainer
 import proguard.gradle.ProGuardTask
 
 apply plugin: 'java'
+
 sourceSets {
     shrinked
 }
@@ -17,9 +18,8 @@ configurations {
 buildscript {
     dependencies {
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.15"
-
         classpath 'net.sf.proguard:proguard-gradle:6.0.3'
-	}
+    }
 }
 
 sourceSets {
@@ -31,41 +31,30 @@ sourceSets {
 }
 
 dependencies {
-    compile project(':crnk-setup:crnk-setup-vertx')
-    compile project(':crnk-home')
-    compile project(':crnk-security')
-    compile project(':crnk-data:crnk-data-facet')
-    compile project(':crnk-data:crnk-data-jpa')
-    compile project(':crnk-validation')
-    compile project(':crnk-format:crnk-format-plain-json')
 
-    compile 'javax:javaee-api:7.0'
-    compile 'org.hibernate:hibernate-validator:5.2.1.Final'
-    compile 'org.hibernate:hibernate-core:5.2.10.Final'
-    compile 'org.hibernate:hibernate-entitymanager:5.2.10.Final'
-    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
-    compile 'com.h2database:h2:1.4.187'
+    implementation project(':crnk-core')
+    implementation project(':crnk-home')
+    implementation project(':crnk-security')
+    implementation project(':crnk-setup:crnk-setup-vertx')
 
-    compile 'io.vertx:vertx-auth-common:3.7.1'
-
-    // add in the future
-    // compile project(':crnk-meta')
-    // compile project(':crnk-operations')
-    // compile project(':crnk-ui')
-    // compile project(':crnk-validation')
-
-    compile 'ch.qos.logback:logback-classic:1.2.3'
-    compile 'javax.inject:javax.inject:1'
-    compile 'com.google.dagger:dagger:2.16'
+    implementation 'com.google.dagger:dagger:2.16'
+    implementation 'io.projectreactor.addons:reactor-adapter:3.2.3.RELEASE'
+    implementation 'io.vertx:vertx-rx-java2:3.7.1'
+    implementation 'io.vertx:vertx-auth-common:3.7.1'
+    implementation 'javax.inject:javax.inject:1'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
 
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
+
 }
 
 // https://github.com/immutables/immutables/issues/134 issues with incremental compilation
 compileJava {
     options.incremental = false
 }
+
 def generatedSrcRoot = file("${buildDir}/generated/sources/apt/main")
+
 task deleteGeneratedSources(type: Delete) {
     delete generatedSrcRoot
 }
@@ -84,6 +73,7 @@ if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
     }
 
     apply plugin: 'application'
+
     distributions {
         main {
             main {
@@ -99,7 +89,6 @@ if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
         }
     }
 
-
     apply plugin: 'com.bmuschko.docker-java-application'
 
     startScripts {
@@ -110,7 +99,7 @@ if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
 
     mainClassName = 'io.crnk.example.vertx.AppMain'
 
-	dockerCreateDockerfile {
+    dockerCreateDockerfile {
         environmentVariable('JAVA_HOME', '/opt/java/openjdk/jdk-10.0.1+10')
     }
 
@@ -132,7 +121,7 @@ if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
     task dockerCreateContainer(type: DockerCreateContainer) {
         dependsOn dockerBuildImage
         targetImageId { dockerBuildImage.getImageId() }
-		hostConfig.portBindings = ['8080:8080']
+        hostConfig.portBindings = ['8080:8080']
     }
 
     task dockerStartContainer(type: DockerStartContainer) {
@@ -154,4 +143,5 @@ if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
         classpath = files(proguard.outputs.files.singleFile)
         main = 'io.crnk.example.vertx.VertxApplication'
     }
+
 }

@@ -1,12 +1,16 @@
 package io.crnk.example.springboot.simple;
 
-import com.jayway.restassured.RestAssured;
+import io.restassured.RestAssured;
 import io.crnk.core.boot.CrnkBoot;
 import io.crnk.example.springboot.SpringBootExampleApplication;
+import io.crnk.spring.jpa.SpringTransactionRunner;
+
 import org.junit.Test;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 

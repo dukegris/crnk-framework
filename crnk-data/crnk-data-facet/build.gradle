@@ -1,8 +1,23 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 dependencies {
-	compile project(':crnk-core')
 
-	testCompile project(':crnk-client')
-	testCompile project(':crnk-test')
+    implementation project(':crnk-core')
+
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
+
+    // RCS unneeded:
+    // testImplementation project(':crnk-core')
+    testImplementation project(':crnk-test')
+
+    testImplementation 'com.fasterxml.jackson.core:jackson-annotations'
+
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+
 }

@@ -63,7 +63,9 @@ public class ReactiveRepositoryAdapterFactory implements RepositoryAdapterFactor
 
 		boolean immediate = implementation.getClass().getAnnotation(ImmediateRepository.class) != null;
 		LOGGER.debug("wrapping non-reactive repository {}, immediate={}", implementation, immediate);
-		Scheduler scheduler = immediate ? Schedulers.immediate() : Schedulers.elastic();
+		// RCS Deprecated https://github.com/reactor/reactor-core/issues/1893 
+		// Scheduler scheduler = immediate ? Schedulers.immediate() : Schedulers.elastic();
+		Scheduler scheduler = immediate ? Schedulers.immediate() : Schedulers.boundedElastic();
 		return new WorkerResourceRepositoryAdapter(adapter, scheduler, moduleRegistry.getHttpRequestContextProvider());
 	}
 
