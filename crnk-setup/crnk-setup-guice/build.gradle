@@ -1,14 +1,23 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 dependencies {
 
-    compileOnly project(':crnk-core')
+    implementation project(':crnk-core')
 
-    compileOnly 'com.google.inject:guice:4.1.0'
+    implementation 'com.google.inject:guice:4.1.0'
 
-    testCompileOnly project(':crnk-core')
-    testCompileOnly project(':crnk-test')
+    // RCS unneeded:
+    // testImplementation testCompileOnly project(':crnk-core')
+    testImplementation project(':crnk-test')
 
-    testCompileOnly 'com.google.inject:guice:4.1.0'
+    // RCS unneeded:
+    // testImplementation testCompileOnly 'com.google.inject:guice:4.1.0'
+
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }

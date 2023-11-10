@@ -19,9 +19,16 @@ repositories {
 	}
 }
 
-apply plugin: 'java'
-apply plugin: 'com.moowork.node'
-apply plugin: 'org.unbroken-dome.test-sets'
+// RCS
+// apply plugin: 'java'
+// apply plugin: 'com.moowork.node'
+// apply plugin: 'org.unbroken-dome.test-sets'
+plugins {
+	id 'java'
+	id 'java-library'
+	id 'com.moowork.node'
+	id 'org.unbroken-dome.test-sets'
+}
 
 testSets {
 	integrationTest
@@ -35,11 +42,12 @@ node {
 
 
 dependencies {
+
 	compile files(('../../crnk-core/build/classes/main'))
 	compile files(('../../crnk-meta/build/classes/main'))
 	compile files(('../../crnk-cdi/build/classes/main'))
-	compile 'javax:javaee-api:7.0'
 
+	compile 'javax:javaee-api:7.0'
 	compile 'org.slf4j:slf4j-api:1.7.13'
 	compile 'com.fasterxml.jackson.core:jackson-databind:2.8.7'
 
@@ -51,6 +59,7 @@ dependencies {
 	integrationTestCompile 'org.apache.deltaspike.modules:deltaspike-test-control-module-impl:1.7.1'
 	integrationTestCompile 'org.apache.deltaspike.cdictrl:deltaspike-cdictrl-weld:1.7.1'
 	integrationTestCompile 'org.jboss.weld.se:weld-se-core:2.4.0.Final'
+
 }
 
 apply plugin: io.crnk.gen.typescript.TSGeneratorPlugin

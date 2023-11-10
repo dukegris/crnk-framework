@@ -1,22 +1,38 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
+
+apply plugin: 'io.spring.dependency-management'
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.22.RELEASE'
+    }
+}
 
 dependencies {
 
-    compileOnly project(':crnk-core')
-    compileOnly project(':crnk-reactive')
+    implementation project(':crnk-core')
+    implementation project(':crnk-reactive')
 
-    compileOnly 'io.projectreactor:reactor-core:3.2.3.RELEASE'
-    compileOnly 'io.vertx:vertx-rx-java2:3.7.1'
-    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'io.projectreactor:reactor-core:3.2.3.RELEASE'
+    implementation 'io.vertx:vertx-rx-java2:3.7.1'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
 
-    testCompileOnly project(':crnk-client')
-    testCompileOnly project(':crnk-core')
-    testCompileOnly project(':crnk-home')
-    testCompileOnly project(':crnk-reactive')
-    testCompileOnly project(':crnk-test')
+    // RCS unneeded:
+    // testImplementation project(':crnk-core')
+    // testImplementation project(':crnk-reactive')
+    testImplementation project(':crnk-client')
+    testImplementation project(':crnk-home')
+    testImplementation project(':crnk-test')
 
-    testCompileOnly 'io.projectreactor:reactor-core:3.2.3.RELEASE'
-    testCompileOnly 'io.vertx:vertx-rx-java2:3.7.1'
-    testCompileOnly 'org.slf4j:slf4j-api:1.7.13'
+    // RCS unneeded:
+    // testImplementation 'io.projectreactor:reactor-core:3.2.3.RELEASE'
+    // testImplementation 'io.vertx:vertx-rx-java2:3.7.1'
+    // testImplementation 'org.slf4j:slf4j-api:1.7.13'
+
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }

@@ -1,25 +1,35 @@
-apply plugin: 'java'
-
-apply plugin: 'application'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+	id 'application'
+}
 
 mainClassName = "io.crnk.example.springboot.microservice.MicroServiceApplication"
 
 dependencies {
 
-    compileOnly project(':crnk-client')
-    compileOnly project(':crnk-core')
+    implementation project(':crnk-client')
+    implementation project(':crnk-core')
 
-    compileOnly 'com.fasterxml.jackson.core:jackson-annotations'
-    compileOnly 'org.springframework:spring-beans:5.1.20.RELEASE'
-    compileOnly 'org.springframework:spring-context:5.1.20.RELEASE'
-    compileOnly 'org.springframework.boot:spring-boot:2.3.12.RELEASE'
-    compileOnly 'org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
+    implementation 'org.springframework:spring-beans:5.2.25.RELEASE'
+    implementation 'org.springframework:spring-context:5.2.25.RELEASE'
+    implementation 'org.springframework.boot:spring-boot:2.3.12.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE'
 
-    testCompileOnly project(':crnk-client')
-    testCompileOnly project(':crnk-core')
-    testCompileOnly project(':crnk-testkit')
+    // RCS unneeded:
+    // testImplementation project(':crnk-client')
+    // testImplementation project(':crnk-core')
+    testImplementation project(':crnk-testkit')
 
-    testCompileOnly 'com.jayway.restassured:rest-assured:2.9.0'
-    testCompileOnly 'org.springframework:spring-context:5.1.20.RELEASE'
+    // RCS unneeded:
+    // testImplementation 'org.springframework:spring-context:5.2.25.RELEASE'
+    testImplementation 'com.jayway.restassured:rest-assured:2.9.0'
+
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter:2.3.12.RELEASE'
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-web:2.3.12.RELEASE'
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }

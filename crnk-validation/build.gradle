@@ -1,23 +1,34 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 dependencies {
 
-    compileOnly project(':crnk-client')
-    compileOnly project(':crnk-core')
-    compileOnly project(':crnk-meta')
+    implementation project(':crnk-client')
+    implementation project(':crnk-core')
+    implementation project(':crnk-meta')
 
     compileOnly 'javax.validation:validation-api:2.0.1.Final'
-    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
 
-    testCompileOnly project(':crnk-client')
-    testCompileOnly project(':crnk-core')
-    testCompileOnly project(':crnk-meta')
-    testCompileOnly project(':crnk-setup:crnk-setup-rs')
-    testCompileOnly project(':crnk-test')
+    // RCS unneeded:
+    // testImplementation project(':crnk-client')
+    // testImplementation project(':crnk-core')
+    // testImplementation project(':crnk-meta')
+    testImplementation project(':crnk-setup:crnk-setup-rs')
+    testImplementation project(':crnk-test')
 
-    testCompileOnly 'com.fasterxml.jackson.core:jackson-annotations'
-    testCompileOnly 'javax.ws.rs:javax.ws.rs-api:2.0.1'
-    testCompileOnly 'org.glassfish.jersey.core:jersey-server:2.25.1'
-    testCompileOnly 'org.glassfish.jersey.test-framework:jersey-test-framework-core:2.25.1'
+    testImplementation 'com.fasterxml.jackson.core:jackson-annotations'
+    testImplementation 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+    testImplementation 'org.glassfish.jersey.core:jersey-server:2.25.1'
+    testImplementation 'org.glassfish.jersey.test-framework:jersey-test-framework-core:2.25.1'
+
+    testRuntimeOnly 'org.hibernate:hibernate-validator:5.2.1.Final'
+    testRuntimeOnly 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.25.1'
+    testRuntimeOnly 'org.glassfish.web:javax.el:2.2.6'
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }

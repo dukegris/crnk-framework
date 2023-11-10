@@ -1,7 +1,7 @@
 apply plugin: 'war'
 
 war {
-	archiveFileName = "example.war"
+    archiveFileName = "example.war"
 }
 
 dependencies {
@@ -11,8 +11,8 @@ dependencies {
     compileOnly project(':crnk-home')
     compileOnly project(':crnk-setup:crnk-setup-rs')
 
-	compileOnly 'javax:javaee-api:7.0'
-	compileOnly 'javax.persistence:javax.persistence-api:2.2'
-	compileOnly 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+    compileOnly 'javax:javaee-api:7.0'
+    compileOnly 'javax.persistence:javax.persistence-api:2.2'
+    compileOnly 'javax.ws.rs:javax.ws.rs-api:2.0.1'
 
 }

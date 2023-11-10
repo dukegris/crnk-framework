@@ -1,26 +1,37 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
+
 
 dependencies {
 
-    compileOnly project(':crnk-client')
-    compileOnly project(':crnk-core')
+    implementation project(':crnk-client')
+    implementation project(':crnk-core')
 
-    compileOnly 'com.fasterxml.jackson.core:jackson-databind'
-    compileOnly 'com.squareup.okhttp3:okhttp:3.4.1'
-    compileOnly 'io.zipkin.brave:brave:4.9.1'
-    compileOnly 'io.zipkin.brave:brave-instrumentation-okhttp3:4.9.1'
-    compileOnly 'io.zipkin.brave:brave-instrumentation-httpclient:4.9.1'
-    compileOnly 'org.apache.httpcomponents:httpclient:4.5.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'io.zipkin.brave:brave:4.9.1'
+    implementation 'io.zipkin.brave:brave-instrumentation-okhttp3:4.9.1'
+    implementation 'io.zipkin.brave:brave-instrumentation-httpclient:4.9.1'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.2'
 
-    testCompileOnly project(':crnk-client')
-    testCompileOnly project(':crnk-core')
-    testCompileOnly project(':crnk-test')
-    testCompileOnly project(':crnk-setup:crnk-setup-rs')
+    // RCS unneeded:
+    // testImplementation project(':crnk-client')
+    // testImplementation project(':crnk-core')
+    testImplementation project(':crnk-test')
+    testImplementation project(':crnk-setup:crnk-setup-rs')
 
-    testCompileOnly 'io.zipkin.brave:brave:4.9.1'
-    testCompileOnly 'io.zipkin.brave:brave-instrumentation-http:4.9.1'
-    testCompileOnly 'javax.validation:validation-api:2.0.1.Final'
-    testCompileOnly 'org.glassfish.jersey.core:jersey-server:2.25.1'
-    testCompileOnly 'org.glassfish.jersey.test-framework:jersey-test-framework-core:2.25.1'
+    // RCS unneeded:
+    // testImplementation 'io.zipkin.brave:brave-instrumentation-http:4.9.1'
+    testImplementation 'io.zipkin.brave:brave:4.9.1'
+    testImplementation 'javax.validation:validation-api:2.0.1.Final'
+    testImplementation 'org.glassfish.jersey.core:jersey-server:2.25.1'
+    testImplementation 'org.glassfish.jersey.test-framework:jersey-test-framework-core:2.25.1'
+
+    testRuntimeOnly 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.25.1'
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }

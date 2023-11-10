@@ -1,16 +1,21 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 dependencies {
 
-    compileOnly project(':crnk-core')
-    compileOnly project(':crnk-reactive')
+    implementation project(':crnk-core')
+    implementation project(':crnk-reactive')
 
-    compileOnly 'com.fasterxml.jackson.core:jackson-databind'
-    compileOnly 'com.squareup.okhttp3:okhttp:3.4.1'
-    compileOnly 'io.projectreactor:reactor-core:3.2.3.RELEASE'
-    compileOnly 'junit:junit:4.13.2'
-    compileOnly 'org.glassfish.jersey.test-framework:jersey-test-framework-core:2.25.1'
-    compileOnly 'org.mockito:mockito-core:1.10.19'
-    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'io.projectreactor:reactor-core:3.2.3.RELEASE'
+    implementation 'junit:junit:4.13.2'
+    implementation 'org.glassfish.jersey.test-framework:jersey-test-framework-core:2.25.1'
+    implementation 'org.mockito:mockito-core:1.10.19'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
 
 }

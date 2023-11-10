@@ -1,35 +1,46 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 apply plugin: 'io.spring.dependency-management'
 dependencyManagement {
-	imports {
-		mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.8.RELEASE'
-	}
+    imports {
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.8.RELEASE'
+    }
 }
 
 dependencies {
 
-    compileOnly project(':crnk-client')
-    compileOnly project(':crnk-core')
+    implementation project(':crnk-client')
+    implementation project(':crnk-core')
 
-    compileOnly 'org.slf4j:slf4j-api:1.7.13'
-    compileOnly 'org.springframework:spring-tx:5.1.20.RELEASE'
-    compileOnly 'org.springframework:spring-web:5.1.20.RELEASE'
-    compileOnly 'org.springframework.security:spring-security-core:5.1.13.RELEASE'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.springframework:spring-tx:5.2.25.RELEASE'
+    implementation 'org.springframework:spring-web:5.2.25.RELEASE'
+    implementation 'org.springframework.security:spring-security-core:5.3.13.RELEASE'
 
-    testCompileOnly project(':crnk-client')
-    testCompileOnly project(':crnk-core')
-    testCompileOnly project(':crnk-setup:crnk-setup-servlet')
-    testCompileOnly project(':crnk-test')
+    // RCS unneeded:
+    // testImplementation project(':crnk-client')
+    // testImplementation project(':crnk-core')
+    testImplementation project(':crnk-setup:crnk-setup-servlet')
+    testImplementation project(':crnk-test')
 
-    testCompileOnly 'com.fasterxml.jackson.core:jackson-annotations'
-    testCompileOnly 'com.squareup.okhttp3:okhttp:3.4.1'
-    testCompileOnly 'javax.persistence:javax.persistence-api:2.2'
-    testCompileOnly 'org.springframework:spring-test:5.1.20.RELEASE'
-    testCompileOnly 'org.springframework:spring-web:5.1.20.RELEASE'
-    testCompileOnly 'org.springframework.security:spring-security-core:5.1.13.RELEASE'
-    testCompileOnly 'org.springframework.boot:spring-boot:2.3.12.RELEASE'
-    testCompileOnly 'org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE'
-    testCompileOnly 'org.springframework.boot:spring-boot-starter-test:2.3.12.RELEASE'
+    // RCS unneeded:
+    // testImplementation 'org.springframework:spring-web:5.2.25.RELEASE'
+    // testImplementation 'org.springframework.security:spring-security-core:5.3.13.RELEASE'
+    testImplementation 'com.fasterxml.jackson.core:jackson-annotations'
+    testImplementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    testImplementation 'javax.persistence:javax.persistence-api:2.2'
+    testImplementation 'org.springframework:spring-test:5.2.25.RELEASE'
+    testImplementation 'org.springframework.boot:spring-boot:2.3.12.RELEASE'
+    testImplementation 'org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.3.12.RELEASE'
+
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-jetty:2.3.12.RELEASE'
+    testRuntimeOnly 'org.springframework:spring-core:5.2.25.RELEASE'
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }

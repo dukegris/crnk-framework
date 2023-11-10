@@ -1,39 +1,56 @@
-apply plugin: 'java'
-
-apply plugin: 'application'
+// RCS
+// apply plugin: 'java'
+// apply plugin: 'application'
+plugins {
+	id 'java'
+	id 'java-library'
+    id 'application'
+}
 
 mainClassName = "io.crnk.example.springboot.SpringBootExampleApplication"
 
 dependencies {
 
-    compileOnly project(':crnk-core')
-    compileOnly project(':crnk-data:crnk-data-facet')
-    compileOnly project(':crnk-data:crnk-data-jpa')
+    implementation project(':crnk-core')
+    implementation project(':crnk-data:crnk-data-facet')
+    implementation project(':crnk-data:crnk-data-jpa')
 
-    compileOnly 'com.fasterxml.jackson.core:jackson-annotations'
-    compileOnly 'com.fasterxml.jackson.core:jackson-databind'
-    compileOnly 'com.google.guava:guava:15.0'
-    compileOnly 'javax.persistence:javax.persistence-api:2.2'
-    compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
-    compileOnly 'javax.validation:validation-api:2.0.1.Final'
-    compileOnly 'org.springframework:spring-beans:5.1.20.RELEASE'
-    compileOnly 'org.springframework:spring-context:5.1.20.RELEASE'
-    compileOnly 'org.springframework:spring-web:5.1.20.RELEASE'
-    compileOnly 'org.springframework.boot:spring-boot:2.3.12.RELEASE'
-    compileOnly 'org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.google.guava:guava:23.0'
+    implementation 'javax.persistence:javax.persistence-api:2.2'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'org.springframework:spring-beans:5.2.25.RELEASE'
+    implementation 'org.springframework:spring-context:5.2.25.RELEASE'
+    implementation 'org.springframework:spring-web:5.2.25.RELEASE'
+    implementation 'org.springframework.boot:spring-boot:2.3.12.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE'
 
-    testCompileOnly project(':crnk-client')
-    testCompileOnly project(':crnk-core')
-    testCompileOnly project(':crnk-data:crnk-data-jpa')
-    testCompileOnly project(':crnk-validation')
+    // RCS unneeded:
+    // testImplementation project(':crnk-core')
+    // testImplementation project(':crnk-data:crnk-data-jpa')
+    testImplementation project(':crnk-client')
+    testImplementation project(':crnk-validation')
 
-    testCompileOnly 'commons-io:commons-io:2.5'
-    testCompileOnly 'com.jayway.restassured:rest-assured:2.9.0'
-    testCompileOnly 'com.jayway.restassured:json-schema-validator:2.9.0'
-    testCompileOnly 'javax.security.auth.message:javax.security.auth.message-api:1.1.1'
-    testCompileOnly 'org.apache.tomcat:tomcat-catalina:8.5.95'
-    testCompileOnly 'org.springframework:spring-test:5.1.20.RELEASE'
-    testCompileOnly 'org.springframework:spring-web:5.1.20.RELEASE'
-    testCompileOnly 'org.springframework.boot:spring-boot-starter-test:2.3.12.RELEASE'
+    // RCS unneeded:
+    // testImplementation 'org.springframework:spring-web:5.2.25.RELEASE'
+    testImplementation 'commons-io:commons-io:2.5'
+    testImplementation 'com.jayway.restassured:rest-assured:2.9.0'
+    testImplementation 'com.jayway.restassured:json-schema-validator:2.9.0'
+    testImplementation 'javax.security.auth.message:javax.security.auth.message-api:1.1.1'
+    testImplementation 'org.apache.tomcat:tomcat-catalina:9.0.82'
+    testImplementation 'org.springframework:spring-test:5.2.25.RELEASE'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.3.12.RELEASE'
+
+    testRuntimeOnly 'org.springframework.boot:spring-boot-configuration-processor:2.3.12.RELEASE'
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-web:2.3.12.RELEASE'
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-data-jpa:2.3.12.RELEASE'
+    testRuntimeOnly 'org.apache.tomcat.embed:tomcat-embed-core:9.0.82'
+    testRuntimeOnly 'org.apache.tomcat.embed:tomcat-embed-el:9.0.82'
+    testRuntimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.82'
+    testRuntimeOnly 'org.apache.tomcat.embed:tomcat-embed-websocket:9.0.82'
+    testRuntimeOnly 'com.h2database:h2:1.4.195'
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }

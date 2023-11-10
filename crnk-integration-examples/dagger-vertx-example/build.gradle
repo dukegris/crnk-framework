@@ -5,6 +5,7 @@ import com.bmuschko.gradle.docker.tasks.container.DockerStopContainer
 import proguard.gradle.ProGuardTask
 
 apply plugin: 'java'
+
 sourceSets {
     shrinked
 }
@@ -17,9 +18,8 @@ configurations {
 buildscript {
     dependencies {
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.15"
-
         classpath 'net.sf.proguard:proguard-gradle:6.0.3'
-	}
+    }
 }
 
 sourceSets {
@@ -32,19 +32,19 @@ sourceSets {
 
 dependencies {
 
+    implementation project(':crnk-core')
+    implementation project(':crnk-home')
+    implementation project(':crnk-security')
+    implementation project(':crnk-setup:crnk-setup-vertx')
+
+    implementation 'com.google.dagger:dagger:2.16'
+    implementation 'io.projectreactor.addons:reactor-adapter:3.2.3.RELEASE'
+    implementation 'io.vertx:vertx-rx-java2:3.7.1'
+    implementation 'io.vertx:vertx-auth-common:3.7.1'
+    implementation 'javax.inject:javax.inject:1'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
+
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
-
-    compileOnly project(':crnk-core')
-    compileOnly project(':crnk-home')
-    compileOnly project(':crnk-security')
-    compileOnly project(':crnk-setup:crnk-setup-vertx')
-
-    compileOnly 'com.google.dagger:dagger:2.16'
-    compileOnly 'io.projectreactor.addons:reactor-adapter:3.2.3.RELEASE'
-    compileOnly 'io.vertx:vertx-rx-java2:3.7.1'
-    compileOnly 'io.vertx:vertx-auth-common:3.7.1'
-    compileOnly 'javax.inject:javax.inject:1'
-    compileOnly 'org.slf4j:slf4j-api:1.7.13'
 
 }
 
@@ -52,7 +52,9 @@ dependencies {
 compileJava {
     options.incremental = false
 }
+
 def generatedSrcRoot = file("${buildDir}/generated/sources/apt/main")
+
 task deleteGeneratedSources(type: Delete) {
     delete generatedSrcRoot
 }
@@ -71,6 +73,7 @@ if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
     }
 
     apply plugin: 'application'
+
     distributions {
         main {
             main {
@@ -86,7 +89,6 @@ if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
         }
     }
 
-
     apply plugin: 'com.bmuschko.docker-java-application'
 
     startScripts {
@@ -97,7 +99,7 @@ if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
 
     mainClassName = 'io.crnk.example.vertx.AppMain'
 
-	dockerCreateDockerfile {
+    dockerCreateDockerfile {
         environmentVariable('JAVA_HOME', '/opt/java/openjdk/jdk-10.0.1+10')
     }
 
@@ -119,7 +121,7 @@ if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
     task dockerCreateContainer(type: DockerCreateContainer) {
         dependsOn dockerBuildImage
         targetImageId { dockerBuildImage.getImageId() }
-		hostConfig.portBindings = ['8080:8080']
+        hostConfig.portBindings = ['8080:8080']
     }
 
     task dockerStartContainer(type: DockerStartContainer) {
@@ -141,4 +143,5 @@ if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
         classpath = files(proguard.outputs.files.singleFile)
         main = 'io.crnk.example.vertx.VertxApplication'
     }
+
 }

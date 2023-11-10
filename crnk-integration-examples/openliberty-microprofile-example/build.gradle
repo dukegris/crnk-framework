@@ -7,12 +7,12 @@ repositories {
 
 // configure liberty-gradle-plugin
 buildscript {
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath 'io.openliberty.tools:liberty-gradle-plugin:3.2'
-	}
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'io.openliberty.tools:liberty-gradle-plugin:3.2'
+    }
 }
 
 dependencies {
@@ -22,26 +22,26 @@ dependencies {
     compileOnly project(':crnk-home')
     compileOnly project(':crnk-setup:crnk-setup-rs')
 
-	compileOnly 'javax:javaee-api:7.0'
-	compileOnly 'javax.inject:javax.inject:1'
-	compileOnly 'javax.persistence:javax.persistence-api:2.2'
-	compileOnly 'javax.ws.rs:javax.ws.rs-api:2.0.1'
-	compileOnly 'org.eclipse.microprofile:microprofile:4.0.1'
+    compileOnly 'javax:javaee-api:7.0'
+    compileOnly 'javax.inject:javax.inject:1'
+    compileOnly 'javax.persistence:javax.persistence-api:2.2'
+    compileOnly 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+    compileOnly 'org.eclipse.microprofile:microprofile:4.0.1'
 
 }
 
 ext  {
-	liberty.server.var.'default.http.port' = '9080'
-	liberty.server.var.'default.https.port' = '9443'
-	liberty.server.var.'app.context.root' = project.name
+    liberty.server.var.'default.http.port' = '9080'
+    liberty.server.var.'default.https.port' = '9443'
+    liberty.server.var.'app.context.root' = project.name
 }
 
 liberty {
-	server {
-		name = 'myServer'
-		packageLiberty {
-			packageName = "MyPackage"
-			include = "runnable"
-		}
-	}
+    server {
+        name = 'myServer'
+        packageLiberty {
+            packageName = "MyPackage"
+            include = "runnable"
+        }
+    }
 }

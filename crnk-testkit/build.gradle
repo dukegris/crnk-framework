@@ -1,16 +1,24 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 dependencies {
 
-    compileOnly project(':crnk-client')
-    compileOnly project(':crnk-core')
+    implementation project(':crnk-client')
+    implementation project(':crnk-core')
 
-    compileOnly 'com.fasterxml.jackson.core:jackson-databind'
-    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
 
-    testCompileOnly project(':crnk-client')
-    testCompileOnly project(':crnk-core')
-    testCompileOnly project(':crnk-home')
-    testCompileOnly project(':crnk-test')
+    // RCS unneeded:
+    // testImplementation project(':crnk-client')
+    // testImplementation project(':crnk-core')
+    testImplementation project(':crnk-home')
+    testImplementation project(':crnk-test')
+
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }

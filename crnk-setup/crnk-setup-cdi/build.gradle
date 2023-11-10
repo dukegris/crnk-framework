@@ -1,16 +1,28 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 dependencies {
 
-    compileOnly project(':crnk-core')
+    implementation project(':crnk-core')
 
-    compileOnly 'javax:javaee-api:7.0'
-    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'javax:javaee-api:7.0'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
 
-    testCompileOnly project(':crnk-core')
+    // RCS unneeded:
+    // testImplementation  project(':crnk-core')
 
+    // RCS unneeded:
+    // testCompileOnly 'javax:javaee-api:7.0'
     testCompileOnly 'org.apache.deltaspike.modules:deltaspike-test-control-module-api:1.7.1'
-    testCompileOnly 'javax:javaee-api:7.0'
+
+    testRuntimeOnly 'org.apache.deltaspike.modules:deltaspike-test-control-module-impl:1.7.1'
+    testRuntimeOnly 'org.apache.deltaspike.cdictrl:deltaspike-cdictrl-weld:1.7.1'
+    testRuntimeOnly 'org.jboss.weld.se:weld-se-core:2.4.0.Final'
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }
 

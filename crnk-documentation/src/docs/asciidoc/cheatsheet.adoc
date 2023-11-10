@@ -43,7 +43,10 @@ dependencyManagement {
 	}
 }
 
-apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 mainClassName = "io.crnk.example.service.ExampleApplication"
 

@@ -1,6 +1,10 @@
-apply plugin: 'java'
-
-apply plugin: 'java-gradle-plugin'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+	id 'java-gradle-plugin'
+}
 
 gradlePlugin {
     plugins {
@@ -8,10 +12,10 @@ gradlePlugin {
             id = "crnk-gen"
             implementationClass = "io.crnk.gen.gradle.GeneratorPlugin"
         }
-		'crnk-xml-doclet' {
-			id = "crnk-xml-doclet"
-			implementationClass = "io.crnk.gen.gradle.DocletPlugin"
-		}
+        'crnk-xml-doclet' {
+            id = "crnk-xml-doclet"
+            implementationClass = "io.crnk.gen.gradle.DocletPlugin"
+        }
     }
 }
 
@@ -19,16 +23,17 @@ dependencies {
 
     implementation gradleApi()
 
-    compileOnly project(':crnk-gen:crnk-gen-asciidoc')
-    compileOnly project(':crnk-gen:crnk-gen-base')
-    compileOnly project(':crnk-gen:crnk-gen-openapi')
-    compileOnly project(':crnk-gen:crnk-gen-runtime')
-    compileOnly project(':crnk-gen:crnk-gen-typescript')
+    implementation project(':crnk-gen:crnk-gen-asciidoc')
+    implementation project(':crnk-gen:crnk-gen-base')
+    implementation project(':crnk-gen:crnk-gen-openapi')
+    implementation project(':crnk-gen:crnk-gen-runtime')
+    implementation project(':crnk-gen:crnk-gen-typescript')
 
-    compileOnly 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 
-    testCompileOnly project(':crnk-core')
-    testCompileOnly project(':crnk-gen:crnk-gen-base')
-    testCompileOnly project(':crnk-gen:crnk-gen-typescript')
+    // RCS unneeded:
+    // testImplementation project(':crnk-gen:crnk-gen-base')
+    // testImplementation project(':crnk-gen:crnk-gen-typescript')
+    testImplementation project(':crnk-core')
 
 }

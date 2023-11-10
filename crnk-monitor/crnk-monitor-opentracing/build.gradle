@@ -1,18 +1,28 @@
-apply plugin: 'java'
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
 
 dependencies {
 
-    compileOnly project(':crnk-core')
+    implementation project(':crnk-core')
 
-    compileOnly 'io.opentracing:opentracing-api:0.31.0'
-    compileOnly 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'io.opentracing:opentracing-api:0.31.0'
+    implementation 'org.slf4j:slf4j-api:1.7.13'
 
-    testCompileOnly project(':crnk-core')
-    testCompileOnly project(':crnk-setup:crnk-setup-servlet')
-    testCompileOnly project(':crnk-test')
+    // RCS unneeded:
+    // testImplementation project(':crnk-core')
+    testImplementation project(':crnk-setup:crnk-setup-servlet')
+    testImplementation project(':crnk-test')
 
-    testCompileOnly 'io.opentracing:opentracing-api:0.31.0'
-    testCompileOnly 'javax.servlet:javax.servlet-api:3.1.0'
-    testCompileOnly 'org.springframework:spring-test:4.3.30.RELEASE'
+    // RCS unneeded:
+    // testImplementation 'io.opentracing:opentracing-api:0.31.0'
+    testImplementation 'javax.servlet:javax.servlet-api:3.1.0'
+    testImplementation 'org.springframework:spring-test:4.3.30.RELEASE'
+
+    testRuntimeOnly 'org.springframework:spring-web:4.3.30.RELEASE'
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }
