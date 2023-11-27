@@ -16,9 +16,17 @@ configurations {
 }
 
 buildscript {
+
+	repositories {
+	    mavenCentral()
+	    maven {
+	    	url 'https://plugins.gradle.org/m2/'
+	    }
+	}
+	
     dependencies {
-        classpath "net.ltgt.gradle:gradle-apt-plugin:0.15"
-        classpath 'net.sf.proguard:proguard-gradle:6.0.3'
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.21"
+        classpath 'net.sf.proguard:proguard-gradle:6.2.2'
     }
 }
 
@@ -41,8 +49,8 @@ dependencies {
     implementation 'io.projectreactor.addons:reactor-adapter:3.2.3.RELEASE'
     implementation 'io.vertx:vertx-rx-java2:3.7.1'
     implementation 'io.vertx:vertx-auth-common:3.7.1'
-    implementation 'javax.inject:javax.inject:1'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
 
@@ -113,8 +121,8 @@ if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
 
         registryCredentials {
             email = 'remo@adnovum.ch'
-            username = dockerHubUser
-            password = dockerHubPass
+            //username = dockerHubUser
+            //password = dockerHubPass
         }
     }
 

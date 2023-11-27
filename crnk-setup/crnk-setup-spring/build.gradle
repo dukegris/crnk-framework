@@ -17,7 +17,7 @@ dependencies {
     implementation project(':crnk-client')
     implementation project(':crnk-core')
 
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
     implementation 'org.springframework:spring-tx:5.2.25.RELEASE'
     implementation 'org.springframework:spring-web:5.2.25.RELEASE'
     implementation 'org.springframework.security:spring-security-core:5.3.13.RELEASE'
@@ -33,7 +33,7 @@ dependencies {
     // testImplementation 'org.springframework.security:spring-security-core:5.3.13.RELEASE'
     testImplementation 'com.fasterxml.jackson.core:jackson-annotations'
     testImplementation 'com.squareup.okhttp3:okhttp:3.4.1'
-    testImplementation 'javax.persistence:javax.persistence-api:2.2'
+    testImplementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
     testImplementation 'org.springframework:spring-test:5.2.25.RELEASE'
     testImplementation 'org.springframework.boot:spring-boot:2.3.12.RELEASE'
     testImplementation 'org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE'

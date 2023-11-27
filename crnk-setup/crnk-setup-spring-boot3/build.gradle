@@ -1,0 +1,60 @@
+apply plugin: 'java'
+
+apply plugin: 'io.spring.dependency-management'
+dependencyManagement {
+	imports {
+		mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.22.RELEASE'
+	}
+}
+
+dependencies {
+
+	implementation project(':crnk-setup:crnk-setup-servlet')
+	implementation project(':crnk-setup:crnk-setup-spring')
+
+	compileOnly project(':crnk-client')
+	compileOnly project(':crnk-data:crnk-data-facet')
+	compileOnly project(':crnk-data:crnk-data-jpa')
+	compileOnly project(':crnk-format:crnk-format-plain-json')
+	compileOnly project(':crnk-home')
+	compileOnly project(':crnk-meta')
+	compileOnly project(':crnk-monitor:crnk-monitor-opentracing')
+	compileOnly project(':crnk-operations')
+	compileOnly project(':crnk-security')
+	compileOnly project(':crnk-ui')
+	compileOnly project(':crnk-validation')
+	compileOnly 'io.opentracing:opentracing-api'
+	compileOnly 'jakarta.persistence:jakarta.persistence-api'
+	compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+	compileOnly 'org.springframework.boot:spring-boot-starter-actuator'
+    compileOnly 'org.springframework.boot:spring-boot-starter-validation'
+	compileOnly 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.springframework.security:spring-security-core'
+	compileOnly 'org.springframework:spring-orm'
+
+	testImplementation project(':crnk-client')
+	testImplementation project(':crnk-data:crnk-data-facet')
+	testImplementation project(':crnk-data:crnk-data-jpa')
+	testImplementation project(':crnk-format:crnk-format-plain-json')
+	testImplementation project(':crnk-home')
+	testImplementation project(':crnk-meta')
+	testImplementation project(':crnk-operations')
+	testImplementation project(':crnk-security')
+	testImplementation project(':crnk-test')
+	testImplementation project(':crnk-ui')
+	testImplementation project(':crnk-validation')
+	testImplementation 'com.h2database:h2'
+	testImplementation 'net.javacrumbs.json-unit:json-unit-fluent'
+	testImplementation 'org.hibernate:hibernate-core'
+	testImplementation 'org.hibernate:hibernate-entitymanager'
+	testImplementation 'org.mockito:mockito-core'
+	testImplementation 'org.springframework.boot:spring-boot-configuration-processor'
+	testImplementation 'org.springframework.boot:spring-boot-starter-actuator'
+	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.security:spring-security-core'
+	testImplementation 'org.springframework:spring-orm'
+	testImplementation 'pl.pragmatists:JUnitParams'
+	
+}

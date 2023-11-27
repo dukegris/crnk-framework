@@ -1,0 +1,72 @@
+client -> 5 test erroneos:
+		BulkClientTest.testDelete:67 » BadRequest
+		DynamicClientTest.testRelationship:85 » BadRequest
+		RelationIdClientTest>RelationIdAccessTestBase.checkCrud:56->RelationIdAccessTestBase.checkPatchRelationship:194 » BadRequest
+		PrimitiveAttributeClientTest.testOptionalEmpty:28 » InternalServerError Exception while setting io.crnk.test.mock.models.PrimitiveAttributeResource@254db641.optionalValue={"empty":true,"present":false} due to Cannot construct instance of `java.util.Optional` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator) at [Source: UNKNOWN; byte offset: #UNKNOWN]
+		PrimitiveAttributeClientTest.testOptionalSet:37 » InternalServerError Exception while setting io.crnk.test.mock.models.PrimitiveAttributeResource@698b6fcf.optionalValue={"empty":false,"present":true} due to Cannot construct instance of `java.util.Optional` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator) at [Source: UNKNOWN; byte offset: #UNKNOWN]
+
+core -> 27 test erroreos
+		Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$5496c165$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object. Selected method is 'abstract boolean com.fasterxml.jackson.databind.JsonNode.equals(java.lang.Object)'
+		DocumentMapperTest.testOptionalNotSerializedIfEmpty:278
+		DocumentMapperTest.testOptionalSerializedIfSet:292
+		ObjectLinkDocumentMapperTest>DocumentMapperTest.testOptionalNotSerializedIfEmpty:278
+		ObjectLinkDocumentMapperTest>DocumentMapperTest.testOptionalSerializedIfSet:292
+		MissingRelatedResourcePropertyTest>DocumentMapperTest.testOptionalNotSerializedIfEmpty:278
+		MissingRelatedResourcePropertyTest>DocumentMapperTest.testOptionalSerializedIfSet:292
+		MissingRelatedResourceTest>DocumentMapperTest.testOptionalNotSerializedIfEmpty:278
+		MissingRelatedResourceTest>DocumentMapperTest.testOptionalSerializedIfSet:292
+		DecoratorTest.testDecoratedRelationshipRepositoryBase:58 
+		PagingSpecUrlBuilderTest.testRelatedLink:72 expected:<tasks/any> but was:<null>
+		PagingSpecUrlBuilderTest.testSelfLink:61 expected:<tasks/relationships/any> but was:<null>
+		ResourceEqualsContractTest.testResourceEqualsContract:18 EqualsVerifier found a problem in class io.crnk.core.engine.document.Resource.
+		
+data-activity -> 2 test erroreos
+		ApprovalManagerTest.checkRequestApproval:91 expected:<Jane> but was:<null>
+		ApprovalManagerTest.checkApprovedForwardsToRepository:105 » NullPointer Cannot invoke "io.crnk.core.engine.registry.RegistryEntry.getResourceInformation()" because "registryEntry" is null
+
+data-jpa -> 7 test erroreos
+		BasicAttributesIntTest.testFilterByOffsetDateTime:184 expected:<1> but was:<0>
+		JpaQuerySpecIntTest.testEmbeddableIds:317 » InternalServerError org.hibernate.query.SemanticException: Cannot compare tuples of different lengths
+		JpaFacetProviderTest.checkFindAll:57 » InternalServerError Cannot instantiate class 'io.crnk.data.jpa.model.TestEntity' (it has no constructor with signature [java.lang.Long, java.lang.Long], and not every argument has an alias)
+		BasicCriteriaTest.testAutoDistinctOnManyRelation:64 » IllegalState Cannot instantiate class 'io.crnk.data.jpa.model.TestEntity' (it has no constructor with signature [java.lang.Long], and not every argument has an alias)
+		BasicCriteriaTest>BasicQueryTestBase.testTupleQuery:66 » IllegalState Cannot instantiate class 'io.crnk.data.jpa.model.TestEntity' (it has no constructor with signature [io.crnk.data.jpa.model.TestEntity, java.lang.String], and not every argument has an alias)
+		ComputedAttributeCriteriaTest>ComputedAttributeTestBase.testSelection:37 » IllegalState Cannot instantiate class 'io.crnk.data.jpa.model.TestEntity' (it has no constructor with signature [io.crnk.data.jpa.model.TestEntity, java.lang.String], and not every argument has an alias)
+		JpaEntityRepositoryCriteriaTest>JpaEntityRepositoryTestBase.testPaging:294 » IllegalState Cannot instantiate class 'io.crnk.data.jpa.model.TestEntity' (it has no constructor with signature [java.lang.Long], and not every argument has an alias)
+		JpaEntityRepositoryCriteriaTest>JpaEntityRepositoryTestBase.testPagingFirst:309 » IllegalState Cannot instantiate class 'io.crnk.data.jpa.model.TestEntity' (it has no constructor with signature [java.lang.Long], and not every argument has an alias)
+
+gen-openapi -> 4 test erroreos -> Los textos gold no tienen comillas ni tienen salto de línea, van contra el JSON mas actual
+		OpenAPIGeneratorComplexTest.testGeneration:93->OpenAPIGeneratorTestBase.compare:69 line: 7,         default: id,value,post,related expected:<        default: [id,value,post,related]> but was:<        default: ["id,value,post,related"]>
+		OpenAPIGeneratorSimpleTest.testGeneration:85->OpenAPIGeneratorTestBase.compare:69 line: 25,       name: page[limit] expected:<      name: [page[limit]]> but was:<      name: ["page[limit]"]>[m
+		OASGeneratorTest.testGenerateOpenApiContentGeneratesYamlSorted:43->compare:76 line: 1,   description: OpenAPI document with autogenerated paths, components, responses, etc. expected:<  description: [OpenAPI document with autogenerated paths, components, responses, etc.]> but was:<  description: ["OpenAPI document with autogenerated paths, components, responses,\]>
+		OASGeneratorTest.testGenerateOpenApiContentGeneratesYamlUnsorted:36->compare:76 line: 3,   description: OpenAPI document with autogenerated paths, components, responses, etc. expected:<  description: [OpenAPI document with autogenerated paths, components, responses, etc.]> but was:<  description: ["OpenAPI document with autogenerated paths, components, responses,\]>
+
+gen-typecript -> 2 test erroreos
+		TSGeneratorTest.throwExceptionWhenMetaElementNotMappedToDirectory »  Unexpected exception, expected<java.lang.UnsupportedOperationException> but was<java.lang.NullPointerException>
+		TSGeneratorTest.throwExceptionWhenMetaElementNotMappedToNpmPackage »  Unexpected exception, expected<java.lang.UnsupportedOperationException> but was<java.lang.NullPointerException>
+
+operations -> 24 test erroreos -> Fallo en el cast de RestTemplateAdapter a OkHttpAdapter
+		NonTransactionalOperationsExceptionTest>AbstractOperationsTest.setup:114->AbstractOperationsTest.setNetworkTimeout:56 » ClassCast class io.crnk.spring.client.RestTemplateAdapter cannot be cast to class io.crnk.client.http.okhttp.OkHttpAdapter (io.crnk.spring.client.RestTemplateAdapter and io.crnk.client.http.okhttp.OkHttpAdapter are in unnamed module of loader 'app')
+
+security -> 12 test erroreos -> Falla la gestión de usuarios por properties al exigirla Jetty Embedded. Bajar versión de Jetty a 8?
+		SecurityModuleIntTest>JerseyTest.setUp:627 » TestContainer java.lang.IllegalStateException: No config path set
+
+setup-cdi -> 2 test erroreos -> No engancha con el servidor de aplicaciones. jakarta naming
+		CdiServiceDiscoveryTest » NoClassDefFound Could not initialize class org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner
+
+setup-servlet -> 44 test erroreos -> Falla todo el módulo reactive
+		AsyncServletTimeoutTest.testNoTimeout » IllegalState Failed to load ApplicationContext for [WebMergedContextConfiguration@220cda54 testClass = io.crnk.servlet.reactive.AsyncServletTimeoutTest, locations = [], classes = [io.crnk.servlet.resource.ReactiveServletTestApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceLocations = [], propertySourceProperties = ["org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true", "server.port=0"], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@5b444398, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@79145d5a, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@22b53226, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@30d4b288, org.springframework.boot.test.context.SpringBootTestAnnotation@f8c7b49b], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+
+setup-spring-boot1
+setup-spring-boot2
+setup-spring-boot3 -> errorDateTest y Facet
+		BasicSpringBoot3Test.testErrorsSerializedAsJsonApi:303 » UnrecognizedProperty Unrecognized field "timestamp" (class io.crnk.core.engine.document.Document), not marked as ignorable (6 known properties: "jsonapi", "meta", "links", "data", "errors", "included"])
+		BasicSpringBoot3Test.testFacets:217 » BadRequest
+		
+boot-example -> 17 test erroreos
+		SpringBootSimpleExampleApplicationTests.testUpdateTask_withDescriptionTooLong » IllegalState Failed to load ApplicationContext for [WebMergedContextConfiguration@3bb59485 testClass = io.crnk.example.springboot.simple.SpringBootSimpleExampleApplicationTests, locations = [], classes = [io.crnk.example.springboot.SpringBootExampleApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceLocations = [], propertySourceProperties = ["org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true", "server.port=0"], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@3382f8ae, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@a5bd950, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@163d04ff, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@41e350f1, org.springframework.boot.test.context.SpringBootTestAnnotation@1195d120], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+		
+boot-microservice-example -> 1 test erroreo
+		MicroServiceApplicationTest.test:43->checkInclusionOfRemoteResource:64 » BadRequest
+
+boot-minimal-example -> 4 test erroreos
+		MinimalSpringBootApplicationTests.testFindMany:41->BaseTest.testFindMany:68 1 expectation failed. Expected status code <200> but was <404>.

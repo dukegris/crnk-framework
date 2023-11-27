@@ -26,7 +26,7 @@ dependencies {
     implementation project(':crnk-validation')
 
     implementation 'com.fasterxml.jackson.core:jackson-databind'
-    implementation 'javax.persistence:javax.persistence-api:2.2'
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
     compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
     compileOnly 'javax.validation:validation-api:2.0.1.Final'
     implementation 'org.springframework:spring-context:4.3.30.RELEASE'
@@ -41,11 +41,11 @@ dependencies {
 
     // RCS unneeded:
     // testImplementation 'com.fasterxml.jackson.core:jackson-databind'
-    // testImplementation 'javax.persistence:javax.persistence-api:2.2'
+    // testImplementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
     testImplementation 'javax.security.auth.message:javax.security.auth.message-api:1.1.1'
-    testImplementation 'net.javacrumbs.json-unit:json-unit-fluent:1.5.3'
+    testImplementation 'net.javacrumbs.json-unit:json-unit-fluent:3.2.2'
     testImplementation 'org.apache.tomcat:tomcat-catalina:8.5.95'
-    testImplementation 'org.glassfish.jersey.test-framework:jersey-test-framework-core:2.25.1'
+    testImplementation 'org.glassfish.jersey.test-framework:jersey-test-framework-core:3.1.3'
     testImplementation 'org.springframework:spring-test:4.3.30.RELEASE'
     testImplementation 'org.springframework:spring-web:4.3.30.RELEASE'
     testImplementation 'org.springframework.security:spring-security-core:4.2.20.RELEASE'

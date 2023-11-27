@@ -9,19 +9,19 @@ dependencies {
 
     implementation project(':crnk-core')
 
-    implementation 'javax:javaee-api:7.0'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation  project(':crnk-core')
 
     // RCS unneeded:
-    // testCompileOnly 'javax:javaee-api:7.0'
+    // testCompileOnly 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
     testCompileOnly 'org.apache.deltaspike.modules:deltaspike-test-control-module-api:1.7.1'
 
     testRuntimeOnly 'org.apache.deltaspike.modules:deltaspike-test-control-module-impl:1.7.1'
     testRuntimeOnly 'org.apache.deltaspike.cdictrl:deltaspike-cdictrl-weld:1.7.1'
-    testRuntimeOnly 'org.jboss.weld.se:weld-se-core:2.4.0.Final'
+    testRuntimeOnly 'org.jboss.weld.se:weld-se-core:5.1.2.Final'
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 }

@@ -12,7 +12,7 @@ dependencies {
     implementation project(':crnk-meta')
 
     implementation 'com.fasterxml.jackson.core:jackson-databind'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation project(':crnk-core')
@@ -22,7 +22,7 @@ dependencies {
     testImplementation project(':crnk-test')
 
     // RCS unneeded:
-    // testImplementation 'org.slf4j:slf4j-api:1.7.13'
+    // testImplementation 'org.slf4j:slf4j-api:2.0.9'
     testImplementation 'commons-io:commons-io:2.5'
     testImplementation 'org.apache.commons:commons-lang3:3.13.0'
     testImplementation "org.junit.jupiter:junit-jupiter-api:$JUNIT_VERSION"

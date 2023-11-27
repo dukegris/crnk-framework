@@ -1,0 +1,10 @@
+io\crnk\spring\boot\BasicSpringBoot2Test.class
+io\crnk\spring\app\model\PersonEntity.class
+io\crnk\spring\security\SpringSecurityModuleTest.class
+io\crnk\spring\metrics\CrnkWebMvcTagsProviderTest.class
+io\crnk\spring\security\SpringSecurityExceptionMapperTest.class
+io\crnk\spring\app\ModuleConfig.class
+io\crnk\spring\setup\core\SpringEnforceIdNameDisabledTest.class
+io\crnk\spring\setup\core\SpringEnforceIdNameEnabledTest.class
+io\crnk\spring\app\CrnkCoreAutoConfigurationTest.class
+io\crnk\spring\app\BasicSpringBoot2Application.class

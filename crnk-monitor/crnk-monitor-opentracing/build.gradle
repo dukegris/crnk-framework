@@ -10,7 +10,7 @@ dependencies {
     implementation project(':crnk-core')
 
     implementation 'io.opentracing:opentracing-api:0.31.0'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation project(':crnk-core')
@@ -19,7 +19,7 @@ dependencies {
 
     // RCS unneeded:
     // testImplementation 'io.opentracing:opentracing-api:0.31.0'
-    testImplementation 'javax.servlet:javax.servlet-api:3.1.0'
+    testImplementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
     testImplementation 'org.springframework:spring-test:4.3.30.RELEASE'
 
     testRuntimeOnly 'org.springframework:spring-web:4.3.30.RELEASE'

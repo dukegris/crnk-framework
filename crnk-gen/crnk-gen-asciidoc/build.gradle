@@ -13,7 +13,7 @@ dependencies {
     implementation project(':crnk-meta')
 
     implementation 'guru.nidi:graphviz-java:0.12.1'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation project(':crnk-client')

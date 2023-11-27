@@ -1,0 +1,838 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] IO CRNK                                                            [pom]
+[INFO] crnk-core                                                          [jar]
+[INFO] crnk-reactive                                                      [jar]
+[INFO] crnk-test                                                          [jar]
+[INFO] crnk-setup                                                         [pom]
+[INFO] crnk-setup-rs                                                      [jar]
+[INFO] crnk-client                                                        [jar]
+[INFO] crnk-setup-servlet                                                 [jar]
+[INFO] crnk-setup-spring                                                  [jar]
+[INFO] crnk-meta                                                          [jar]
+[INFO] crnk-home                                                          [jar]
+[INFO] crnk-security                                                      [jar]
+[INFO] crnk-validation                                                    [jar]
+[INFO] crnk-data                                                          [pom]
+[INFO] crnk-data-facet                                                    [jar]
+[INFO] crnk-data-jpa                                                      [jar]
+[INFO] crnk-format                                                        [pom]
+[INFO] crnk-format-plain-json                                             [jar]
+[INFO] crnk-monitor                                                       [pom]
+[INFO] crnk-monitor-opentracing                                           [jar]
+[INFO] crnk-operations                                                    [jar]
+[INFO] crnk-ui                                                            [jar]
+[INFO] crnk-setup-spring-boot2                                            [jar]
+[INFO] crnk-setup-vertx                                                   [jar]
+[INFO] crnk-setup-guice                                                   [jar]
+[INFO] crnk-setup-cdi                                                     [jar]
+[INFO] crnk-testkit                                                       [jar]
+[INFO] crnk-data-activity                                                 [jar]
+[INFO] crnk-gen                                                           [pom]
+[INFO] crnk-gen-base                                                      [jar]
+[INFO] crnk-gen-typecript                                                 [jar]
+[INFO] crnk-client-angular-ngrx                                           [jar]
+[INFO] crnk-gen-asciidoc                                                  [jar]
+[INFO] crnk-gen-openapi                                                   [jar]
+[INFO] crnk-gen-runtime                                                   [jar]
+[INFO] crnk-monitor-brave4                                                [jar]
+[INFO] crnk-integration-examples                                          [pom]
+[INFO] dropwizard-simple-example                                          [jar]
+[INFO] jersey-example                                                     [jar]
+[INFO] openliberty-microprofile-example                                   [jar]
+[INFO] spring-boot-example                                                [jar]
+[INFO] spring-boot-minimal-example                                        [jar]
+[INFO] spring-boot-microservice-example                                   [jar]
+[INFO] wildfly-example                                                    [jar]
+[INFO] 
+[INFO] -----------------------< io.crnk:crnk-framework >-----------------------
+[INFO] Building IO CRNK 4.0                                              [1/44]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] >>> source:3.3.0:jar (attach-sources) > generate-sources @ crnk-framework >>>
+[INFO] 
+[INFO] <<< source:3.3.0:jar (attach-sources) < generate-sources @ crnk-framework <<<
+[INFO] 
+[INFO] 
+[INFO] --- source:3.3.0:jar (attach-sources) @ crnk-framework ---
+[INFO] 
+[INFO] --- install:3.1.1:install (default-install) @ crnk-framework ---
+[INFO] Installing D:\repositorioCCyL_OS\crnk-framework\pom.xml to d:\data\maven\io\crnk\crnk-framework\4.0\crnk-framework-4.0.pom
+[INFO] 
+[INFO] -------------------------< io.crnk:crnk-core >--------------------------
+[INFO] Building crnk-core 4.0                                            [2/44]
+[INFO]   from crnk-core\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ crnk-core ---
+[INFO] skip non existing resourceDirectory D:\repositorioCCyL_OS\crnk-framework\crnk-core\src\main\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ crnk-core ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 382 source files with javac [debug target 17] to target\classes
+[INFO] /D:/repositorioCCyL_OS/crnk-framework/crnk-core/src/main/java/io/crnk/core/engine/information/resource/ResourceInformation.java: Some input files use or override a deprecated API.
+[INFO] /D:/repositorioCCyL_OS/crnk-framework/crnk-core/src/main/java/io/crnk/core/engine/information/resource/ResourceInformation.java: Recompile with -Xlint:deprecation for details.
+[INFO] /D:/repositorioCCyL_OS/crnk-framework/crnk-core/src/main/java/io/crnk/core/engine/document/Document.java: Some input files use unchecked or unsafe operations.
+[INFO] /D:/repositorioCCyL_OS/crnk-framework/crnk-core/src/main/java/io/crnk/core/engine/document/Document.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ crnk-core ---
+[INFO] Copying 2 resources from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ crnk-core ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 255 source files with javac [debug target 17] to target\test-classes
+[INFO] /D:/repositorioCCyL_OS/crnk-framework/crnk-core/src/test/java/io/crnk/core/engine/internal/jackson/JacksonResourceFieldInformationProviderNamingTest.java: Some input files use or override a deprecated API.
+[INFO] /D:/repositorioCCyL_OS/crnk-framework/crnk-core/src/test/java/io/crnk/core/engine/internal/jackson/JacksonResourceFieldInformationProviderNamingTest.java: Recompile with -Xlint:deprecation for details.
+[INFO] /D:/repositorioCCyL_OS/crnk-framework/crnk-core/src/test/java/io/crnk/core/engine/registry/HierarchicalResourceRegistryPartTest.java: Some input files use unchecked or unsafe operations.
+[INFO] /D:/repositorioCCyL_OS/crnk-framework/crnk-core/src/test/java/io/crnk/core/engine/registry/HierarchicalResourceRegistryPartTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ crnk-core ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running io.crnk.core.engine.internal.utils.JsonApiUrlBuilderTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.649 s -- in io.crnk.core.engine.internal.utils.JsonApiUrlBuilderTest
+[INFO] Running io.crnk.core.repository.InMemoryResourceRepositoryTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in io.crnk.core.repository.InMemoryResourceRepositoryTest
+[INFO] Running io.crnk.core.boot.CrnkBootTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.405 s -- in io.crnk.core.boot.CrnkBootTest
+[INFO] Running io.crnk.core.boot.CrnkPropertiesTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in io.crnk.core.boot.CrnkPropertiesTest
+[INFO] Running io.crnk.core.engine.document.DocumentTest
+[ERROR] Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.652 s <<< FAILURE! -- in io.crnk.core.engine.document.DocumentTest
+[ERROR] io.crnk.core.engine.document.DocumentTest.testDocumentEqualsContract -- Time elapsed: 0.590 s <<< FAILURE!
+java.lang.AssertionError: 
+EqualsVerifier found a problem in class io.crnk.core.engine.document.Document.
+-> Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object. Selected method is 'abstract boolean com.fasterxml.jackson.databind.JsonNode.equals(java.lang.Object)'.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:351)
+	at io.crnk.core.engine.document.DocumentTest.testDocumentEqualsContract(DocumentTest.java:21)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+Caused by: java.lang.AbstractMethodError: Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object. Selected method is 'abstract boolean com.fasterxml.jackson.databind.JsonNode.equals(java.lang.Object)'.
+	at java.base/java.util.AbstractMap.equals(AbstractMap.java:492)
+	at java.base/java.util.Objects.equals(Objects.java:64)
+	at io.crnk.core.engine.document.Resource.equals(Resource.java:86)
+	at nl.jqno.equalsverifier.internal.prefabvalues.factories.SimpleGenericFactory.createValues(SimpleGenericFactory.java:40)
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.createTuple(PrefabValues.java:153)
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.realizeCacheFor(PrefabValues.java:140)
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.giveTuple(PrefabValues.java:81)
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.giveOther(PrefabValues.java:104)
+	at nl.jqno.equalsverifier.internal.reflection.FieldModifier.lambda$changeField$2(FieldModifier.java:97)
+	at nl.jqno.equalsverifier.internal.reflection.FieldModifier.wrappedChange(FieldModifier.java:118)
+	at nl.jqno.equalsverifier.internal.reflection.FieldModifier.lambda$change$3(FieldModifier.java:113)
+	at nl.jqno.equalsverifier.internal.util.Rethrow.lambda$rethrow$1(Rethrow.java:51)
+	at nl.jqno.equalsverifier.internal.util.Rethrow.rethrow(Rethrow.java:34)
+	at nl.jqno.equalsverifier.internal.util.Rethrow.rethrow(Rethrow.java:49)
+	at nl.jqno.equalsverifier.internal.util.Rethrow.rethrow(Rethrow.java:59)
+	at nl.jqno.equalsverifier.internal.reflection.FieldModifier.change(FieldModifier.java:113)
+	at nl.jqno.equalsverifier.internal.reflection.FieldModifier.changeField(FieldModifier.java:100)
+	at nl.jqno.equalsverifier.internal.reflection.InPlaceObjectAccessor.scramble(InPlaceObjectAccessor.java:52)
+	at nl.jqno.equalsverifier.internal.reflection.ClassAccessor.getRedAccessor(ClassAccessor.java:188)
+	at nl.jqno.equalsverifier.internal.reflection.ClassAccessor.getRedObject(ClassAccessor.java:177)
+	at nl.jqno.equalsverifier.internal.util.Configuration.ensureUnequalExamples(Configuration.java:219)
+	at nl.jqno.equalsverifier.internal.util.Configuration.build(Configuration.java:114)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.buildConfig(SingleTypeEqualsVerifierApi.java:424)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.performVerification(SingleTypeEqualsVerifierApi.java:410)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:347)
+	... 2 more
+
+[INFO] Running io.crnk.core.engine.document.RelationshipTest
+[ERROR] Tests run: 6, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.128 s <<< FAILURE! -- in io.crnk.core.engine.document.RelationshipTest
+[ERROR] io.crnk.core.engine.document.RelationshipTest.testResourceEqualsContract -- Time elapsed: 0.056 s <<< FAILURE!
+java.lang.AssertionError: 
+EqualsVerifier found a problem in class io.crnk.core.engine.document.Relationship.
+-> Abstract delegation: ObjectNode's equals method delegates to an abstract method:
+ Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object. Selected method is 'abstract boolean com.fasterxml.jackson.databind.JsonNode.equals(java.lang.Object)'.
+Add prefab values for com.fasterxml.jackson.databind.node.ObjectNode.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:349)
+	at io.crnk.core.engine.document.RelationshipTest.testResourceEqualsContract(RelationshipTest.java:18)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+Caused by: nl.jqno.equalsverifier.internal.exceptions.AssertionException
+	at nl.jqno.equalsverifier.internal.util.Assert.fail(Assert.java:76)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.checkAbstractMethods(AbstractDelegationChecker.java:121)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.checkAbstractDelegationInFields(AbstractDelegationChecker.java:68)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.check(AbstractDelegationChecker.java:36)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verifyWithoutExamples(SingleTypeEqualsVerifierApi.java:453)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.performVerification(SingleTypeEqualsVerifierApi.java:419)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:347)
+	... 2 more
+Caused by: java.lang.AbstractMethodError: Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object. Selected method is 'abstract boolean com.fasterxml.jackson.databind.JsonNode.equals(java.lang.Object)'.
+	at java.base/java.util.AbstractMap.equals(AbstractMap.java:492)
+	at com.fasterxml.jackson.databind.node.ObjectNode._childrenEqual(ObjectNode.java:1070)
+	at com.fasterxml.jackson.databind.node.ObjectNode.equals(ObjectNode.java:1060)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.checkAbstractMethods(AbstractDelegationChecker.java:113)
+	... 7 more
+
+[INFO] Running io.crnk.core.engine.document.ResourceIdentifierTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 s -- in io.crnk.core.engine.document.ResourceIdentifierTest
+[INFO] Running io.crnk.core.engine.document.ResourceTest
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.042 s <<< FAILURE! -- in io.crnk.core.engine.document.ResourceTest
+[ERROR] io.crnk.core.engine.document.ResourceTest.testResourceEqualsContract -- Time elapsed: 0.040 s <<< FAILURE!
+java.lang.AssertionError: 
+EqualsVerifier found a problem in class io.crnk.core.engine.document.Resource.
+-> Abstract delegation: ObjectNode's equals method delegates to an abstract method:
+ Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object. Selected method is 'abstract boolean com.fasterxml.jackson.databind.JsonNode.equals(java.lang.Object)'.
+Add prefab values for com.fasterxml.jackson.databind.node.ObjectNode.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:349)
+	at io.crnk.core.engine.document.ResourceTest.testResourceEqualsContract(ResourceTest.java:11)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+Caused by: nl.jqno.equalsverifier.internal.exceptions.AssertionException
+	at nl.jqno.equalsverifier.internal.util.Assert.fail(Assert.java:76)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.checkAbstractMethods(AbstractDelegationChecker.java:121)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.checkAbstractDelegationInFields(AbstractDelegationChecker.java:68)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.check(AbstractDelegationChecker.java:36)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verifyWithoutExamples(SingleTypeEqualsVerifierApi.java:453)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.performVerification(SingleTypeEqualsVerifierApi.java:419)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:347)
+	... 2 more
+Caused by: java.lang.AbstractMethodError: Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object. Selected method is 'abstract boolean com.fasterxml.jackson.databind.JsonNode.equals(java.lang.Object)'.
+	at java.base/java.util.AbstractMap.equals(AbstractMap.java:492)
+	at com.fasterxml.jackson.databind.node.ObjectNode._childrenEqual(ObjectNode.java:1070)
+	at com.fasterxml.jackson.databind.node.ObjectNode.equals(ObjectNode.java:1060)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.checkAbstractMethods(AbstractDelegationChecker.java:113)
+	... 7 more
+
+[INFO] Running io.crnk.core.engine.error.ErrorDataBuilderTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.099 s -- in io.crnk.core.engine.error.ErrorDataBuilderTest
+[INFO] Running io.crnk.core.engine.error.ErrorDataTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.065 s -- in io.crnk.core.engine.error.ErrorDataTest
+[INFO] Running io.crnk.core.engine.error.ErrorResponseBuilderTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in io.crnk.core.engine.error.ErrorResponseBuilderTest
+[INFO] Running io.crnk.core.engine.error.ErrorResponseTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in io.crnk.core.engine.error.ErrorResponseTest
+[INFO] Running io.crnk.core.engine.error.ExceptionMapperHelperTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in io.crnk.core.engine.error.ExceptionMapperHelperTest
+[INFO] Running io.crnk.core.engine.error.ObjectLinkErrorDataTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in io.crnk.core.engine.error.ObjectLinkErrorDataTest
+[INFO] Running io.crnk.core.engine.filter.AbstractDocumentFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in io.crnk.core.engine.filter.AbstractDocumentFilterTest
+[INFO] Running io.crnk.core.engine.filter.RepositoryFilterTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.228 s -- in io.crnk.core.engine.filter.RepositoryFilterTest
+[INFO] Running io.crnk.core.engine.filter.ResourceFilterTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.124 s -- in io.crnk.core.engine.filter.ResourceFilterTest
+[INFO] Running io.crnk.core.engine.http.DefaultHttpRequestProcessorTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in io.crnk.core.engine.http.DefaultHttpRequestProcessorTest
+[INFO] Running io.crnk.core.engine.http.HttpHeaderTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in io.crnk.core.engine.http.HttpHeaderTest
+[INFO] Running io.crnk.core.engine.http.HttpRequestContextAwareTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in io.crnk.core.engine.http.HttpRequestContextAwareTest
+[INFO] Running io.crnk.core.engine.http.HttpRequestContextBaseAdapterTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 s -- in io.crnk.core.engine.http.HttpRequestContextBaseAdapterTest
+[INFO] Running io.crnk.core.engine.http.HttpRequestContextProviderTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in io.crnk.core.engine.http.HttpRequestContextProviderTest
+[INFO] Running io.crnk.core.engine.http.HttpRequestDispatcherImplTest
+[WARNING] Tests run: 6, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.180 s -- in io.crnk.core.engine.http.HttpRequestDispatcherImplTest
+[INFO] Running io.crnk.core.engine.http.HttpResponseTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in io.crnk.core.engine.http.HttpResponseTest
+[INFO] Running io.crnk.core.engine.http.HttpStatusTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in io.crnk.core.engine.http.HttpStatusTest
+[INFO] Running io.crnk.core.engine.http.JsonApiRequestProcessorTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.408 s -- in io.crnk.core.engine.http.JsonApiRequestProcessorTest
+[INFO] Running io.crnk.core.engine.information.contributor.ResourceFieldContributorTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.057 s -- in io.crnk.core.engine.information.contributor.ResourceFieldContributorTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.CollectionGetControllerTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.101 s -- in io.crnk.core.engine.internal.dispatcher.controller.CollectionGetControllerTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.FieldGetControllerTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 s -- in io.crnk.core.engine.internal.dispatcher.controller.FieldGetControllerTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.FieldPostControllerTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s -- in io.crnk.core.engine.internal.dispatcher.controller.FieldPostControllerTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.RelationshipsDeleteControllerTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.049 s -- in io.crnk.core.engine.internal.dispatcher.controller.RelationshipsDeleteControllerTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.RelationshipsGetControllerTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.071 s -- in io.crnk.core.engine.internal.dispatcher.controller.RelationshipsGetControllerTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.RelationshipsPatchControllerTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.093 s -- in io.crnk.core.engine.internal.dispatcher.controller.RelationshipsPatchControllerTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.RelationshipsPostControllerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.141 s -- in io.crnk.core.engine.internal.dispatcher.controller.RelationshipsPostControllerTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.ResourceDeleteControllerTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.049 s -- in io.crnk.core.engine.internal.dispatcher.controller.ResourceDeleteControllerTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.ResourceGetControllerTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.105 s -- in io.crnk.core.engine.internal.dispatcher.controller.ResourceGetControllerTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.ResourceIdControllerTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in io.crnk.core.engine.internal.dispatcher.controller.ResourceIdControllerTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.ResourcePatchControllerTest
+[ERROR] Tests run: 22, Failures: 2, Errors: 0, Skipped: 1, Time elapsed: 0.374 s <<< FAILURE! -- in io.crnk.core.engine.internal.dispatcher.controller.ResourcePatchControllerTest
+[ERROR] io.crnk.core.engine.internal.dispatcher.controller.ResourcePatchControllerTest.mergeNestedAttributeWithDefaultPatchStrategy -- Time elapsed: 0.022 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: null
+ but was: null
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at io.crnk.core.engine.internal.dispatcher.controller.ResourcePatchControllerTest.mergeNestedAttributeWithDefaultPatchStrategy(ResourcePatchControllerTest.java:544)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[ERROR] io.crnk.core.engine.internal.dispatcher.controller.ResourcePatchControllerTest.omittedFieldsSettersAreNotCalled -- Time elapsed: 0.010 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: null
+ but was: null
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at io.crnk.core.engine.internal.dispatcher.controller.ResourcePatchControllerTest.omittedFieldsSettersAreNotCalled(ResourcePatchControllerTest.java:775)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[INFO] Running io.crnk.core.engine.internal.dispatcher.controller.ResourcePostControllerTest
+[WARNING] Tests run: 18, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0.127 s -- in io.crnk.core.engine.internal.dispatcher.controller.ResourcePostControllerTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.filter.FilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in io.crnk.core.engine.internal.dispatcher.filter.FilterTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.path.PathBuilderTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.127 s -- in io.crnk.core.engine.internal.dispatcher.path.PathBuilderTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.registry.ControllerRegistryTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in io.crnk.core.engine.internal.dispatcher.registry.ControllerRegistryTest
+[INFO] Running io.crnk.core.engine.internal.dispatcher.ResponseTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in io.crnk.core.engine.internal.dispatcher.ResponseTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.DocumentMapperTest
+[ERROR] Tests run: 28, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.314 s <<< FAILURE! -- in io.crnk.core.engine.internal.document.mapper.DocumentMapperTest
+[ERROR] io.crnk.core.engine.internal.document.mapper.DocumentMapperTest.testOptionalSerializedIfSet -- Time elapsed: 0.018 s <<< FAILURE!
+java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:87)
+	at org.junit.Assert.assertTrue(Assert.java:42)
+	at org.junit.Assert.assertTrue(Assert.java:53)
+	at io.crnk.core.engine.internal.document.mapper.DocumentMapperTest.testOptionalSerializedIfSet(DocumentMapperTest.java:292)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[ERROR] io.crnk.core.engine.internal.document.mapper.DocumentMapperTest.testOptionalNotSerializedIfEmpty -- Time elapsed: 0.018 s <<< FAILURE!
+java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:87)
+	at org.junit.Assert.assertTrue(Assert.java:42)
+	at org.junit.Assert.assertFalse(Assert.java:65)
+	at org.junit.Assert.assertFalse(Assert.java:75)
+	at io.crnk.core.engine.internal.document.mapper.DocumentMapperTest.testOptionalNotSerializedIfEmpty(DocumentMapperTest.java:278)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[INFO] Running io.crnk.core.engine.internal.document.mapper.DocumentMapperUtilTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in io.crnk.core.engine.internal.document.mapper.DocumentMapperUtilTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.DocumentMappingConfigTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in io.crnk.core.engine.internal.document.mapper.DocumentMappingConfigTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.DocumentSerializerTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.136 s -- in io.crnk.core.engine.internal.document.mapper.DocumentSerializerTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.IncludeLookupSetterBaseTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.124 s -- in io.crnk.core.engine.internal.document.mapper.lookup.IncludeLookupSetterBaseTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.IncludeLookupSetterInheritanceTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0 s -- in io.crnk.core.engine.internal.document.mapper.lookup.IncludeLookupSetterInheritanceTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.IncludeLookupUtilTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in io.crnk.core.engine.internal.document.mapper.lookup.IncludeLookupUtilTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.relationid.InconsistentRelationshipTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in io.crnk.core.engine.internal.document.mapper.lookup.relationid.InconsistentRelationshipTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.relationid.LookupAlwaysRelationIdLookupTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in io.crnk.core.engine.internal.document.mapper.lookup.relationid.LookupAlwaysRelationIdLookupTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.relationid.LookupNoneRelationIdLookupTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in io.crnk.core.engine.internal.document.mapper.lookup.relationid.LookupNoneRelationIdLookupTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.relationid.LookupNotNullRelationIdLookupTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in io.crnk.core.engine.internal.document.mapper.lookup.relationid.LookupNotNullRelationIdLookupTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.relationid.MissingRelatedResourcePropertyTest
+[ERROR] Tests run: 29, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.167 s <<< FAILURE! -- in io.crnk.core.engine.internal.document.mapper.lookup.relationid.MissingRelatedResourcePropertyTest
+[ERROR] io.crnk.core.engine.internal.document.mapper.lookup.relationid.MissingRelatedResourcePropertyTest.testOptionalSerializedIfSet -- Time elapsed: 0.007 s <<< FAILURE!
+java.lang.AssertionError
+	at io.crnk.core.engine.internal.document.mapper.DocumentMapperTest.testOptionalSerializedIfSet(DocumentMapperTest.java:292)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[ERROR] io.crnk.core.engine.internal.document.mapper.lookup.relationid.MissingRelatedResourcePropertyTest.testOptionalNotSerializedIfEmpty -- Time elapsed: 0.005 s <<< FAILURE!
+java.lang.AssertionError
+	at io.crnk.core.engine.internal.document.mapper.DocumentMapperTest.testOptionalNotSerializedIfEmpty(DocumentMapperTest.java:278)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.relationid.MissingRelatedResourceTest
+[ERROR] Tests run: 29, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.217 s <<< FAILURE! -- in io.crnk.core.engine.internal.document.mapper.lookup.relationid.MissingRelatedResourceTest
+[ERROR] io.crnk.core.engine.internal.document.mapper.lookup.relationid.MissingRelatedResourceTest.testOptionalSerializedIfSet -- Time elapsed: 0.014 s <<< FAILURE!
+java.lang.AssertionError
+	at io.crnk.core.engine.internal.document.mapper.DocumentMapperTest.testOptionalSerializedIfSet(DocumentMapperTest.java:292)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[ERROR] io.crnk.core.engine.internal.document.mapper.lookup.relationid.MissingRelatedResourceTest.testOptionalNotSerializedIfEmpty -- Time elapsed: 0.007 s <<< FAILURE!
+java.lang.AssertionError
+	at io.crnk.core.engine.internal.document.mapper.DocumentMapperTest.testOptionalNotSerializedIfEmpty(DocumentMapperTest.java:278)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.relationid.MultiValuedRelationIdLookupTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in io.crnk.core.engine.internal.document.mapper.lookup.relationid.MultiValuedRelationIdLookupTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.relationid.NestedRelationIdLookupTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in io.crnk.core.engine.internal.document.mapper.lookup.relationid.NestedRelationIdLookupTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.relationid.ResourceIdBasedRelationIdLookupTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in io.crnk.core.engine.internal.document.mapper.lookup.relationid.ResourceIdBasedRelationIdLookupTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.relationid.SerializeEagerRelationIdLookupTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.037 s -- in io.crnk.core.engine.internal.document.mapper.lookup.relationid.SerializeEagerRelationIdLookupTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.lookup.relationid.SerializeOnlyIdRelationIdLookupTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in io.crnk.core.engine.internal.document.mapper.lookup.relationid.SerializeOnlyIdRelationIdLookupTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.ObjectLinkDocumentMapperTest
+[ERROR] Tests run: 28, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.233 s <<< FAILURE! -- in io.crnk.core.engine.internal.document.mapper.ObjectLinkDocumentMapperTest
+[ERROR] io.crnk.core.engine.internal.document.mapper.ObjectLinkDocumentMapperTest.testOptionalSerializedIfSet -- Time elapsed: 0.006 s <<< FAILURE!
+java.lang.AssertionError
+	at io.crnk.core.engine.internal.document.mapper.DocumentMapperTest.testOptionalSerializedIfSet(DocumentMapperTest.java:292)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[ERROR] io.crnk.core.engine.internal.document.mapper.ObjectLinkDocumentMapperTest.testOptionalNotSerializedIfEmpty -- Time elapsed: 0.007 s <<< FAILURE!
+java.lang.AssertionError
+	at io.crnk.core.engine.internal.document.mapper.DocumentMapperTest.testOptionalNotSerializedIfEmpty(DocumentMapperTest.java:278)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[INFO] Running io.crnk.core.engine.internal.document.mapper.PerRootPathIncludeBehaviorTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in io.crnk.core.engine.internal.document.mapper.PerRootPathIncludeBehaviorTest
+[INFO] Running io.crnk.core.engine.internal.document.mapper.PerTypeIncludeBehaviorTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in io.crnk.core.engine.internal.document.mapper.PerTypeIncludeBehaviorTest
+[INFO] Running io.crnk.core.engine.internal.exception.ExceptionMapperRegistryTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in io.crnk.core.engine.internal.exception.ExceptionMapperRegistryTest
+[INFO] Running io.crnk.core.engine.internal.exception.ExceptionMapperTypeTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.036 s -- in io.crnk.core.engine.internal.exception.ExceptionMapperTypeTest
+[INFO] Running io.crnk.core.engine.internal.information.DefaultInformationBuilderTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in io.crnk.core.engine.internal.information.DefaultInformationBuilderTest
+[INFO] Running io.crnk.core.engine.internal.information.DefaultResourceRepositoryInformationProviderTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in io.crnk.core.engine.internal.information.DefaultResourceRepositoryInformationProviderTest
+[INFO] Running io.crnk.core.engine.internal.information.EnforceIdNameTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in io.crnk.core.engine.internal.information.EnforceIdNameTest
+[INFO] Running io.crnk.core.engine.internal.information.resource.ResourceFieldImplTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in io.crnk.core.engine.internal.information.resource.ResourceFieldImplTest
+[INFO] Running io.crnk.core.engine.internal.jackson.JacksonResourceFieldInformationProviderNamingTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in io.crnk.core.engine.internal.jackson.JacksonResourceFieldInformationProviderNamingTest
+[INFO] Running io.crnk.core.engine.internal.jackson.LinksInformationSerializerTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in io.crnk.core.engine.internal.jackson.LinksInformationSerializerTest
+[INFO] Running io.crnk.core.engine.internal.repository.RelationshipRepositoryBehaviorTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.033 s -- in io.crnk.core.engine.internal.repository.RelationshipRepositoryBehaviorTest
+[INFO] Running io.crnk.core.engine.internal.repository.RepositoryAdapterUtilsTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 s -- in io.crnk.core.engine.internal.repository.RepositoryAdapterUtilsTest
+[INFO] Running io.crnk.core.engine.internal.resource.InheritanceWithoutSubtypeRepositoryTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.103 s -- in io.crnk.core.engine.internal.resource.InheritanceWithoutSubtypeRepositoryTest
+[INFO] Running io.crnk.core.engine.internal.resource.NestedResourceTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.230 s -- in io.crnk.core.engine.internal.resource.NestedResourceTest
+[INFO] Running io.crnk.core.engine.internal.resource.RawResourceFieldAccessorTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.042 s -- in io.crnk.core.engine.internal.resource.RawResourceFieldAccessorTest
+[INFO] Running io.crnk.core.engine.internal.utils.BeanUtilsTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in io.crnk.core.engine.internal.utils.BeanUtilsTest
+[INFO] Running io.crnk.core.engine.internal.utils.ClassUtilsTest
+[INFO] Tests run: 30, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 s -- in io.crnk.core.engine.internal.utils.ClassUtilsTest
+[INFO] Running io.crnk.core.engine.internal.utils.CompareUtilsTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in io.crnk.core.engine.internal.utils.CompareUtilsTest
+[INFO] Running io.crnk.core.engine.internal.utils.ExceptionUtilsTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in io.crnk.core.engine.internal.utils.ExceptionUtilsTest
+[INFO] Running io.crnk.core.engine.internal.utils.IOUtilsTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.093 s -- in io.crnk.core.engine.internal.utils.IOUtilsTest
+[INFO] Running io.crnk.core.engine.internal.utils.MethodCacheTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s -- in io.crnk.core.engine.internal.utils.MethodCacheTest
+[INFO] Running io.crnk.core.engine.internal.utils.MultivaluedMapTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in io.crnk.core.engine.internal.utils.MultivaluedMapTest
+[INFO] Running io.crnk.core.engine.internal.utils.PreconditionUtilTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in io.crnk.core.engine.internal.utils.PreconditionUtilTest
+[INFO] Running io.crnk.core.engine.internal.utils.PropertyUtilsTest
+[INFO] Tests run: 43, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in io.crnk.core.engine.internal.utils.PropertyUtilsTest
+[INFO] Running io.crnk.core.engine.internal.utils.StringUtilsTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in io.crnk.core.engine.internal.utils.StringUtilsTest
+[INFO] Running io.crnk.core.engine.internal.utils.UrlUtilsTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in io.crnk.core.engine.internal.utils.UrlUtilsTest
+[INFO] Running io.crnk.core.engine.internal.utils.WrappedListTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in io.crnk.core.engine.internal.utils.WrappedListTest
+[INFO] Running io.crnk.core.engine.parser.TypeParserTest
+[INFO] Tests run: 42, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.063 s -- in io.crnk.core.engine.parser.TypeParserTest
+[INFO] Running io.crnk.core.engine.registry.CustomResourceRegistryTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in io.crnk.core.engine.registry.CustomResourceRegistryTest
+[INFO] Running io.crnk.core.engine.registry.DefaultResourceRegistryPartTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in io.crnk.core.engine.registry.DefaultResourceRegistryPartTest
+[INFO] Running io.crnk.core.engine.registry.HierarchicalResourceRegistryPartTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in io.crnk.core.engine.registry.HierarchicalResourceRegistryPartTest
+[INFO] Running io.crnk.core.engine.repository.ResourceRepositoryBaseTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s -- in io.crnk.core.engine.repository.ResourceRepositoryBaseTest
+[INFO] Running io.crnk.core.engine.ResourceFieldAccessTest
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.049 s <<< FAILURE! -- in io.crnk.core.engine.ResourceFieldAccessTest
+[ERROR] io.crnk.core.engine.ResourceFieldAccessTest.testEqualsContract -- Time elapsed: 0.047 s <<< FAILURE!
+java.lang.AssertionError: 
+EqualsVerifier found a problem in class io.crnk.core.engine.information.resource.ResourceFieldAccess.
+-> Significant fields: equals does not use deletable, or it is stateless.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:349)
+	at io.crnk.core.engine.ResourceFieldAccessTest.testEqualsContract(ResourceFieldAccessTest.java:13)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+Caused by: nl.jqno.equalsverifier.internal.exceptions.AssertionException
+	at nl.jqno.equalsverifier.internal.util.Assert.assertTrue(Assert.java:53)
+	at nl.jqno.equalsverifier.internal.checkers.fieldchecks.SignificantFieldCheck.assertFieldShouldHaveBeenUsed(SignificantFieldCheck.java:233)
+	at nl.jqno.equalsverifier.internal.checkers.fieldchecks.SignificantFieldCheck.assertFieldShouldBeIgnored(SignificantFieldCheck.java:155)
+	at nl.jqno.equalsverifier.internal.checkers.fieldchecks.SignificantFieldCheck.execute(SignificantFieldCheck.java:82)
+	at nl.jqno.equalsverifier.internal.checkers.FieldInspector.check(FieldInspector.java:29)
+	at nl.jqno.equalsverifier.internal.checkers.FieldsChecker.check(FieldsChecker.java:80)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verifyWithExamples(SingleTypeEqualsVerifierApi.java:466)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.performVerification(SingleTypeEqualsVerifierApi.java:420)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:347)
+	... 2 more
+
+[INFO] Running io.crnk.core.engine.result.ImmediateResultTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.075 s -- in io.crnk.core.engine.result.ImmediateResultTest
+[INFO] Running io.crnk.core.exception.CrnkExceptionMapperTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in io.crnk.core.exception.CrnkExceptionMapperTest
+[INFO] Running io.crnk.core.exception.TimeoutExceptionMapperTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in io.crnk.core.exception.TimeoutExceptionMapperTest
+[INFO] Running io.crnk.core.module.DecoratorTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.042 s -- in io.crnk.core.module.DecoratorTest
+[INFO] Running io.crnk.core.module.discovery.DefaultServiceDiscoveryFactoryTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in io.crnk.core.module.discovery.DefaultServiceDiscoveryFactoryTest
+[INFO] Running io.crnk.core.module.discovery.EmptyServiceDiscoveryTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in io.crnk.core.module.discovery.EmptyServiceDiscoveryTest
+[INFO] Running io.crnk.core.module.internal.ResourceFilterDirectoryImplTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.049 s -- in io.crnk.core.module.internal.ResourceFilterDirectoryImplTest
+[INFO] Running io.crnk.core.module.ModuleExtensionTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.063 s -- in io.crnk.core.module.ModuleExtensionTest
+[INFO] Running io.crnk.core.module.ModuleRegistryTest
+[INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.173 s -- in io.crnk.core.module.ModuleRegistryTest
+[INFO] Running io.crnk.core.module.SimpleModuleTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in io.crnk.core.module.SimpleModuleTest
+[INFO] Running io.crnk.core.queryspec.FilterOperatorTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in io.crnk.core.queryspec.FilterOperatorTest
+[INFO] Running io.crnk.core.queryspec.FilterSpecTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in io.crnk.core.queryspec.FilterSpecTest
+[INFO] Running io.crnk.core.queryspec.IncludeFieldSpecTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in io.crnk.core.queryspec.IncludeFieldSpecTest
+[INFO] Running io.crnk.core.queryspec.IncludeRelationSpecTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in io.crnk.core.queryspec.IncludeRelationSpecTest
+[INFO] Running io.crnk.core.queryspec.InMemoryEvaluatorTest
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in io.crnk.core.queryspec.InMemoryEvaluatorTest
+[INFO] Running io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapperDeserializerTest
+[INFO] Tests run: 56, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.295 s -- in io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapperDeserializerTest
+[INFO] Running io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapperSerializerTest
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.113 s -- in io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapperSerializerTest
+[INFO] Running io.crnk.core.queryspec.mapper.JsonFilterSpecMapperTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.068 s -- in io.crnk.core.queryspec.mapper.JsonFilterSpecMapperTest
+[INFO] Running io.crnk.core.queryspec.mapper.LegacyQuerySpecUrlMapperDeserializerTest
+[WARNING] Tests run: 51, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.217 s -- in io.crnk.core.queryspec.mapper.LegacyQuerySpecUrlMapperDeserializerTest
+[INFO] Running io.crnk.core.queryspec.mapper.QueryPathResolverTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s -- in io.crnk.core.queryspec.mapper.QueryPathResolverTest
+[INFO] Running io.crnk.core.queryspec.pagingspec.NumberSizePagingBehaviorTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.065 s -- in io.crnk.core.queryspec.pagingspec.NumberSizePagingBehaviorTest
+[INFO] Running io.crnk.core.queryspec.pagingspec.OffsetLimitPagingBehaviorTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in io.crnk.core.queryspec.pagingspec.OffsetLimitPagingBehaviorTest
+[INFO] Running io.crnk.core.queryspec.pagingspec.PagingSpecConversionTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in io.crnk.core.queryspec.pagingspec.PagingSpecConversionTest
+[INFO] Running io.crnk.core.queryspec.pagingspec.PagingSpecUrlBuilderTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s -- in io.crnk.core.queryspec.pagingspec.PagingSpecUrlBuilderTest
+[INFO] Running io.crnk.core.queryspec.PathSpecTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in io.crnk.core.queryspec.PathSpecTest
+[INFO] Running io.crnk.core.queryspec.QuerySpecAdapterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in io.crnk.core.queryspec.QuerySpecAdapterTest
+[INFO] Running io.crnk.core.queryspec.QuerySpecTest
+[ERROR] Tests run: 19, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.115 s <<< FAILURE! -- in io.crnk.core.queryspec.QuerySpecTest
+[ERROR] io.crnk.core.queryspec.QuerySpecTest.testEqualContract -- Time elapsed: 0.016 s <<< FAILURE!
+java.lang.AssertionError: 
+EqualsVerifier found a problem in class io.crnk.core.queryspec.QuerySpec.
+-> Recursive datastructure.
+Add prefab values for one of the following types: List<FilterSpec>, FilterSpec.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:349)
+	at io.crnk.core.queryspec.QuerySpecTest.testEqualContract(QuerySpecTest.java:26)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+Caused by: nl.jqno.equalsverifier.internal.exceptions.RecursionException
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.createTuple(PrefabValues.java:147)
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.realizeCacheFor(PrefabValues.java:140)
+	at nl.jqno.equalsverifier.internal.prefabvalues.factories.FallbackFactory.traverseFields(FallbackFactory.java:88)
+	at nl.jqno.equalsverifier.internal.prefabvalues.factories.FallbackFactory.createValues(FallbackFactory.java:39)
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.createTuple(PrefabValues.java:157)
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.realizeCacheFor(PrefabValues.java:140)
+	at nl.jqno.equalsverifier.internal.prefabvalues.factories.AbstractGenericFactory.determineAndCacheActualTypeTag(AbstractGenericFactory.java:56)
+	at nl.jqno.equalsverifier.internal.prefabvalues.factories.AbstractGenericFactory.determineAndCacheActualTypeTag(AbstractGenericFactory.java:42)
+	at nl.jqno.equalsverifier.internal.prefabvalues.factories.SimpleGenericFactory.createValues(SimpleGenericFactory.java:36)
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.createTuple(PrefabValues.java:153)
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.realizeCacheFor(PrefabValues.java:140)
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.giveTuple(PrefabValues.java:81)
+	at nl.jqno.equalsverifier.internal.prefabvalues.PrefabValues.giveOther(PrefabValues.java:104)
+	at nl.jqno.equalsverifier.internal.reflection.FieldModifier.lambda$changeField$2(FieldModifier.java:97)
+	at nl.jqno.equalsverifier.internal.reflection.FieldModifier.wrappedChange(FieldModifier.java:118)
+	at nl.jqno.equalsverifier.internal.reflection.FieldModifier.lambda$change$3(FieldModifier.java:113)
+	at nl.jqno.equalsverifier.internal.util.Rethrow.lambda$rethrow$1(Rethrow.java:51)
+	at nl.jqno.equalsverifier.internal.util.Rethrow.rethrow(Rethrow.java:34)
+	at nl.jqno.equalsverifier.internal.util.Rethrow.rethrow(Rethrow.java:49)
+	at nl.jqno.equalsverifier.internal.util.Rethrow.rethrow(Rethrow.java:59)
+	at nl.jqno.equalsverifier.internal.reflection.FieldModifier.change(FieldModifier.java:113)
+	at nl.jqno.equalsverifier.internal.reflection.FieldModifier.changeField(FieldModifier.java:100)
+	at nl.jqno.equalsverifier.internal.reflection.InPlaceObjectAccessor.scramble(InPlaceObjectAccessor.java:52)
+	at nl.jqno.equalsverifier.internal.reflection.ClassAccessor.getRedAccessor(ClassAccessor.java:188)
+	at nl.jqno.equalsverifier.internal.reflection.ClassAccessor.getRedObject(ClassAccessor.java:177)
+	at nl.jqno.equalsverifier.internal.util.Configuration.ensureUnequalExamples(Configuration.java:219)
+	at nl.jqno.equalsverifier.internal.util.Configuration.build(Configuration.java:114)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.buildConfig(SingleTypeEqualsVerifierApi.java:424)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.performVerification(SingleTypeEqualsVerifierApi.java:410)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:347)
+	... 2 more
+
+[INFO] Running io.crnk.core.queryspec.RepositoryBackedInMemoryEvaluatorTest
+[INFO] Tests run: 29, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.183 s -- in io.crnk.core.queryspec.RepositoryBackedInMemoryEvaluatorTest
+[INFO] Running io.crnk.core.queryspec.SortSpecTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s -- in io.crnk.core.queryspec.SortSpecTest
+[INFO] Running io.crnk.core.repository.DefaultRelationBehaviorTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.057 s -- in io.crnk.core.repository.DefaultRelationBehaviorTest
+[INFO] Running io.crnk.core.repository.forward.OppositeFowardingRelationshipRepositoryTest
+[WARNING] Tests run: 11, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 0.061 s -- in io.crnk.core.repository.forward.OppositeFowardingRelationshipRepositoryTest
+[INFO] Running io.crnk.core.repository.forward.OwnerFowardingRelationshipRepositoryTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.083 s -- in io.crnk.core.repository.forward.OwnerFowardingRelationshipRepositoryTest
+[INFO] Running io.crnk.core.repository.forward.RelationshipRepositoryBaseTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in io.crnk.core.repository.forward.RelationshipRepositoryBaseTest
+[INFO] Running io.crnk.core.repository.ReadOnlyRelationshipRepositoryBaseTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in io.crnk.core.repository.ReadOnlyRelationshipRepositoryBaseTest
+[INFO] Running io.crnk.core.repository.ReadOnlyResourceRepositoryBaseTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in io.crnk.core.repository.ReadOnlyResourceRepositoryBaseTest
+[INFO] Running io.crnk.core.repository.RelationshipMatcherTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in io.crnk.core.repository.RelationshipMatcherTest
+[INFO] Running io.crnk.core.repository.RelationshipRepositoryV2Test
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in io.crnk.core.repository.RelationshipRepositoryV2Test
+[INFO] Running io.crnk.core.resource.DefaultResourceInformationProviderTest
+[INFO] Tests run: 44, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.105 s -- in io.crnk.core.resource.DefaultResourceInformationProviderTest
+[INFO] Running io.crnk.core.resource.DefaultResourceRepositoryInformationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in io.crnk.core.resource.DefaultResourceRepositoryInformationTest
+[INFO] Running io.crnk.core.resource.field.FieldOrderedComparatorTest
+[ERROR] Tests run: 4, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.018 s <<< FAILURE! -- in io.crnk.core.resource.field.FieldOrderedComparatorTest
+[ERROR] io.crnk.core.resource.field.FieldOrderedComparatorTest.onOneFieldShouldSortCorrectly -- Time elapsed: 0.012 s <<< FAILURE!
+java.lang.AssertionError: 
+
+Expecting actual:
+  [ResourceFieldImpl[, name=b], ResourceFieldImpl[, name=a]]
+to contain sequence:
+  [ResourceFieldImpl[, name=b], ResourceFieldImpl[, name=a]]
+when comparing values using FieldOrderedComparator
+	at io.crnk.core.resource.field.FieldOrderedComparatorTest.onOneFieldShouldSortCorrectly(FieldOrderedComparatorTest.java:53)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[ERROR] io.crnk.core.resource.field.FieldOrderedComparatorTest.onNoOrderShouldPersistInsertionOrder -- Time elapsed: 0.001 s <<< FAILURE!
+java.lang.AssertionError: 
+
+Expecting actual:
+  [ResourceFieldImpl[, name=b], ResourceFieldImpl[, name=a]]
+to contain sequence:
+  [ResourceFieldImpl[, name=b], ResourceFieldImpl[, name=a]]
+when comparing values using FieldOrderedComparator
+	at io.crnk.core.resource.field.FieldOrderedComparatorTest.onNoOrderShouldPersistInsertionOrder(FieldOrderedComparatorTest.java:66)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+
+[INFO] Running io.crnk.core.resource.field.ReflectionFieldAccessorTest
+[INFO] Tests run: 29, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in io.crnk.core.resource.field.ReflectionFieldAccessorTest
+[INFO] Running io.crnk.core.resource.field.ResourceFieldTest
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.141 s <<< FAILURE! -- in io.crnk.core.resource.field.ResourceFieldTest
+[ERROR] io.crnk.core.resource.field.ResourceFieldTest.testResourceIdEqualsContract -- Time elapsed: 0.138 s <<< FAILURE!
+java.lang.AssertionError: 
+EqualsVerifier found a problem in class io.crnk.core.engine.internal.information.resource.ResourceFieldImpl.
+-> Significant fields: equals does not use jsonName, or it is stateless.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:349)
+	at io.crnk.core.resource.field.ResourceFieldTest.testResourceIdEqualsContract(ResourceFieldTest.java:24)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+Caused by: nl.jqno.equalsverifier.internal.exceptions.AssertionException
+	at nl.jqno.equalsverifier.internal.util.Assert.assertTrue(Assert.java:53)
+	at nl.jqno.equalsverifier.internal.checkers.fieldchecks.SignificantFieldCheck.assertFieldShouldHaveBeenUsed(SignificantFieldCheck.java:233)
+	at nl.jqno.equalsverifier.internal.checkers.fieldchecks.SignificantFieldCheck.assertFieldShouldBeIgnored(SignificantFieldCheck.java:155)
+	at nl.jqno.equalsverifier.internal.checkers.fieldchecks.SignificantFieldCheck.execute(SignificantFieldCheck.java:82)
+	at nl.jqno.equalsverifier.internal.checkers.FieldInspector.check(FieldInspector.java:29)
+	at nl.jqno.equalsverifier.internal.checkers.FieldsChecker.check(FieldsChecker.java:80)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verifyWithExamples(SingleTypeEqualsVerifierApi.java:466)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.performVerification(SingleTypeEqualsVerifierApi.java:420)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:347)
+	... 2 more
+
+[INFO] Running io.crnk.core.resource.JsonApiRelationIdInformationProviderTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in io.crnk.core.resource.JsonApiRelationIdInformationProviderTest
+[INFO] Running io.crnk.core.resource.meta.DefaultPagedMetaInformationTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in io.crnk.core.resource.meta.DefaultPagedMetaInformationTest
+[INFO] Running io.crnk.core.resource.paging.next.HasNextBasedPagedLinksInformationTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.055 s -- in io.crnk.core.resource.paging.next.HasNextBasedPagedLinksInformationTest
+[INFO] Running io.crnk.core.resource.paging.total.TotalBasedPagedLinksInformationTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in io.crnk.core.resource.paging.total.TotalBasedPagedLinksInformationTest
+[INFO] Running io.crnk.core.resource.registry.RegistryEntryFacadeTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 s -- in io.crnk.core.resource.registry.RegistryEntryFacadeTest
+[INFO] Running io.crnk.core.resource.registry.ResourceRegistryTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in io.crnk.core.resource.registry.ResourceRegistryTest
+[INFO] Running io.crnk.core.resource.ResourceEqualsContractTest
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.058 s <<< FAILURE! -- in io.crnk.core.resource.ResourceEqualsContractTest
+[ERROR] io.crnk.core.resource.ResourceEqualsContractTest.testResourceEqualsContract -- Time elapsed: 0.033 s <<< FAILURE!
+java.lang.AssertionError: 
+EqualsVerifier found a problem in class io.crnk.core.engine.document.Resource.
+-> Abstract delegation: ObjectNode's equals method delegates to an abstract method:
+ Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object.
+Add prefab values for com.fasterxml.jackson.databind.node.ObjectNode.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:349)
+	at io.crnk.core.resource.ResourceEqualsContractTest.testResourceEqualsContract(ResourceEqualsContractTest.java:18)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+Caused by: nl.jqno.equalsverifier.internal.exceptions.AssertionException
+	at nl.jqno.equalsverifier.internal.util.Assert.fail(Assert.java:76)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.checkAbstractMethods(AbstractDelegationChecker.java:121)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.checkAbstractDelegationInFields(AbstractDelegationChecker.java:68)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.check(AbstractDelegationChecker.java:36)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verifyWithoutExamples(SingleTypeEqualsVerifierApi.java:453)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.performVerification(SingleTypeEqualsVerifierApi.java:419)
+	at nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi.verify(SingleTypeEqualsVerifierApi.java:347)
+	... 2 more
+Caused by: java.lang.AbstractMethodError: Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object.
+	at java.base/java.util.AbstractMap.equals(AbstractMap.java:492)
+	at com.fasterxml.jackson.databind.node.ObjectNode._childrenEqual(ObjectNode.java:1070)
+	at com.fasterxml.jackson.databind.node.ObjectNode.equals(ObjectNode.java:1060)
+	at nl.jqno.equalsverifier.internal.checkers.AbstractDelegationChecker.checkAbstractMethods(AbstractDelegationChecker.java:113)
+	... 7 more
+
+[INFO] Running io.crnk.core.resource.ResourceInformationTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in io.crnk.core.resource.ResourceInformationTest
+[INFO] Running io.crnk.core.resource.ResourceListTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in io.crnk.core.resource.ResourceListTest
+[INFO] Running io.crnk.core.utils.MultivaluedMapTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in io.crnk.core.utils.MultivaluedMapTest
+[INFO] Running io.crnk.core.utils.NullableTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in io.crnk.core.utils.NullableTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   ResourceFieldAccessTest.testEqualsContract:13 EqualsVerifier found a problem in class io.crnk.core.engine.information.resource.ResourceFieldAccess.
+-> Significant fields: equals does not use deletable, or it is stateless.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+[ERROR]   DocumentTest.testDocumentEqualsContract:21 EqualsVerifier found a problem in class io.crnk.core.engine.document.Document.
+-> Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object. Selected method is 'abstract boolean com.fasterxml.jackson.databind.JsonNode.equals(java.lang.Object)'.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+[ERROR]   RelationshipTest.testResourceEqualsContract:18 EqualsVerifier found a problem in class io.crnk.core.engine.document.Relationship.
+-> Abstract delegation: ObjectNode's equals method delegates to an abstract method:
+ Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object. Selected method is 'abstract boolean com.fasterxml.jackson.databind.JsonNode.equals(java.lang.Object)'.
+Add prefab values for com.fasterxml.jackson.databind.node.ObjectNode.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+[ERROR]   ResourceTest.testResourceEqualsContract:11 EqualsVerifier found a problem in class io.crnk.core.engine.document.Resource.
+-> Abstract delegation: ObjectNode's equals method delegates to an abstract method:
+ Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object. Selected method is 'abstract boolean com.fasterxml.jackson.databind.JsonNode.equals(java.lang.Object)'.
+Add prefab values for com.fasterxml.jackson.databind.node.ObjectNode.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+[ERROR]   ResourcePatchControllerTest.mergeNestedAttributeWithDefaultPatchStrategy:544 
+expected: null
+ but was: null
+[ERROR]   ResourcePatchControllerTest.omittedFieldsSettersAreNotCalled:775 
+expected: null
+ but was: null
+[ERROR]   DocumentMapperTest.testOptionalNotSerializedIfEmpty:278
+[ERROR]   DocumentMapperTest.testOptionalSerializedIfSet:292
+[ERROR]   ObjectLinkDocumentMapperTest>DocumentMapperTest.testOptionalNotSerializedIfEmpty:278
+[ERROR]   ObjectLinkDocumentMapperTest>DocumentMapperTest.testOptionalSerializedIfSet:292
+[ERROR]   MissingRelatedResourcePropertyTest>DocumentMapperTest.testOptionalNotSerializedIfEmpty:278
+[ERROR]   MissingRelatedResourcePropertyTest>DocumentMapperTest.testOptionalSerializedIfSet:292
+[ERROR]   MissingRelatedResourceTest>DocumentMapperTest.testOptionalNotSerializedIfEmpty:278
+[ERROR]   MissingRelatedResourceTest>DocumentMapperTest.testOptionalSerializedIfSet:292
+[ERROR]   QuerySpecTest.testEqualContract:26 EqualsVerifier found a problem in class io.crnk.core.queryspec.QuerySpec.
+-> Recursive datastructure.
+Add prefab values for one of the following types: List<FilterSpec>, FilterSpec.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+[ERROR]   ResourceEqualsContractTest.testResourceEqualsContract:18 EqualsVerifier found a problem in class io.crnk.core.engine.document.Resource.
+-> Abstract delegation: ObjectNode's equals method delegates to an abstract method:
+ Receiver class com.fasterxml.jackson.databind.JsonNode$$DynamicSubclass$6bffbc6d$ does not define or inherit an implementation of the resolved method 'boolean equals(java.lang.Object)' of class java.lang.Object.
+Add prefab values for com.fasterxml.jackson.databind.node.ObjectNode.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+[ERROR]   FieldOrderedComparatorTest.onNoOrderShouldPersistInsertionOrder:66 
+Expecting actual:
+  [ResourceFieldImpl[, name=b], ResourceFieldImpl[, name=a]]
+to contain sequence:
+  [ResourceFieldImpl[, name=b], ResourceFieldImpl[, name=a]]
+when comparing values using FieldOrderedComparator
+[ERROR]   FieldOrderedComparatorTest.onOneFieldShouldSortCorrectly:53 
+Expecting actual:
+  [ResourceFieldImpl[, name=b], ResourceFieldImpl[, name=a]]
+to contain sequence:
+  [ResourceFieldImpl[, name=b], ResourceFieldImpl[, name=a]]
+when comparing values using FieldOrderedComparator
+[ERROR]   ResourceFieldTest.testResourceIdEqualsContract:24 EqualsVerifier found a problem in class io.crnk.core.engine.internal.information.resource.ResourceFieldImpl.
+-> Significant fields: equals does not use jsonName, or it is stateless.
+
+For more information, go to: https://www.jqno.nl/equalsverifier/errormessages
+(EqualsVerifier 3.15.2, JDK 17.0.8 on Windows 11)
+[INFO] 
+[ERROR] Tests run: 1239, Failures: 19, Errors: 0, Skipped: 9
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for IO CRNK 4.0:
+[INFO] 
+[INFO] IO CRNK ............................................ SUCCESS [  0.629 s]
+[INFO] crnk-core .......................................... FAILURE [ 26.589 s]
+[INFO] crnk-reactive ...................................... SKIPPED
+[INFO] crnk-test .......................................... SKIPPED
+[INFO] crnk-setup ......................................... SKIPPED
+[INFO] crnk-setup-rs ...................................... SKIPPED
+[INFO] crnk-client ........................................ SKIPPED
+[INFO] crnk-setup-servlet ................................. SKIPPED
+[INFO] crnk-setup-spring .................................. SKIPPED
+[INFO] crnk-meta .......................................... SKIPPED
+[INFO] crnk-home .......................................... SKIPPED
+[INFO] crnk-security ...................................... SKIPPED
+[INFO] crnk-validation .................................... SKIPPED
+[INFO] crnk-data .......................................... SKIPPED
+[INFO] crnk-data-facet .................................... SKIPPED
+[INFO] crnk-data-jpa ...................................... SKIPPED
+[INFO] crnk-format ........................................ SKIPPED
+[INFO] crnk-format-plain-json ............................. SKIPPED
+[INFO] crnk-monitor ....................................... SKIPPED
+[INFO] crnk-monitor-opentracing ........................... SKIPPED
+[INFO] crnk-operations .................................... SKIPPED
+[INFO] crnk-ui ............................................ SKIPPED
+[INFO] crnk-setup-spring-boot2 ............................ SKIPPED
+[INFO] crnk-setup-vertx ................................... SKIPPED
+[INFO] crnk-setup-guice ................................... SKIPPED
+[INFO] crnk-setup-cdi ..................................... SKIPPED
+[INFO] crnk-testkit ....................................... SKIPPED
+[INFO] crnk-data-activity ................................. SKIPPED
+[INFO] crnk-gen ........................................... SKIPPED
+[INFO] crnk-gen-base ...................................... SKIPPED
+[INFO] crnk-gen-typecript ................................. SKIPPED
+[INFO] crnk-client-angular-ngrx ........................... SKIPPED
+[INFO] crnk-gen-asciidoc .................................. SKIPPED
+[INFO] crnk-gen-openapi ................................... SKIPPED
+[INFO] crnk-gen-runtime ................................... SKIPPED
+[INFO] crnk-monitor-brave4 ................................ SKIPPED
+[INFO] crnk-integration-examples .......................... SKIPPED
+[INFO] dropwizard-simple-example .......................... SKIPPED
+[INFO] jersey-example ..................................... SKIPPED
+[INFO] openliberty-microprofile-example ................... SKIPPED
+[INFO] spring-boot-example ................................ SKIPPED
+[INFO] spring-boot-minimal-example ........................ SKIPPED
+[INFO] spring-boot-microservice-example ................... SKIPPED
+[INFO] wildfly-example .................................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  27.645 s
+[INFO] Finished at: 2023-10-30T13:45:03+01:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.1.2:test (default-test) on project crnk-core: There are test failures.
+[ERROR] 
+[ERROR] Please refer to D:\repositorioCCyL_OS\crnk-framework\crnk-core\target\surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :crnk-core

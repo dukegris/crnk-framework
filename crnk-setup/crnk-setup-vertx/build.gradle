@@ -17,9 +17,9 @@ dependencies {
     implementation project(':crnk-core')
     implementation project(':crnk-reactive')
 
-    implementation 'io.projectreactor:reactor-core:3.2.3.RELEASE'
+    implementation 'io.projectreactor:reactor-core:3.6.0'
     implementation 'io.vertx:vertx-rx-java2:3.7.1'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation project(':crnk-core')
@@ -29,9 +29,9 @@ dependencies {
     testImplementation project(':crnk-test')
 
     // RCS unneeded:
-    // testImplementation 'io.projectreactor:reactor-core:3.2.3.RELEASE'
+    // testImplementation 'io.projectreactor:reactor-core:3.6.0'
     // testImplementation 'io.vertx:vertx-rx-java2:3.7.1'
-    // testImplementation 'org.slf4j:slf4j-api:1.7.13'
+    // testImplementation 'org.slf4j:slf4j-api:2.0.9'
 
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 

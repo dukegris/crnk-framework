@@ -1,10 +1,6 @@
 package io.crnk.client.ngrx.gen;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashSet;
-
 import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.module.discovery.EmptyServiceDiscovery;
 import io.crnk.gen.typescript.TSGeneratorConfig;
@@ -13,6 +9,10 @@ import io.crnk.meta.MetaModule;
 import io.crnk.meta.MetaModuleConfig;
 import io.crnk.meta.model.MetaElement;
 import io.crnk.meta.provider.resource.ResourceMetaProvider;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
 
 public class GeneratorExecutor {
 
