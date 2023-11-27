@@ -23,10 +23,19 @@ public class InMemoryIdentityManager {
 
 	private String realm = "myrealm";
 
+	// RCS Problemas con config path set
+	// https://github.com/jetty/jetty.project/issues/2890
+	// Si userStore es nulo crea uno por defecto
+	private UserStore userStore = new UserStore();
+	
 	public InMemoryIdentityManager() {
 		loginService = new HashLoginService();
 		loginService.setName(realm);
-
+		
+		// RCS Problemas con config path set
+		// Si userStore es nulo crea uno por defecto
+		loginService.setUserStore(userStore);
+		
 		securityHandler = new ConstraintSecurityHandler();
 		securityHandler.setAuthenticator(new BasicAuthenticator());
 		securityHandler.setRealmName(realm);
@@ -45,9 +54,13 @@ public class InMemoryIdentityManager {
 	}
 
 	public void addUser(String userId, String password, String... roles) {
-		UserStore userStore = new UserStore();
+		// RCS Problemas con config path set
+		// Si userStore es nulo crea uno por defecto
+		// UserStore userStore = new UserStore();
 		userStore.addUser(userId, Credential.getCredential(password), roles);
-		loginService.setUserStore(userStore);
+		
+		// RCS Problemas con config path set
+		// loginService.setUserStore(userStore);
 	}
 
 	public void clear() {

@@ -59,6 +59,7 @@ public class ApprovalManagerTest {
 		// RCS Devolver la registryEntry a través del módulo tambien para null
 		// Since Mockito 2.1.0, only allow non-null instance of 
 		Mockito.when(resourceRegistry.getEntry(Mockito.nullable(String.class))).thenReturn(registryEntry);
+		
 		ModuleRegistry moduleRegistry = Mockito.mock(ModuleRegistry.class);
 		Mockito.when(moduleRegistry.getResourceRegistry()).thenReturn(resourceRegistry);
 
@@ -102,7 +103,11 @@ public class ApprovalManagerTest {
 		processVariable.put("resourceType", "schedule");
 		processVariable.put("newValues.name", "John");
 		processVariable.put("previousValues.name", "Jane");
-		Mockito.when(runtimeService.getVariables(Mockito.anyString())).thenReturn(processVariable);
+
+		// RCS Devolver getVariables tambien para null
+		// Since Mockito 2.1.0, only allow non-null instance of 
+		// Mockito.when(runtimeService.getVariables(Mockito.anyString())).thenReturn(processVariable);
+		Mockito.when(runtimeService.getVariables(Mockito.nullable(String.class))).thenReturn(processVariable);
 
 		Execution execution = Mockito.mock(Execution.class);
 		manager.approved(execution);
