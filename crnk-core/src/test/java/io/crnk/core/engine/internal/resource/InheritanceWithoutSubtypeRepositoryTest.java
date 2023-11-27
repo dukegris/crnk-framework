@@ -27,9 +27,9 @@ import io.crnk.core.resource.annotations.LookupIncludeBehavior;
 import io.crnk.core.resource.annotations.RelationshipRepositoryBehavior;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class InheritanceWithoutSubtypeRepositoryTest extends ControllerTestBase 
 
 	private RelationshipRepository relationshipRepository = new RelationshipRepository();
 
-	@Before
+	@BeforeEach
 	public void before() {
 		repository.clear();
 		relatedRepository.clear();
@@ -70,20 +70,20 @@ public class InheritanceWithoutSubtypeRepositoryTest extends ControllerTestBase 
 		RegistryEntry entryA = resourceRegistry.getEntry(TestResourceA.class);
 		RegistryEntry entryB = resourceRegistry.getEntry(TestResourceB.class);
 
-		Assert.assertNotNull(entryA);
-		Assert.assertNotNull(entryB);
-		Assert.assertNotEquals(entryA, entryB);
+		Assertions.assertNotNull(entryA);
+		Assertions.assertNotNull(entryB);
+		Assertions.assertNotEquals(entryA, entryB);
 
-		Assert.assertNull(entryB.getRepositoryInformation());
-		Assert.assertFalse(entryB.hasResourceRepository());
-		Assert.assertTrue(entryA.hasResourceRepository());
+		Assertions.assertNull(entryB.getRepositoryInformation());
+		Assertions.assertFalse(entryB.hasResourceRepository());
+		Assertions.assertTrue(entryA.hasResourceRepository());
 
 		ResourceInformation resourceInformationB = entryB.getResourceInformation();
-		Assert.assertEquals("testB", resourceInformationB.getResourceType());
-		Assert.assertEquals("testA", resourceInformationB.getResourcePath());
+		Assertions.assertEquals("testB", resourceInformationB.getResourceType());
+		Assertions.assertEquals("testA", resourceInformationB.getResourcePath());
 
 		RelationshipRepositoryAdapter relatedAdapter = entryB.getRelationshipRepository("related");
-		Assert.assertNotNull(relatedAdapter);
+		Assertions.assertNotNull(relatedAdapter);
 	}
 
 
@@ -94,22 +94,22 @@ public class InheritanceWithoutSubtypeRepositoryTest extends ControllerTestBase 
 		RegistryEntry entryC1 = resourceRegistry.getEntry(NestedTestResourceC1.class);
 		RegistryEntry entryC2 = resourceRegistry.getEntry(NestedTestResourceC2.class);
 
-		Assert.assertNotNull(entryC1);
-		Assert.assertNotNull(entryC2);
-		Assert.assertNotEquals(entryA, entryC1);
-		Assert.assertNotEquals(entryB, entryC1);
-		Assert.assertNotEquals(entryA, entryC2);
-		Assert.assertNotEquals(entryB, entryC2);
-		Assert.assertNotEquals(entryC2, entryC1);
+		Assertions.assertNotNull(entryC1);
+		Assertions.assertNotNull(entryC2);
+		Assertions.assertNotEquals(entryA, entryC1);
+		Assertions.assertNotEquals(entryB, entryC1);
+		Assertions.assertNotEquals(entryA, entryC2);
+		Assertions.assertNotEquals(entryB, entryC2);
+		Assertions.assertNotEquals(entryC2, entryC1);
 
-		Assert.assertNull(entryC1.getRepositoryInformation());
-		Assert.assertNull(entryC2.getRepositoryInformation());
-		Assert.assertFalse(entryC1.hasResourceRepository());
-		Assert.assertFalse(entryC2.hasResourceRepository());
+		Assertions.assertNull(entryC1.getRepositoryInformation());
+		Assertions.assertNull(entryC2.getRepositoryInformation());
+		Assertions.assertFalse(entryC1.hasResourceRepository());
+		Assertions.assertFalse(entryC2.hasResourceRepository());
 
 		ResourceInformation resourceInformationC1 = entryC1.getResourceInformation();
-		Assert.assertEquals("testC1", resourceInformationC1.getResourceType());
-		Assert.assertEquals("testA", resourceInformationC1.getResourcePath());
+		Assertions.assertEquals("testC1", resourceInformationC1.getResourceType());
+		Assertions.assertEquals("testA", resourceInformationC1.getResourcePath());
 	}
 
 
@@ -129,10 +129,10 @@ public class InheritanceWithoutSubtypeRepositoryTest extends ControllerTestBase 
 		QuerySpecAdapter queryAdapter = container.toQueryAdapter(new QuerySpec(TestResourceB.class));
 		Controller postController = boot.getControllerRegistry().getController(path, HttpMethod.POST.toString());
 		Response response = postController.handleAsync(path, queryAdapter, document).get();
-		Assert.assertEquals(HttpStatus.CREATED_201, response.getHttpStatus().intValue());
+		Assertions.assertEquals(HttpStatus.CREATED_201, response.getHttpStatus().intValue());
 
 		Resource createdResource = response.getDocument().getSingleData().get();
-		Assert.assertEquals("http://127.0.0.1/testA/b", createdResource.getLinks().get("self").asText());
+		Assertions.assertEquals("http://127.0.0.1/testA/b", createdResource.getLinks().get("self").asText());
 
 		// PATCH resource
 		document.setData(Nullable.of(createdResource));
@@ -140,51 +140,51 @@ public class InheritanceWithoutSubtypeRepositoryTest extends ControllerTestBase 
 		createdResource.setAttribute("value", toJson("valueB"));
 		Controller patchController = boot.getControllerRegistry().getController(path, HttpMethod.PATCH.toString());
 		response = patchController.handleAsync(path, queryAdapter, document).get();
-		Assert.assertEquals(HttpStatus.OK_200, response.getHttpStatus().intValue());
+		Assertions.assertEquals(HttpStatus.OK_200, response.getHttpStatus().intValue());
 
 		// GET resource
 		createdResource.setAttribute("value", toJson("valueB"));
 		Controller getController = boot.getControllerRegistry().getController(path, HttpMethod.GET.toString());
 		response = getController.handleAsync(path, queryAdapter, null).get();
-		Assert.assertEquals(HttpStatus.OK_200, response.getHttpStatus().intValue());
+		Assertions.assertEquals(HttpStatus.OK_200, response.getHttpStatus().intValue());
 		Resource getResource = response.getDocument().getSingleData().get();
-		Assert.assertEquals("http://127.0.0.1/testA/b", getResource.getLinks().get("self").asText());
+		Assertions.assertEquals("http://127.0.0.1/testA/b", getResource.getLinks().get("self").asText());
 
 		// GET with inclusion with id
 		QuerySpec includedQuerySpec = new QuerySpec(TestResourceB.class);
 		includedQuerySpec.includeRelation(Arrays.asList("related"));
 		QuerySpecAdapter includedQueryAdapter = container.toQueryAdapter(includedQuerySpec);
 		response = getController.handleAsync(path, includedQueryAdapter, null).get();
-		Assert.assertEquals(HttpStatus.OK_200, response.getHttpStatus().intValue());
+		Assertions.assertEquals(HttpStatus.OK_200, response.getHttpStatus().intValue());
 		getResource = response.getDocument().getSingleData().get();
-		Assert.assertEquals("http://127.0.0.1/testA/b", getResource.getLinks().get("self").asText());
+		Assertions.assertEquals("http://127.0.0.1/testA/b", getResource.getLinks().get("self").asText());
 		List<Resource> included = response.getDocument().getIncluded();
-		Assert.assertEquals(1, included.size());
+		Assertions.assertEquals(1, included.size());
 		Resource includedResource = included.get(0);
-		Assert.assertEquals("related0", includedResource.getId());
+		Assertions.assertEquals("related0", includedResource.getId());
 
 		// GET with inclusion with repository
 		includedQuerySpec = new QuerySpec(TestResourceB.class);
 		includedQuerySpec.includeRelation(Arrays.asList("relatedWithRepository"));
 		includedQueryAdapter = container.toQueryAdapter(includedQuerySpec);
 		response = getController.handleAsync(path, includedQueryAdapter, null).get();
-		Assert.assertEquals(HttpStatus.OK_200, response.getHttpStatus().intValue());
+		Assertions.assertEquals(HttpStatus.OK_200, response.getHttpStatus().intValue());
 		getResource = response.getDocument().getSingleData().get();
-		Assert.assertEquals("http://127.0.0.1/testA/b", getResource.getLinks().get("self").asText());
+		Assertions.assertEquals("http://127.0.0.1/testA/b", getResource.getLinks().get("self").asText());
 		included = response.getDocument().getIncluded();
-		Assert.assertEquals(1, included.size());
+		Assertions.assertEquals(1, included.size());
 		includedResource = included.get(0);
-		Assert.assertEquals("related1", includedResource.getId());
+		Assertions.assertEquals("related1", includedResource.getId());
 
 		// DELETE resource
-		Assert.assertNotNull(repository.findOne("b", new QuerySpec(TestResourceA.class)));
+		Assertions.assertNotNull(repository.findOne("b", new QuerySpec(TestResourceA.class)));
 		createdResource.setAttribute("value", toJson("valueB"));
 		Controller deleteController = boot.getControllerRegistry().getController(path, HttpMethod.DELETE.toString());
 		response = deleteController.handleAsync(path, queryAdapter, null).get();
-		Assert.assertEquals(HttpStatus.NO_CONTENT_204, response.getHttpStatus().intValue());
+		Assertions.assertEquals(HttpStatus.NO_CONTENT_204, response.getHttpStatus().intValue());
 		try {
 			repository.findOne("b", new QuerySpec(TestResourceA.class));
-			Assert.fail();
+			Assertions.fail();
 		} catch (ResourceNotFoundException e) {
 			// ok
 		}

@@ -1,7 +1,7 @@
 package io.crnk.servlet.reactive;
 
 import io.crnk.servlet.internal.AsyncAdapter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 

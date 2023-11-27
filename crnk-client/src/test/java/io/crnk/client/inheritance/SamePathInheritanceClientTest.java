@@ -11,8 +11,8 @@ import io.crnk.client.inheritance.resources.related.RelatedResourceA;
 import io.crnk.client.inheritance.resources.related.RelatedResourceAsub1;
 import io.crnk.core.module.SimpleModule;
 import io.crnk.core.queryspec.QuerySpec;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Examples makes use of Inheritance of resources that share a common resource path. Make sure it correctly handles
@@ -41,7 +41,7 @@ public class SamePathInheritanceClientTest extends AbstractClientTest {
 		QuerySpec querySpec = new QuerySpec(RelatedResourceA.class);
 		RelatedResourceA resource = client.getRepositoryForType(RelatedResourceA.class).findOne(1L, querySpec);
 		RelatedResourceAsub1 subResource = (RelatedResourceAsub1) resource;
-		Assert.assertEquals(1, subResource.getRelatedResourceBS().size());
+		Assertions.assertEquals(1, subResource.getRelatedResourceBS().size());
 	}
 
 	@Test

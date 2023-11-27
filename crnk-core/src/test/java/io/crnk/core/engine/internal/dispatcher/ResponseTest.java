@@ -4,8 +4,8 @@ import io.crnk.core.engine.dispatcher.Response;
 import io.crnk.core.engine.document.Document;
 import io.crnk.core.engine.document.Resource;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ResponseTest {
 
@@ -19,13 +19,13 @@ public class ResponseTest {
 		Response c2 = new Response(r2, 202);
 		Response c3 = new Response(r1, 202);
 
-		Assert.assertEquals(c1.hashCode(), c1copy.hashCode());
-		Assert.assertTrue(c1.equals(c1));
-		Assert.assertTrue(c1.equals(c1copy));
-		Assert.assertFalse(c1.equals(c2));
-		Assert.assertFalse(c1.equals(c3));
-		Assert.assertFalse(c2.equals(c3));
-		Assert.assertFalse(c2.equals("otherType"));
+		Assertions.assertEquals(c1.hashCode(), c1copy.hashCode());
+		Assertions.assertTrue(c1.equals(c1));
+		Assertions.assertTrue(c1.equals(c1copy));
+		Assertions.assertFalse(c1.equals(c2));
+		Assertions.assertFalse(c1.equals(c3));
+		Assertions.assertFalse(c2.equals(c3));
+		Assertions.assertFalse(c2.equals("otherType"));
 	}
 
 
@@ -35,10 +35,10 @@ public class ResponseTest {
 		Response response = new Response(document, 201);
 
 		response.setDocument(document);
-		Assert.assertSame(document, response.getDocument());
+		Assertions.assertSame(document, response.getDocument());
 
 		response.setHttpStatus(23);
-		Assert.assertSame(23, response.getHttpStatus());
+		Assertions.assertSame(23, response.getHttpStatus());
 
 	}
 }

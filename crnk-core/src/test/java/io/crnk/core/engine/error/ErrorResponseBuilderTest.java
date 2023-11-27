@@ -1,7 +1,7 @@
 package io.crnk.core.engine.error;
 
 import io.crnk.core.engine.document.ErrorData;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

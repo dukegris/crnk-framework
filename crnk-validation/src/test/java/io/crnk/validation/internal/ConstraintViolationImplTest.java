@@ -11,9 +11,9 @@ import io.crnk.validation.mock.models.Task;
 import io.crnk.validation.mock.repository.ProjectRepository;
 import io.crnk.validation.mock.repository.ScheduleRepository;
 import io.crnk.validation.mock.repository.TaskRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.validation.ElementKind;
@@ -30,7 +30,7 @@ public class ConstraintViolationImplTest {
     private ConstraintViolationImpl violation;
     private QueryContext queryContext = new QueryContext().setRequestVersion(0);
 
-    @Before
+    @BeforeEach
     public void setup() {
         SimpleModule testModule = new SimpleModule("test");
         testModule.addRepository(new ProjectRepository());
@@ -55,76 +55,86 @@ public class ConstraintViolationImplTest {
 
     @Test
     public void testDetailMappedToMessage() {
-        Assert.assertEquals(errorData.getDetail(), violation.getMessage());
-        Assert.assertNotNull(errorData.getDetail());
+        Assertions.assertEquals(errorData.getDetail(), violation.getMessage());
+        Assertions.assertNotNull(errorData.getDetail());
     }
 
     @Test
     public void path() {
         Path path = violation.getPropertyPath();
-        Assert.assertEquals("name", path.toString());
-        Assert.assertEquals(path.toString().hashCode(), path.hashCode());
+        Assertions.assertEquals("name", path.toString());
+        Assertions.assertEquals(path.toString().hashCode(), path.hashCode());
 
-        Assert.assertNotEquals(path, null);
-        Assert.assertNotEquals(path, "not a path");
-        Assert.assertEquals(path, path);
+        Assertions.assertNotEquals(path, null);
+        Assertions.assertNotEquals(path, "not a path");
+        Assertions.assertEquals(path, path);
 
         Iterator<Path.Node> iterator = path.iterator();
-        Assert.assertTrue(iterator.hasNext());
+        Assertions.assertTrue(iterator.hasNext());
         Path.Node node = iterator.next();
-        Assert.assertEquals("name", node.getName());
-        Assert.assertEquals("name", node.toString());
-        Assert.assertEquals(null, node.getKey());
-        Assert.assertEquals(ElementKind.PROPERTY, node.getKind());
+        Assertions.assertEquals("name", node.getName());
+        Assertions.assertEquals("name", node.toString());
+        Assertions.assertEquals(null, node.getKey());
+        Assertions.assertEquals(ElementKind.PROPERTY, node.getKind());
         try {
             node.isInIterable();
-            Assert.fail();
+            Assertions.fail();
         } catch (UnsupportedOperationException e) {
             //
         }
         try {
             node.as((Class) String.class);
-            Assert.fail();
+            Assertions.fail();
         } catch (UnsupportedOperationException e) {
             //
         }
-        Assert.assertFalse(iterator.hasNext());
+        Assertions.assertFalse(iterator.hasNext());
     }
 
     @Test
     public void getRootBeanClass() {
-        Assert.assertEquals(Task.class, violation.getRootBeanClass());
+        Assertions.assertEquals(Task.class, violation.getRootBeanClass());
     }
 
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void getRootBean() {
+    	Assertions.assertThrows(UnsupportedOperationException.class, () -> {
         violation.getRootBean();
+    	});
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void getLeafBean() {
+    	Assertions.assertThrows(UnsupportedOperationException.class, () -> {
         violation.getLeafBean();
+    	});
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void getInvalidValue() {
+    	Assertions.assertThrows(UnsupportedOperationException.class, () -> {
         violation.getInvalidValue();
+    	});
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void getExecutableParameters() {
+    	Assertions.assertThrows(UnsupportedOperationException.class, () -> {
         violation.getExecutableParameters();
+    	});
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void getExecutableReturnValue() {
+    	Assertions.assertThrows(UnsupportedOperationException.class, () -> {
         violation.getExecutableReturnValue();
+    	});
     }
 
     @Test
     public void unwrap() {
-        Assert.assertNull(violation.unwrap(String.class));
+        Assertions.assertNull(violation.unwrap(String.class));
     }
 
     @Test
@@ -133,9 +143,11 @@ public class ConstraintViolationImplTest {
         Mockito.verify(errorData, Mockito.times(1)).getDetail();
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void getConstraintDescriptor() {
+    	Assertions.assertThrows(UnsupportedOperationException.class, () -> {
         violation.getConstraintDescriptor();
+    	});
     }
 
 }

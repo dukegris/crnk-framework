@@ -2,8 +2,8 @@ package io.crnk.meta;
 
 import io.crnk.meta.internal.MetaUtils;
 import io.crnk.test.mock.ClassTestUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class MetaUtilsTest {
 
@@ -14,8 +14,8 @@ public class MetaUtilsTest {
 
 	@Test
 	public void testFirstToLower() {
-		Assert.assertEquals("test", MetaUtils.firstToLower("test"));
-		Assert.assertEquals("test", MetaUtils.firstToLower("Test"));
-		Assert.assertEquals("", MetaUtils.firstToLower(""));
+		Assertions.assertEquals("test", MetaUtils.firstToLower("test"));
+		Assertions.assertEquals("test", MetaUtils.firstToLower("Test"));
+		Assertions.assertEquals("", MetaUtils.firstToLower(""));
 	}
 }

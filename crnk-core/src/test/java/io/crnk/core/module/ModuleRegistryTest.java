@@ -68,9 +68,9 @@ import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.core.utils.Prioritizable;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -89,7 +89,7 @@ public class ModuleRegistryTest {
 
     private ServiceDiscovery serviceDiscovery = Mockito.mock(ServiceDiscovery.class);
 
-    @Before
+    @BeforeEach
     public void setup() {
         moduleRegistry = new ModuleRegistry();
         moduleRegistry.getHttpRequestContextProvider().setServiceUrlProvider(new ConstantServiceUrlProvider("http://localhost"));
@@ -106,7 +106,7 @@ public class ModuleRegistryTest {
         moduleRegistry.addModule(new ResourceInformationProviderModule());
         moduleRegistry.init(new ObjectMapper());
 
-        Assert.assertEquals(resourceRegistry, moduleRegistry.getResourceRegistry());
+        Assertions.assertEquals(resourceRegistry, moduleRegistry.getResourceRegistry());
     }
 
     interface PrioDocumentFilter extends DocumentFilter, Prioritizable {
@@ -115,7 +115,7 @@ public class ModuleRegistryTest {
 
     @Test
     public void checkAddingPagingBehavior() {
-        Assert.assertEquals(1, moduleRegistry.getPagingBehaviors().size());
+        Assertions.assertEquals(1, moduleRegistry.getPagingBehaviors().size());
     }
 
     @Test
@@ -134,8 +134,8 @@ public class ModuleRegistryTest {
         moduleRegistry.init(new ObjectMapper());
 
         List<DocumentFilter> filters = moduleRegistry.getFilters();
-        Assert.assertSame(filter2, filters.get(0));
-        Assert.assertSame(filter1, filters.get(1));
+        Assertions.assertSame(filter2, filters.get(0));
+        Assertions.assertSame(filter1, filters.get(1));
     }
 
 
@@ -160,8 +160,8 @@ public class ModuleRegistryTest {
         moduleRegistry.init(new ObjectMapper());
 
         List<ResourceModificationFilter> filters = moduleRegistry.getResourceModificationFilters();
-        Assert.assertSame(filter2, filters.get(0));
-        Assert.assertSame(filter1, filters.get(1));
+        Assertions.assertSame(filter2, filters.get(0));
+        Assertions.assertSame(filter1, filters.get(1));
     }
 
     @Test
@@ -171,7 +171,7 @@ public class ModuleRegistryTest {
         moduleRegistry.setResourceRegistry(new ResourceRegistryImpl(new DefaultResourceRegistryPart(), moduleRegistry));
         moduleRegistry.addModule(module);
         moduleRegistry.init(new ObjectMapper());
-        Assert.assertEquals(moduleRegistry.getResourceInformationBuilder().getResourcePath(TestResource2.class), null);
+        Assertions.assertEquals(moduleRegistry.getResourceInformationBuilder().getResourcePath(TestResource2.class), null);
     }
 
     interface PrioRepositoryFilter extends RepositoryFilter, Prioritizable {
@@ -195,49 +195,53 @@ public class ModuleRegistryTest {
         moduleRegistry.init(new ObjectMapper());
 
         List<RepositoryFilter> filters = moduleRegistry.getRepositoryFilters();
-        Assert.assertSame(filter2, filters.get(0));
-        Assert.assertSame(filter1, filters.get(1));
+        Assertions.assertSame(filter2, filters.get(0));
+        Assertions.assertSame(filter1, filters.get(1));
     }
 
 
     @Test
     public void getModules() {
-        Assert.assertEquals(4, moduleRegistry.getModules().size());
+        Assertions.assertEquals(4, moduleRegistry.getModules().size());
     }
 
     @Test
     public void testGetServiceDiscovery() {
-        Assert.assertEquals(serviceDiscovery, moduleRegistry.getServiceDiscovery());
-        Assert.assertEquals(serviceDiscovery, testModule.context.getServiceDiscovery());
+        Assertions.assertEquals(serviceDiscovery, moduleRegistry.getServiceDiscovery());
+        Assertions.assertEquals(serviceDiscovery, testModule.context.getServiceDiscovery());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void invalidRepository() {
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
         moduleRegistry.getRepositoryInformationBuilder().build("no resource", null);
+		});
     }
 
     @Test
     public void getModuleContext() {
-        Assert.assertNotNull(moduleRegistry.getContext());
-        Assert.assertNotNull(moduleRegistry.getContext().getObjectMapper());
+        Assertions.assertNotNull(moduleRegistry.getContext());
+        Assertions.assertNotNull(moduleRegistry.getContext().getObjectMapper());
     }
 
     @Test
     public void repositoryInformationBuilderAccept() {
         RepositoryInformationProvider builder = moduleRegistry.getRepositoryInformationBuilder();
-        Assert.assertFalse(builder.accept("no resource"));
-        Assert.assertFalse(builder.accept(String.class));
-        Assert.assertTrue(builder.accept(TaskRepository.class));
-        Assert.assertTrue(builder.accept(ProjectRepository.class));
-        Assert.assertTrue(builder.accept(TaskToProjectRepository.class));
-        Assert.assertTrue(builder.accept(new TaskRepository()));
-        Assert.assertTrue(builder.accept(new TaskToProjectRepository()));
+        Assertions.assertFalse(builder.accept("no resource"));
+        Assertions.assertFalse(builder.accept(String.class));
+        Assertions.assertTrue(builder.accept(TaskRepository.class));
+        Assertions.assertTrue(builder.accept(ProjectRepository.class));
+        Assertions.assertTrue(builder.accept(TaskToProjectRepository.class));
+        Assertions.assertTrue(builder.accept(new TaskRepository()));
+        Assertions.assertTrue(builder.accept(new TaskToProjectRepository()));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void buildWithInvalidRepositoryClass() {
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
         RepositoryInformationProviderContext context = Mockito.mock(RepositoryInformationProviderContext.class);
         moduleRegistry.getRepositoryInformationBuilder().build(String.class, context);
+		});
     }
 
     @Test
@@ -246,8 +250,8 @@ public class ModuleRegistryTest {
 
         ResourceRepositoryInformation info =
                 (ResourceRepositoryInformation) builder.build(TaskRepository.class, newRepositoryInformationBuilderContext());
-        Assert.assertEquals(Task.class, info.getResourceInformation().get().getResourceClass());
-        Assert.assertEquals("tasks", info.getPath());
+        Assertions.assertEquals(Task.class, info.getResourceInformation().get().getResourceClass());
+        Assertions.assertEquals("tasks", info.getPath());
     }
 
     @Test
@@ -256,8 +260,8 @@ public class ModuleRegistryTest {
 
         ResourceRepositoryInformation info =
                 (ResourceRepositoryInformation) builder.build(new TaskRepository(), newRepositoryInformationBuilderContext());
-        Assert.assertEquals(Task.class, info.getResourceInformation().get().getResourceClass());
-        Assert.assertEquals("tasks", info.getPath());
+        Assertions.assertEquals(Task.class, info.getResourceInformation().get().getResourceClass());
+        Assertions.assertEquals("tasks", info.getPath());
     }
 
     private RepositoryInformationProviderContext newRepositoryInformationBuilderContext() {
@@ -280,23 +284,27 @@ public class ModuleRegistryTest {
         };
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testNotInitialized() {
+		Assertions.assertThrows(IllegalStateException.class, () -> {
         moduleRegistry = new ModuleRegistry();
         moduleRegistry.getResourceRegistry();
+		});
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testDuplicateInitialization() {
+		Assertions.assertThrows(IllegalStateException.class, () -> {
         ObjectMapper objectMapper = new ObjectMapper();
         moduleRegistry.init(objectMapper);
+		});
     }
 
     @Test
     public void checkGetModule() {
         Module notRegisteredModule = Mockito.mock(Module.class);
-        Assert.assertNotNull(moduleRegistry.getModule(TestModule.class).get());
-        Assert.assertFalse(moduleRegistry.getModule(notRegisteredModule.getClass()).isPresent());
+        Assertions.assertNotNull(moduleRegistry.getModule(TestModule.class).get());
+        Assertions.assertFalse(moduleRegistry.getModule(notRegisteredModule.getClass()).isPresent());
     }
 
 
@@ -308,29 +316,32 @@ public class ModuleRegistryTest {
         for (ExceptionMapper exceptionMapper : exceptionMappers) {
             classes.add(exceptionMapper.getClass());
         }
-        Assert.assertTrue(classes.contains(IllegalStateExceptionMapper.class));
-        Assert.assertTrue(classes.contains(SomeIllegalStateExceptionMapper.class));
+        Assertions.assertTrue(classes.contains(IllegalStateExceptionMapper.class));
+        Assertions.assertTrue(classes.contains(SomeIllegalStateExceptionMapper.class));
     }
 
     @Test
     public void testInitCalled() {
-        Assert.assertTrue(testModule.initialized);
+        Assertions.assertTrue(testModule.initialized);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testModuleChangeAfterAddModule() {
+		Assertions.assertThrows(IllegalStateException.class, () -> {
         SimpleModule module = new SimpleModule("test2");
         moduleRegistry.addModule(module);
         module.addFilter(new TestFilter());
+		});
     }
 
     @Test
     public void testGetResourceRegistry() {
-        Assert.assertSame(resourceRegistry, testModule.getContext().getResourceRegistry());
+        Assertions.assertSame(resourceRegistry, testModule.getContext().getResourceRegistry());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testNoResourceRegistryBeforeInitialization() {
+		Assertions.assertThrows(IllegalStateException.class, () -> {
         ModuleRegistry registry = new ModuleRegistry();
         registry.addModule(new SimpleModule("test") {
 
@@ -339,109 +350,110 @@ public class ModuleRegistryTest {
                 context.getResourceRegistry(); // fail
             }
         });
+		});
     }
 
     @Test
     public void testInformationBuilder() {
         ResourceInformationProvider informationProvider = moduleRegistry.getResourceInformationBuilder();
 
-        Assert.assertTrue(informationProvider.accept(ComplexPojo.class));
-        Assert.assertTrue(informationProvider.accept(Document.class));
-        Assert.assertTrue(informationProvider.accept(FancyProject.class));
-        Assert.assertTrue(informationProvider.accept(Project.class));
-        Assert.assertTrue(informationProvider.accept(Task.class));
-        Assert.assertTrue(informationProvider.accept(Thing.class));
-        Assert.assertTrue(informationProvider.accept(User.class));
-        Assert.assertTrue(informationProvider.accept(TestResource.class));
+        Assertions.assertTrue(informationProvider.accept(ComplexPojo.class));
+        Assertions.assertTrue(informationProvider.accept(Document.class));
+        Assertions.assertTrue(informationProvider.accept(FancyProject.class));
+        Assertions.assertTrue(informationProvider.accept(Project.class));
+        Assertions.assertTrue(informationProvider.accept(Task.class));
+        Assertions.assertTrue(informationProvider.accept(Thing.class));
+        Assertions.assertTrue(informationProvider.accept(User.class));
+        Assertions.assertTrue(informationProvider.accept(TestResource.class));
 
-        Assert.assertFalse(informationProvider.accept(TestRepository.class));
-        Assert.assertFalse(informationProvider.accept(DocumentRepository.class));
-        Assert.assertFalse(informationProvider.accept(PojoRepository.class));
-        Assert.assertFalse(informationProvider.accept(ProjectRepository.class));
-        Assert.assertFalse(informationProvider.accept(ResourceWithoutRepositoryToProjectRepository.class));
-        Assert.assertFalse(informationProvider.accept(TaskToProjectRepository.class));
-        Assert.assertFalse(informationProvider.accept(TaskWithLookupRepository.class));
-        Assert.assertFalse(informationProvider.accept(UserRepository.class));
-        Assert.assertFalse(informationProvider.accept(UserToProjectRepository.class));
+        Assertions.assertFalse(informationProvider.accept(TestRepository.class));
+        Assertions.assertFalse(informationProvider.accept(DocumentRepository.class));
+        Assertions.assertFalse(informationProvider.accept(PojoRepository.class));
+        Assertions.assertFalse(informationProvider.accept(ProjectRepository.class));
+        Assertions.assertFalse(informationProvider.accept(ResourceWithoutRepositoryToProjectRepository.class));
+        Assertions.assertFalse(informationProvider.accept(TaskToProjectRepository.class));
+        Assertions.assertFalse(informationProvider.accept(TaskWithLookupRepository.class));
+        Assertions.assertFalse(informationProvider.accept(UserRepository.class));
+        Assertions.assertFalse(informationProvider.accept(UserToProjectRepository.class));
 
-        Assert.assertFalse(informationProvider.accept(Object.class));
-        Assert.assertFalse(informationProvider.accept(String.class));
+        Assertions.assertFalse(informationProvider.accept(Object.class));
+        Assertions.assertFalse(informationProvider.accept(String.class));
 
         try {
             informationProvider.build(Object.class);
-            Assert.fail();
+            Assertions.fail();
         } catch (UnsupportedOperationException e) {
             // ok
         }
 
         ResourceInformation userInfo = informationProvider.build(User.class);
-        Assert.assertEquals("loginId", userInfo.getIdField().getUnderlyingName());
+        Assertions.assertEquals("loginId", userInfo.getIdField().getUnderlyingName());
 
         ResourceInformation testInfo = informationProvider.build(TestResource.class);
-        Assert.assertEquals("id", testInfo.getIdField().getUnderlyingName());
+        Assertions.assertEquals("id", testInfo.getIdField().getUnderlyingName());
 
         // setup by TestResourceInformationProvider
-        Assert.assertEquals("testId", testInfo.getIdField().getJsonName());
+        Assertions.assertEquals("testId", testInfo.getIdField().getJsonName());
     }
 
     @Test
     public void testResourceLookup() {
         ResourceLookup resourceLookup = moduleRegistry.getResourceLookup();
 
-        Assert.assertFalse(resourceLookup.getResourceClasses().contains(Object.class));
-        Assert.assertFalse(resourceLookup.getResourceClasses().contains(String.class));
-        Assert.assertTrue(resourceLookup.getResourceClasses().contains(TestResource.class));
+        Assertions.assertFalse(resourceLookup.getResourceClasses().contains(Object.class));
+        Assertions.assertFalse(resourceLookup.getResourceClasses().contains(String.class));
+        Assertions.assertTrue(resourceLookup.getResourceClasses().contains(TestResource.class));
     }
 
     @Test
     public void testJacksonModule() {
         List<com.fasterxml.jackson.databind.Module> jacksonModules = moduleRegistry.getJacksonModules();
-        Assert.assertEquals(1, jacksonModules.size());
+        Assertions.assertEquals(1, jacksonModules.size());
         com.fasterxml.jackson.databind.Module jacksonModule = jacksonModules.get(0);
-        Assert.assertEquals("test", jacksonModule.getModuleName());
+        Assertions.assertEquals("test", jacksonModule.getModuleName());
     }
 
     @Test
     public void testFilter() {
         List<DocumentFilter> filters = moduleRegistry.getFilters();
-        Assert.assertEquals(1, filters.size());
+        Assertions.assertEquals(1, filters.size());
     }
 
     @Test
     public void checkCombinedResourceInformationBuilderGetResurceType() {
         Class<?> noResourceClass = String.class;
-        Assert.assertNull(moduleRegistry.getResourceInformationBuilder().getResourceType(noResourceClass));
-        Assert.assertNotNull(moduleRegistry.getResourceInformationBuilder().getResourceType(Task.class));
+        Assertions.assertNull(moduleRegistry.getResourceInformationBuilder().getResourceType(noResourceClass));
+        Assertions.assertNotNull(moduleRegistry.getResourceInformationBuilder().getResourceType(Task.class));
     }
 
     @Test
     public void testDecorators() {
         List<RepositoryDecoratorFactory> decorators = moduleRegistry.getRepositoryDecoratorFactories();
-        Assert.assertEquals(1, decorators.size());
+        Assertions.assertEquals(1, decorators.size());
 
         RegistryEntry entry = this.resourceRegistry.getEntry(Schedule.class);
         Object resourceRepository = entry.getResourceRepository().getImplementation();
-        Assert.assertNotNull(resourceRepository);
-        Assert.assertTrue(resourceRepository instanceof ScheduleRepository);
-        Assert.assertTrue(resourceRepository instanceof DecoratedScheduleRepository);
+        Assertions.assertNotNull(resourceRepository);
+        Assertions.assertTrue(resourceRepository instanceof ScheduleRepository);
+        Assertions.assertTrue(resourceRepository instanceof DecoratedScheduleRepository);
     }
 
     @Test
     public void testSecurityProvider() {
-        Assert.assertTrue(moduleRegistry.getSecurityProvider().isUserInRole("testRole", null));
-        Assert.assertFalse(moduleRegistry.getSecurityProvider().isUserInRole("nonExistingRole", null));
-        Assert.assertTrue(testModule.getContext().getSecurityProvider().isUserInRole("testRole", null));
+        Assertions.assertTrue(moduleRegistry.getSecurityProvider().isUserInRole("testRole", null));
+        Assertions.assertFalse(moduleRegistry.getSecurityProvider().isUserInRole("nonExistingRole", null));
+        Assertions.assertTrue(testModule.getContext().getSecurityProvider().isUserInRole("testRole", null));
     }
 
     @Test
     public void testRepositoryRegistration() {
         RegistryEntry entry = resourceRegistry.getEntry(TestResource2.class);
         ResourceInformation info = entry.getResourceInformation();
-        Assert.assertEquals(TestResource2.class, info.getResourceClass());
+        Assertions.assertEquals(TestResource2.class, info.getResourceClass());
 
-        Assert.assertNotNull(entry.getResourceRepository());
+        Assertions.assertNotNull(entry.getResourceRepository());
         RelationshipRepositoryAdapter relationshipRepositoryAdapter = entry.getRelationshipRepository("parent");
-        Assert.assertNotNull(relationshipRepositoryAdapter);
+        Assertions.assertNotNull(relationshipRepositoryAdapter);
     }
 
     @Test
@@ -457,7 +469,7 @@ public class ModuleRegistryTest {
 
         ExceptionMapperRegistry registry = moduleRegistry.getExceptionMapperRegistry();
         Response response = registry.toResponse(new ForbiddenException("test"));
-        Assert.assertEquals(HttpStatus.BAD_REQUEST_400, response.getHttpStatus().intValue());
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST_400, response.getHttpStatus().intValue());
     }
 
     @Test
@@ -467,7 +479,7 @@ public class ModuleRegistryTest {
         moduleRegistry.init(new ObjectMapper());
 
         Response response = moduleRegistry.getExceptionMapperRegistry().toResponse(new ForbiddenException("test"));
-        Assert.assertEquals(HttpStatus.FORBIDDEN_403, response.getHttpStatus().intValue());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN_403, response.getHttpStatus().intValue());
     }
 
     @Test
@@ -482,7 +494,7 @@ public class ModuleRegistryTest {
         moduleRegistry.init(new ObjectMapper());
 
         Response response = moduleRegistry.getExceptionMapperRegistry().toResponse(new IllegalStateException());
-        Assert.assertEquals(HttpStatus.BAD_REQUEST_400, response.getHttpStatus().intValue());
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST_400, response.getHttpStatus().intValue());
     }
 
     @Test
@@ -498,7 +510,7 @@ public class ModuleRegistryTest {
 
         ExceptionMapperRegistry registry = moduleRegistry.getExceptionMapperRegistry();
         Response response = registry.toResponse(new IllegalStateException());
-        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR_500, response.getHttpStatus().intValue());
+        Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR_500, response.getHttpStatus().intValue());
     }
 
     @JsonApiResource(type = "test2")

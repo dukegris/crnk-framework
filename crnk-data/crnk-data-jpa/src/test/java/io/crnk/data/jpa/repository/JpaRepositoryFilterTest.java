@@ -13,9 +13,9 @@ import io.crnk.data.jpa.query.JpaQuery;
 import io.crnk.data.jpa.query.JpaQueryExecutor;
 import io.crnk.data.jpa.query.JpaQueryFactory;
 import io.crnk.data.jpa.query.querydsl.QuerydslQueryFactory;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +29,7 @@ public class JpaRepositoryFilterTest extends AbstractJpaTest {
     private JpaRepositoryFilterBase filter;
 
     @Override
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -44,7 +44,7 @@ public class JpaRepositoryFilterTest extends AbstractJpaTest {
     public void test() {
         QuerySpec querySpec = new QuerySpec(TestEntity.class);
         ResourceList<TestEntity> list = repo.findAll(querySpec);
-        Assert.assertEquals(5, list.size());
+        Assertions.assertEquals(5, list.size());
 
         Mockito.verify(filter, Mockito.times(1)).filterQuerySpec(Mockito.eq(repo), Mockito.eq(querySpec));
         Mockito.verify(filter, Mockito.times(1)).filterResults(Mockito.eq(repo), Mockito.eq(querySpec), Mockito.eq(list));

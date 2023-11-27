@@ -39,9 +39,9 @@ import io.crnk.test.mock.models.Task;
 import io.crnk.validation.ValidationModule;
 import okhttp3.OkHttpClient.Builder;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public abstract class AbstractOperationsTest extends JerseyTestBase {
@@ -95,7 +95,7 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 		}
 	}
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		clear();
 		client = new CrnkClient(getBaseUri().toString());
@@ -112,6 +112,7 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 		client.addModule(module);
 
 		setNetworkTimeout(client, 10000, TimeUnit.SECONDS);
+		
 	}
 
 	protected MovieEntity newMovie(String title) {
@@ -141,7 +142,7 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		super.tearDown();
 
@@ -171,7 +172,7 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 
 
 		public TestApplication() {
-			Assert.assertNull(context);
+			Assertions.assertNull(context);
 
 			context = new AnnotationConfigApplicationContext(io.crnk.operations.OperationsTestConfig.class);
 			context.start();

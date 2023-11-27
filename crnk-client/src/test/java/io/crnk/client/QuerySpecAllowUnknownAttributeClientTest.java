@@ -13,9 +13,9 @@ import io.crnk.core.repository.RelationshipRepository;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.test.mock.models.Project;
 import io.crnk.test.mock.models.Task;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,7 +33,7 @@ public class QuerySpecAllowUnknownAttributeClientTest extends AbstractClientTest
     protected RelationshipRepository<Task, Long, Project, Long> relRepo;
 
 
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -58,7 +58,7 @@ public class QuerySpecAllowUnknownAttributeClientTest extends AbstractClientTest
         querySpec.addSort(new SortSpec(Arrays.asList("unknownAttr"), Direction.ASC));
         querySpec.addFilter(new FilterSpec(Arrays.asList("unknownAttr"), FilterOperator.EQ, "test"));
         List<Task> tasks = taskRepo.findAll(querySpec);
-        Assert.assertEquals(0, tasks.size()); // no matches naturally...
+        Assertions.assertEquals(0, tasks.size()); // no matches naturally...
     }
 
     @Test
@@ -69,15 +69,15 @@ public class QuerySpecAllowUnknownAttributeClientTest extends AbstractClientTest
         ResourceInformation taskInformation = client.getRegistry().getEntry(Task.class).getResourceInformation();
         QuerySpecUrlMapper urlMapper = client.getUrlMapper();
         QuerySpec querySpec = urlMapper.deserialize(taskInformation, parameterMap, new QueryContext());
-        Assert.assertEquals(1, querySpec.getFilters().size());
+        Assertions.assertEquals(1, querySpec.getFilters().size());
         FilterSpec filterSpec = querySpec.getFilters().get(0);
-        Assert.assertEquals("unknownAttr", filterSpec.getAttributePath().get(0));
-        Assert.assertEquals(FilterOperator.EQ, filterSpec.getOperator());
-        Assert.assertEquals("test", filterSpec.getValue());
+        Assertions.assertEquals("unknownAttr", filterSpec.getAttributePath().get(0));
+        Assertions.assertEquals(FilterOperator.EQ, filterSpec.getOperator());
+        Assertions.assertEquals("test", filterSpec.getValue());
 
-        Assert.assertEquals(1, querySpec.getSort().size());
+        Assertions.assertEquals(1, querySpec.getSort().size());
         SortSpec sortSpec = querySpec.getSort().get(0);
-        Assert.assertEquals("unknownAttr", sortSpec.getAttributePath().get(0));
-        Assert.assertEquals(Direction.DESC, sortSpec.getDirection());
+        Assertions.assertEquals("unknownAttr", sortSpec.getAttributePath().get(0));
+        Assertions.assertEquals(Direction.DESC, sortSpec.getDirection());
     }
 }

@@ -12,15 +12,15 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.test.mock.models.Schedule;
 import io.crnk.test.mock.models.Task;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 
 public class PageNumberSizeClientTest extends AbstractClientTest {
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -54,21 +54,21 @@ public class PageNumberSizeClientTest extends AbstractClientTest {
 		QuerySpec querySpec = new QuerySpec(Schedule.class);
 		querySpec.setPaging(new NumberSizePagingSpec(2, 5));
 		ResourceList<Schedule> list = repo.findAll(querySpec);
-		Assert.assertEquals(5, list.size());
+		Assertions.assertEquals(5, list.size());
 		Schedule schedule = list.get(0);
-		Assert.assertEquals("someSchedule105", schedule.getName());
+		Assertions.assertEquals("someSchedule105", schedule.getName());
 
 		String url = client.getServiceUrlProvider().getUrl();
 		JsonLinksInformation links = list.getLinks(JsonLinksInformation.class);
 		JsonNode firstLink = links.asJsonNode().get("first");
-		Assert.assertNotNull(firstLink);
-		Assert.assertEquals(url + "/schedules?page[number]=1&page[size]=5", firstLink.asText());
+		Assertions.assertNotNull(firstLink);
+		Assertions.assertEquals(url + "/schedules?page[number]=1&page[size]=5", firstLink.asText());
 	}
 
 	@Test
 	public void testOffsetLimitInteroperablity() {
 		JsonApiResource annotation = Task.class.getAnnotation(JsonApiResource.class);
-		Assert.assertEquals(OffsetLimitPagingSpec.class, annotation.pagingSpec());
+		Assertions.assertEquals(OffsetLimitPagingSpec.class, annotation.pagingSpec());
 		ResourceRepository<Task, Serializable> repo = client.getRepositoryForType(Task.class);
 		for (int i = 100; i < 120; i++) {
 			Task task = new Task();
@@ -79,14 +79,14 @@ public class PageNumberSizeClientTest extends AbstractClientTest {
 		QuerySpec querySpec = new QuerySpec(Task.class);
 		querySpec.setPaging(new NumberSizePagingSpec(2, 5));
 		ResourceList<Task> list = repo.findAll(querySpec);
-		Assert.assertEquals(5, list.size());
+		Assertions.assertEquals(5, list.size());
 		Task task = list.get(0);
-		Assert.assertEquals("someTask105", task.getName());
+		Assertions.assertEquals("someTask105", task.getName());
 
 		String url = client.getServiceUrlProvider().getUrl();
 		JsonLinksInformation links = list.getLinks(JsonLinksInformation.class);
 		JsonNode firstLink = links.asJsonNode().get("first");
-		Assert.assertNotNull(firstLink);
-		Assert.assertEquals(url + "/tasks?page[number]=1&page[size]=5", firstLink.asText());
+		Assertions.assertNotNull(firstLink);
+		Assertions.assertEquals(url + "/tasks?page[number]=1&page[size]=5", firstLink.asText());
 	}
 }

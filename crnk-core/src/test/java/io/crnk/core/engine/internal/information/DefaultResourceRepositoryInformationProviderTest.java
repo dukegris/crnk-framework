@@ -8,8 +8,8 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ReadOnlyResourceRepositoryBase;
 import io.crnk.core.repository.ResourceRepositoryBase;
 import io.crnk.core.resource.list.ResourceList;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DefaultResourceRepositoryInformationProviderTest {
 
@@ -25,10 +25,10 @@ public class DefaultResourceRepositoryInformationProviderTest {
 		};
 		RepositoryInformation information = boot.getModuleRegistry().getRepositoryInformation(repository);
 		RepositoryMethodAccess actualAccess = information.getAccess();
-		Assert.assertFalse(actualAccess.isPatchable());
-		Assert.assertFalse(actualAccess.isPostable());
-		Assert.assertFalse(actualAccess.isDeletable());
-		Assert.assertTrue(actualAccess.isReadable());
+		Assertions.assertFalse(actualAccess.isPatchable());
+		Assertions.assertFalse(actualAccess.isPostable());
+		Assertions.assertFalse(actualAccess.isDeletable());
+		Assertions.assertTrue(actualAccess.isReadable());
 	}
 
 
@@ -49,10 +49,10 @@ public class DefaultResourceRepositoryInformationProviderTest {
 		};
 		RepositoryInformation information = boot.getModuleRegistry().getRepositoryInformation(repository);
 		RepositoryMethodAccess actualAccess = information.getAccess();
-		Assert.assertFalse(actualAccess.isPatchable());
-		Assert.assertFalse(actualAccess.isPostable());
-		Assert.assertTrue(actualAccess.isDeletable());
-		Assert.assertTrue(actualAccess.isReadable());
+		Assertions.assertFalse(actualAccess.isPatchable());
+		Assertions.assertFalse(actualAccess.isPostable());
+		Assertions.assertTrue(actualAccess.isDeletable());
+		Assertions.assertTrue(actualAccess.isReadable());
 	}
 
 	@Test
@@ -72,10 +72,10 @@ public class DefaultResourceRepositoryInformationProviderTest {
 		};
 		RepositoryInformation information = boot.getModuleRegistry().getRepositoryInformation(repository);
 		RepositoryMethodAccess actualAccess = information.getAccess();
-		Assert.assertTrue(actualAccess.isPatchable());
-		Assert.assertFalse(actualAccess.isPostable());
-		Assert.assertFalse(actualAccess.isDeletable());
-		Assert.assertTrue(actualAccess.isReadable());
+		Assertions.assertTrue(actualAccess.isPatchable());
+		Assertions.assertFalse(actualAccess.isPostable());
+		Assertions.assertFalse(actualAccess.isDeletable());
+		Assertions.assertTrue(actualAccess.isReadable());
 	}
 
 	@Test
@@ -95,10 +95,10 @@ public class DefaultResourceRepositoryInformationProviderTest {
 		};
 		RepositoryInformation information = boot.getModuleRegistry().getRepositoryInformation(repository);
 		RepositoryMethodAccess actualAccess = information.getAccess();
-		Assert.assertFalse(actualAccess.isPatchable());
-		Assert.assertTrue(actualAccess.isPostable());
-		Assert.assertFalse(actualAccess.isDeletable());
-		Assert.assertTrue(actualAccess.isReadable());
+		Assertions.assertFalse(actualAccess.isPatchable());
+		Assertions.assertTrue(actualAccess.isPostable());
+		Assertions.assertFalse(actualAccess.isDeletable());
+		Assertions.assertTrue(actualAccess.isReadable());
 	}
 
 }

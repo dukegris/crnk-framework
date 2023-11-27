@@ -25,11 +25,11 @@ import io.crnk.test.mock.models.TaskStatus;
 import io.crnk.test.mock.repository.BulkInMemoryRepository;
 import io.crnk.test.mock.repository.ProjectRepository;
 import io.crnk.test.mock.repository.TaskRepository;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,12 +55,12 @@ public class DataroomFilterTest {
 
     private BulkInMemoryRepository<BulkTask, Object> bulkTasksImpl;
 
-    @After
+    @AfterEach
     public void tearDown() {
         TestModule.clear();
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         TestModule.clear();
 
@@ -99,7 +99,7 @@ public class DataroomFilterTest {
         SecurityConfig config = builder.build();
         securityModule = SecurityModule.newServerModule(config);
         // end::docs[]
-        Assert.assertSame(config, securityModule.getConfig());
+        Assertions.assertSame(config, securityModule.getConfig());
 
         TestModule testModule = new TestModule();
         tasksImpl = testModule.getTasks();
@@ -141,7 +141,7 @@ public class DataroomFilterTest {
 
     @Test
     public void checkInterceptorsInPlace() {
-        Assert.assertTrue(securityModule.getConfig().getPerformDataRoomChecks());
+        Assertions.assertTrue(securityModule.getConfig().getPerformDataRoomChecks());
     }
 
     @Test
@@ -151,7 +151,7 @@ public class DataroomFilterTest {
         Task task = new Task();
         task.setName("foo");
         boolean match = matcher.checkMatch(task, HttpMethod.GET, securityModule.getCallerSecurityProvider());
-        Assert.assertTrue(match);
+        Assertions.assertTrue(match);
         // end::match[]
     }
 
@@ -163,7 +163,7 @@ public class DataroomFilterTest {
         Task task = new Task();
         task.setName("base");
         boolean match = matcher.checkMatch(task, HttpMethod.GET, securityModule.getCallerSecurityProvider());
-        Assert.assertFalse(match);
+        Assertions.assertFalse(match);
         // end::match[]
     }
 
@@ -171,9 +171,9 @@ public class DataroomFilterTest {
     public void checkFindAll() {
         QuerySpec querySpec = new QuerySpec(Task.class);
         ResourceList<Task> list = tasks.findAll(querySpec);
-        Assert.assertEquals(1, list.size());
+        Assertions.assertEquals(1, list.size());
         Task task = list.get(0);
-        Assert.assertEquals("foo", task.getName());
+        Assertions.assertEquals("foo", task.getName());
     }
 
 
@@ -181,32 +181,38 @@ public class DataroomFilterTest {
     public void checkFindOneAllowed() {
         QuerySpec querySpec = new QuerySpec(Task.class);
         Task task = tasks.findOne(taskFoo.getId(), querySpec);
-        Assert.assertEquals("foo", task.getName());
+        Assertions.assertEquals("foo", task.getName());
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void checkFindOneNotAllowed() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         QuerySpec querySpec = new QuerySpec(Task.class);
         Task task = tasks.findOne(taskBar.getId(), querySpec);
-        Assert.assertEquals("foo", task.getName());
+            Assertions.assertEquals("foo", task.getName());
+        });
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void checkSaveNotAllowedToChangeToNonMatched() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         Task task = new Task();
         task.setId(taskFoo.getId());
         task.setName("notFoo"); // => would make it get filtered
         tasks.save(task);
+        });
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void checkSaveNotAllowedToChangeToMatched() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         // => should not have access to bar in the first place
         // => not allowed to make it visible
         Task task = new Task();
         task.setId(taskBar.getId());
         task.setName("foo");
         tasks.save(task);
+        });
     }
 
     @Test
@@ -219,22 +225,26 @@ public class DataroomFilterTest {
     }
 
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void checkBulkSaveNotAllowedToChangeToNonMatched() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         BulkTask task = new BulkTask();
         task.setId(taskFoo.getId());
         task.setName("notFoo"); // => would make it get filtered
         bulkTasks.save(Arrays.asList(task));
+        });
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void checkBulkSaveNotAllowedToChangeToMatched() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         // => should not have access to bar in the first place
         // => not allowed to make it visible
         BulkTask task = new BulkTask();
         task.setId(taskBar.getId());
         task.setName("foo");
         bulkTasks.save(Arrays.asList(task));
+        });
     }
 
     @Test
@@ -253,12 +263,14 @@ public class DataroomFilterTest {
         tasks.create(task);
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void checkCreateNotAllowed() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         Task task = new Task();
         task.setName("notFoo");
         task.setStatus(TaskStatus.CLOSED);
         tasks.create(task);
+        });
     }
 
 
@@ -270,22 +282,25 @@ public class DataroomFilterTest {
         bulkTasks.create(Arrays.asList(task));
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void checkBulkCreateNotAllowed() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         BulkTask task = new BulkTask();
         task.setName("notFoo");
         bulkTasks.create(Arrays.asList(task));
+        });
     }
-
 
     @Test
     public void checkDeleteAllowed() {
         tasks.delete(taskFoo.getId());
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void checkDeleteNotAllowed() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         tasks.delete(taskBar.getId());
+		});
     }
 
     @Test
@@ -293,9 +308,11 @@ public class DataroomFilterTest {
         bulkTasks.delete(Arrays.asList(taskFoo.getId()));
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void checkBulkDeleteNotAllowed() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         bulkTasks.delete(Arrays.asList(taskBar.getId()));
+		});
     }
 
     @Test
@@ -307,7 +324,7 @@ public class DataroomFilterTest {
         QuerySpec querySpec = new QuerySpec(Project.class);
         Map map = taskToProject.findOneRelations(ids, "project", querySpec);
         Object project = map.get(taskFoo.getId());
-        Assert.assertNotNull(project);
+        Assertions.assertNotNull(project);
     }
 
     @Test
@@ -316,10 +333,12 @@ public class DataroomFilterTest {
         taskToProject.setRelation(taskFoo, project.getId(), "project");
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void checkSetRelationshipNotAuthorized() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         OneRelationshipRepository taskToProject = (OneRelationshipRepository) entry.getRelationshipRepository("project").getImplementation();
         taskToProject.setRelation(taskBar, project.getId(), "project");
+        });
     }
 
     @Test
@@ -340,19 +359,23 @@ public class DataroomFilterTest {
 
     }
 
-    @Test(expected = ForbiddenException.class)
-    @Ignore // assumed that opposite side is properly filtered
+    @Test
+    @Disabled // assumed that opposite side is properly filtered
     public void checkFindRelationshipsNotAuthorized() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         ManyRelationshipRepository taskToProject = (ManyRelationshipRepository) entry.getRelationshipRepository("project").getImplementation();
         List<Long> ids = Arrays.asList(taskBar.getId());
         QuerySpec querySpec = new QuerySpec(Project.class);
         taskToProject.findManyRelations(ids, "includedProjects", querySpec);
+        });
     }
 
-    @Test(expected = ForbiddenException.class)
-    @Ignore // assumed that opposite side is properly filtered
+    @Test
+    @Disabled // assumed that opposite side is properly filtered
     public void checkSetRelationshipsNotAuthorized() {
+		Assertions.assertThrows(ForbiddenException.class, () -> {
         ManyRelationshipRepository taskToProject = (ManyRelationshipRepository) entry.getRelationshipRepository("project").getImplementation();
         taskToProject.setRelations(taskBar, Arrays.asList(project.getId()), "includedProjects");
+        });
     }
 }

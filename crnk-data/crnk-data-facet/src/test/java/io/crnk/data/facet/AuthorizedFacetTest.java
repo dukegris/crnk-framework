@@ -10,8 +10,8 @@ import io.crnk.core.module.SimpleModule;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.data.facet.setup.FacetTestSetup;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class AuthorizedFacetTest {
@@ -40,7 +40,7 @@ public class AuthorizedFacetTest {
 
         QuerySpec querySpec = new QuerySpec(FacetResource.class);
         ResourceList<FacetResource> list = setup.getRepository().findAll(querySpec);
-        Assert.assertEquals(authorized ? 2 : 0, list.size());
+        Assertions.assertEquals(authorized ? 2 : 0, list.size());
     }
 
 }

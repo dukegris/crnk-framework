@@ -11,10 +11,10 @@ import io.crnk.core.module.SimpleModule;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.test.mock.models.Schedule;
 import io.crnk.test.mock.repository.ScheduleRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -25,7 +25,7 @@ public class BasicActionTest extends AbstractClientTest {
 
 	private DocumentFilter filter;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		SLF4JBridgeHandler.install();
 		super.setup();
@@ -48,11 +48,11 @@ public class BasicActionTest extends AbstractClientTest {
 
 		Iterable<Schedule> schedules = subclassRepository.findAll(new QuerySpec(Schedule.class));
 		schedule = schedules.iterator().next();
-		Assert.assertEquals("schedule", schedule.getName());
+		Assertions.assertEquals("schedule", schedule.getName());
 
 		subclassRepository.delete(schedule.getId());
 		schedules = subclassRepository.findAll(new QuerySpec(Schedule.class));
-		Assert.assertFalse(schedules.iterator().hasNext());
+		Assertions.assertFalse(schedules.iterator().hasNext());
 	}
 
 	@Test
@@ -64,14 +64,14 @@ public class BasicActionTest extends AbstractClientTest {
 		Mockito.verify(actionStubFactory, Mockito.times(1)).init(contextCaptor.capture());
 
 		ActionStubFactoryContext context = contextCaptor.getValue();
-		Assert.assertSame(client.getHttpAdapter(), context.getHttpAdapter());
-		Assert.assertSame(client.getServiceUrlProvider(), context.getServiceUrlProvider());
+		Assertions.assertSame(client.getHttpAdapter(), context.getHttpAdapter());
+		Assertions.assertSame(client.getServiceUrlProvider(), context.getServiceUrlProvider());
 	}
 
 	@Test
 	public void removeActionStubFactory() {
 		client.setActionStubFactory(null);
-		Assert.assertNull(client.getActionStubFactory());
+		Assertions.assertNull(client.getActionStubFactory());
 	}
 
 	@Override
@@ -102,26 +102,26 @@ public class BasicActionTest extends AbstractClientTest {
 
 		Iterable<Schedule> schedules = scheduleRepo.findAll(new QuerySpec(Schedule.class));
 		schedule = schedules.iterator().next();
-		Assert.assertEquals("schedule", schedule.getName());
+		Assertions.assertEquals("schedule", schedule.getName());
 
 		scheduleRepo.delete(schedule.getId());
 		schedules = scheduleRepo.findAll(new QuerySpec(Schedule.class));
-		Assert.assertFalse(schedules.iterator().hasNext());
+		Assertions.assertFalse(schedules.iterator().hasNext());
 	}
 
 	@Test
-	@Ignore
+	@Disabled
 	// The DocumentFilterContext is not invoked with this request any more
 	public void testInvokeRepositoryAction() {
 		String result = scheduleRepo.repositoryAction("hello");
-		Assert.assertEquals("repository action: hello", result);
+		Assertions.assertEquals("repository action: hello", result);
 
 		// check filters
 		ArgumentCaptor<DocumentFilterContext> contexts = ArgumentCaptor.forClass(DocumentFilterContext.class);
 		Mockito.verify(filter, Mockito.times(1)).filter(contexts.capture(), Mockito.any(DocumentFilterChain.class));
 		DocumentFilterContext actionContext = contexts.getAllValues().get(0);
-		Assert.assertEquals("GET", actionContext.getMethod());
-		Assert.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
+		Assertions.assertEquals("GET", actionContext.getMethod());
+		Assertions.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
 	}
 
 	@Test
@@ -132,13 +132,13 @@ public class BasicActionTest extends AbstractClientTest {
 		scheduleRepo.create(schedule);
 
 		String result = scheduleRepo.resourceAction(1, "hello");
-		Assert.assertEquals("resource action: hello@scheduleName", result);
+		Assertions.assertEquals("resource action: hello@scheduleName", result);
 
 		// check filters
 		ArgumentCaptor<DocumentFilterContext> contexts = ArgumentCaptor.forClass(DocumentFilterContext.class);
 		Mockito.verify(filter, Mockito.times(2)).filter(contexts.capture(), Mockito.any(DocumentFilterChain.class));
 		DocumentFilterContext actionContext = contexts.getAllValues().get(1);
-		Assert.assertEquals("GET", actionContext.getMethod());
-		Assert.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
+		Assertions.assertEquals("GET", actionContext.getMethod());
+		Assertions.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
 	}
 }

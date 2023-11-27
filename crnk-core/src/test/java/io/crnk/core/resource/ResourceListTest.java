@@ -6,8 +6,8 @@ import io.crnk.core.resource.links.LinksInformation;
 import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceListBase;
 import io.crnk.core.resource.meta.MetaInformation;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 
@@ -16,10 +16,10 @@ public class ResourceListTest {
     @Test
     public void defaultConstructor() {
         DefaultResourceList<Task> list = new DefaultResourceList<Task>();
-        Assert.assertNull(list.getMeta());
-        Assert.assertNull(list.getLinks());
-        Assert.assertNull(list.getMeta(TestMeta.class));
-        Assert.assertNull(list.getLinks(TestLinks.class));
+        Assertions.assertNull(list.getMeta());
+        Assertions.assertNull(list.getLinks());
+        Assertions.assertNull(list.getMeta(TestMeta.class));
+        Assertions.assertNull(list.getLinks(TestLinks.class));
     }
 
     @Test
@@ -29,26 +29,26 @@ public class ResourceListTest {
         };
         list.setLinks(new TestLinks());
         list.setMeta(new TestMeta());
-        Assert.assertNotNull(list.getMeta());
-        Assert.assertNotNull(list.getLinks());
+        Assertions.assertNotNull(list.getMeta());
+        Assertions.assertNotNull(list.getLinks());
     }
 
     @Test
     public void defaultInformationConstructor() {
         DefaultResourceList<Task> list = new DefaultResourceList<Task>(new TestMeta(), new TestLinks());
-        Assert.assertNotNull(list.getMeta());
-        Assert.assertNotNull(list.getLinks());
+        Assertions.assertNotNull(list.getMeta());
+        Assertions.assertNotNull(list.getLinks());
     }
 
     @Test
     public void testListConstructor() {
         LinkedList<Task> linkedList = new LinkedList<Task>();
         DefaultResourceList<Task> list = new DefaultResourceList<Task>(linkedList, new TestMeta(), new TestLinks());
-        Assert.assertNotNull(list.getMeta());
-        Assert.assertNotNull(list.getLinks());
+        Assertions.assertNotNull(list.getMeta());
+        Assertions.assertNotNull(list.getLinks());
         list.add(new Task());
-        Assert.assertEquals(1, list.size());
-        Assert.assertEquals(1, linkedList.size());
+        Assertions.assertEquals(1, list.size());
+        Assertions.assertEquals(1, linkedList.size());
     }
 
     @SuppressWarnings("deprecation")
@@ -57,14 +57,14 @@ public class ResourceListTest {
         DefaultResourceList<Task> list = new DefaultResourceList<Task>(new TestMeta(), new TestLinks());
 
         TestMeta testMeta = list.getMeta(TestMeta.class);
-        Assert.assertNotNull(testMeta);
+        Assertions.assertNotNull(testMeta);
         OtherMeta otherMeta = list.getMeta(OtherMeta.class);
-        Assert.assertNotNull(otherMeta);
+        Assertions.assertNotNull(otherMeta);
 
         TestLinks testLinks = list.getLinks(TestLinks.class);
-        Assert.assertNotNull(testLinks);
+        Assertions.assertNotNull(testLinks);
         OtherLinks otherLinks = list.getLinks(OtherLinks.class);
-        Assert.assertNotNull(otherLinks);
+        Assertions.assertNotNull(otherLinks);
     }
 
     class TestLinks implements LinksInformation, CastableInformation<LinksInformation> {

@@ -10,9 +10,9 @@ import io.crnk.meta.MetaModule;
 import io.crnk.meta.MetaModuleConfig;
 import io.crnk.meta.provider.resource.ResourceMetaProvider;
 import io.crnk.test.mock.TestModule;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -24,7 +24,7 @@ public class JsonHomeFormatTest {
 
 	private HomeModule module;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		MetaModuleConfig config = new MetaModuleConfig();
 		config.addMetaProvider(new ResourceMetaProvider());
@@ -66,12 +66,12 @@ public class JsonHomeFormatTest {
 		Mockito.verify(requestContextBase, Mockito.times(1)).setResponse(responseCaptor.capture());
 		String expectedContentType = anyRequest ? HomeModule.JSON_CONTENT_TYPE : HomeModule.JSON_HOME_CONTENT_TYPE;
 		HttpResponse response = responseCaptor.getValue();
-		Assert.assertEquals(expectedContentType, response.getContentType());
-		Assert.assertEquals(200, response.getStatusCode());
+		Assertions.assertEquals(expectedContentType, response.getContentType());
+		Assertions.assertEquals(200, response.getStatusCode());
 
 		JsonNode json = boot.getObjectMapper().reader().readTree(new String(response.getBody()));
 		JsonNode resourcesNode = json.get("resources");
 		JsonNode usersNode = resourcesNode.get("tag:tasks");
-		Assert.assertEquals("tasks", usersNode.get("href").asText());
+		Assertions.assertEquals("tasks", usersNode.get("href").asText());
 	}
 }

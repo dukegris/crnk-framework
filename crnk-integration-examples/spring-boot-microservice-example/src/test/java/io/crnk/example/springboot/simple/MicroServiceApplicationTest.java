@@ -14,10 +14,10 @@ import io.crnk.example.springboot.microservice.MicroServiceApplication;
 import io.crnk.example.springboot.microservice.project.Project;
 import io.crnk.example.springboot.microservice.task.Task;
 import io.crnk.testkit.RandomWalkLinkChecker;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class MicroServiceApplicationTest {
@@ -28,7 +28,7 @@ public class MicroServiceApplicationTest {
 
 	private CrnkClient taskClient;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		projectApp = MicroServiceApplication.startProjectApplication();
 		taskApp = MicroServiceApplication.startTaskApplication();
@@ -62,12 +62,12 @@ public class MicroServiceApplicationTest {
 
 		ResourceRepository<Task, Serializable> repository = taskClient.getRepositoryForType(Task.class);
 		ResourceList<Task> tasks = repository.findAll(querySpec);
-		Assert.assertNotEquals(0, tasks.size());
+		Assertions.assertNotEquals(0, tasks.size());
 		for (Task task : tasks) {
-			Assert.assertEquals("http://127.0.0.1:12001/task/" + task.getId(), task.getLinks().getSelf().getHref());
+			Assertions.assertEquals("http://127.0.0.1:12001/task/" + task.getId(), task.getLinks().getSelf().getHref());
 			Project project = task.getProject();
-			Assert.assertNotNull(task.getProject());
-			Assert.assertEquals("http://127.0.0.1:12002/project/" + project.getId(), project.getLinks().getSelf().getHref());
+			Assertions.assertNotNull(task.getProject());
+			Assertions.assertEquals("http://127.0.0.1:12002/project/" + project.getId(), project.getLinks().getSelf().getHref());
 		}
 	}
 
@@ -75,8 +75,8 @@ public class MicroServiceApplicationTest {
 		Response response = RestAssured.given().when().get("/");
 		response.then().assertThat().statusCode(200);
 		String body = response.getBody().print();
-		Assert.assertTrue(body, body.contains("/task"));
-		Assert.assertTrue(body, !body.contains("/project"));
+		Assertions.assertTrue(body.contains("/task"), body);
+		Assertions.assertTrue(!body.contains("/project"), body);
 	}
 
 	private void checkRemoteProjectNotExposed() {
@@ -84,7 +84,7 @@ public class MicroServiceApplicationTest {
 		response.then().assertThat().statusCode(404);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		projectApp.close();
 		taskApp.close();

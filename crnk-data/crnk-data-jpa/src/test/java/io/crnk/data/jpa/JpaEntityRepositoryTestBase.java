@@ -21,10 +21,10 @@ import io.crnk.data.jpa.model.SequenceEntity;
 import io.crnk.data.jpa.model.TestEntity;
 import io.crnk.data.jpa.query.AbstractJpaTest;
 import org.hibernate.Hibernate;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -33,7 +33,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 	protected JpaEntityRepository<TestEntity, Long> repo;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -46,12 +46,12 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 
 	@Test
 	public void testGetResourceType() {
-		Assert.assertEquals(TestEntity.class, repo.getResourceClass());
+		Assertions.assertEquals(TestEntity.class, repo.getResourceClass());
 	}
 
 	@Test
 	public void testGetEntityType() {
-		Assert.assertEquals(TestEntity.class, repo.getEntityClass());
+		Assertions.assertEquals(TestEntity.class, repo.getEntityClass());
 	}
 
 	@Test
@@ -59,7 +59,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		QuerySpec querySpec = new QuerySpec(TestEntity.class);
 
 		List<TestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(numTestEntities, list.size());
+		Assertions.assertEquals(numTestEntities, list.size());
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		QuerySpec querySpec = new QuerySpec(TestEntity.class);
 
 		TestEntity entity = repo.findOne(1L, querySpec);
-		Assert.assertEquals("test1", entity.getStringValue());
+		Assertions.assertEquals("test1", entity.getStringValue());
 	}
 
 	@Test
@@ -75,23 +75,27 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		QuerySpec querySpec = new QuerySpec(TestEntity.class);
 
 		ResourceList<TestEntity> entities = repo.findAll(Arrays.asList(1L, 2L), querySpec);
-		Assert.assertEquals(2, entities.size());
-		Assert.assertEquals("test1", entities.get(0).getStringValue());
-		Assert.assertEquals("test2", entities.get(1).getStringValue());
+		Assertions.assertEquals(2, entities.size());
+		Assertions.assertEquals("test1", entities.get(0).getStringValue());
+		Assertions.assertEquals("test2", entities.get(1).getStringValue());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testInvalidLimit() {
-		QuerySpec querySpec = new QuerySpec(TestEntity.class);
-		querySpec.setLimit(Long.MAX_VALUE);
-		repo.findAll(querySpec);
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			QuerySpec querySpec = new QuerySpec(TestEntity.class);
+			querySpec.setLimit(Long.MAX_VALUE);
+			repo.findAll(querySpec);
+		});
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testInvalidOffset() {
-		QuerySpec querySpec = new QuerySpec(TestEntity.class);
-		querySpec.setOffset(Long.MAX_VALUE);
-		repo.findAll(querySpec);
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			QuerySpec querySpec = new QuerySpec(TestEntity.class);
+			querySpec.setOffset(Long.MAX_VALUE);
+			repo.findAll(querySpec);
+		});
 	}
 
 	@Test
@@ -108,12 +112,12 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		QuerySpec querySpec = new QuerySpec(TestEntity.class);
 		querySpec.addSort(new SortSpec(Arrays.asList("longValue"), asc ? Direction.ASC : Direction.DESC));
 		List<TestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(numTestEntities, list.size());
+		Assertions.assertEquals(numTestEntities, list.size());
 		for (int i = 0; i < numTestEntities; i++) {
 			if (asc) {
-				Assert.assertEquals(i, list.get(i).getLongValue());
+				Assertions.assertEquals(i, list.get(i).getLongValue());
 			} else {
-				Assert.assertEquals(numTestEntities - 1 - i, list.get(i).getLongValue());
+				Assertions.assertEquals(numTestEntities - 1 - i, list.get(i).getLongValue());
 			}
 		}
 	}
@@ -124,9 +128,9 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("stringValue"), FilterOperator.EQ, "test1"));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		TestEntity entity = list.get(0);
-		Assert.assertEquals("test1", entity.getStringValue());
+		Assertions.assertEquals("test1", entity.getStringValue());
 	}
 
 	@Test
@@ -135,10 +139,10 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("longValue"), FilterOperator.EQ, 2L));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		TestEntity entity = list.get(0);
-		Assert.assertEquals(2, entity.getId().longValue());
-		Assert.assertEquals(2L, entity.getLongValue());
+		Assertions.assertEquals(2, entity.getId().longValue());
+		Assertions.assertEquals(2L, entity.getLongValue());
 	}
 
 	@Test
@@ -147,10 +151,10 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("embValue", "embIntValue"), FilterOperator.EQ, 2));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		TestEntity entity = list.get(0);
-		Assert.assertEquals(2L, entity.getId().longValue());
-		Assert.assertEquals(2, entity.getEmbValue().getEmbIntValue().intValue());
+		Assertions.assertEquals(2L, entity.getId().longValue());
+		Assertions.assertEquals(2, entity.getEmbValue().getEmbIntValue().intValue());
 	}
 
 	@Test
@@ -160,9 +164,9 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 				new FilterSpec(Arrays.asList("embValue", "nestedValue", "embBoolValue"), FilterOperator.EQ, true));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		TestEntity entity = list.get(0);
-		Assert.assertTrue(entity.getEmbValue().getNestedValue().getEmbBoolValue());
+		Assertions.assertTrue(entity.getEmbValue().getNestedValue().getEmbBoolValue());
 	}
 
 	@Test
@@ -171,9 +175,9 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(PathSpec.of("oneRelatedValue", "id").filter(FilterOperator.EQ, 1L));
 		QuerySpec optimized = repo.optimizeQuerySpec(querySpec);
 
-		Assert.assertEquals(1, optimized.getFilters().size());
+		Assertions.assertEquals(1, optimized.getFilters().size());
 		FilterSpec filterSpec = optimized.getFilters().get(0);
-		Assert.assertEquals(PathSpec.of("oneRelatedValueId"), filterSpec.getPath());
+		Assertions.assertEquals(PathSpec.of("oneRelatedValueId"), filterSpec.getPath());
 	}
 
 	@Test
@@ -191,13 +195,13 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		transientRepo.create(entity);
 
 		List<JpaTransientTestEntity> list = transientRepo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		entity = list.get(0);
-		Assert.assertNotNull(entity);
+		Assertions.assertNotNull(entity);
 
 		transientRepo.delete(entity.getId());
 		list = transientRepo.findAll(querySpec);
-		Assert.assertEquals(0, list.size());
+		Assertions.assertEquals(0, list.size());
 	}
 
 	@Test
@@ -207,9 +211,9 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 				new FilterSpec(Arrays.asList("embValue", "nestedValue", "embBoolValue"), FilterOperator.EQ, false));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(numTestEntities - 1, list.size());
+		Assertions.assertEquals(numTestEntities - 1, list.size());
 		for (TestEntity entity : list) {
-			Assert.assertFalse(entity.getEmbValue().getNestedValue().getEmbBoolValue());
+			Assertions.assertFalse(entity.getEmbValue().getNestedValue().getEmbBoolValue());
 		}
 	}
 
@@ -219,7 +223,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("longValue"), FilterOperator.EQ, 2L));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 	}
 
 	@Test
@@ -228,7 +232,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("longValue"), FilterOperator.NEQ, 2L));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(4, list.size());
+		Assertions.assertEquals(4, list.size());
 	}
 
 	@Test
@@ -237,7 +241,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("longValue"), FilterOperator.LT, 2));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(2, list.size());
+		Assertions.assertEquals(2, list.size());
 	}
 
 	@Test
@@ -246,7 +250,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("longValue"), FilterOperator.LE, 2));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(3, list.size());
+		Assertions.assertEquals(3, list.size());
 	}
 
 	@Test
@@ -255,7 +259,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("longValue"), FilterOperator.GT, 1));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(3, list.size());
+		Assertions.assertEquals(3, list.size());
 	}
 
 	@Test
@@ -264,7 +268,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("longValue"), FilterOperator.GE, 1));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(4, list.size());
+		Assertions.assertEquals(4, list.size());
 	}
 
 	@Test
@@ -273,7 +277,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("stringValue"), FilterOperator.LIKE, "test2"));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 	}
 
 	@Test
@@ -282,7 +286,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("stringValue"), FilterOperator.LIKE, "test%"));
 		List<TestEntity> list = repo.findAll(querySpec);
 
-		Assert.assertEquals(5, list.size());
+		Assertions.assertEquals(5, list.size());
 	}
 
 	@Test
@@ -292,12 +296,12 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.setLimit(2L);
 
 		ResourceList<TestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(2, list.size());
-		Assert.assertEquals(2, list.get(0).getId().intValue());
-		Assert.assertEquals(3, list.get(1).getId().intValue());
+		Assertions.assertEquals(2, list.size());
+		Assertions.assertEquals(2, list.get(0).getId().intValue());
+		Assertions.assertEquals(3, list.get(1).getId().intValue());
 
 		PagedMetaInformation metaInformation = list.getMeta(PagedMetaInformation.class);
-		Assert.assertEquals(5, metaInformation.getTotalResourceCount().longValue());
+		Assertions.assertEquals(5, metaInformation.getTotalResourceCount().longValue());
 	}
 
 	@Test
@@ -307,13 +311,13 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.setLimit(3L);
 
 		ResourceList<TestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(3, list.size());
-		Assert.assertEquals(0, list.get(0).getId().intValue());
-		Assert.assertEquals(1, list.get(1).getId().intValue());
-		Assert.assertEquals(2, list.get(2).getId().intValue());
+		Assertions.assertEquals(3, list.size());
+		Assertions.assertEquals(0, list.get(0).getId().intValue());
+		Assertions.assertEquals(1, list.get(1).getId().intValue());
+		Assertions.assertEquals(2, list.get(2).getId().intValue());
 
 		PagedMetaInformation metaInformation = list.getMeta(PagedMetaInformation.class);
-		Assert.assertEquals(5, metaInformation.getTotalResourceCount().longValue());
+		Assertions.assertEquals(5, metaInformation.getTotalResourceCount().longValue());
 	}
 
 	@Test
@@ -323,11 +327,11 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.setLimit(4L);
 
 		ResourceList<TestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
-		Assert.assertEquals(4, list.get(0).getId().intValue());
+		Assertions.assertEquals(1, list.size());
+		Assertions.assertEquals(4, list.get(0).getId().intValue());
 
 		PagedMetaInformation metaInformation = list.getMeta(PagedMetaInformation.class);
-		Assert.assertEquals(5, metaInformation.getTotalResourceCount().longValue());
+		Assertions.assertEquals(5, metaInformation.getTotalResourceCount().longValue());
 	}
 
 
@@ -338,10 +342,10 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.setLimit(10L);
 
 		ResourceList<TestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(4, list.size());
+		Assertions.assertEquals(4, list.size());
 
 		PagedMetaInformation metaInformation = list.getMeta(PagedMetaInformation.class);
-		Assert.assertEquals(5, metaInformation.getTotalResourceCount().longValue());
+		Assertions.assertEquals(5, metaInformation.getTotalResourceCount().longValue());
 	}
 
 
@@ -352,37 +356,41 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		querySpec.setLimit(null);
 
 		ResourceList<TestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(4, list.size());
+		Assertions.assertEquals(4, list.size());
 
 		PagedMetaInformation metaInformation = list.getMeta(PagedMetaInformation.class);
-		Assert.assertEquals(5, metaInformation.getTotalResourceCount().longValue());
+		Assertions.assertEquals(5, metaInformation.getTotalResourceCount().longValue());
 	}
 
 	@Test
 	public void testIncludeNoRelations() {
 		em.clear();
 		List<TestEntity> list = repo.findAll(new QuerySpec(TestEntity.class));
-		Assert.assertEquals(numTestEntities, list.size());
+		Assertions.assertEquals(numTestEntities, list.size());
 		for (TestEntity entity : list) {
 			RelatedEntity relatedValue = entity.getOneRelatedValue();
 			if (relatedValue != null) {
-				Assert.assertFalse(Hibernate.isInitialized(relatedValue));
+				Assertions.assertFalse(Hibernate.isInitialized(relatedValue));
 			}
 		}
 	}
 
-	@Test(expected = Exception.class)
+	@Test
 	public void testFilterUnknownAttr() {
-		QuerySpec querySpec = new QuerySpec(TestEntity.class);
-		querySpec.addFilter(new FilterSpec(Arrays.asList("test"), FilterOperator.EQ, "test"));
-		repo.findAll(querySpec);
+		Assertions.assertThrows(Exception.class, () -> {
+			QuerySpec querySpec = new QuerySpec(TestEntity.class);
+			querySpec.addFilter(new FilterSpec(Arrays.asList("test"), FilterOperator.EQ, "test"));
+			repo.findAll(querySpec);
+		});
 	}
 
-	@Test(expected = Exception.class)
+	@Test
 	public void testSortUnknownAttr() {
-		QuerySpec querySpec = new QuerySpec(TestEntity.class);
-		querySpec.addSort(new SortSpec(Arrays.asList("test"), Direction.DESC));
-		repo.findAll(querySpec);
+		Assertions.assertThrows(Exception.class, () -> {
+			QuerySpec querySpec = new QuerySpec(TestEntity.class);
+			querySpec.addSort(new SortSpec(Arrays.asList("test"), Direction.DESC));
+			repo.findAll(querySpec);
+		});
 	}
 
 	@Test
@@ -394,22 +402,22 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		sequenceRepo.setResourceRegistry(resourceRegistry);
 		QuerySpec querySpec = new QuerySpec(SequenceEntity.class);
 		List<SequenceEntity> list = sequenceRepo.findAll(querySpec);
-		Assert.assertEquals(0, list.size());
+		Assertions.assertEquals(0, list.size());
 
 		SequenceEntity entity = new SequenceEntity();
 		entity.setStringValue("someValue");
 		entity = sequenceRepo.create(entity);
 
-		Assert.assertNotNull(entity.getId());
-		Assert.assertNotEquals(0L, entity.getId().longValue());
+		Assertions.assertNotNull(entity.getId());
+		Assertions.assertNotEquals(0L, entity.getId().longValue());
 
 		entity.setStringValue("someUpdatedValue");
 		entity = sequenceRepo.save(entity);
-		Assert.assertEquals("someUpdatedValue", entity.getStringValue());
+		Assertions.assertEquals("someUpdatedValue", entity.getStringValue());
 	}
 
 	@Test
-	@Ignore // currently not supported
+	@Disabled // currently not supported
 	public void testFieldOnlyEntity() {
 		QuerySpec querySpec = new QuerySpec(FieldOnlyEntity.class);
 		JpaRepositoryConfig<FieldOnlyEntity> config = JpaRepositoryConfig.create(FieldOnlyEntity.class);
@@ -417,7 +425,7 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 
 		JpaEntityRepository<FieldOnlyEntity, Long> fieldRepo = new JpaEntityRepository<>(config);
 		List<FieldOnlyEntity> list = fieldRepo.findAll(querySpec);
-		Assert.assertEquals(0, list.size());
+		Assertions.assertEquals(0, list.size());
 
 		FieldOnlyEntity entity = new FieldOnlyEntity();
 		entity.id = 13L;
@@ -425,11 +433,11 @@ public abstract class JpaEntityRepositoryTestBase extends AbstractJpaTest {
 		fieldRepo.create(entity);
 
 		FieldOnlyEntity savedEntity = fieldRepo.findOne(13L, querySpec);
-		Assert.assertNotNull(savedEntity);
-		Assert.assertEquals(14L, savedEntity.longValue);
+		Assertions.assertNotNull(savedEntity);
+		Assertions.assertEquals(14L, savedEntity.longValue);
 
 		fieldRepo.delete(13L);
 		list = fieldRepo.findAll(querySpec);
-		Assert.assertEquals(0, list.size());
+		Assertions.assertEquals(0, list.size());
 	}
 }

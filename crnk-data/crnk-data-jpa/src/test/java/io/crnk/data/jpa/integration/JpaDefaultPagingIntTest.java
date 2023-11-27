@@ -10,16 +10,16 @@ import io.crnk.core.resource.meta.PagedMetaInformation;
 import io.crnk.data.jpa.AbstractJpaJerseyTest;
 import io.crnk.data.jpa.model.TestEntity;
 import io.crnk.rs.CrnkFeature;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class JpaDefaultPagingIntTest extends AbstractJpaJerseyTest {
 
 	private ResourceRepository<TestEntity, Long> testRepo;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 		testRepo = client.getRepositoryForType(TestEntity.class);
@@ -40,29 +40,29 @@ public class JpaDefaultPagingIntTest extends AbstractJpaJerseyTest {
 		querySpec.setLimit(2L);
 
 		ResourceList<TestEntity> list = testRepo.findAll(querySpec);
-		Assert.assertEquals(2, list.size());
-		Assert.assertEquals(2, list.get(0).getId().intValue());
-		Assert.assertEquals(3, list.get(1).getId().intValue());
+		Assertions.assertEquals(2, list.size());
+		Assertions.assertEquals(2, list.get(0).getId().intValue());
+		Assertions.assertEquals(3, list.get(1).getId().intValue());
 
 		JsonMetaInformation meta = list.getMeta(JsonMetaInformation.class);
 		JsonLinksInformation links = list.getLinks(JsonLinksInformation.class);
-		Assert.assertNotNull(meta);
-		Assert.assertNotNull(links);
+		Assertions.assertNotNull(meta);
+		Assertions.assertNotNull(links);
 
 		String baseUri = getBaseUri().toString();
-		Assert.assertEquals(baseUri + "test?page[limit]=2", links.asJsonNode().get("first").asText());
-		Assert.assertEquals(baseUri + "test?page[limit]=2&page[offset]=48", links.asJsonNode().get("last").asText());
-		Assert.assertEquals(baseUri + "test?page[limit]=2", links.asJsonNode().get("prev").asText());
-		Assert.assertEquals(baseUri + "test?page[limit]=2&page[offset]=4", links.asJsonNode().get("next").asText());
+		Assertions.assertEquals(baseUri + "test?page[limit]=2", links.asJsonNode().get("first").asText());
+		Assertions.assertEquals(baseUri + "test?page[limit]=2&page[offset]=48", links.asJsonNode().get("last").asText());
+		Assertions.assertEquals(baseUri + "test?page[limit]=2", links.asJsonNode().get("prev").asText());
+		Assertions.assertEquals(baseUri + "test?page[limit]=2&page[offset]=4", links.asJsonNode().get("next").asText());
 	}
 
 	@Test
 	public void testDefaultLimitInPlace() {
 		QuerySpec querySpec = new QuerySpec(TestEntity.class);
 		ResourceList<TestEntity> list = testRepo.findAll(querySpec);
-		Assert.assertEquals(10, list.size());
+		Assertions.assertEquals(10, list.size());
 		PagedMetaInformation meta = list.getMeta(DefaultPagedMetaInformation.class);
-		Assert.assertEquals(50, meta.getTotalResourceCount().longValue());
+		Assertions.assertEquals(50, meta.getTotalResourceCount().longValue());
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import io.crnk.client.suite.RepositoryAccessClientTest;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.test.mock.models.Task;
 import okhttp3.OkHttpClient;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class OkHttpClientTest extends RepositoryAccessClientTest {

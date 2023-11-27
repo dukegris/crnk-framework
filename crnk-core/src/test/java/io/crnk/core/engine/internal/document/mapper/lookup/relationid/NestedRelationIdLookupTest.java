@@ -9,9 +9,9 @@ import io.crnk.core.mock.models.Schedule;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -27,7 +27,7 @@ public class NestedRelationIdLookupTest extends AbstractDocumentMapperTest {
     private RelationIdTestResource child;
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -77,18 +77,18 @@ public class NestedRelationIdLookupTest extends AbstractDocumentMapperTest {
 
         Document document = mapper.toDocument(toResponse(entity), toAdapter(querySpec), mappingConfig).get();
         Resource resource = document.getSingleData().get();
-        Assert.assertEquals("2", resource.getId());
-        Assert.assertEquals("relationIdTest", resource.getType());
-        Assert.assertEquals("test", resource.getAttributes().get("name").asText());
+        Assertions.assertEquals("2", resource.getId());
+        Assertions.assertEquals("relationIdTest", resource.getType());
+        Assertions.assertEquals("test", resource.getAttributes().get("name").asText());
 
         Nullable<ResourceIdentifier> data = resource.getRelationships().get("testNested").getSingleData();
-        Assert.assertTrue(data.isPresent());
+        Assertions.assertTrue(data.isPresent());
 
         if (setRelatedId) {
-            Assert.assertNotNull(data.get());
-            Assert.assertEquals(2, document.getIncluded().size());
+            Assertions.assertNotNull(data.get());
+            Assertions.assertEquals(2, document.getIncluded().size());
         } else {
-            Assert.assertNull(data.get());
+            Assertions.assertNull(data.get());
         }
     }
 

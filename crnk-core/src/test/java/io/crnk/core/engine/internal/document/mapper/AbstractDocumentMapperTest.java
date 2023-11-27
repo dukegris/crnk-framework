@@ -16,7 +16,7 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.internal.QuerySpecAdapter;
 import io.crnk.core.queryspec.pagingspec.OffsetLimitPagingBehavior;
 import io.crnk.core.repository.response.JsonApiResponse;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class AbstractDocumentMapperTest {
 
@@ -31,7 +31,7 @@ public abstract class AbstractDocumentMapperTest {
     protected CoreTestContainer container;
 
 
-    @Before
+    @BeforeEach
     public void setup() {
         mappingConfig = new DocumentMappingConfig();
 

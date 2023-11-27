@@ -12,8 +12,8 @@ import io.crnk.validation.mock.models.Task;
 import io.crnk.validation.mock.repository.ProjectRepository;
 import io.crnk.validation.mock.repository.ScheduleRepository;
 import io.crnk.validation.mock.repository.TaskRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ValidationMetaProviderTest {
 
@@ -48,7 +48,7 @@ public class ValidationMetaProviderTest {
         setup(false);
         MetaResourceBase meta = resourceMetaProvider.getMeta(Task.class);
         MetaAttribute attr = meta.getAttribute("name");
-        Assert.assertTrue(attr.isNullable());
+        Assertions.assertTrue(attr.isNullable());
     }
 
     @Test
@@ -56,6 +56,6 @@ public class ValidationMetaProviderTest {
         setup(true);
         MetaResourceBase meta = resourceMetaProvider.getMeta(Task.class);
         MetaAttribute attr = meta.getAttribute("name");
-        Assert.assertFalse(attr.isNullable());
+        Assertions.assertFalse(attr.isNullable());
     }
 }

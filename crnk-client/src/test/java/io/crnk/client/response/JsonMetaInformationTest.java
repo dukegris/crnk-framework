@@ -8,9 +8,9 @@ import io.crnk.core.resource.meta.JsonMetaInformation;
 import io.crnk.core.resource.meta.MetaInformation;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.ScheduleRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class JsonMetaInformationTest {
 
@@ -18,7 +18,7 @@ public class JsonMetaInformationTest {
 
 	private JsonNode node;
 
-	@Before
+	@BeforeEach
 	public void setup() throws IOException {
 		mapper = new ObjectMapper();
 		node = mapper.reader().readTree("{\"value\": \"test\"}");
@@ -27,7 +27,7 @@ public class JsonMetaInformationTest {
 	@Test
 	public void testAsNode() {
 		JsonMetaInformation info = new JsonMetaInformation(node, mapper);
-		Assert.assertSame(node, info.asJsonNode());
+		Assertions.assertSame(node, info.asJsonNode());
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class JsonMetaInformationTest {
 		JsonMetaInformation info = new JsonMetaInformation(node, mapper);
 
 		Task.TaskMeta meta = info.as(Task.TaskMeta.class);
-		Assert.assertEquals("test", meta.value);
+		Assertions.assertEquals("test", meta.value);
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class JsonMetaInformationTest {
 		JsonMetaInformation info = new JsonMetaInformation(node, mapper);
 
 		MetaInterface meta = info.as(MetaInterface.class);
-		Assert.assertEquals("test", meta.getValue());
+		Assertions.assertEquals("test", meta.getValue());
 	}
 
 	interface MetaInterface extends MetaInformation {
@@ -52,11 +52,12 @@ public class JsonMetaInformationTest {
 	}
 
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testParseException() {
+		Assertions.assertThrows(IllegalStateException.class, () -> {
 		JsonMetaInformation info = new JsonMetaInformation(node, mapper);
-
 		info.as(ScheduleRepository.ScheduleListMeta.class);
+		});
 	}
 
 

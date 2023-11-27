@@ -7,9 +7,9 @@ import io.crnk.core.engine.properties.NullPropertiesProvider;
 import io.crnk.core.engine.query.QueryContext;
 import io.crnk.core.utils.Nullable;
 import io.crnk.test.mock.TestModule;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -22,7 +22,7 @@ public class ClientDocumentMapperTest {
 
     private QueryContext queryContext = new QueryContext();
 
-    @Before
+    @BeforeEach
     public void setup() {
         queryContext.setRequestVersion(0);
 
@@ -39,21 +39,23 @@ public class ClientDocumentMapperTest {
     public void testNullData() {
         Document doc = new Document();
         doc.setData(Nullable.nullValue());
-        Assert.assertNull(documentMapper.fromDocument(doc, false, queryContext));
+        Assertions.assertNull(documentMapper.fromDocument(doc, false, queryContext));
     }
 
     @Test
     public void testNoData() {
         Document doc = new Document();
         doc.setData(Nullable.empty());
-        Assert.assertNull(documentMapper.fromDocument(doc, false, queryContext));
+        Assertions.assertNull(documentMapper.fromDocument(doc, false, queryContext));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testCannotHaveErrors() {
+		Assertions.assertThrows(IllegalStateException.class, () -> {
         Document doc = new Document();
         doc.setErrors(Arrays.asList(new ErrorDataBuilder().build()));
         doc.setData(Nullable.nullValue());
         documentMapper.fromDocument(doc, false, queryContext);
+		});
     }
 }

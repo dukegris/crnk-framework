@@ -2,30 +2,30 @@ package io.crnk.gen.openapi.internal.operations;
 
 import io.crnk.gen.openapi.internal.OperationType;
 import io.swagger.v3.oas.models.Operation;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class RelationshipPatchTest extends NestedOperationsBaseTest {
   @Test
   void operationType() {
     RelationshipPatch RelationshipPatch = new RelationshipPatch(metaResource, metaResourceField, relatedMetaResource);
-    Assert.assertEquals(OperationType.PATCH, RelationshipPatch.operationType());
+    Assertions.assertEquals(OperationType.PATCH, RelationshipPatch.operationType());
   }
 
   @Test
   void isEnabledTrueWhenReadableAndFieldUpdatable() {
     RelationshipPatch RelationshipPatch = new RelationshipPatch(metaResource, metaResourceField, relatedMetaResource);
-    Assert.assertTrue(metaResource.isReadable());
+    Assertions.assertTrue(metaResource.isReadable());
     metaResourceField.setUpdatable(true);
-    Assert.assertTrue(RelationshipPatch.isEnabled());
+    Assertions.assertTrue(RelationshipPatch.isEnabled());
   }
 
   @Test
   void isEnabledFalseWhenReadableAndFieldNotUpdatable() {
     RelationshipPatch RelationshipPatch = new RelationshipPatch(metaResource, metaResourceField, relatedMetaResource);
-    Assert.assertTrue(metaResource.isReadable());
+    Assertions.assertTrue(metaResource.isReadable());
     metaResource.setUpdatable(false);
-    Assert.assertFalse(RelationshipPatch.isEnabled());
+    Assertions.assertFalse(RelationshipPatch.isEnabled());
   }
 
   @Test
@@ -33,7 +33,7 @@ class RelationshipPatchTest extends NestedOperationsBaseTest {
     RelationshipPatch RelationshipPatch = new RelationshipPatch(metaResource, metaResourceField, relatedMetaResource);
     metaResource.setReadable(false);
     metaResourceField.setUpdatable(true);
-    Assert.assertFalse(RelationshipPatch.isEnabled());
+    Assertions.assertFalse(RelationshipPatch.isEnabled());
   }
 
   @Test
@@ -41,24 +41,24 @@ class RelationshipPatchTest extends NestedOperationsBaseTest {
     RelationshipPatch RelationshipPatch = new RelationshipPatch(metaResource, metaResourceField, relatedMetaResource);
     metaResource.setReadable(false);
     metaResourceField.setUpdatable(false);
-    Assert.assertFalse(RelationshipPatch.isEnabled());
+    Assertions.assertFalse(RelationshipPatch.isEnabled());
   }
 
   @Test
   void getDescription() {
     RelationshipPatch RelationshipPatch = new RelationshipPatch(metaResource, metaResourceField, relatedMetaResource);
-    Assert.assertEquals("Update ResourceType relationship to a RelatedResourceType resource", RelationshipPatch.getDescription());
+    Assertions.assertEquals("Update ResourceType relationship to a RelatedResourceType resource", RelationshipPatch.getDescription());
   }
 
   @Test
   void operation() {
     Operation operation = new RelationshipPatch(metaResource, metaResourceField, relatedMetaResource).operation();
-    Assert.assertTrue(operation.getResponses().containsKey("200"));
+    Assertions.assertTrue(operation.getResponses().containsKey("200"));
   }
 
   @Test
   void path() {
     RelationshipPatch RelationshipPatch = new RelationshipPatch(metaResource, metaResourceField, relatedMetaResource);
-    Assert.assertEquals("/ResourcePath/{id}/relationships/someRelatedResource", RelationshipPatch.path());
+    Assertions.assertEquals("/ResourcePath/{id}/relationships/someRelatedResource", RelationshipPatch.path());
   }
 }

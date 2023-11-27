@@ -4,8 +4,8 @@ import io.crnk.gen.base.GeneratorConfig;
 import io.crnk.gen.runtime.cdi.CdiMetaResolver;
 import io.crnk.meta.MetaLookup;
 import io.crnk.meta.model.resource.MetaResource;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -31,11 +31,11 @@ public class CdiMetaResolverTest {
 
             MetaLookup lookup = captor.getValue();
             List<MetaResource> resources = lookup.findElements(MetaResource.class);
-            Assert.assertNotEquals(0, resources.stream().filter(it -> it.getName().contains("Task")).count());
-            Assert.fail();
+            Assertions.assertNotEquals(0, resources.stream().filter(it -> it.getName().contains("Task")).count());
+            Assertions.fail();
         } catch (Exception e) {
             Throwable cause = e.getCause().getCause();
-            Assert.assertTrue(cause.getMessage(), cause.getMessage().contains("add MetaModule to CDI setup"));
+            Assertions.assertTrue(cause.getMessage().contains("add MetaModule to CDI setup"), cause.getMessage());
         }
     }
 }

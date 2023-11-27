@@ -8,7 +8,7 @@ dependencies {
 	compileOnly 'javax.ws.rs:javax.ws.rs-api:2.1'
 
 	testCompile project(':crnk-test')
-	testCompile project(':crnk-client')
+	//testCompile project(':crnk-client')
 	testCompile 'javax.servlet:javax.servlet-api:3.0.1'
 	testCompile 'javax.annotation:javax.annotation-api:1.2'
 	testCompile 'net.javacrumbs.json-unit:json-unit-fluent:1.5.3'

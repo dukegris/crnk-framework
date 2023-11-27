@@ -11,7 +11,7 @@ import io.crnk.core.resource.annotations.LookupIncludeBehavior;
 import io.crnk.core.resource.annotations.SerializeType;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class ResourceFieldTest {
@@ -90,7 +90,7 @@ public class ResourceFieldTest {
 						null,
 						annotations, new ResourceFieldAccess(true, true, true, true));
 
-		Assert.assertEquals("[jsonName=test]", sut.toString());
+		Assertions.assertEquals("[jsonName=test]", sut.toString());
 	}
 
 	@Test
@@ -107,7 +107,7 @@ public class ResourceFieldTest {
 		Mockito.when(parent.getResourceClass()).thenReturn((Class) Task.class);
 		sut.setResourceInformation(parent);
 
-		Assert.assertEquals("[jsonName=test,resourceType=parent]", sut.toString());
+		Assertions.assertEquals("[jsonName=test,resourceType=parent]", sut.toString());
 	}
 
 

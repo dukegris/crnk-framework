@@ -8,9 +8,9 @@ import io.crnk.core.resource.links.LinksInformation;
 import io.crnk.core.resource.meta.JsonLinksInformation;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.ScheduleRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class JsonLinksInformationTest {
 
@@ -18,7 +18,7 @@ public class JsonLinksInformationTest {
 
 	private JsonNode node;
 
-	@Before
+	@BeforeEach
 	public void setup() throws IOException {
 		mapper = new ObjectMapper();
 		node = mapper.reader().readTree("{\"value\": \"test\"}");
@@ -27,7 +27,7 @@ public class JsonLinksInformationTest {
 	@Test
 	public void testAsNode() {
 		JsonLinksInformation info = new JsonLinksInformation(node, mapper);
-		Assert.assertSame(node, info.asJsonNode());
+		Assertions.assertSame(node, info.asJsonNode());
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class JsonLinksInformationTest {
 		JsonLinksInformation info = new JsonLinksInformation(node, mapper);
 
 		Task.TaskLinks meta = info.as(Task.TaskLinks.class);
-		Assert.assertEquals("test", meta.value.getHref());
+		Assertions.assertEquals("test", meta.value.getHref());
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class JsonLinksInformationTest {
 		JsonLinksInformation info = new JsonLinksInformation(node, mapper);
 
 		LinksInterface meta = info.as(LinksInterface.class);
-		Assert.assertEquals("test", meta.getValue());
+		Assertions.assertEquals("test", meta.getValue());
 	}
 
 	interface LinksInterface extends LinksInformation {
@@ -52,11 +52,12 @@ public class JsonLinksInformationTest {
 	}
 
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testParseException() {
+		Assertions.assertThrows(IllegalStateException.class, () -> {
 		JsonLinksInformation info = new JsonLinksInformation(node, mapper);
-
 		info.as(ScheduleRepository.ScheduleListLinks.class);
+		});
 	}
 
 

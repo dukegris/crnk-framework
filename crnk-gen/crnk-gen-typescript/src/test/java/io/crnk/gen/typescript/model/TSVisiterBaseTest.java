@@ -1,6 +1,6 @@
 package io.crnk.gen.typescript.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class TSVisiterBaseTest {

@@ -4,113 +4,121 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.crnk.core.exception.BadRequestException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class FilterOperatorTest {
 
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void andMatchNotSupported() {
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
 		FilterOperator.AND.matches(null, null);
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void notMatchNotSupported() {
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
 		FilterOperator.NOT.matches(null, null);
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void orMatchNotSupported() {
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
 		FilterOperator.OR.matches(null, null);
+		});
 	}
 
 	@Test
 	public void testLEOperator() {
-		Assert.assertTrue(FilterOperator.LE.matches("a", "b"));
+		Assertions.assertTrue(FilterOperator.LE.matches("a", "b"));
 	}
 
 	@Test
 	public void testSerialization() throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writerFor(FilterOperator.class).writeValueAsString(FilterOperator.EQ);
-		Assert.assertEquals("\"EQ\"", json);
+		Assertions.assertEquals("\"EQ\"", json);
 
 		FilterOperator operator = objectMapper.readerFor(FilterOperator.class).readValue(json);
-		Assert.assertEquals(FilterOperator.EQ, operator);
+		Assertions.assertEquals(FilterOperator.EQ, operator);
 	}
 
 	@Test
 	public void testLikeOperator() {
-		Assert.assertTrue(FilterOperator.LIKE.matches("test", "te%"));
-		Assert.assertTrue(FilterOperator.LIKE.matches("test", "Te%"));
-		Assert.assertTrue(FilterOperator.LIKE.matches("test", "tE%"));
-		Assert.assertFalse(FilterOperator.LIKE.matches("test", "aE%"));
-		Assert.assertTrue(FilterOperator.LIKE.matches("test", "t%t"));
-		Assert.assertTrue(FilterOperator.LIKE.matches("test.", "t%."));
-		Assert.assertFalse(FilterOperator.LIKE.matches(".", "t"));
-		Assert.assertTrue(FilterOperator.LIKE.matches(".", "."));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("test", "te%"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("test", "Te%"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("test", "tE%"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches("test", "aE%"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("test", "t%t"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("test.", "t%."));
+		Assertions.assertFalse(FilterOperator.LIKE.matches(".", "t"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches(".", "."));
 
-		Assert.assertFalse(FilterOperator.LIKE.matches(".", "t"));
-		Assert.assertFalse(FilterOperator.LIKE.matches(".", "t"));
-		Assert.assertFalse(FilterOperator.LIKE.matches("[", "t"));
-		Assert.assertFalse(FilterOperator.LIKE.matches("\\", "t"));
-		Assert.assertFalse(FilterOperator.LIKE.matches("^", "t"));
-		Assert.assertFalse(FilterOperator.LIKE.matches("$", "t"));
-		Assert.assertFalse(FilterOperator.LIKE.matches("|", "t"));
-		Assert.assertFalse(FilterOperator.LIKE.matches("?", "t"));
-		Assert.assertFalse(FilterOperator.LIKE.matches(")", "t"));
-		Assert.assertFalse(FilterOperator.LIKE.matches("(", "t"));
-		Assert.assertFalse(FilterOperator.LIKE.matches("+", "t"));
-		Assert.assertFalse(FilterOperator.LIKE.matches("*", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches(".", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches(".", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches("[", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches("\\", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches("^", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches("$", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches("|", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches("?", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches(")", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches("(", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches("+", "t"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches("*", "t"));
 
-		Assert.assertTrue(FilterOperator.LIKE.matches(".", "."));
-		Assert.assertTrue(FilterOperator.LIKE.matches("[", "["));
-		Assert.assertTrue(FilterOperator.LIKE.matches("\\", "\\"));
-		Assert.assertTrue(FilterOperator.LIKE.matches("^", "^"));
-		Assert.assertTrue(FilterOperator.LIKE.matches("$", "$"));
-		Assert.assertTrue(FilterOperator.LIKE.matches("|", "|"));
-		Assert.assertTrue(FilterOperator.LIKE.matches("?", "?"));
-		Assert.assertTrue(FilterOperator.LIKE.matches(")", ")"));
-		Assert.assertTrue(FilterOperator.LIKE.matches("(", "("));
-		Assert.assertTrue(FilterOperator.LIKE.matches("+", "+"));
-		Assert.assertTrue(FilterOperator.LIKE.matches("*", "*"));
-		Assert.assertFalse(FilterOperator.LIKE.matches(null, "*"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches(".", "."));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("[", "["));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("\\", "\\"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("^", "^"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("$", "$"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("|", "|"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("?", "?"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches(")", ")"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("(", "("));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("+", "+"));
+		Assertions.assertTrue(FilterOperator.LIKE.matches("*", "*"));
+		Assertions.assertFalse(FilterOperator.LIKE.matches(null, "*"));
 	}
 
 	@Test
 	public void testLikeOperatorUsesStringType() {
-		Assert.assertEquals(String.class, FilterOperator.LIKE.getFilterType(null, Integer.class));
+		Assertions.assertEquals(String.class, FilterOperator.LIKE.getFilterType(null, Integer.class));
 	}
 
-	@Test(expected = BadRequestException.class)
+	@Test
 	public void testLikeWithoutPattern() {
+		Assertions.assertThrows(BadRequestException.class, () -> {
 		FilterOperator.LIKE.matches("test", null);
+		});
 	}
 
 
 	@Test
 	public void testDefaultOperatorsUsesSameType() {
-		Assert.assertEquals(Integer.class, FilterOperator.EQ.getFilterType(null, Integer.class));
-		Assert.assertEquals(Integer.class, FilterOperator.GT.getFilterType(null, Integer.class));
-		Assert.assertEquals(Integer.class, FilterOperator.GE.getFilterType(null, Integer.class));
-		Assert.assertEquals(Boolean.class, FilterOperator.LT.getFilterType(null, Boolean.class));
-		Assert.assertEquals(Long.class, FilterOperator.LE.getFilterType(null, Long.class));
+		Assertions.assertEquals(Integer.class, FilterOperator.EQ.getFilterType(null, Integer.class));
+		Assertions.assertEquals(Integer.class, FilterOperator.GT.getFilterType(null, Integer.class));
+		Assertions.assertEquals(Integer.class, FilterOperator.GE.getFilterType(null, Integer.class));
+		Assertions.assertEquals(Boolean.class, FilterOperator.LT.getFilterType(null, Boolean.class));
+		Assertions.assertEquals(Long.class, FilterOperator.LE.getFilterType(null, Long.class));
 	}
 
 	@Test
 	public void testEquals() {
-		Assert.assertEquals(FilterOperator.AND, FilterOperator.AND);
-		Assert.assertNotEquals(FilterOperator.AND, "notAnOperator");
-		Assert.assertNotEquals(FilterOperator.AND, null);
-		Assert.assertEquals(FilterOperator.OR, FilterOperator.OR);
-		Assert.assertEquals(FilterOperator.OR, new FilterOperator("OR") {
+		Assertions.assertEquals(FilterOperator.AND, FilterOperator.AND);
+		Assertions.assertNotEquals(FilterOperator.AND, "notAnOperator");
+		Assertions.assertNotEquals(FilterOperator.AND, null);
+		Assertions.assertEquals(FilterOperator.OR, FilterOperator.OR);
+		Assertions.assertEquals(FilterOperator.OR, new FilterOperator("OR") {
 
 			@Override
 			public boolean matches(Object value1, Object value2) {
 				return false;
 			}
 		});
-		Assert.assertNotEquals(FilterOperator.AND, FilterOperator.OR);
+		Assertions.assertNotEquals(FilterOperator.AND, FilterOperator.OR);
 	}
 }

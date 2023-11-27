@@ -8,7 +8,7 @@ import io.crnk.client.suite.RepositoryAccessClientTest;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.test.mock.models.Task;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 

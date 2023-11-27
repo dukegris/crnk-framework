@@ -15,9 +15,9 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public class ProcessInstanceHistoryRepositoryTest extends ActivitiTestBase {
 
     private ResourceRepository<ScheduleApprovalProcessInstance, String> processRepository;
 
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -76,7 +76,7 @@ public class ProcessInstanceHistoryRepositoryTest extends ActivitiTestBase {
         // complete process
         TaskService taskService = processEngine.getTaskService();
         Task task = taskService.createTaskQuery().list().get(0);
-        Assert.assertEquals(task.getProcessInstanceId(), processInstance.getId());
+        Assertions.assertEquals(task.getProcessInstanceId(), processInstance.getId());
         Map<String, Object> variables = new HashMap<>();
         variables.put("approved", false);
         taskService.complete(task.getId(), variables);
@@ -87,25 +87,25 @@ public class ProcessInstanceHistoryRepositoryTest extends ActivitiTestBase {
     public void checkCompletedTaskNotFoundByMainRepository() {
         QuerySpec querySpec = new QuerySpec(ScheduleApprovalProcessInstance.class);
         querySpec.addFilter(new FilterSpec(Arrays.asList("id"), FilterOperator.EQ, processInstance.getId()));
-        Assert.assertEquals(0, processRepository.findAll(querySpec).size());
+        Assertions.assertEquals(0, processRepository.findAll(querySpec).size());
     }
 
     @Test
     public void checkEqualId() {
         QuerySpec querySpec = new QuerySpec(HistoricScheduleApprovalProcessInstance.class);
         querySpec.addFilter(new FilterSpec(Arrays.asList("id"), FilterOperator.EQ, processInstance.getId()));
-        Assert.assertEquals(1, processHistoryRepository.findAll(querySpec).size());
+        Assertions.assertEquals(1, processHistoryRepository.findAll(querySpec).size());
 
         querySpec = new QuerySpec(HistoricScheduleApprovalProcessInstance.class);
         querySpec.addFilter(new FilterSpec(Arrays.asList("id"), FilterOperator.EQ, "doesNotExists"));
-        Assert.assertEquals(0, processHistoryRepository.findAll(querySpec).size());
+        Assertions.assertEquals(0, processHistoryRepository.findAll(querySpec).size());
     }
 
     @Test
     public void checkOrderByDuration() {
         QuerySpec querySpec = new QuerySpec(HistoricScheduleApprovalProcessInstance.class);
         querySpec.addSort(new SortSpec(Arrays.asList("duration"), Direction.DESC));
-        Assert.assertNotEquals(0, processHistoryRepository.findAll(querySpec).size());
+        Assertions.assertNotEquals(0, processHistoryRepository.findAll(querySpec).size());
 
     }
 }

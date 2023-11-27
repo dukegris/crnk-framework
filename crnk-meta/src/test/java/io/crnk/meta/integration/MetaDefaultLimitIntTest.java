@@ -12,9 +12,9 @@ import io.crnk.meta.model.MetaElement;
 import io.crnk.meta.model.resource.MetaResource;
 import io.crnk.meta.model.resource.MetaResourceField;
 import io.crnk.rs.CrnkFeature;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ public class MetaDefaultLimitIntTest extends AbstractMetaJerseyTest {
 
 	private ResourceRepository<MetaResource, Serializable> repository;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 		repository = client.getRepositoryForType(MetaResource.class);
@@ -41,7 +41,7 @@ public class MetaDefaultLimitIntTest extends AbstractMetaJerseyTest {
 		querySpec.includeRelation(Arrays.asList("attributes"));
 
 		ResourceList<MetaResource> list = repository.findAll(querySpec);
-		Assert.assertEquals(2, list.size());
+		Assertions.assertEquals(2, list.size());
 	}
 
 	@Test
@@ -51,11 +51,11 @@ public class MetaDefaultLimitIntTest extends AbstractMetaJerseyTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("resourceType"), FilterOperator.EQ, "tasks"));
 
 		ResourceList<MetaResource> list = repository.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		MetaResource taskMeta = list.get(0);
 
 		List<? extends MetaAttribute> attributes = taskMeta.getAttributes();
-		Assert.assertTrue(attributes.size() > 5);
+		Assertions.assertTrue(attributes.size() > 5);
 	}
 
 	@Test
@@ -69,11 +69,11 @@ public class MetaDefaultLimitIntTest extends AbstractMetaJerseyTest {
 		querySpec.getOrCreateQuerySpec(MetaResourceField.class).addSort(new SortSpec(Arrays.asList("id"), Direction.ASC));
 
 		ResourceList<MetaResource> list = repository.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		MetaResource taskMeta = list.get(0);
 
 		List<? extends MetaAttribute> attributes = taskMeta.getAttributes();
-		Assert.assertTrue(attributes.size() > 5);
+		Assertions.assertTrue(attributes.size() > 5);
 	}
 
 	@Test
@@ -85,11 +85,11 @@ public class MetaDefaultLimitIntTest extends AbstractMetaJerseyTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("id"), FilterOperator.EQ, "resources.tasks"));
 
 		ResourceList<MetaElement> list = elementRepository.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		MetaResource taskMeta = (MetaResource) list.get(0);
 
 		List<? extends MetaAttribute> attributes = taskMeta.getAttributes();
-		Assert.assertTrue(attributes.size() > 5);
+		Assertions.assertTrue(attributes.size() > 5);
 	}
 
 	@Test
@@ -100,11 +100,11 @@ public class MetaDefaultLimitIntTest extends AbstractMetaJerseyTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("resourceType"), FilterOperator.EQ, "tasks"));
 
 		ResourceList<MetaResource> list = repository.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		MetaResource taskMeta = list.get(0);
 
 		List<? extends MetaAttribute> attributes = taskMeta.getAttributes();
-		Assert.assertTrue(attributes.size() > 5);
+		Assertions.assertTrue(attributes.size() > 5);
 	}
 
 }

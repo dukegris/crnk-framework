@@ -8,9 +8,9 @@ import javax.servlet.ServletContext;
 import io.crnk.core.engine.http.HttpHeaders;
 import io.crnk.core.engine.http.HttpResponse;
 import io.crnk.servlet.internal.ServletRequestContext;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -23,7 +23,7 @@ public class ServletRequestContextTest {
 
 	private MockHttpServletResponse servletResponse;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		servletContext = Mockito.mock(ServletContext.class);
 
@@ -40,10 +40,10 @@ public class ServletRequestContextTest {
 	@Test
 	public void testGetters() {
 		ServletRequestContext context = new ServletRequestContext(servletContext, servletRequest, servletResponse, "/api");
-		Assert.assertEquals(servletRequest, context.getServletRequest());
-		Assert.assertEquals(servletResponse, context.getServletResponse());
-		Assert.assertEquals(servletContext, context.getServletContext());
-		Assert.assertEquals("http://test:1234/api/tasks/", context.getRequestUri().toString());
+		Assertions.assertEquals(servletRequest, context.getServletRequest());
+		Assertions.assertEquals(servletResponse, context.getServletResponse());
+		Assertions.assertEquals(servletContext, context.getServletContext());
+		Assertions.assertEquals("http://test:1234/api/tasks/", context.getRequestUri().toString());
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class ServletRequestContextTest {
 		response.setHeader("test", "13");
 		context.setResponse(response);
 
-		Assert.assertEquals("13", context.getResponse().getHeader("test"));
+		Assertions.assertEquals("13", context.getResponse().getHeader("test"));
 	}
 
 	@Test
@@ -62,8 +62,8 @@ public class ServletRequestContextTest {
 		servletRequest.setServletPath("/api");
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, servletRequest, servletResponse, null);
-		Assert.assertEquals("http://test:1234/api", context.getBaseUrl());
-		Assert.assertEquals("/tasks/", context.getPath());
+		Assertions.assertEquals("http://test:1234/api", context.getBaseUrl());
+		Assertions.assertEquals("/tasks/", context.getPath());
 	}
 
 	@Test
@@ -73,15 +73,15 @@ public class ServletRequestContextTest {
 		servletRequest.addHeader(HttpHeaders.X_FORWARDED_PROTO_HEADER, "https");
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, servletRequest, servletResponse, null);
-		Assert.assertEquals("https://test:1234/api", context.getBaseUrl());
-		Assert.assertEquals("/tasks/", context.getPath());
-		Assert.assertEquals("https", context.getRequestHeader(HttpHeaders.X_FORWARDED_PROTO_HEADER));
-		Assert.assertTrue(context.getRequestHeaderNames().contains(HttpHeaders.X_FORWARDED_PROTO_HEADER));
-		Assert.assertTrue(context.getReadForwardedHeader());
+		Assertions.assertEquals("https://test:1234/api", context.getBaseUrl());
+		Assertions.assertEquals("/tasks/", context.getPath());
+		Assertions.assertEquals("https", context.getRequestHeader(HttpHeaders.X_FORWARDED_PROTO_HEADER));
+		Assertions.assertTrue(context.getRequestHeaderNames().contains(HttpHeaders.X_FORWARDED_PROTO_HEADER));
+		Assertions.assertTrue(context.getReadForwardedHeader());
 
 		context = new ServletRequestContext(servletContext, servletRequest, servletResponse, null);
 		context.setReadForwardedHeader(false);
-		Assert.assertEquals("http://test:1234/api", context.getBaseUrl());
+		Assertions.assertEquals("http://test:1234/api", context.getBaseUrl());
 	}
 
 	@Test
@@ -89,8 +89,8 @@ public class ServletRequestContextTest {
 		servletRequest.setServletPath("");
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, servletRequest, servletResponse, "/api/");
-		Assert.assertEquals("http://test:1234/api", context.getBaseUrl());
-		Assert.assertEquals("/tasks/", context.getPath());
+		Assertions.assertEquals("http://test:1234/api", context.getBaseUrl());
+		Assertions.assertEquals("/tasks/", context.getPath());
 	}
 
 
@@ -99,8 +99,8 @@ public class ServletRequestContextTest {
 		servletRequest.setServletPath("");
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, servletRequest, servletResponse, "api/");
-		Assert.assertEquals("http://test:1234/api", context.getBaseUrl());
-		Assert.assertEquals("/tasks/", context.getPath());
+		Assertions.assertEquals("http://test:1234/api", context.getBaseUrl());
+		Assertions.assertEquals("/tasks/", context.getPath());
 	}
 
 	@Test
@@ -108,8 +108,8 @@ public class ServletRequestContextTest {
 		servletRequest.setServletPath("");
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, servletRequest, servletResponse, "/api");
-		Assert.assertEquals("http://test:1234/api", context.getBaseUrl());
-		Assert.assertEquals("/tasks/", context.getPath());
+		Assertions.assertEquals("http://test:1234/api", context.getBaseUrl());
+		Assertions.assertEquals("/tasks/", context.getPath());
 	}
 
 	@Test
@@ -119,8 +119,8 @@ public class ServletRequestContextTest {
 		servletRequest.setRequestURI("/context/servlet/tasks/");
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, servletRequest, servletResponse, null);
-		Assert.assertEquals("http://test:1234/context/servlet", context.getBaseUrl());
-		Assert.assertEquals("/tasks/", context.getPath());
+		Assertions.assertEquals("http://test:1234/context/servlet", context.getBaseUrl());
+		Assertions.assertEquals("/tasks/", context.getPath());
 	}
 
 	@Test
@@ -130,8 +130,8 @@ public class ServletRequestContextTest {
 		servletRequest.setRequestURI("/context/api/tasks/");
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, servletRequest, servletResponse, "/api/");
-		Assert.assertEquals("http://test:1234/context/api", context.getBaseUrl());
-		Assert.assertEquals("/tasks/", context.getPath());
+		Assertions.assertEquals("http://test:1234/context/api", context.getBaseUrl());
+		Assertions.assertEquals("/tasks/", context.getPath());
 	}
 
 
@@ -142,8 +142,8 @@ public class ServletRequestContextTest {
 		response.setBody("test");
 		response.setStatusCode(200);
 		boolean completed = context.checkAbort();
-		Assert.assertTrue(completed);
-		Assert.assertEquals("4", servletResponse.getHeader("Content-Length"));
+		Assertions.assertTrue(completed);
+		Assertions.assertEquals("4", servletResponse.getHeader("Content-Length"));
 	}
 
 
@@ -154,8 +154,8 @@ public class ServletRequestContextTest {
 		servletRequest.setRequestURI("/tasks");
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, servletRequest, servletResponse, null);
-		Assert.assertEquals("http://test:1234", context.getBaseUrl());
-		Assert.assertEquals("/tasks", context.getPath());
+		Assertions.assertEquals("http://test:1234", context.getBaseUrl());
+		Assertions.assertEquals("/tasks", context.getPath());
 	}
 
 
@@ -167,8 +167,8 @@ public class ServletRequestContextTest {
 		servletRequest.setPathInfo("/api/something/");
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, servletRequest, servletResponse, "/api/");
-		Assert.assertEquals("http://test:1234/context/api", context.getBaseUrl());
-		Assert.assertEquals("/something/", context.getPath());
+		Assertions.assertEquals("http://test:1234/context/api", context.getBaseUrl());
+		Assertions.assertEquals("/something/", context.getPath());
 	}
 
 	@Test
@@ -178,10 +178,10 @@ public class ServletRequestContextTest {
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, request, servletResponse, null);
 		Map<String, Set<String>> parameters = context.getRequestParameters();
-		Assert.assertEquals(1, parameters.size());
+		Assertions.assertEquals(1, parameters.size());
 		Set<String> values = parameters.get("include[test]");
-		Assert.assertEquals(1, values.size());
-		Assert.assertEquals("a,b,c", values.iterator().next());
+		Assertions.assertEquals(1, values.size());
+		Assertions.assertEquals("a,b,c", values.iterator().next());
 	}
 
 	@Test
@@ -199,8 +199,8 @@ public class ServletRequestContextTest {
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, request, servletResponse, null);
 
-		Assert.assertEquals("/", context.getPath());
-		Assert.assertEquals("http://test:1234", context.getBaseUrl());
+		Assertions.assertEquals("/", context.getPath());
+		Assertions.assertEquals("http://test:1234", context.getBaseUrl());
 	}
 
 	@Test
@@ -217,7 +217,7 @@ public class ServletRequestContextTest {
 
 		ServletRequestContext context = new ServletRequestContext(servletContext, request, servletResponse, "/api");
 
-		Assert.assertEquals("http://test:1234/api", context.getBaseUrl());
-		Assert.assertEquals("/tasks/", context.getPath());
+		Assertions.assertEquals("http://test:1234/api", context.getBaseUrl());
+		Assertions.assertEquals("/tasks/", context.getPath());
 	}
 }

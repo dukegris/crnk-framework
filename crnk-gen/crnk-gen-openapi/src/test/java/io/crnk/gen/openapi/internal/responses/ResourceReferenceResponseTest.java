@@ -4,7 +4,7 @@ import io.crnk.gen.openapi.internal.MetaResourceBaseTest;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class ResourceReferenceResponseTest extends MetaResourceBaseTest {
@@ -12,12 +12,12 @@ class ResourceReferenceResponseTest extends MetaResourceBaseTest {
   @Test
   void response() {
     ApiResponse apiResponse = new ResourceReferenceResponse(metaResource).response();
-    Assert.assertNotNull(apiResponse);
-    Assert.assertEquals("OK", apiResponse.getDescription());
+    Assertions.assertNotNull(apiResponse);
+    Assertions.assertEquals("OK", apiResponse.getDescription());
     Content content = apiResponse.getContent();
-    Assert.assertEquals(1, content.size());
+    Assertions.assertEquals(1, content.size());
     Schema schema = content.get("application/vnd.api+json").getSchema();
-    Assert.assertEquals(
+    Assertions.assertEquals(
         "#/components/schemas/ResourceTypeResourceReferenceResponseSchema",
         schema.get$ref()
     );

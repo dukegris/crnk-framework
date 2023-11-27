@@ -8,23 +8,23 @@ import io.crnk.core.repository.ResourceRepository;
 import io.crnk.data.jpa.internal.JpaResourceInformationProvider;
 import io.crnk.data.jpa.model.RelatedEntity;
 import io.crnk.data.jpa.model.TestEntity;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.List;
 
-@Ignore
+@Disabled
 public class JpaPartialEntityExposureTest extends AbstractJpaJerseyTest {
 
     protected ResourceRepository<TestEntity, Serializable> testRepo;
 
     @Override
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
         testRepo = client.getRepositoryForType(TestEntity.class);
@@ -37,7 +37,7 @@ public class JpaPartialEntityExposureTest extends AbstractJpaJerseyTest {
     }
 
     @Override
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         super.tearDown();
     }
@@ -50,16 +50,16 @@ public class JpaPartialEntityExposureTest extends AbstractJpaJerseyTest {
         testRepo.save(test);
 
         List<TestEntity> tests = testRepo.findAll(new QuerySpec(TestEntity.class));
-        Assert.assertEquals(1, tests.size());
+        Assertions.assertEquals(1, tests.size());
         test = tests.get(0);
-        Assert.assertEquals(2L, test.getId().longValue());
-        Assert.assertNull(test.getOneRelatedValue());
-        Assert.assertNull(test.getEagerRelatedValue());
-        Assert.assertTrue(test.getManyRelatedValues().isEmpty());
+        Assertions.assertEquals(2L, test.getId().longValue());
+        Assertions.assertNull(test.getOneRelatedValue());
+        Assertions.assertNull(test.getEagerRelatedValue());
+        Assertions.assertTrue(test.getManyRelatedValues().isEmpty());
 
         testRepo.delete(test.getId());
         tests = testRepo.findAll(new QuerySpec(TestEntity.class));
-        Assert.assertEquals(0, tests.size());
+        Assertions.assertEquals(0, tests.size());
     }
 
     @Test
@@ -68,7 +68,7 @@ public class JpaPartialEntityExposureTest extends AbstractJpaJerseyTest {
         JpaResourceInformationProvider builder = new JpaResourceInformationProvider(new NullPropertiesProvider());
         ResourceInformation info = builder.build(TestEntity.class);
         List<ResourceField> relationshipFields = info.getRelationshipFields();
-        Assert.assertEquals(0, relationshipFields.size());
+        Assertions.assertEquals(0, relationshipFields.size());
     }
 
 }

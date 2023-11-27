@@ -10,9 +10,9 @@ import io.crnk.meta.model.resource.MetaResource;
 import io.crnk.meta.provider.resource.ResourceMetaProvider;
 import io.crnk.test.mock.TestModule;
 import io.crnk.test.mock.models.Task;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MetaMetaTest {
 
@@ -20,7 +20,7 @@ public class MetaMetaTest {
 
 	private ResourceMetaProvider resourceProvider;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		CrnkBoot boot = new CrnkBoot();
 		boot.setServiceUrlProvider(new ConstantServiceUrlProvider("http://localhost"));
@@ -42,20 +42,20 @@ public class MetaMetaTest {
 		MetaResource elementMeta = resourceProvider.getMeta(MetaElement.class);
 		MetaResource dataMeta = resourceProvider.getMeta(MetaDataObject.class);
 
-		Assert.assertSame(elementMeta.getAttribute("id"), dataMeta.getAttribute("id"));
-		Assert.assertSame(elementMeta.getPrimaryKey(), dataMeta.getPrimaryKey());
+		Assertions.assertSame(elementMeta.getAttribute("id"), dataMeta.getAttribute("id"));
+		Assertions.assertSame(elementMeta.getPrimaryKey(), dataMeta.getPrimaryKey());
 	}
 
 	@Test
 	public void testMetaElementImmutable() {
 		MetaResource dataMeta = resourceProvider.getMeta(MetaDataObject.class);
-		Assert.assertFalse(dataMeta.isUpdatable());
-		Assert.assertFalse(dataMeta.isInsertable());
-		Assert.assertFalse(dataMeta.isDeletable());
-		Assert.assertNotEquals(0, dataMeta.getAttributes().size());
+		Assertions.assertFalse(dataMeta.isUpdatable());
+		Assertions.assertFalse(dataMeta.isInsertable());
+		Assertions.assertFalse(dataMeta.isDeletable());
+		Assertions.assertNotEquals(0, dataMeta.getAttributes().size());
 		for (MetaAttribute attr : dataMeta.getAttributes()) {
-			Assert.assertFalse(attr.isUpdatable());
-			Assert.assertFalse(attr.isInsertable());
+			Assertions.assertFalse(attr.isUpdatable());
+			Assertions.assertFalse(attr.isInsertable());
 		}
 	}
 
@@ -64,8 +64,8 @@ public class MetaMetaTest {
 		MetaResource taskMeta = resourceProvider.getMeta(Task.class);
 		MetaAttribute linksInformation = taskMeta.getAttribute("linksInformation");
 		MetaType type = linksInformation.getType();
-		Assert.assertEquals(type.getId(), "resources.tasks$links");
-		Assert.assertEquals(type.getName(), "TaskLinks");
+		Assertions.assertEquals(type.getId(), "resources.tasks$links");
+		Assertions.assertEquals(type.getName(), "TaskLinks");
 	}
 
 
@@ -74,19 +74,19 @@ public class MetaMetaTest {
 		MetaResource taskMeta = resourceProvider.getMeta(Task.class);
 		MetaAttribute metaInformation = taskMeta.getAttribute("metaInformation");
 		MetaType type = metaInformation.getType();
-		Assert.assertEquals(type.getId(), "resources.tasks$meta");
-		Assert.assertEquals(type.getName(), "TaskMeta");
+		Assertions.assertEquals(type.getId(), "resources.tasks$meta");
+		Assertions.assertEquals(type.getName(), "TaskMeta");
 	}
 
 	@Test
 	public void testNonMetaElementMutable() {
 		MetaResource dataMeta = resourceProvider.getMeta(Task.class);
-		Assert.assertTrue(dataMeta.isUpdatable());
-		Assert.assertTrue(dataMeta.isInsertable());
-		Assert.assertTrue(dataMeta.isDeletable());
-		Assert.assertNotEquals(0, dataMeta.getAttributes().size());
+		Assertions.assertTrue(dataMeta.isUpdatable());
+		Assertions.assertTrue(dataMeta.isInsertable());
+		Assertions.assertTrue(dataMeta.isDeletable());
+		Assertions.assertNotEquals(0, dataMeta.getAttributes().size());
 		for (MetaAttribute attr : dataMeta.getAttributes()) {
-			Assert.assertTrue(attr.isInsertable());
+			Assertions.assertTrue(attr.isInsertable());
 		}
 	}
 
@@ -95,15 +95,15 @@ public class MetaMetaTest {
 		MetaResource meta = resourceProvider.getMeta(MetaDataObject.class);
 
 		MetaAttribute elementTypeAttr = meta.getAttribute("elementType");
-		Assert.assertNotNull(elementTypeAttr);
-		Assert.assertNotNull(elementTypeAttr.getType());
-		Assert.assertEquals("resources.metaType.elementType", elementTypeAttr.getId());
+		Assertions.assertNotNull(elementTypeAttr);
+		Assertions.assertNotNull(elementTypeAttr.getType());
+		Assertions.assertEquals("resources.metaType.elementType", elementTypeAttr.getId());
 
 		MetaAttribute attrsAttr = meta.getAttribute("attributes");
-		Assert.assertNotNull(attrsAttr.getType());
+		Assertions.assertNotNull(attrsAttr.getType());
 
 		MetaAttribute childrenAttr = meta.getAttribute("children");
-		Assert.assertEquals("resources.metaElement.children", childrenAttr.getId());
-		Assert.assertEquals("resources.metaElement$list", childrenAttr.getType().getId());
+		Assertions.assertEquals("resources.metaElement.children", childrenAttr.getId());
+		Assertions.assertEquals("resources.metaElement$list", childrenAttr.getType().getId());
 	}
 }

@@ -5,8 +5,8 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.pagingspec.NumberSizePagingBehavior;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.test.mock.models.Schedule;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class CrnkClientTest extends AbstractClientTest {
 
@@ -28,7 +28,7 @@ public class CrnkClientTest extends AbstractClientTest {
             }
         };
         client.setObjectMapper(myObjectMapper);
-        Assert.assertSame(myObjectMapper, client.getObjectMapper());
+        Assertions.assertSame(myObjectMapper, client.getObjectMapper());
 
         ResourceRepository<Schedule, Object> repository = client.getRepositoryForType(Schedule.class);
         repository.findAll(new QuerySpec(Schedule.class));

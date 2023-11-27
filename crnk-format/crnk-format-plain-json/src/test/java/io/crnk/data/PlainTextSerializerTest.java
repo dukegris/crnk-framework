@@ -18,16 +18,16 @@ import io.crnk.core.utils.Nullable;
 import io.crnk.format.plainjson.internal.PlainJsonDocument;
 import io.crnk.format.plainjson.internal.PlainJsonDocumentDeserializer;
 import io.crnk.format.plainjson.internal.PlainJsonDocumentSerializer;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PlainTextSerializerTest {
 
 
 	private ObjectMapper objectMapper;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		objectMapper = new ObjectMapper();
 		SimpleModule simpleModule = new SimpleModule();
@@ -44,11 +44,11 @@ public class PlainTextSerializerTest {
 		String json = objectMapper.writeValueAsString(document);
 		PlainJsonDocument copy = objectMapper.readValue(json, PlainJsonDocument.class);
 
-		Assert.assertNull(copy.getMeta());
-		Assert.assertNull(copy.getLinks());
-		Assert.assertNull(copy.getErrors());
-		Assert.assertNull(copy.getIncluded());
-		Assert.assertFalse(copy.getData().isPresent());
+		Assertions.assertNull(copy.getMeta());
+		Assertions.assertNull(copy.getLinks());
+		Assertions.assertNull(copy.getErrors());
+		Assertions.assertNull(copy.getIncluded());
+		Assertions.assertFalse(copy.getData().isPresent());
 	}
 
 	@Test
@@ -60,7 +60,7 @@ public class PlainTextSerializerTest {
 
 		String json = objectMapper.writeValueAsString(document);
 		PlainJsonDocument copy = objectMapper.readValue(json, PlainJsonDocument.class);
-		Assert.assertEquals(meta, copy.getMeta());
+		Assertions.assertEquals(meta, copy.getMeta());
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class PlainTextSerializerTest {
 
 		String json = objectMapper.writeValueAsString(document);
 		PlainJsonDocument copy = objectMapper.readValue(json, PlainJsonDocument.class);
-		Assert.assertEquals(links, copy.getLinks());
+		Assertions.assertEquals(links, copy.getLinks());
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class PlainTextSerializerTest {
 
 		String json = objectMapper.writeValueAsString(document);
 		PlainJsonDocument copy = objectMapper.readValue(json, PlainJsonDocument.class);
-		Assert.assertEquals(document.getErrors(), copy.getErrors());
+		Assertions.assertEquals(document.getErrors(), copy.getErrors());
 	}
 
 
@@ -119,12 +119,12 @@ public class PlainTextSerializerTest {
 		PlainJsonDocument copy = objectMapper.readValue(json, PlainJsonDocument.class);
 
 		Resource resourceCopy = copy.getSingleData().get();
-		Assert.assertEquals(resource.getId(), resourceCopy.getId());
-		Assert.assertEquals(resource.getType(), resourceCopy.getType());
-		Assert.assertEquals(resource.getMeta(), resourceCopy.getMeta());
-		Assert.assertEquals(resource.getLinks(), resourceCopy.getLinks());
-		Assert.assertEquals(resource.getAttributes(), resourceCopy.getAttributes());
-		Assert.assertEquals(resource.getRelationships(), resourceCopy.getRelationships());
+		Assertions.assertEquals(resource.getId(), resourceCopy.getId());
+		Assertions.assertEquals(resource.getType(), resourceCopy.getType());
+		Assertions.assertEquals(resource.getMeta(), resourceCopy.getMeta());
+		Assertions.assertEquals(resource.getLinks(), resourceCopy.getLinks());
+		Assertions.assertEquals(resource.getAttributes(), resourceCopy.getAttributes());
+		Assertions.assertEquals(resource.getRelationships(), resourceCopy.getRelationships());
 	}
 
 	@Test
@@ -166,21 +166,21 @@ public class PlainTextSerializerTest {
 		PlainJsonDocument copy = objectMapper.readValue(json, PlainJsonDocument.class);
 
 		Resource resourceCopy = copy.getSingleData().get();
-		Assert.assertEquals(resource.getId(), resourceCopy.getId());
-		Assert.assertEquals(resource.getType(), resourceCopy.getType());
-		Assert.assertEquals(resource.getMeta(), resourceCopy.getMeta());
-		Assert.assertEquals(resource.getLinks(), resourceCopy.getLinks());
-		Assert.assertEquals(resource.getAttributes(), resourceCopy.getAttributes());
-		Assert.assertEquals(resource.getRelationships(), resourceCopy.getRelationships());
+		Assertions.assertEquals(resource.getId(), resourceCopy.getId());
+		Assertions.assertEquals(resource.getType(), resourceCopy.getType());
+		Assertions.assertEquals(resource.getMeta(), resourceCopy.getMeta());
+		Assertions.assertEquals(resource.getLinks(), resourceCopy.getLinks());
+		Assertions.assertEquals(resource.getAttributes(), resourceCopy.getAttributes());
+		Assertions.assertEquals(resource.getRelationships(), resourceCopy.getRelationships());
 
 		List<Resource> includedCopy = copy.getIncluded();
-		Assert.assertEquals(1, includedCopy.size());
+		Assertions.assertEquals(1, includedCopy.size());
 		Resource relatedCopy = includedCopy.get(0);
-		Assert.assertEquals(related.getId(), relatedCopy.getId());
-		Assert.assertEquals(related.getType(), relatedCopy.getType());
-		Assert.assertEquals(related.getMeta(), relatedCopy.getMeta());
-		Assert.assertEquals(related.getLinks(), relatedCopy.getLinks());
-		Assert.assertEquals(related.getAttributes(), relatedCopy.getAttributes());
-		Assert.assertEquals(related.getRelationships(), relatedCopy.getRelationships());
+		Assertions.assertEquals(related.getId(), relatedCopy.getId());
+		Assertions.assertEquals(related.getType(), relatedCopy.getType());
+		Assertions.assertEquals(related.getMeta(), relatedCopy.getMeta());
+		Assertions.assertEquals(related.getLinks(), relatedCopy.getLinks());
+		Assertions.assertEquals(related.getAttributes(), relatedCopy.getAttributes());
+		Assertions.assertEquals(related.getRelationships(), relatedCopy.getRelationships());
 	}
 }

@@ -14,16 +14,16 @@ import io.crnk.core.repository.response.JsonApiResponse;
 import io.crnk.core.resource.links.LinksInformation;
 import io.crnk.core.resource.links.PagedLinksInformation;
 import io.crnk.core.resource.meta.HasMoreResourcesMetaInformation;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class HasNextBasedPagedLinksInformationTest extends AbstractQuerySpecTest {
 
 	private ResourceRepositoryAdapter adapter;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		HasNextPageTestRepository.clear();
 
@@ -59,13 +59,13 @@ public class HasNextBasedPagedLinksInformationTest extends AbstractQuerySpecTest
 		JsonApiResponse results = adapter.findAll(querySpec).get();
 
 		HasMoreResourcesMetaInformation metaInformation = (HasMoreResourcesMetaInformation) results.getMetaInformation();
-		Assert.assertTrue(metaInformation.getHasMoreResources());
+		Assertions.assertTrue(metaInformation.getHasMoreResources());
 
 		PagedLinksInformation linksInformation = (PagedLinksInformation) results.getLinksInformation();
-		Assert.assertEquals("http://127.0.0.1/tasks?page[limit]=2", linksInformation.getFirst().getHref());
-		Assert.assertNull(linksInformation.getLast());
-		Assert.assertEquals("http://127.0.0.1/tasks?page[limit]=2", linksInformation.getPrev().getHref());
-		Assert.assertEquals("http://127.0.0.1/tasks?page[limit]=2&page[offset]=4", linksInformation.getNext().getHref());
+		Assertions.assertEquals("http://127.0.0.1/tasks?page[limit]=2", linksInformation.getFirst().getHref());
+		Assertions.assertNull(linksInformation.getLast());
+		Assertions.assertEquals("http://127.0.0.1/tasks?page[limit]=2", linksInformation.getPrev().getHref());
+		Assertions.assertEquals("http://127.0.0.1/tasks?page[limit]=2&page[offset]=4", linksInformation.getNext().getHref());
 	}
 
 	@Test
@@ -76,13 +76,13 @@ public class HasNextBasedPagedLinksInformationTest extends AbstractQuerySpecTest
 
 		JsonApiResponse results = adapter.findAll(querySpec).get();
 		HasMoreResourcesMetaInformation metaInformation = (HasMoreResourcesMetaInformation) results.getMetaInformation();
-		Assert.assertFalse(metaInformation.getHasMoreResources());
+		Assertions.assertFalse(metaInformation.getHasMoreResources());
 
 		PagedLinksInformation linksInformation = (PagedLinksInformation) results.getLinksInformation();
-		Assert.assertNull(linksInformation.getFirst());
-		Assert.assertNull(linksInformation.getLast());
-		Assert.assertNull(linksInformation.getPrev());
-		Assert.assertNull(linksInformation.getNext());
+		Assertions.assertNull(linksInformation.getFirst());
+		Assertions.assertNull(linksInformation.getLast());
+		Assertions.assertNull(linksInformation.getPrev());
+		Assertions.assertNull(linksInformation.getNext());
 	}
 
 	@Test
@@ -92,13 +92,13 @@ public class HasNextBasedPagedLinksInformationTest extends AbstractQuerySpecTest
 		JsonApiResponse results = adapter.findAll(querySpec).get();
 
 		HasMoreResourcesMetaInformation metaInformation = (HasMoreResourcesMetaInformation) results.getMetaInformation();
-		Assert.assertTrue(metaInformation.getHasMoreResources());
+		Assertions.assertTrue(metaInformation.getHasMoreResources());
 
 		PagedLinksInformation linksInformation = (PagedLinksInformation) results.getLinksInformation();
-		Assert.assertEquals("http://127.0.0.1/tasks?page[limit]=3", linksInformation.getFirst().getHref());
-		Assert.assertNull(linksInformation.getLast());
-		Assert.assertNull(linksInformation.getPrev());
-		Assert.assertEquals("http://127.0.0.1/tasks?page[limit]=3&page[offset]=3", linksInformation.getNext().getHref());
+		Assertions.assertEquals("http://127.0.0.1/tasks?page[limit]=3", linksInformation.getFirst().getHref());
+		Assertions.assertNull(linksInformation.getLast());
+		Assertions.assertNull(linksInformation.getPrev());
+		Assertions.assertEquals("http://127.0.0.1/tasks?page[limit]=3&page[offset]=3", linksInformation.getNext().getHref());
 	}
 
 	@Test
@@ -108,13 +108,13 @@ public class HasNextBasedPagedLinksInformationTest extends AbstractQuerySpecTest
 		JsonApiResponse results = adapter.findAll(querySpec).get();
 
 		HasMoreResourcesMetaInformation metaInformation = (HasMoreResourcesMetaInformation) results.getMetaInformation();
-		Assert.assertFalse(metaInformation.getHasMoreResources());
+		Assertions.assertFalse(metaInformation.getHasMoreResources());
 
 		PagedLinksInformation linksInformation = (PagedLinksInformation) results.getLinksInformation();
-		Assert.assertEquals("http://127.0.0.1/tasks?page[limit]=4", linksInformation.getFirst().getHref());
-		Assert.assertNull(linksInformation.getLast());
-		Assert.assertEquals("http://127.0.0.1/tasks?page[limit]=4", linksInformation.getFirst().getHref());
-		Assert.assertNull(linksInformation.getNext());
+		Assertions.assertEquals("http://127.0.0.1/tasks?page[limit]=4", linksInformation.getFirst().getHref());
+		Assertions.assertNull(linksInformation.getLast());
+		Assertions.assertEquals("http://127.0.0.1/tasks?page[limit]=4", linksInformation.getFirst().getHref());
+		Assertions.assertNull(linksInformation.getNext());
 	}
 
 	@Test
@@ -123,16 +123,18 @@ public class HasNextBasedPagedLinksInformationTest extends AbstractQuerySpecTest
 		JsonApiResponse results = adapter.findAll(querySpec).get();
 
 		HasMoreResourcesMetaInformation metaInformation = (HasMoreResourcesMetaInformation) results.getMetaInformation();
-		Assert.assertNull(metaInformation.getHasMoreResources());
+		Assertions.assertNull(metaInformation.getHasMoreResources());
 
 		LinksInformation linksInformation = results.getLinksInformation();
-		Assert.assertFalse(linksInformation instanceof PagedLinksInformation);
+		Assertions.assertFalse(linksInformation instanceof PagedLinksInformation);
 	}
 
-	@Test(expected = BadRequestException.class)
+	@Test
 	public void testInvalidPaging() {
+		Assertions.assertThrows(BadRequestException.class, () -> {
 		QuerySpecAdapter querySpec = container.toQueryAdapter(querySpec(1L, 3L));
 		adapter.findAll(querySpec).get().getLinksInformation();
+		});
 	}
 
 	@Override

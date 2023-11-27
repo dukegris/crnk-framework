@@ -11,9 +11,9 @@ import io.crnk.meta.MetaModule;
 import io.crnk.meta.MetaModuleConfig;
 import io.crnk.meta.provider.resource.ResourceMetaProvider;
 import io.crnk.test.mock.TestModule;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -25,7 +25,7 @@ public class JsonApiFormatTest {
 
 	private HomeModule module;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		MetaModuleConfig config = new MetaModuleConfig();
 		config.addMetaProvider(new ResourceMetaProvider());
@@ -67,19 +67,19 @@ public class JsonApiFormatTest {
 
 		Mockito.verify(requestContextBase, Mockito.times(1)).setResponse(responseCaptor.capture());
 		String expectedContentType = anyRequest ? HomeModule.JSON_CONTENT_TYPE : HttpHeaders.JSONAPI_CONTENT_TYPE;
-		Assert.assertEquals(expectedContentType, responseCaptor.getValue().getHeader(("Content-Type")));
-		Assert.assertEquals(200, responseCaptor.getValue().getStatusCode());
+		Assertions.assertEquals(expectedContentType, responseCaptor.getValue().getHeader(("Content-Type")));
+		Assertions.assertEquals(200, responseCaptor.getValue().getStatusCode());
 
 		String json = new String(responseCaptor.getValue().getBody());
 		JsonNode response = boot.getObjectMapper().reader().readTree(json);
 
 		JsonNode resourcesNode = response.get("links");
 		JsonNode tasksNode = resourcesNode.get("tasks");
-		Assert.assertEquals("http://localhost/tasks", tasksNode.asText());
+		Assertions.assertEquals("http://localhost/tasks", tasksNode.asText());
 
-		Assert.assertEquals("http://localhost/meta/", resourcesNode.get("meta").asText());
-		Assert.assertNull(resourcesNode.get("meta/resource"));
-		Assert.assertNull(resourcesNode.get("meta/attribute"));
+		Assertions.assertEquals("http://localhost/meta/", resourcesNode.get("meta").asText());
+		Assertions.assertNull(resourcesNode.get("meta/resource"));
+		Assertions.assertNull(resourcesNode.get("meta/attribute"));
 	}
 
 	@Test
@@ -96,17 +96,17 @@ public class JsonApiFormatTest {
 
 		Mockito.verify(requestContextBase, Mockito.times(1)).setResponse(responseCaptor.capture());
 		String expectedContentType = HomeModule.JSON_CONTENT_TYPE;
-		Assert.assertEquals(expectedContentType, responseCaptor.getValue().getHeader("Content-Type"));
-		Assert.assertEquals(200, responseCaptor.getValue().getStatusCode());
+		Assertions.assertEquals(expectedContentType, responseCaptor.getValue().getHeader("Content-Type"));
+		Assertions.assertEquals(200, responseCaptor.getValue().getStatusCode());
 		String json = new String(responseCaptor.getValue().getBody());
 		JsonNode response = boot.getObjectMapper().reader().readTree(json);
 
 		JsonNode linksNode = response.get("links");
 		JsonNode resourceNode = linksNode.get("resource");
-		Assert.assertEquals("http://localhost/meta/resource", resourceNode.asText());
+		Assertions.assertEquals("http://localhost/meta/resource", resourceNode.asText());
 
-		Assert.assertNull(linksNode.get("meta"));
-		Assert.assertNotNull(linksNode.get("element"));
-		Assert.assertNotNull(linksNode.get("attribute"));
+		Assertions.assertNull(linksNode.get("meta"));
+		Assertions.assertNotNull(linksNode.get("element"));
+		Assertions.assertNotNull(linksNode.get("attribute"));
 	}
 }

@@ -5,8 +5,8 @@ import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.data.jpa.AbstractJpaJerseyTest;
 import io.crnk.data.jpa.model.NamingTestEntity;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 
@@ -22,8 +22,8 @@ public class AttributeNamingIntTest extends AbstractJpaJerseyTest {
 		repo.create(test);
 
 		ResourceList<NamingTestEntity> list = repo.findAll(new QuerySpec(NamingTestEntity.class));
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		NamingTestEntity saved = list.get(0);
-		Assert.assertEquals(saved.getSEcondUpperCaseValue(), test.getSEcondUpperCaseValue());
+		Assertions.assertEquals(saved.getSEcondUpperCaseValue(), test.getSEcondUpperCaseValue());
 	}
 }

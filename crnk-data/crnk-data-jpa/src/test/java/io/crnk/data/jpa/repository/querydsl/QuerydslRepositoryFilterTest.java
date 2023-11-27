@@ -10,7 +10,7 @@ import io.crnk.data.jpa.query.JpaQueryFactory;
 import io.crnk.data.jpa.query.querydsl.QuerydslQueryFactory;
 import io.crnk.data.jpa.query.querydsl.QuerydslRepositoryFilterBase;
 import io.crnk.data.jpa.query.querydsl.QuerydslTranslationContext;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.persistence.EntityManager;

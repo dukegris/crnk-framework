@@ -2,9 +2,9 @@ package io.crnk.meta.model;
 
 import io.crnk.meta.AbstractMetaTest;
 import io.crnk.meta.model.resource.MetaJsonObject;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -12,7 +12,7 @@ public class MetaKeyTest extends AbstractMetaTest {
 
 
 	@Test
-	@Ignore // no longer supported to find any kind of object
+	@Disabled // no longer supported to find any kind of object
 	public void parse() {
 		MetaJsonObject metaKeyType = resourceProvider.getMeta(SomePrimaryKey.class);
 
@@ -27,22 +27,24 @@ public class MetaKeyTest extends AbstractMetaTest {
 		key.setAttr2(13);
 
 		String keyString = metaKey.toKeyString(key);
-		Assert.assertEquals("test-13", keyString);
+		Assertions.assertEquals("test-13", keyString);
 	}
 
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testNonUniquePrimaryKeyAttributeThrowsException() {
+		Assertions.assertThrows(IllegalStateException.class, () -> {		
 		MetaKey key = new MetaKey();
 		key.setElements(Arrays.asList(new MetaAttribute(), new MetaAttribute()));
 		key.getUniqueElement();
+		});
 	}
 
 
 	@Test
 	public void testToKeyStringWithNull() {
 		MetaKey key = new MetaKey();
-		Assert.assertNull(key.toKeyString(null));
+		Assertions.assertNull(key.toKeyString(null));
 	}
 
 	public static class SomePrimaryKey {

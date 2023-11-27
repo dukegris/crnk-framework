@@ -8,9 +8,9 @@ import io.crnk.core.mock.models.Task;
 import io.crnk.core.repository.InMemoryResourceRepository;
 import io.crnk.core.resource.annotations.JsonApiExposed;
 import io.crnk.legacy.repository.information.DefaultResourceRepositoryInformationProvider;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class DefaultResourceRepositoryInformationTest {
@@ -19,7 +19,7 @@ public class DefaultResourceRepositoryInformationTest {
 
 	private RepositoryInformationProviderContext context;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		provider = new DefaultResourceRepositoryInformationProvider();
 
@@ -44,9 +44,9 @@ public class DefaultResourceRepositoryInformationTest {
 		ResourceRepositoryInformation notExposedInformation =
 				(ResourceRepositoryInformation) provider.build(new NotExposedRepository(), context);
 
-		Assert.assertTrue(exposedInformation.isExposed());
-		Assert.assertTrue(defaultInformation.isExposed());
-		Assert.assertFalse(notExposedInformation.isExposed());
+		Assertions.assertTrue(exposedInformation.isExposed());
+		Assertions.assertTrue(defaultInformation.isExposed());
+		Assertions.assertFalse(notExposedInformation.isExposed());
 	}
 
 	@JsonApiExposed

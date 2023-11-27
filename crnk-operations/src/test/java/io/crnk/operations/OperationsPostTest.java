@@ -21,9 +21,9 @@ import io.crnk.test.mock.models.Project;
 import io.crnk.test.mock.models.Schedule;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.BulkInMemoryRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -34,7 +34,7 @@ public class OperationsPostTest extends io.crnk.operations.AbstractOperationsTes
 	private BulkInMemoryRepository bulkRepository;
 
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -76,14 +76,14 @@ public class OperationsPostTest extends io.crnk.operations.AbstractOperationsTes
 
         QuerySpec querySpec = new QuerySpec(PersonEntity.class);
         ResourceList<PersonEntity> persons = personRepo.findAll(querySpec);
-        Assert.assertEquals(2, persons.size());
+        Assertions.assertEquals(2, persons.size());
 
         querySpec = new QuerySpec(MovieEntity.class);
         querySpec.includeRelation(Arrays.asList("directors"));
         ResourceList<MovieEntity> movies = movieRepo.findAll(querySpec);
-        Assert.assertEquals(1, movies.size());
+        Assertions.assertEquals(1, movies.size());
         movie = movies.get(0);
-        Assert.assertEquals(2, movie.getDirectors().size());
+        Assertions.assertEquals(2, movie.getDirectors().size());
     }
 
     @Test
@@ -99,12 +99,12 @@ public class OperationsPostTest extends io.crnk.operations.AbstractOperationsTes
         call.add(HttpMethod.POST, person1);
         call.add(HttpMethod.POST, person2);
         call.execute();
-        Assert.assertEquals(HttpStatus.CREATED_201, call.getResponse(0).getStatus());
-        Assert.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY_422, call.getResponse(1).getStatus());
+        Assertions.assertEquals(HttpStatus.CREATED_201, call.getResponse(0).getStatus());
+        Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY_422, call.getResponse(1).getStatus());
 
         QuerySpec querySpec = new QuerySpec(PersonEntity.class);
         ResourceList<PersonEntity> persons = personRepo.findAll(querySpec);
-        Assert.assertEquals(0, persons.size());
+        Assertions.assertEquals(0, persons.size());
     }
 
 	@Test
@@ -120,11 +120,11 @@ public class OperationsPostTest extends io.crnk.operations.AbstractOperationsTes
 
 		QuerySpec querySpec = new QuerySpec(Task.class);
 		ResourceList<Task> tasks = bulkRepository.findAll(querySpec);
-		Assert.assertEquals(2, tasks.size());
+		Assertions.assertEquals(2, tasks.size());
 
 		ArgumentCaptor<List> argumentCaptor = ArgumentCaptor.forClass(List.class);
 		Mockito.verify(bulkRepository, Mockito.times(1)).create(argumentCaptor.capture());
 		List capture = argumentCaptor.getValue();
-		Assert.assertEquals(2, capture.size());
+		Assertions.assertEquals(2, capture.size());
 	}
 }

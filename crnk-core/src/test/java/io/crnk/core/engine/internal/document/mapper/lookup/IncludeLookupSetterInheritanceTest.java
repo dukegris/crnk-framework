@@ -15,27 +15,27 @@ import io.crnk.core.mock.models.Project;
 import io.crnk.core.mock.models.Task;
 import io.crnk.core.mock.repository.ProjectRepository;
 import io.crnk.core.queryspec.QuerySpec;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Ignore
-@RunWith(MockitoJUnitRunner.class)
+@Disabled
+@ExtendWith(MockitoExtension.class)
 public class IncludeLookupSetterInheritanceTest extends AbstractDocumentMapperTest {
 
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -87,7 +87,7 @@ public class IncludeLookupSetterInheritanceTest extends AbstractDocumentMapperTe
 
         List<Resource> included = document.getIncluded();
         assertEquals(2, included.size());
-        Assert.assertEquals("projects", included.get(1).getType());
-        Assert.assertEquals("fancy-projects", included.get(0).getType());
+        Assertions.assertEquals("projects", included.get(1).getType());
+        Assertions.assertEquals("fancy-projects", included.get(0).getType());
     }
 }

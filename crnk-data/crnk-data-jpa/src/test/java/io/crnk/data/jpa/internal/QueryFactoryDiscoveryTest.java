@@ -3,15 +3,15 @@ package io.crnk.data.jpa.internal;
 import io.crnk.data.jpa.JpaModuleConfig;
 import io.crnk.data.jpa.query.criteria.JpaCriteriaQueryFactory;
 import io.crnk.data.jpa.query.querydsl.QuerydslQueryFactory;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class QueryFactoryDiscoveryTest {
 
     @Test
     public void checkDiscoverQueryDsl() {
         QueryFactoryDiscovery discovery = new QueryFactoryDiscovery();
-        Assert.assertEquals(QuerydslQueryFactory.class, discovery.discoverDefaultFactory().getClass());
+        Assertions.assertEquals(QuerydslQueryFactory.class, discovery.discoverDefaultFactory().getClass());
     }
 
     @Test
@@ -22,7 +22,7 @@ public class QueryFactoryDiscoveryTest {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(bootstrapClassLoader);
         try {
-            Assert.assertEquals(JpaCriteriaQueryFactory.class, discovery.discoverDefaultFactory().getClass());
+            Assertions.assertEquals(JpaCriteriaQueryFactory.class, discovery.discoverDefaultFactory().getClass());
         } finally {
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
@@ -31,6 +31,6 @@ public class QueryFactoryDiscoveryTest {
     @Test
     public void checkJpaModuleIntegration() {
         JpaModuleConfig config = new JpaModuleConfig();
-        Assert.assertEquals(QuerydslQueryFactory.class, config.getQueryFactory().getClass());
+        Assertions.assertEquals(QuerydslQueryFactory.class, config.getQueryFactory().getClass());
     }
 }

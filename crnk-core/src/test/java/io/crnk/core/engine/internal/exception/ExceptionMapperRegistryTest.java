@@ -6,7 +6,7 @@ import io.crnk.core.engine.error.ExceptionMapper;
 import io.crnk.core.engine.http.HttpStatus;
 import io.crnk.core.exception.ForbiddenException;
 import io.crnk.core.utils.Prioritizable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.nio.file.ClosedFileSystemException;
 import java.util.ArrayList;

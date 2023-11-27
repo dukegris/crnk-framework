@@ -7,10 +7,10 @@ import io.crnk.core.repository.ResourceRepository;
 import io.crnk.test.mock.TestException;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.models.UnknownResource;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class ExceptionAccessTestBase {
 
@@ -18,13 +18,13 @@ public abstract class ExceptionAccessTestBase {
 
 	protected ResourceRepository<Task, Long> taskRepo;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		testContainer.start();
 		taskRepo = testContainer.getRepositoryForType(Task.class);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		testContainer.stop();
 	}
@@ -36,9 +36,9 @@ public abstract class ExceptionAccessTestBase {
 		task.setName("test");
 		try {
 			taskRepo.create(task);
-			Assert.fail();
+			Assertions.fail();
 		} catch (TestException e) {
-			Assert.assertEquals("msg", e.getMessage());
+			Assertions.assertEquals("msg", e.getMessage());
 		}
 	}
 
@@ -50,7 +50,7 @@ public abstract class ExceptionAccessTestBase {
 		task.setName("test");
 		try {
 			taskRepo.create(task);
-			Assert.fail();
+			Assertions.fail();
 		} catch (InternalServerErrorException e) {
 			// ok
 		}
@@ -66,7 +66,7 @@ public abstract class ExceptionAccessTestBase {
 
 		try {
 			taskRepo.create(task);
-			Assert.fail();
+			Assertions.fail();
 		} catch (ResourceNotFoundException e) {
 			// ok
 		}
@@ -76,7 +76,7 @@ public abstract class ExceptionAccessTestBase {
 	public void testInvalidResource() {
 		try {
 			testContainer.getRepositoryForType(String.class);
-			Assert.fail();
+			Assertions.fail();
 		} catch (InvalidResourceException e) {
 			// ok
 		}

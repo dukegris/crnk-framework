@@ -26,9 +26,9 @@ import io.crnk.ui.presentation.element.QueryElement;
 import io.crnk.ui.presentation.element.TableColumnElement;
 import io.crnk.ui.presentation.element.TableColumnsElement;
 import io.crnk.ui.presentation.repository.EditorRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class EditorRepositoryTest {
@@ -38,7 +38,7 @@ public class EditorRepositoryTest {
 
 	private QueryContext queryContext;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		uiModule = UIModule.create(new UIModuleConfig());
 
@@ -62,8 +62,8 @@ public class EditorRepositoryTest {
 	public void checkFindAll() {
 		EditorRepository repository = uiModule.getEditorRepository();
 		ResourceList<EditorElement> editors = repository.findAll(new QuerySpec(EditorElement.class));
-		Assert.assertNotNull(editors);
-		Assert.assertTrue(editors.size() > 0);
+		Assertions.assertNotNull(editors);
+		Assertions.assertTrue(editors.size() > 0);
 	}
 
 
@@ -71,22 +71,22 @@ public class EditorRepositoryTest {
 	public void checkFindOne() {
 		EditorRepository repository = uiModule.getEditorRepository();
 		EditorElement editor = repository.findOne("local-tasks", new QuerySpec(EditorElement.class));
-		Assert.assertNotNull(editor);
+		Assertions.assertNotNull(editor);
 
-		Assert.assertEquals("tasks", editor.getBaseQuery().getResourceType());
+		Assertions.assertEquals("tasks", editor.getBaseQuery().getResourceType());
 
 		FormContainerElement form = editor.getForm();
 
 		FormElements elements = form.getElements();
-		Assert.assertNotEquals(0, elements.getElementIds().size());
+		Assertions.assertNotEquals(0, elements.getElementIds().size());
 
 		FormElement idFormElement = elements.getElements().get("id");
-		Assert.assertEquals("id", idFormElement.getId());
-		Assert.assertEquals("id", idFormElement.getLabel());
-		Assert.assertFalse(idFormElement.isEditable());
-		Assert.assertEquals(PathSpec.of("id"), idFormElement.getAttributePath());
+		Assertions.assertEquals("id", idFormElement.getId());
+		Assertions.assertEquals("id", idFormElement.getLabel());
+		Assertions.assertFalse(idFormElement.isEditable());
+		Assertions.assertEquals(PathSpec.of("id"), idFormElement.getAttributePath());
 		PlainTextElement idComponent = (PlainTextElement) idFormElement.getComponent();
-		Assert.assertEquals("number", idComponent.getComponentId());
+		Assertions.assertEquals("number", idComponent.getComponentId());
 	}
 
 
@@ -99,39 +99,41 @@ public class EditorRepositoryTest {
 		ExplorerElement explorer = (ExplorerElement) formElement.getComponent();
 
 		QueryElement baseQuery = explorer.getBaseQuery();
-		Assert.assertEquals("presentationTask", baseQuery.getResourceType());
+		Assertions.assertEquals("presentationTask", baseQuery.getResourceType());
 
-		Assert.assertEquals(Arrays.asList(PathSpec.of("name")), explorer.getFullTextSearchPaths());
-		Assert.assertNull(explorer.getServicePath()); // local mode => not available
-		Assert.assertEquals("presentationProject/tasks", explorer.getPath());
+		Assertions.assertEquals(Arrays.asList(PathSpec.of("name")), explorer.getFullTextSearchPaths());
+		Assertions.assertNull(explorer.getServicePath()); // local mode => not available
+		Assertions.assertEquals("presentationProject/tasks", explorer.getPath());
 
-		Assert.assertEquals("presentationTask", explorer.getBaseQuery().getResourceType());
+		Assertions.assertEquals("presentationTask", explorer.getBaseQuery().getResourceType());
 
 		DataTableElement table = explorer.getTable();
 		TableColumnsElement columns = table.getColumns();
-		Assert.assertNotEquals(0, columns.getElementIds().size());
+		Assertions.assertNotEquals(0, columns.getElementIds().size());
 
 		TableColumnElement idColumn = columns.getElements().get("id");
-		Assert.assertEquals("id", idColumn.getId());
-		Assert.assertEquals("id", idColumn.getLabel());
-		Assert.assertFalse(idColumn.isEditable());
-		Assert.assertTrue(idColumn.isSortable());
-		Assert.assertEquals(PathSpec.of("id"), idColumn.getAttributePath());
-		Assert.assertEquals("number", idColumn.getComponent().getComponentId());
+		Assertions.assertEquals("id", idColumn.getId());
+		Assertions.assertEquals("id", idColumn.getLabel());
+		Assertions.assertFalse(idColumn.isEditable());
+		Assertions.assertTrue(idColumn.isSortable());
+		Assertions.assertEquals(PathSpec.of("id"), idColumn.getAttributePath());
+		Assertions.assertEquals("number", idColumn.getComponent().getComponentId());
 
 		// should not be recursive
-		Assert.assertFalse(table.getColumns().getElements().containsKey("project"));
-		Assert.assertFalse(table.getColumns().getElements().containsKey("description"));
+		Assertions.assertFalse(table.getColumns().getElements().containsKey("project"));
+		Assertions.assertFalse(table.getColumns().getElements().containsKey("description"));
 
 	}
 
 
-	@Test(expected = ResourceNotFoundException.class)
+	@Test
 	public void checkResourceVersionOutOfRange() {
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 		queryContext.setRequestVersion(0);
 
 		EditorRepository repository = uiModule.getEditorRepository();
 		repository.findOne("local-presentationProject", new QuerySpec(EditorElement.class));
+		});
 	}
 
 	@Test
@@ -140,7 +142,7 @@ public class EditorRepositoryTest {
 
 		EditorRepository repository = uiModule.getEditorRepository();
 		EditorElement editor = repository.findOne("local-presentationProject", new QuerySpec(EditorElement.class));
-		Assert.assertNotNull(editor);
+		Assertions.assertNotNull(editor);
 	}
 
 	@Test
@@ -150,7 +152,7 @@ public class EditorRepositoryTest {
 		EditorElement editor = repository.findOne("local-presentationProject", new QuerySpec(EditorElement.class));
 
 		FormElements elements = editor.getForm().getElements();
-		Assert.assertEquals(Arrays.asList("id", "name", "tasks"), elements.getElementIds());
+		Assertions.assertEquals(Arrays.asList("id", "name", "tasks"), elements.getElementIds());
 	}
 
 	@Test
@@ -160,6 +162,6 @@ public class EditorRepositoryTest {
 		EditorElement editor = repository.findOne("local-presentationProject", new QuerySpec(EditorElement.class));
 
 		FormElements elements = editor.getForm().getElements();
-		Assert.assertEquals(Arrays.asList("id", "name", "description", "tasks"), elements.getElementIds());
+		Assertions.assertEquals(Arrays.asList("id", "name", "description", "tasks"), elements.getElementIds());
 	}
 }

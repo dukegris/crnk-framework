@@ -8,18 +8,18 @@ import io.crnk.operations.client.OperationsCall;
 import io.crnk.operations.client.OperationsClient;
 import io.crnk.operations.model.PersonEntity;
 import io.crnk.operations.server.OperationsModule;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OperationsResumeOnErrorTest extends AbstractOperationsTest {
 
     protected ResourceRepository<PersonEntity, UUID> personRepo;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();

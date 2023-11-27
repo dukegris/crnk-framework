@@ -4,8 +4,8 @@ import io.crnk.client.module.ClientModuleFactory;
 import io.crnk.core.module.Module;
 import io.crnk.meta.MetaModule;
 import io.crnk.validation.ValidationModule;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -26,8 +26,8 @@ public class ValidationClientModuleFactoryTest {
 			moduleClasses.add(module.getClass());
 		}
 
-		Assert.assertEquals(2, moduleClasses.size());
-		Assert.assertTrue(moduleClasses.contains(ValidationModule.class));
-		Assert.assertTrue(moduleClasses.contains(MetaModule.class));
+		Assertions.assertEquals(2, moduleClasses.size());
+		Assertions.assertTrue(moduleClasses.contains(ValidationModule.class));
+		Assertions.assertTrue(moduleClasses.contains(MetaModule.class));
 	}
 }

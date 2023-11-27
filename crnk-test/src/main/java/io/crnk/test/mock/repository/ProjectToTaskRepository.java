@@ -6,7 +6,7 @@ import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.test.mock.models.Project;
 import io.crnk.test.mock.models.Task;
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -76,7 +76,7 @@ public class ProjectToTaskRepository implements RelationshipRepository<Project, 
 		for (Relation<Project> relation : THREAD_LOCAL_REPOSITORY.keySet()) {
 			if (relation.getSource().getId().equals(sourceId) && relation.getFieldName().equals(fieldName)) {
 				Task task = taskRepo.findOne((long) relation.getTargetId(), null);
-				Assert.assertNotNull(task);
+				Assertions.assertNotNull(task);
 				return task;
 			}
 		}
@@ -89,7 +89,7 @@ public class ProjectToTaskRepository implements RelationshipRepository<Project, 
 		for (Relation<Project> relation : THREAD_LOCAL_REPOSITORY.keySet()) {
 			if (relation.getSource().getId().equals(sourceId) && relation.getFieldName().equals(fieldName)) {
 				Task task = taskRepo.findOne((long) relation.getTargetId(), null);
-				Assert.assertNotNull(task);
+				Assertions.assertNotNull(task);
 				tasks.add(task);
 			}
 		}

@@ -6,7 +6,7 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.UntypedRelationshipRepository;
 import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceList;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -50,25 +50,25 @@ public class DynamicRelationshipRepository implements UntypedRelationshipReposit
 
     @Override
     public void setRelation(Resource source, String targetId, String fieldName) {
-        Assert.assertEquals(targetId, "12");
+        Assertions.assertEquals(targetId, "12");
     }
 
     @Override
     public void setRelations(Resource source, Collection<String> targetIds, String fieldName) {
         String targetId = targetIds.iterator().next();
-        Assert.assertEquals(targetId, "12");
+        Assertions.assertEquals(targetId, "12");
     }
 
     @Override
     public void addRelations(Resource source, Collection<String> targetIds, String fieldName) {
         String targetId = targetIds.iterator().next();
-        Assert.assertEquals(targetId, "12");
+        Assertions.assertEquals(targetId, "12");
     }
 
     @Override
     public void removeRelations(Resource source, Collection<String> targetIds, String fieldName) {
         String targetId = targetIds.iterator().next();
-        Assert.assertEquals(targetId, "12");
+        Assertions.assertEquals(targetId, "12");
     }
 
     @Override

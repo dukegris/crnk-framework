@@ -9,10 +9,10 @@ import io.crnk.test.mock.models.nested.PostCommentId;
 import io.crnk.test.mock.models.nested.NestedRelatedResource;
 import io.crnk.test.mock.models.nested.PostHeader;
 import io.crnk.test.mock.models.nested.Post;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class NestedRepositoryAccessTestBase {
 
@@ -26,7 +26,7 @@ public abstract class NestedRepositoryAccessTestBase {
 
 	protected ResourceRepository<NestedRelatedResource, String> relatedRepo;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		testContainer.start();
 
@@ -44,7 +44,7 @@ public abstract class NestedRepositoryAccessTestBase {
 		parentRepo.create(parentResource);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		testContainer.stop();
 	}
@@ -59,29 +59,29 @@ public abstract class NestedRepositoryAccessTestBase {
 		resource.setId(id);
 		resource.setValue("nested");
 		resource = manyNestedRepo.create(resource);
-		Assert.assertEquals(id, resource.getId());
+		Assertions.assertEquals(id, resource.getId());
 		String selfUrl = resource.getLinks().getSelf().getHref();
-		Assert.assertTrue(selfUrl, selfUrl.contains("a/comments/b"));
-		Assert.assertEquals("nested", resource.getValue());
+		Assertions.assertTrue(selfUrl.contains("a/comments/b"), selfUrl);
+		Assertions.assertEquals("nested", resource.getValue());
 
 		// perform update
 		resource.setValue("updated");
 		resource = manyNestedRepo.save(resource);
-		Assert.assertEquals("updated", resource.getValue());
+		Assertions.assertEquals("updated", resource.getValue());
 		selfUrl = resource.getLinks().getSelf().getHref();
-		Assert.assertTrue(selfUrl, selfUrl.contains("a/comments/b"));
+		Assertions.assertTrue(selfUrl.contains("a/comments/b"));
 
 		// perform find over all nested resources
 		ResourceList<PostComment> list = manyNestedRepo.findAll(new QuerySpec(PostComment.class));
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		resource = list.get(0);
-		Assert.assertEquals("updated", resource.getValue());
+		Assertions.assertEquals("updated", resource.getValue());
 
 		// perform delete
 		manyNestedRepo.delete(id);
 		try {
 			manyNestedRepo.findOne(id, new QuerySpec(PostComment.class));
-			Assert.fail("should no longer be available");
+			Assertions.fail("should no longer be available");
 		}
 		catch (ResourceNotFoundException e) {
 			// ok
@@ -95,29 +95,29 @@ public abstract class NestedRepositoryAccessTestBase {
 		resource.setPostId("a");
 		resource.setValue("nested");
 		resource = oneNestedRepo.create(resource);
-		Assert.assertEquals("a", resource.getPostId());
+		Assertions.assertEquals("a", resource.getPostId());
 		String selfUrl = resource.getLinks().getSelf().getHref();
-		Assert.assertTrue(selfUrl, selfUrl.contains("a/postHeader"));
-		Assert.assertEquals("nested", resource.getValue());
+		Assertions.assertTrue(selfUrl.contains("a/postHeader"), selfUrl);
+		Assertions.assertEquals("nested", resource.getValue());
 
 		// perform update
 		resource.setValue("updated");
 		resource = oneNestedRepo.save(resource);
-		Assert.assertEquals("updated", resource.getValue());
+		Assertions.assertEquals("updated", resource.getValue());
 		selfUrl = resource.getLinks().getSelf().getHref();
-		Assert.assertTrue(selfUrl, selfUrl.contains("a/postHeader"));
+		Assertions.assertTrue(selfUrl.contains("a/postHeader"), selfUrl);
 
 		// perform find over all nested resources
 		ResourceList<PostHeader> list = oneNestedRepo.findAll(new QuerySpec(PostHeader.class));
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		resource = list.get(0);
-		Assert.assertEquals("updated", resource.getValue());
+		Assertions.assertEquals("updated", resource.getValue());
 
 		// perform delete
 		oneNestedRepo.delete("a");
 		try {
 			oneNestedRepo.findOne("a", new QuerySpec(PostHeader.class));
-			Assert.fail("should no longer be available");
+			Assertions.fail("should no longer be available");
 		}
 		catch (ResourceNotFoundException e) {
 			// ok

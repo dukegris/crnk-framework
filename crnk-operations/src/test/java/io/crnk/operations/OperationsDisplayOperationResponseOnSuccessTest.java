@@ -1,12 +1,12 @@
 package io.crnk.operations;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import io.crnk.core.engine.http.HttpMethod;
 import io.crnk.core.repository.ResourceRepository;
@@ -19,7 +19,7 @@ public class OperationsDisplayOperationResponseOnSuccessTest extends AbstractOpe
 
     protected ResourceRepository<PersonEntity, UUID> personRepo;
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();

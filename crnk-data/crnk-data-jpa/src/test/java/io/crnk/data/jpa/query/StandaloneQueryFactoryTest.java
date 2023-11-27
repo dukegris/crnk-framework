@@ -11,8 +11,8 @@ import io.crnk.data.jpa.model.TestEntity;
 import io.crnk.data.jpa.query.criteria.JpaCriteriaQuery;
 import io.crnk.data.jpa.query.criteria.JpaCriteriaQueryFactory;
 import org.hibernate.Hibernate;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -34,11 +34,11 @@ public class StandaloneQueryFactoryTest extends AbstractJpaTest {
 		List<TestEntity> resultList = executor.getResultList();
 		// end::docs[]
 
-		Assert.assertEquals(4, resultList.size());
-		Assert.assertEquals(4, resultList.get(0).getId().intValue());
-		Assert.assertEquals(1, resultList.get(3).getId().intValue());
-		Assert.assertTrue(Hibernate.isInitialized(resultList.get(3).getOneRelatedValue()));
-		Assert.assertFalse(Hibernate.isInitialized(resultList.get(3).getManyRelatedValues()));
+		Assertions.assertEquals(4, resultList.size());
+		Assertions.assertEquals(4, resultList.get(0).getId().intValue());
+		Assertions.assertEquals(1, resultList.get(3).getId().intValue());
+		Assertions.assertTrue(Hibernate.isInitialized(resultList.get(3).getOneRelatedValue()));
+		Assertions.assertFalse(Hibernate.isInitialized(resultList.get(3).getManyRelatedValues()));
 	}
 
 	@Override

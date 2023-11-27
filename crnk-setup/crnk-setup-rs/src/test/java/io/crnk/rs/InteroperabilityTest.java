@@ -17,9 +17,9 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.jetty.JettyTestContainerFactory;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -45,7 +45,7 @@ public class InteroperabilityTest extends JerseyTestBase {
     }
 
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         super.tearDown();
         TaskRepository.clear();
@@ -86,15 +86,15 @@ public class InteroperabilityTest extends JerseyTestBase {
         // resources should be received in json api format
         String url = getBaseUri() + "schedules/repositoryActionWithResourceResult?msg=hello";
         io.restassured.response.Response res = RestAssured.get(url);
-        Assert.assertEquals(200, res.getStatusCode());
+        Assertions.assertEquals(200, res.getStatusCode());
         res.then().assertThat().body("data.attributes.name", Matchers.equalTo("hello"));
 
         // check filters
         ArgumentCaptor<DocumentFilterContext> contexts = ArgumentCaptor.forClass(DocumentFilterContext.class);
         Mockito.verify(filter, Mockito.times(1)).filter(contexts.capture(), Mockito.any(DocumentFilterChain.class));
         DocumentFilterContext actionContext = contexts.getAllValues().get(0);
-        Assert.assertEquals("GET", actionContext.getMethod());
-        Assert.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
+        Assertions.assertEquals("GET", actionContext.getMethod());
+        Assertions.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class InteroperabilityTest extends JerseyTestBase {
         // resources should be received in json api format
         String url = getBaseUri() + "schedules/repositoryActionWithException?msg=hello";
         io.restassured.response.Response res = RestAssured.get(url);
-        Assert.assertEquals(403, res.getStatusCode());
+        Assertions.assertEquals(403, res.getStatusCode());
 
         res.then().assertThat().body("errors[0].status", Matchers.equalTo("403"));
 
@@ -110,16 +110,16 @@ public class InteroperabilityTest extends JerseyTestBase {
         ArgumentCaptor<DocumentFilterContext> contexts = ArgumentCaptor.forClass(DocumentFilterContext.class);
         Mockito.verify(filter, Mockito.times(1)).filter(contexts.capture(), Mockito.any(DocumentFilterChain.class));
         DocumentFilterContext actionContext = contexts.getAllValues().get(0);
-        Assert.assertEquals("GET", actionContext.getMethod());
-        Assert.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
+        Assertions.assertEquals("GET", actionContext.getMethod());
+        Assertions.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
     }
 
     @Test
     public void testUnknownExceptionsGetMappedToInternalServerException() {
         JsonapiExceptionMapperBridge bridge = new JsonapiExceptionMapperBridge(feature);
         javax.ws.rs.core.Response response = bridge.toResponse(new CustomException());
-        Assert.assertEquals(500, response.getStatus());
-        Assert.assertTrue(response.getEntity() instanceof Document);
+        Assertions.assertEquals(500, response.getStatus());
+        Assertions.assertTrue(response.getEntity() instanceof Document);
     }
 
     class CustomException extends RuntimeException {

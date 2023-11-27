@@ -1,13 +1,13 @@
 package io.crnk.spring.security;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SpringSecurityModuleTest {
 
 	@Test
 	public void checkName() {
 		SpringSecurityModule module = SpringSecurityModule.create();
-		Assert.assertEquals("spring.security", module.getModuleName());
+		Assertions.assertEquals("spring.security", module.getModuleName());
 	}
 }

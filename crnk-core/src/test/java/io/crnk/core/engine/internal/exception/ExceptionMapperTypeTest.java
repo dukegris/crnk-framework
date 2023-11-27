@@ -2,8 +2,8 @@ package io.crnk.core.engine.internal.exception;
 
 import io.crnk.core.engine.error.ExceptionMapper;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class ExceptionMapperTypeTest {
@@ -18,6 +18,6 @@ public class ExceptionMapperTypeTest {
 		ExceptionMapper mapper = Mockito.mock(ExceptionMapper.class);
 		Mockito.when(mapper.toString()).thenReturn("customMapper");
 		ExceptionMapperType type = new ExceptionMapperType(IllegalStateException.class, mapper);
-		Assert.assertEquals("ExceptionMapperType[exceptionClass=java.lang.IllegalStateException, exceptionMapper=customMapper]", type.toString());
+		Assertions.assertEquals("ExceptionMapperType[exceptionClass=java.lang.IllegalStateException, exceptionMapper=customMapper]", type.toString());
 	}
 }

@@ -8,9 +8,9 @@ import io.crnk.core.engine.internal.document.mapper.DocumentMapperUtil;
 import io.crnk.core.engine.internal.jackson.JacksonModule;
 import io.crnk.core.engine.internal.utils.JsonApiUrlBuilder;
 import io.crnk.core.engine.properties.PropertiesProvider;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public class ObjectLinkErrorDataTest extends ErrorDataTest {
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		util = new DocumentMapperUtil(null, null, new PropertiesProvider() {
 			@Override
@@ -50,9 +50,9 @@ public class ObjectLinkErrorDataTest extends ErrorDataTest {
 
 		ErrorData errorData = builder.build();
 		String json = mapper.writeValueAsString(errorData);
-		Assert.assertTrue(json.contains("{\"about\":{\"href\":\"about\"}}"));
+		Assertions.assertTrue(json.contains("{\"about\":{\"href\":\"about\"}}"));
 		ErrorData copy = mapper.readerFor(ErrorData.class).readValue(json);
 
-		Assert.assertEquals(errorData, copy);
+		Assertions.assertEquals(errorData, copy);
 	}
 }

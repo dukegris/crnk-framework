@@ -8,8 +8,8 @@ import io.crnk.test.mock.models.Schedule;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.ScheduleRepository;
 import io.crnk.test.suite.ExceptionAccessTestBase;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ExceptionTest extends ExceptionAccessTestBase {
 
@@ -24,7 +24,7 @@ public class ExceptionTest extends ExceptionAccessTestBase {
 		taskRepo = client.getRepositoryForType(Task.class);
 		try {
 			taskRepo.findAll(new QuerySpec(Task.class));
-			Assert.fail();
+			Assertions.fail();
 		} catch (TransportException e) {
 			// ok
 		}
@@ -39,9 +39,9 @@ public class ExceptionTest extends ExceptionAccessTestBase {
 		schedule.setName("test");
 		try {
 			repo.create(schedule);
-			Assert.fail();
+			Assertions.fail();
 		} catch (TestException e) {
-			Assert.assertEquals("msg", e.getMessage());
+			Assertions.assertEquals("msg", e.getMessage());
 		}
 	}
 }

@@ -12,9 +12,9 @@ import io.crnk.operations.model.PersonEntity;
 import io.crnk.operations.server.OperationFilter;
 import io.crnk.operations.server.OperationFilterChain;
 import io.crnk.operations.server.OperationFilterContext;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +24,7 @@ public class OperationsExceptionTest extends AbstractOperationsTest {
 
 	private OperationsClient operationsClient;
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -43,13 +43,13 @@ public class OperationsExceptionTest extends AbstractOperationsTest {
 		insertCall.add(HttpMethod.POST, person2);
 		insertCall.execute();
 
-		Assert.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY_422, insertCall.getResponse(0).getStatus());
-		Assert.assertEquals(HttpStatus.PRECONDITION_FAILED_412, insertCall.getResponse(1).getStatus());
+		Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY_422, insertCall.getResponse(0).getStatus());
+		Assertions.assertEquals(HttpStatus.PRECONDITION_FAILED_412, insertCall.getResponse(1).getStatus());
 
 		QuerySpec querySpec = new QuerySpec(PersonEntity.class);
 		ResourceRepository<PersonEntity, UUID> personRepo = client.getRepositoryForType(PersonEntity.class);
 		List<PersonEntity> list = personRepo.findAll(querySpec);
-		Assert.assertEquals(0, list.size());
+		Assertions.assertEquals(0, list.size());
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class OperationsExceptionTest extends AbstractOperationsTest {
 
 		try {
 			insertCall.execute();
-			Assert.fail();
+			Assertions.fail();
 		} catch (InternalServerErrorException e) {
 			// ok
 		}

@@ -14,9 +14,9 @@ import io.crnk.test.mock.repository.TaskRepository;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.jetty.JettyTestContainerFactory;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class UriInfoServiceUrlProviderTest extends JerseyTestBase {
 
@@ -31,7 +31,7 @@ public class UriInfoServiceUrlProviderTest extends JerseyTestBase {
     }
 
 
-    @Before
+    @BeforeEach
     public void setup() {
         TaskRepository repo = new TaskRepository();
 
@@ -41,7 +41,7 @@ public class UriInfoServiceUrlProviderTest extends JerseyTestBase {
         repo.save(task);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         super.tearDown();
         TaskRepository.clear();

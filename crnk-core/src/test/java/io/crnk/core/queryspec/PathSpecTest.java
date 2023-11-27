@@ -1,8 +1,8 @@
 package io.crnk.core.queryspec;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
@@ -13,9 +13,9 @@ public class PathSpecTest {
 		PathSpec pathSpec = PathSpec.of("a.b.c");
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writerFor(PathSpec.class).writeValueAsString(pathSpec);
-		Assert.assertEquals("\"a.b.c\"", json);
+		Assertions.assertEquals("\"a.b.c\"", json);
 
 		PathSpec clone = objectMapper.readerFor(PathSpec.class).readValue(json);
-		Assert.assertEquals(pathSpec, clone);
+		Assertions.assertEquals(pathSpec, clone);
 	}
 }

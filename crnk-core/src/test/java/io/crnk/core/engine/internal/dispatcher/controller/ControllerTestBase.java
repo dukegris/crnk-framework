@@ -33,9 +33,9 @@ import io.crnk.core.module.SimpleModule;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.internal.QuerySpecAdapter;
 import io.crnk.core.repository.response.JsonApiResponse;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+// import org.junit.Rule;
+// import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 public abstract class ControllerTestBase {
@@ -44,8 +44,9 @@ public abstract class ControllerTestBase {
 
     protected static final long PROJECT_ID = 2;
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    // RCS innecesario
+    // @Rule
+    // ExpectedException expectedException = ExpectedException.none();
 
     protected ObjectMapper objectMapper;
 
@@ -85,7 +86,7 @@ public abstract class ControllerTestBase {
     protected CrnkBoot boot;
 
 
-    @Before
+    @BeforeEach
     public void prepare() {
         propertiesProvider = Mockito.mock(PropertiesProvider.class);
 

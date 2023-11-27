@@ -11,15 +11,15 @@ import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class OASGeneratorTest {
 
   private OpenAPI openApi;
 
-  @Before
+  @BeforeEach
   public void setup() {
     String templatePath = Objects.requireNonNull(
         getClass().getClassLoader().getResource("openapi-template.yml")
@@ -73,8 +73,8 @@ public class OASGeneratorTest {
     String[] expectedLines = org.apache.commons.lang3.StringUtils.split(expectedSource, '\n');
     String[] actualLines = org.apache.commons.lang3.StringUtils.split(actualSource, '\n');
     for (int i = 0; i < expectedLines.length; i++) {
-      Assert.assertEquals("line: " + i + ", " + expectedLines[i], expectedLines[i], actualLines[i]);
+      Assertions.assertEquals(expectedLines[i], actualLines[i], "line: " + i + ", " + expectedLines[i]);
     }
-    Assert.assertEquals(expectedLines.length, actualLines.length);
+    Assertions.assertEquals(expectedLines.length, actualLines.length);
   }
 }

@@ -9,6 +9,11 @@ dependencies {
     testCompile project(':crnk-meta')
     testCompile project(':crnk-test')
     testCompile project(':crnk-data:crnk-data-facet')
+
+    testCompile "org.junit.jupiter:junit-jupiter-api:$JUNIT_VERSION"
+    testCompile "org.junit.jupiter:junit-jupiter-params:$JUNIT_VERSION"
+    testCompile "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
+
 }
 
 

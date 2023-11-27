@@ -3,8 +3,8 @@ package io.crnk.core.exception;
 import io.crnk.core.engine.error.ErrorResponse;
 import io.crnk.core.engine.http.HttpStatus;
 import io.crnk.core.engine.internal.exception.TimeoutExceptionMapper;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeoutException;
 
@@ -18,7 +18,7 @@ public class TimeoutExceptionMapperTest {
 		ErrorResponse response = mapper.toErrorResponse(new TimeoutException());
 		assertThat(response.getHttpStatus()).isEqualTo(HttpStatus.GATEWAY_TIMEOUT_504);
 
-		Assert.assertTrue(mapper.accepts(response));
-		Assert.assertTrue(mapper.fromErrorResponse(response) instanceof TimeoutException);
+		Assertions.assertTrue(mapper.accepts(response));
+		Assertions.assertTrue(mapper.fromErrorResponse(response) instanceof TimeoutException);
 	}
 }

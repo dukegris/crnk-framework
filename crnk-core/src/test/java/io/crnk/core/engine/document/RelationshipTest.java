@@ -5,8 +5,8 @@ import io.crnk.core.engine.internal.jackson.JacksonModule;
 import io.crnk.core.utils.Nullable;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -44,21 +44,22 @@ public class RelationshipTest {
 		Relationship relationship = new Relationship();
 		ResourceIdentifier id = new ResourceIdentifier("a", "b");
 		relationship.setData(Nullable.of(id));
-		Assert.assertEquals(Arrays.asList(id), relationship.getCollectionData().get());
+		Assertions.assertEquals(Arrays.asList(id), relationship.getCollectionData().get());
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void setInvalidDataThrowsException() {
+		Assertions.assertThrows(IllegalStateException.class, () -> {
 		Relationship relationship = new Relationship();
 		relationship.setData(Nullable.of("not a ResourceIdentifier"));
+		});
 	}
-
 
 	private void checkSerialize(Relationship relationship) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.registerModule(JacksonModule.createJacksonModule());
 		String json = mapper.writeValueAsString(relationship);
 		Relationship copy = mapper.readerFor(Relationship.class).readValue(json);
-		Assert.assertEquals(relationship, copy);
+		Assertions.assertEquals(relationship, copy);
 	}
 }

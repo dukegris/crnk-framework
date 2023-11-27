@@ -1,8 +1,8 @@
 package io.crnk.servlet.reactive;
 
 import io.crnk.servlet.AsyncCrnkServlet;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.servlet.ServletConfig;
@@ -15,9 +15,9 @@ public class AsyncServletInitTest {
 		try {
 			AsyncCrnkServlet servlet = new AsyncCrnkServlet();
 			servlet.init(Mockito.mock(ServletConfig.class));
-			Assert.fail();
+			Assertions.fail();
 		} catch (IllegalStateException e) {
-			Assert.assertTrue(e.getMessage().contains("make use of an async ResultFactory"));
+			Assertions.assertTrue(e.getMessage().contains("make use of an async ResultFactory"));
 		}
 	}
 }

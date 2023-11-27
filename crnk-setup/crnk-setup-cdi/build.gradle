@@ -7,7 +7,9 @@ dependencies {
 	testCompile "org.junit.jupiter:junit-jupiter-api:$JUNIT_VERSION"
 	testCompile "org.junit.jupiter:junit-jupiter-params:$JUNIT_VERSION"
 	testCompile "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
-	testCompile "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+
+	testCompile 'org.mockito:mockito-core:2.18.3'
+	testCompile 'com.github.cschabl.cdi-unit-junit5:cdi-unit-junit5:0.4'
 
 	testCompile group: 'org.apache.deltaspike.modules', name: 'deltaspike-test-control-module-api', version: '1.7.1'
 	testCompile group: 'org.apache.deltaspike.modules', name: 'deltaspike-test-control-module-impl', version: '1.7.1'

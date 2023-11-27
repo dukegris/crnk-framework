@@ -13,9 +13,9 @@ import io.crnk.core.engine.internal.http.HttpRequestDispatcherImpl;
 import io.crnk.core.engine.url.ConstantServiceUrlProvider;
 import io.crnk.core.module.SimpleModule;
 import io.crnk.test.mock.TestModule;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -29,7 +29,7 @@ public class HomeResourceFilteringTest {
 
 	private ResourceFilter filter;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		filter = Mockito.mock(ResourceFilter.class);
 		SimpleModule filterModule = new SimpleModule("filter");
@@ -75,15 +75,15 @@ public class HomeResourceFilteringTest {
 
 		Mockito.verify(requestContextBase, Mockito.times(1)).setResponse(responseCaptor.capture());
 		HttpResponse response = responseCaptor.getValue();
-		Assert.assertEquals(200, response.getStatusCode());
+		Assertions.assertEquals(200, response.getStatusCode());
 
 		JsonNode json = boot.getObjectMapper().reader().readTree(new String(response.getBody()));
 		JsonNode resourcesNode = json.get("links");
 		JsonNode tasksNode = resourcesNode.get("tasks");
 		if (filtered) {
-			Assert.assertNull(tasksNode);
+			Assertions.assertNull(tasksNode);
 		} else {
-			Assert.assertEquals("http://localhost/tasks", tasksNode.asText());
+			Assertions.assertEquals("http://localhost/tasks", tasksNode.asText());
 		}
 	}
 }

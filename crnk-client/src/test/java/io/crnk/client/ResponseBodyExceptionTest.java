@@ -1,13 +1,13 @@
 package io.crnk.client;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ResponseBodyExceptionTest {
 
 	@Test
 	public void test() {
 		ResponseBodyException exception = new ResponseBodyException("test");
-		Assert.assertEquals("test", exception.getMessage());
+		Assertions.assertEquals("test", exception.getMessage());
 	}
 }

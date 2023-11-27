@@ -33,10 +33,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class BasicRepositoryAccessTestBase {
 
@@ -54,7 +54,7 @@ public abstract class BasicRepositoryAccessTestBase {
 
 	protected RelationshipRepository<Task, Long, Schedule, Long> taskScheduleRepo;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		testContainer.start();
 		scheduleRepo = testContainer.getRepositoryForType(Schedule.class);
@@ -65,16 +65,16 @@ public abstract class BasicRepositoryAccessTestBase {
 		taskScheduleRepo = testContainer.getRepositoryForType(Task.class, Schedule.class);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		testContainer.stop();
 	}
 
 	@Test
 	public void testGetters() {
-		Assert.assertEquals(Task.class, taskRepo.getResourceClass());
-		Assert.assertEquals(Task.class, relRepo.getSourceResourceClass());
-		Assert.assertEquals(Project.class, relRepo.getTargetResourceClass());
+		Assertions.assertEquals(Task.class, taskRepo.getResourceClass());
+		Assertions.assertEquals(Task.class, relRepo.getSourceResourceClass());
+		Assertions.assertEquals(Project.class, relRepo.getTargetResourceClass());
 	}
 
 	@Test
@@ -85,9 +85,9 @@ public abstract class BasicRepositoryAccessTestBase {
 
 		QuerySpec querySpec = new QuerySpec(Schedule.class);
 		ResourceList<Schedule> list = scheduleRepo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		schedule = list.get(0);
-		Assert.assertNotNull(schedule.getId());
+		Assertions.assertNotNull(schedule.getId());
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public abstract class BasicRepositoryAccessTestBase {
 		}
 		catch (MethodNotAllowedException e) {
 			// ok
-			Assert.assertNotNull(e.getUrl());
+			Assertions.assertNotNull(e.getUrl());
 		}
 	}
 
@@ -112,9 +112,9 @@ public abstract class BasicRepositoryAccessTestBase {
 		ResourceRepository<HistoricTask, Object> repository = testContainer.getRepositoryForType(HistoricTask.class);
 		repository.create(task);
 		ResourceList<HistoricTask> historicTasks = repository.findAll(new QuerySpec(HistoricTask.class));
-		Assert.assertEquals(1, historicTasks.size());
+		Assertions.assertEquals(1, historicTasks.size());
 		ResourceList<Task> tasks = taskRepo.findAll(new QuerySpec(Task.class));
-		Assert.assertEquals(0, tasks.size());
+		Assertions.assertEquals(0, tasks.size());
 	}
 
 	@Test
@@ -125,10 +125,10 @@ public abstract class BasicRepositoryAccessTestBase {
 		ResourceRepository<RelocatedTask, Object> repository = testContainer.getRepositoryForType(RelocatedTask.class);
 		repository.create(task);
 		ResourceList<RelocatedTask> historicTasks = repository.findAll(new QuerySpec(RelocatedTask.class));
-		Assert.assertEquals(1, historicTasks.size());
+		Assertions.assertEquals(1, historicTasks.size());
 
 		RegistryEntry entry = testContainer.getBoot().getResourceRegistry().getEntry(RelocatedTask.class);
-		Assert.assertEquals("taskNewPath", entry.getResourceInformation().getResourcePath());
+		Assertions.assertEquals("taskNewPath", entry.getResourceInformation().getResourcePath());
 	}
 
 	@Test
@@ -141,7 +141,7 @@ public abstract class BasicRepositoryAccessTestBase {
 		}
 		catch (MethodNotAllowedException e) {
 			// ok
-			Assert.assertNotNull(e.getUrl());
+			Assertions.assertNotNull(e.getUrl());
 		}
 	}
 
@@ -153,7 +153,7 @@ public abstract class BasicRepositoryAccessTestBase {
 		}
 		catch (MethodNotAllowedException e) {
 			// ok
-			Assert.assertNotNull(e.getUrl());
+			Assertions.assertNotNull(e.getUrl());
 		}
 	}
 
@@ -168,11 +168,11 @@ public abstract class BasicRepositoryAccessTestBase {
 
 		QuerySpec querySpec = new QuerySpec(Schedule.class);
 		ResourceList<Schedule> list = scheduleRepo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 
-		Assert.assertFalse(result.getAnyFields().isEmpty());
-		Assert.assertEquals(1234, result.getAnyFields().get("randomfield1"));
-		Assert.assertEquals("test", result.getAnyFields().get("randomfield2"));
+		Assertions.assertFalse(result.getAnyFields().isEmpty());
+		Assertions.assertEquals(1234, result.getAnyFields().get("randomfield1"));
+		Assertions.assertEquals("test", result.getAnyFields().get("randomfield2"));
 
 	}
 
@@ -183,7 +183,7 @@ public abstract class BasicRepositoryAccessTestBase {
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder().url(url).build();
 		Response response = client.newCall(request).execute();
-		Assert.assertEquals(removeWhiteSpace(HttpHeaders.JSONAPI_CONTENT_TYPE_AND_CHARSET),
+		Assertions.assertEquals(removeWhiteSpace(HttpHeaders.JSONAPI_CONTENT_TYPE_AND_CHARSET),
 				removeWhiteSpace(response.header(HttpHeaders.HTTP_CONTENT_TYPE)));
 	}
 
@@ -194,7 +194,7 @@ public abstract class BasicRepositoryAccessTestBase {
 		RequestBody body = RequestBody.create(MediaType.parse(HttpHeaders.JSONAPI_CONTENT_TYPE_AND_CHARSET), new byte[1]);
 		Request request = new Request.Builder().url(url).put(body).build();
 		Response response = client.newCall(request).execute();
-		Assert.assertEquals(io.crnk.core.engine.http.HttpStatus.METHOD_NOT_ALLOWED_405, response.code());
+		Assertions.assertEquals(io.crnk.core.engine.http.HttpStatus.METHOD_NOT_ALLOWED_405, response.code());
 	}
 
 
@@ -213,9 +213,9 @@ public abstract class BasicRepositoryAccessTestBase {
 		QuerySpec querySpec = new QuerySpec(Task.class);
 		querySpec.addSort(new SortSpec(Arrays.asList("name"), Direction.ASC));
 		List<Task> tasks = taskRepo.findAll(querySpec);
-		Assert.assertEquals(5, tasks.size());
+		Assertions.assertEquals(5, tasks.size());
 		for (int i = 0; i < 5; i++) {
-			Assert.assertEquals("task" + i, tasks.get(i).getName());
+			Assertions.assertEquals("task" + i, tasks.get(i).getName());
 		}
 	}
 
@@ -234,10 +234,10 @@ public abstract class BasicRepositoryAccessTestBase {
 		ResourceList<Task> tasks = taskRepo.findAll(new QuerySpec(Task.class));
 		for (Task fetchedTask : tasks) {
 			if (fetchedTask.getId() == 13L) {
-				Assert.assertEquals("tasksSubType", fetchedTask.getType());
+				Assertions.assertEquals("tasksSubType", fetchedTask.getType());
 			}
 			else {
-				Assert.assertEquals("tasks", fetchedTask.getType());
+				Assertions.assertEquals("tasks", fetchedTask.getType());
 			}
 		}
 	}
@@ -253,9 +253,9 @@ public abstract class BasicRepositoryAccessTestBase {
 		QuerySpec querySpec = new QuerySpec(Task.class);
 		querySpec.addSort(new SortSpec(Arrays.asList("name"), Direction.DESC));
 		List<Task> tasks = taskRepo.findAll(querySpec);
-		Assert.assertEquals(5, tasks.size());
+		Assertions.assertEquals(5, tasks.size());
 		for (int i = 0; i < 5; i++) {
-			Assert.assertEquals("task" + i, tasks.get(4 - i).getName());
+			Assertions.assertEquals("task" + i, tasks.get(4 - i).getName());
 		}
 	}
 
@@ -273,19 +273,21 @@ public abstract class BasicRepositoryAccessTestBase {
 		ResourceList<Task> tasks = taskRepo.findAll(querySpec);
 
 		DefaultPagedLinksInformation links = tasks.getLinks(DefaultPagedLinksInformation.class);
-		Assert.assertNotNull(links.getSelf());
+		Assertions.assertNotNull(links.getSelf());
 	}
 
 
 	@Test
 	public void testFindEmpty() {
 		List<Task> tasks = taskRepo.findAll(new QuerySpec(Task.class));
-		Assert.assertTrue(tasks.isEmpty());
+		Assertions.assertTrue(tasks.isEmpty());
 	}
 
-	@Test(expected = ResourceNotFoundException.class)
+	@Test
 	public void testFindNull() {
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 		taskRepo.findOne(1L, new QuerySpec(Task.class));
+		});
 	}
 
 	@Test
@@ -297,22 +299,22 @@ public abstract class BasicRepositoryAccessTestBase {
 
 		// check retrievable with findAll
 		List<Task> tasks = taskRepo.findAll(new QuerySpec(Task.class));
-		Assert.assertEquals(1, tasks.size());
+		Assertions.assertEquals(1, tasks.size());
 		Task savedTask = tasks.get(0);
-		Assert.assertEquals(task.getId(), savedTask.getId());
-		Assert.assertEquals(task.getName(), savedTask.getName());
+		Assertions.assertEquals(task.getId(), savedTask.getId());
+		Assertions.assertEquals(task.getName(), savedTask.getName());
 
 		// check retrievable with findAll(ids)
 		tasks = taskRepo.findAll(Arrays.asList(1L), new QuerySpec(Task.class));
-		Assert.assertEquals(1, tasks.size());
+		Assertions.assertEquals(1, tasks.size());
 		savedTask = tasks.get(0);
-		Assert.assertEquals(task.getId(), savedTask.getId());
-		Assert.assertEquals(task.getName(), savedTask.getName());
+		Assertions.assertEquals(task.getId(), savedTask.getId());
+		Assertions.assertEquals(task.getName(), savedTask.getName());
 
 		// check retrievable with findOne
 		savedTask = taskRepo.findOne(1L, new QuerySpec(Task.class));
-		Assert.assertEquals(task.getId(), savedTask.getId());
-		Assert.assertEquals(task.getName(), savedTask.getName());
+		Assertions.assertEquals(task.getId(), savedTask.getId());
+		Assertions.assertEquals(task.getName(), savedTask.getName());
 	}
 
 	@Test
@@ -332,9 +334,9 @@ public abstract class BasicRepositoryAccessTestBase {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("customData", "a"), FilterOperator.EQ, "b1"));
 		List<Schedule> matches = scheduleRepo.findAll(querySpec);
 
-		Assert.assertEquals(1, matches.size());
+		Assertions.assertEquals(1, matches.size());
 		Schedule match = matches.get(0);
-		Assert.assertEquals(1L, match.getId().longValue());
+		Assertions.assertEquals(1L, match.getId().longValue());
 	}
 
 
@@ -344,7 +346,7 @@ public abstract class BasicRepositoryAccessTestBase {
 		task.setId(null);
 		task.setName("test");
 		Task savedTask = taskRepo.create(task);
-		Assert.assertNotNull(savedTask.getId());
+		Assertions.assertNotNull(savedTask.getId());
 	}
 
 	@Test
@@ -357,7 +359,7 @@ public abstract class BasicRepositoryAccessTestBase {
 		taskRepo.delete(1L);
 
 		List<Task> tasks = taskRepo.findAll(new QuerySpec(Task.class));
-		Assert.assertEquals(0, tasks.size());
+		Assertions.assertEquals(0, tasks.size());
 	}
 
 	@Test
@@ -375,8 +377,8 @@ public abstract class BasicRepositoryAccessTestBase {
 		relRepo.setRelation(task, schedule.getId(), "schedule");
 
 		Schedule relSchedule = taskScheduleRepo.findOneTarget(task.getId(), "schedule", new QuerySpec(Schedule.class));
-		Assert.assertNotNull(relSchedule);
-		Assert.assertEquals(schedule.getId(), relSchedule.getId());
+		Assertions.assertNotNull(relSchedule);
+		Assertions.assertEquals(schedule.getId(), relSchedule.getId());
 	}
 
 	@Test
@@ -394,15 +396,15 @@ public abstract class BasicRepositoryAccessTestBase {
 
 		// check relationship available => ID is serialized, so a proxy is available
 		Task savedTask = taskRepo.findOne(task.getId(), new QuerySpec(Task.class));
-		Assert.assertNotNull(savedTask.getSchedule());
+		Assertions.assertNotNull(savedTask.getSchedule());
 
 		// check available from opposite side
 		QuerySpec querySpec = new QuerySpec(Schedule.class);
 		querySpec.includeRelation(PathSpec.of("tasks"));
 		Schedule savedSchedule = scheduleRepo.findOne(schedule.getId(), querySpec);
-		Assert.assertEquals(1, savedSchedule.getTasks().size());
+		Assertions.assertEquals(1, savedSchedule.getTasks().size());
 		Task relatedTask = savedSchedule.getTasks().iterator().next();
-		Assert.assertEquals(task.getId(), relatedTask.getId());
+		Assertions.assertEquals(task.getId(), relatedTask.getId());
 	}
 
 	@Test
@@ -419,7 +421,7 @@ public abstract class BasicRepositoryAccessTestBase {
 		taskRepo.create(task);
 
 		Task savedTask = taskRepo.findOne(task.getId(), new QuerySpec(Task.class));
-		Assert.assertNotNull(savedTask.getSchedule());
+		Assertions.assertNotNull(savedTask.getSchedule());
 
 		// null
 		savedTask.setSchedule(null);
@@ -427,7 +429,7 @@ public abstract class BasicRepositoryAccessTestBase {
 
 		// relation must be null
 		Task updatedTask = taskRepo.findOne(task.getId(), new QuerySpec(Task.class));
-		Assert.assertNull(updatedTask.getSchedule());
+		Assertions.assertNull(updatedTask.getSchedule());
 	}
 
 	@Test
@@ -446,11 +448,11 @@ public abstract class BasicRepositoryAccessTestBase {
 		// since lazy, will not be sent to client if not requested
 		QuerySpec querySpec = new QuerySpec(Task.class);
 		Task svaedTask = taskRepo.findOne(task.getId(), querySpec);
-		Assert.assertNull(svaedTask.getProject());
+		Assertions.assertNull(svaedTask.getProject());
 
 		querySpec.includeRelation(Arrays.asList("project"));
 		svaedTask = taskRepo.findOne(task.getId(), querySpec);
-		Assert.assertNotNull(svaedTask.getProject());
+		Assertions.assertNotNull(svaedTask.getProject());
 
 		// null
 		svaedTask.setProject(project);
@@ -459,7 +461,7 @@ public abstract class BasicRepositoryAccessTestBase {
 		// still not null because cannot differantiate between not loaded and
 		// nulled
 		Task updatedSchedule = taskRepo.findOne(task.getId(), querySpec);
-		Assert.assertNotNull(updatedSchedule.getProject());
+		Assertions.assertNotNull(updatedSchedule.getProject());
 	}
 
 	@Test
@@ -475,12 +477,12 @@ public abstract class BasicRepositoryAccessTestBase {
 		taskRepo.create(task);
 
 		Task createdTask = taskRepo.findOne(task.getId(), new QuerySpec(Task.class));
-		Assert.assertNull(createdTask.getSchedule());
+		Assertions.assertNull(createdTask.getSchedule());
 		createdTask.setSchedule(schedule);
 		taskRepo.save(createdTask);
 
 		Task updatedTask = taskRepo.findOne(task.getId(), new QuerySpec(Task.class));
-		Assert.assertNotNull(updatedTask.getSchedule());
+		Assertions.assertNotNull(updatedTask.getSchedule());
 	}
 
 	@Test
@@ -502,23 +504,23 @@ public abstract class BasicRepositoryAccessTestBase {
 
 		relRepo.addRelations(task, Arrays.asList(project0.getId(), project1.getId()), "projects");
 		ResourceList<Project> relProjects = relRepo.findManyTargets(task.getId(), "projects", new QuerySpec(Project.class));
-		Assert.assertEquals(2, relProjects.size());
+		Assertions.assertEquals(2, relProjects.size());
 		relRepo.setRelations(task, Arrays.asList(project1.getId()), "projects");
 
 		relProjects = relRepo.findManyTargets(task.getId(), "projects", new QuerySpec(Project.class));
-		Assert.assertEquals(1, relProjects.size());
-		Assert.assertEquals(project1.getId(), relProjects.get(0).getId());
+		Assertions.assertEquals(1, relProjects.size());
+		Assertions.assertEquals(project1.getId(), relProjects.get(0).getId());
 		ProjectRepository.ProjectsLinksInformation projectLinks = relProjects.getLinks(ProjectRepository.ProjectsLinksInformation.class);
 		ProjectRepository.ProjectsMetaInformation projecsMeta = relProjects.getMeta(ProjectRepository.ProjectsMetaInformation.class);
-		Assert.assertEquals("linkValue", projectLinks.getLinkValue().getHref());
-		Assert.assertEquals("metaValue", projecsMeta.getMetaValue());
+		Assertions.assertEquals("linkValue", projectLinks.getLinkValue().getHref());
+		Assertions.assertEquals("metaValue", projecsMeta.getMetaValue());
 		// TODO HTTP DELETE method with payload not supported? at least in
 		// Jersey
 		/*
 		relRepo.removeRelations(task, Arrays.asList(project1.getId()),
 				"projects");
 		relProjects = relRepo.findManyRelations(task.getId(), "projects", new QuerySpec(Task.class));
-		Assert.assertEquals(0, relProjects.size());
+		Assertions.assertEquals(0, relProjects.size());
 		*/
 	}
 
@@ -546,13 +548,13 @@ public abstract class BasicRepositoryAccessTestBase {
 		querySpec.includeRelation(PathSpec.of("projects"));
 		Task queriedTask = taskRepo.findOne(task.getId(), querySpec);
 		ResourceList<Project> projects = queriedTask.getProjects();
-		Assert.assertEquals(2, projects.size());
+		Assertions.assertEquals(2, projects.size());
 		ProjectRepository.ProjectsLinksInformation relationLinks = projects.getLinks(ProjectRepository.ProjectsLinksInformation.class);
-		Assert.assertEquals("linkValue", relationLinks.getLinkValue().getHref());
-		Assert.assertTrue(relationLinks.getSelf().getHref().endsWith("/tasks/3/relationships/projects"));
-		Assert.assertTrue(relationLinks.getRelated().getHref().endsWith("/tasks/3/projects"));
+		Assertions.assertEquals("linkValue", relationLinks.getLinkValue().getHref());
+		Assertions.assertTrue(relationLinks.getSelf().getHref().endsWith("/tasks/3/relationships/projects"));
+		Assertions.assertTrue(relationLinks.getRelated().getHref().endsWith("/tasks/3/projects"));
 		ProjectRepository.ProjectsMetaInformation relationMeta = projects.getMeta(ProjectRepository.ProjectsMetaInformation.class);
-		Assert.assertEquals("metaValue", relationMeta.getMetaValue());
+		Assertions.assertEquals("metaValue", relationMeta.getMetaValue());
 	}
 
 
@@ -573,12 +575,12 @@ public abstract class BasicRepositoryAccessTestBase {
 				Arrays.asList("description0", "description1", "description2")));
 
 		List<Schedule> schedules = scheduleRepo.findAll(querySpec);
-		Assert.assertEquals(3, schedules.size());
+		Assertions.assertEquals(3, schedules.size());
 
 		for (int i = 0; i < schedules.size(); i++) {
 			Schedule schedule = schedules.get(schedules.size() - 1 - i);
-			Assert.assertEquals("description" + i, schedule.getDesc());
-			Assert.assertNull(schedule.getName());
+			Assertions.assertEquals("description" + i, schedule.getDesc());
+			Assertions.assertNull(schedule.getName());
 		}
 
 	}
@@ -600,9 +602,9 @@ public abstract class BasicRepositoryAccessTestBase {
 		querySpec.includeField(PathSpec.of("id"));
 		querySpec.includeField(PathSpec.of("name"));
 		Task queriedTask = taskRepo.findOne(task.getId(), querySpec);
-		Assert.assertNull(queriedTask.getProject());
-		Assert.assertNotNull(queriedTask.getName());
-		Assert.assertNotNull(queriedTask.getId());
+		Assertions.assertNull(queriedTask.getProject());
+		Assertions.assertNotNull(queriedTask.getName());
+		Assertions.assertNotNull(queriedTask.getId());
 	}
 
 	@Test
@@ -622,10 +624,10 @@ public abstract class BasicRepositoryAccessTestBase {
 		querySpec.includeField(PathSpec.of("id"));
 		querySpec.includeRelation(PathSpec.of("project"));
 		Task queriedTask = taskRepo.findOne(task.getId(), querySpec);
-		Assert.assertNotNull(queriedTask.getProject());
-		Assert.assertEquals("project", queriedTask.getProject().getName());
-		Assert.assertNull(queriedTask.getName());
-		Assert.assertNotNull(queriedTask.getId());
+		Assertions.assertNotNull(queriedTask.getProject());
+		Assertions.assertEquals("project", queriedTask.getProject().getName());
+		Assertions.assertNull(queriedTask.getName());
+		Assertions.assertNotNull(queriedTask.getId());
 	}
 
 }

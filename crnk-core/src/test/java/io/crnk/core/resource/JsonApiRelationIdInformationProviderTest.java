@@ -20,11 +20,11 @@ import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiRelationId;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import io.crnk.legacy.registry.DefaultResourceInformationProviderContext;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+// import org.junit.Rule;
+import org.junit.jupiter.api.Test;
+// import org.junit.rules.ExpectedException;
 
 public class JsonApiRelationIdInformationProviderTest {
 
@@ -38,10 +38,11 @@ public class JsonApiRelationIdInformationProviderTest {
 			new DefaultResourceInformationProviderContext(resourceInformationProvider,
 					new DefaultInformationBuilder(new TypeParser()), new TypeParser(), () -> new ObjectMapper());
 
-	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
+	// RCS innecesario
+    // @Rule
+    // public ExpectedException expectedException = ExpectedException.none();
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		resourceInformationProvider.init(context);
 	}
@@ -50,42 +51,42 @@ public class JsonApiRelationIdInformationProviderTest {
 	public void shouldAutoDetectWithDefaultName() {
 		ResourceInformation resourceInformation = resourceInformationProvider.build(Schedule.class);
 		ResourceField field = resourceInformation.findFieldByName("project");
-		Assert.assertNotNull(field);
-		Assert.assertNull(resourceInformation.findFieldByName("projectId"));
+		Assertions.assertNotNull(field);
+		Assertions.assertNull(resourceInformation.findFieldByName("projectId"));
 
-		Assert.assertTrue(field.hasIdField());
+		Assertions.assertTrue(field.hasIdField());
 
 		Schedule schedule = new Schedule();
-		Assert.assertNull(field.getIdAccessor().getValue(schedule));
+		Assertions.assertNull(field.getIdAccessor().getValue(schedule));
 		field.getIdAccessor().setValue(schedule, 13L);
-		Assert.assertEquals(13L, schedule.getProjectId().longValue());
-		Assert.assertEquals(13L, field.getIdAccessor().getValue(schedule));
+		Assertions.assertEquals(13L, schedule.getProjectId().longValue());
+		Assertions.assertEquals(13L, field.getIdAccessor().getValue(schedule));
 	}
 
 	@Test
 	public void shouldAutoDetectWithCustomName() {
 		ResourceInformation resourceInformation = resourceInformationProvider.build(RenamedIdFieldResource.class);
 		ResourceField field = resourceInformation.findFieldByName("project");
-		Assert.assertNotNull(field);
-		Assert.assertNull(resourceInformation.findFieldByName("projectFk"));
+		Assertions.assertNotNull(field);
+		Assertions.assertNull(resourceInformation.findFieldByName("projectFk"));
 
-		Assert.assertTrue(field.hasIdField());
+		Assertions.assertTrue(field.hasIdField());
 
 		RenamedIdFieldResource resource = new RenamedIdFieldResource();
-		Assert.assertNull(field.getIdAccessor().getValue(resource));
+		Assertions.assertNull(field.getIdAccessor().getValue(resource));
 		field.getIdAccessor().setValue(resource, 13L);
-		Assert.assertEquals(13L, resource.getProjectFk().longValue());
-		Assert.assertEquals(13L, field.getIdAccessor().getValue(resource));
+		Assertions.assertEquals(13L, resource.getProjectFk().longValue());
+		Assertions.assertEquals(13L, field.getIdAccessor().getValue(resource));
 	}
 
 	@Test
 	public void shouldFailForUnmatchedRelationId() {
 		try {
 			resourceInformationProvider.build(UnmatchedIdFieldResource.class);
-			Assert.fail("pro");
+			Assertions.fail("pro");
 		} catch (InvalidResourceException e) {
-			Assert.assertTrue(e.getMessage().contains("@JsonApiRelationId"));
-			Assert.assertTrue(e.getMessage().contains("[projectFk]"));
+			Assertions.assertTrue(e.getMessage().contains("@JsonApiRelationId"));
+			Assertions.assertTrue(e.getMessage().contains("[projectFk]"));
 		}
 	}
 

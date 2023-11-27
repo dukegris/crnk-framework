@@ -10,9 +10,9 @@ import io.crnk.meta.model.MetaElement;
 import io.crnk.meta.model.MetaPrimitiveType;
 import io.crnk.meta.model.MetaType;
 import io.crnk.meta.model.resource.MetaResource;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ public class MetaIntTest extends AbstractMetaJerseyTest {
 
 	private ResourceRepository<MetaElement, Serializable> repository;
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -33,19 +33,20 @@ public class MetaIntTest extends AbstractMetaJerseyTest {
 	@Test
 	public void testFindAll() {
 		ResourceList<MetaElement> list = repository.findAll(new QuerySpec(MetaElement.class));
-		Assert.assertFalse(list.isEmpty());
+		Assertions.assertFalse(list.isEmpty());
 	}
 
 	@Test
 	public void testIdPrefix() {
 		ResourceList<MetaElement> list = repository.findAll(new QuerySpec(MetaElement.class));
-		Assert.assertFalse(list.isEmpty());
+		Assertions.assertFalse(list.isEmpty());
 		for (MetaElement elem : list) {
 			if (elem instanceof MetaPrimitiveType) {
-				Assert.assertTrue(elem.getId(), elem.getId().startsWith("base."));
+				Assertions.assertTrue(elem.getId().startsWith("base."), elem.getId());
 			} else {
-				Assert.assertTrue(elem.getId(),
-						elem.getId().startsWith("base.") || elem.getId().startsWith("resources.") || elem.getId().startsWith("app.resources.") || elem.getId().startsWith("io.crnk"));
+				Assertions.assertTrue(
+						elem.getId().startsWith("base.") || elem.getId().startsWith("resources.") || elem.getId().startsWith("app.resources.") || elem.getId().startsWith("io.crnk"),
+						elem.getId());
 			}
 		}
 	}
@@ -55,9 +56,9 @@ public class MetaIntTest extends AbstractMetaJerseyTest {
 		QuerySpec querySpec = new QuerySpec(MetaAttribute.class);
 		querySpec.includeRelation(Arrays.asList("parent"));
 		ResourceList<MetaAttribute> list = client.getRepositoryForType(MetaAttribute.class).findAll(querySpec);
-		Assert.assertFalse(list.isEmpty());
+		Assertions.assertFalse(list.isEmpty());
 		for (MetaAttribute elem : list) {
-			Assert.assertNotNull(elem.getParent());
+			Assertions.assertNotNull(elem.getParent());
 		}
 	}
 
@@ -66,10 +67,10 @@ public class MetaIntTest extends AbstractMetaJerseyTest {
 		QuerySpec querySpec = new QuerySpec(MetaAttribute.class);
 		querySpec.includeRelation(Arrays.asList("type", "elementType"));
 		ResourceList<MetaAttribute> list = client.getRepositoryForType(MetaAttribute.class).findAll(querySpec);
-		Assert.assertFalse(list.isEmpty());
+		Assertions.assertFalse(list.isEmpty());
 		for (MetaAttribute elem : list) {
-			Assert.assertNotNull(elem.getType());
-			Assert.assertNotNull(elem.getType().getElementType());
+			Assertions.assertNotNull(elem.getType());
+			Assertions.assertNotNull(elem.getType().getElementType());
 		}
 	}
 
@@ -78,14 +79,14 @@ public class MetaIntTest extends AbstractMetaJerseyTest {
 		QuerySpec querySpec = new QuerySpec(MetaResource.class);
 		querySpec.includeRelation(Arrays.asList("attributes", "type"));
 		ResourceList<MetaResource> list = client.getRepositoryForType(MetaResource.class).findAll(querySpec);
-		Assert.assertFalse(list.isEmpty());
+		Assertions.assertFalse(list.isEmpty());
 		for (MetaResource elem : list) {
 			List<? extends MetaAttribute> attributes = elem.getAttributes();
-			Assert.assertTrue(isLoaded(attributes));
+			Assertions.assertTrue(isLoaded(attributes));
 			for (MetaAttribute attr : attributes) {
-				Assert.assertTrue(isLoaded(attr));
+				Assertions.assertTrue(isLoaded(attr));
 				MetaType attrType = attr.getType();
-				Assert.assertTrue(isLoaded(attrType));
+				Assertions.assertTrue(isLoaded(attrType));
 			}
 		}
 	}
@@ -104,7 +105,7 @@ public class MetaIntTest extends AbstractMetaJerseyTest {
 		typeSpec.includeRelation(Arrays.asList("superType"));
 
 		ResourceList<MetaResource> list = client.getRepositoryForType(MetaResource.class).findAll(querySpec);
-		Assert.assertFalse(list.isEmpty());
+		Assertions.assertFalse(list.isEmpty());
 		for (MetaResource elem : list) {
 			checkDataObjectLoaded(elem, new HashSet<String>());
 		}
@@ -117,13 +118,13 @@ public class MetaIntTest extends AbstractMetaJerseyTest {
 		checked.add(elem.getId());
 
 		List<? extends MetaAttribute> attributes = elem.getAttributes();
-		Assert.assertTrue(isLoaded(attributes));
+		Assertions.assertTrue(isLoaded(attributes));
 		for (MetaAttribute attr : attributes) {
-			Assert.assertTrue(isLoaded(attr));
+			Assertions.assertTrue(isLoaded(attr));
 			MetaType attrType = attr.getType();
-			Assert.assertTrue(isLoaded(attrType));
+			Assertions.assertTrue(isLoaded(attrType));
 			MetaType attrElementType = attrType.getElementType();
-			Assert.assertTrue(isLoaded(attrElementType));
+			Assertions.assertTrue(isLoaded(attrElementType));
 			if (attrElementType instanceof MetaDataObject) {
 				checkDataObjectLoaded(attrElementType.asDataObject(), checked);
 			}
@@ -164,27 +165,27 @@ public class MetaIntTest extends AbstractMetaJerseyTest {
 		querySpec.includeRelation(Arrays.asList("superType"));
 		String id = "resources.schedule";
 		MetaResource resource = (MetaResource) client.getRepositoryForType(elementClass).findOne(id, querySpec);
-		Assert.assertNotNull(resource);
-		Assert.assertNotNull(resource.getAttributes());
-		Assert.assertNotNull(resource.getDeclaredAttributes());
-		Assert.assertNotNull(resource.getPrimaryKey());
-		Assert.assertNull(resource.getSuperType());
-		Assert.assertEquals(1, resource.getPrimaryKey().getElements().size());
+		Assertions.assertNotNull(resource);
+		Assertions.assertNotNull(resource.getAttributes());
+		Assertions.assertNotNull(resource.getDeclaredAttributes());
+		Assertions.assertNotNull(resource.getPrimaryKey());
+		Assertions.assertNull(resource.getSuperType());
+		Assertions.assertEquals(1, resource.getPrimaryKey().getElements().size());
 
 		MetaAttribute idAttr = resource.getAttribute("id");
-		Assert.assertEquals("id", idAttr.getName());
-		Assert.assertNotNull(idAttr.getType());
-		Assert.assertTrue(idAttr.getType() instanceof MetaPrimitiveType);
-		Assert.assertFalse(idAttr.isAssociation());
+		Assertions.assertEquals("id", idAttr.getName());
+		Assertions.assertNotNull(idAttr.getType());
+		Assertions.assertTrue(idAttr.getType() instanceof MetaPrimitiveType);
+		Assertions.assertFalse(idAttr.isAssociation());
 	}
 
 	public void testIdNaming() {
 		QuerySpec querySpec = new QuerySpec(MetaElement.class);
-		Assert.assertNotNull(repository.findOne("io.crnk.meta.metaElement", querySpec));
-		Assert.assertNotNull(repository.findOne("io.crnk.meta.metaElement$List", querySpec));
-		Assert.assertNotNull(repository.findOne("io.crnk.meta.metaAttribute", querySpec));
-		Assert.assertNotNull(repository.findOne("io.crnk.meta.metaType", querySpec));
-		Assert.assertNotNull(repository.findOne("io.crnk.data.jpa.metaEmbeddableAttribute.laz", querySpec));
-		Assert.assertNotNull(repository.findOne("io.crnk.meta.metaType$primaryKey", querySpec));
+		Assertions.assertNotNull(repository.findOne("io.crnk.meta.metaElement", querySpec));
+		Assertions.assertNotNull(repository.findOne("io.crnk.meta.metaElement$List", querySpec));
+		Assertions.assertNotNull(repository.findOne("io.crnk.meta.metaAttribute", querySpec));
+		Assertions.assertNotNull(repository.findOne("io.crnk.meta.metaType", querySpec));
+		Assertions.assertNotNull(repository.findOne("io.crnk.data.jpa.metaEmbeddableAttribute.laz", querySpec));
+		Assertions.assertNotNull(repository.findOne("io.crnk.meta.metaType$primaryKey", querySpec));
 	}
 }

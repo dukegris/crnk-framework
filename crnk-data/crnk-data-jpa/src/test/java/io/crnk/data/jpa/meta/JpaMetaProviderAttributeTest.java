@@ -8,9 +8,9 @@ import io.crnk.meta.MetaLookupImpl;
 import io.crnk.meta.model.MetaAttribute;
 import io.crnk.meta.model.MetaCollectionType;
 import io.crnk.meta.model.MetaMapType;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +19,7 @@ public class JpaMetaProviderAttributeTest {
 
 	private JpaMetaProvider metaProvider;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		metaProvider = new JpaMetaProvider(Collections.emptySet());
 		MetaLookupImpl lookup = new MetaLookupImpl();
@@ -30,14 +30,14 @@ public class JpaMetaProviderAttributeTest {
 	public void testPrimaryKey() {
 		MetaEntity meta = metaProvider.discoverMeta(TestEntity.class);
 		MetaAttribute attr = meta.getAttribute("id");
-		Assert.assertFalse(attr.isAssociation());
-		Assert.assertEquals("id", attr.getName());
-		Assert.assertEquals(TestEntity.class.getName() + ".id", attr.getId());
-		Assert.assertFalse(attr.isDerived());
-		Assert.assertFalse(attr.isVersion());
-		Assert.assertFalse(attr.isLazy());
-		Assert.assertFalse(attr.isCascaded());
-		Assert.assertNull(attr.getOppositeAttribute());
+		Assertions.assertFalse(attr.isAssociation());
+		Assertions.assertEquals("id", attr.getName());
+		Assertions.assertEquals(TestEntity.class.getName() + ".id", attr.getId());
+		Assertions.assertFalse(attr.isDerived());
+		Assertions.assertFalse(attr.isVersion());
+		Assertions.assertFalse(attr.isLazy());
+		Assertions.assertFalse(attr.isCascaded());
+		Assertions.assertNull(attr.getOppositeAttribute());
 	}
 
 	@Test
@@ -46,16 +46,16 @@ public class JpaMetaProviderAttributeTest {
 
 		List<? extends MetaAttribute> attributes = meta.getAttributes();
 
-		Assert.assertEquals("stringValue", attributes.get(0).getName());
-		Assert.assertEquals("superRelatedValue", attributes.get(1).getName());
-		Assert.assertEquals("id", attributes.get(2).getName());
-		Assert.assertEquals("longValue", attributes.get(3).getName());
-		Assert.assertEquals("bytesValue", attributes.get(4).getName());
-		Assert.assertEquals("embValue", attributes.get(5).getName());
-		Assert.assertEquals("mapValue", attributes.get(6).getName());
-		Assert.assertEquals("oneRelatedValue", attributes.get(7).getName());
-		Assert.assertEquals("eagerRelatedValue", attributes.get(8).getName());
-		Assert.assertEquals("manyRelatedValues", attributes.get(9).getName());
+		Assertions.assertEquals("stringValue", attributes.get(0).getName());
+		Assertions.assertEquals("superRelatedValue", attributes.get(1).getName());
+		Assertions.assertEquals("id", attributes.get(2).getName());
+		Assertions.assertEquals("longValue", attributes.get(3).getName());
+		Assertions.assertEquals("bytesValue", attributes.get(4).getName());
+		Assertions.assertEquals("embValue", attributes.get(5).getName());
+		Assertions.assertEquals("mapValue", attributes.get(6).getName());
+		Assertions.assertEquals("oneRelatedValue", attributes.get(7).getName());
+		Assertions.assertEquals("eagerRelatedValue", attributes.get(8).getName());
+		Assertions.assertEquals("manyRelatedValues", attributes.get(9).getName());
 	}
 
 	@Test
@@ -64,65 +64,65 @@ public class JpaMetaProviderAttributeTest {
 
 		MetaAttribute oneRelatedAttr = meta.getAttribute("oneRelatedValue");
 		MetaAttribute eagerRelatedAttr = meta.getAttribute("eagerRelatedValue");
-		Assert.assertTrue(oneRelatedAttr.isCascaded());
-		Assert.assertFalse(eagerRelatedAttr.isCascaded());
+		Assertions.assertTrue(oneRelatedAttr.isCascaded());
+		Assertions.assertFalse(eagerRelatedAttr.isCascaded());
 	}
 
 	@Test
 	public void testWriteOnlyAttributesIngoredAsNotYetSupported() {
 		MetaEntity meta = metaProvider.discoverMeta(WriteOnlyAttributeTestEntity.class);
 
-		Assert.assertTrue(meta.hasAttribute("id"));
+		Assertions.assertTrue(meta.hasAttribute("id"));
 
 		// not yet supported
-		Assert.assertFalse(meta.hasAttribute("writeOnlyValue"));
+		Assertions.assertFalse(meta.hasAttribute("writeOnlyValue"));
 	}
 
 	@Test
 	public void testFirstCharacterOfNameIsLowerCase() {
 		MetaEntity meta = metaProvider.discoverMeta(NamingTestEntity.class);
 
-		Assert.assertTrue(meta.hasAttribute("id"));
-		Assert.assertTrue(meta.hasAttribute("sEcondUpperCaseValue"));
-		Assert.assertFalse(meta.hasAttribute("SEcondUpperCaseValue"));
+		Assertions.assertTrue(meta.hasAttribute("id"));
+		Assertions.assertTrue(meta.hasAttribute("sEcondUpperCaseValue"));
+		Assertions.assertFalse(meta.hasAttribute("SEcondUpperCaseValue"));
 	}
 
 	@Test
 	public void testMapAttr() {
 		MetaEntity meta = metaProvider.discoverMeta(TestEntity.class);
 		MetaAttribute attr = meta.getAttribute(TestEntity.ATTR_mapValue);
-		Assert.assertFalse(attr.isAssociation());
-		Assert.assertEquals(TestEntity.ATTR_mapValue, attr.getName());
-		Assert.assertEquals(TestEntity.class.getName() + "." + TestEntity.ATTR_mapValue, attr.getId());
-		Assert.assertFalse(attr.isDerived());
-		Assert.assertFalse(attr.isVersion());
-		Assert.assertFalse(attr.isLazy());
-		Assert.assertNull(attr.getOppositeAttribute());
+		Assertions.assertFalse(attr.isAssociation());
+		Assertions.assertEquals(TestEntity.ATTR_mapValue, attr.getName());
+		Assertions.assertEquals(TestEntity.class.getName() + "." + TestEntity.ATTR_mapValue, attr.getId());
+		Assertions.assertFalse(attr.isDerived());
+		Assertions.assertFalse(attr.isVersion());
+		Assertions.assertFalse(attr.isLazy());
+		Assertions.assertNull(attr.getOppositeAttribute());
 
 		MetaMapType mapType = attr.getType().asMap();
-		Assert.assertTrue(mapType.isMap());
-		Assert.assertEquals(String.class, mapType.getKeyType().getImplementationClass());
-		Assert.assertEquals(String.class, mapType.getElementType().getImplementationClass());
-		Assert.assertEquals(String.class, attr.getType().getElementType().getImplementationClass());
+		Assertions.assertTrue(mapType.isMap());
+		Assertions.assertEquals(String.class, mapType.getKeyType().getImplementationClass());
+		Assertions.assertEquals(String.class, mapType.getElementType().getImplementationClass());
+		Assertions.assertEquals(String.class, attr.getType().getElementType().getImplementationClass());
 	}
 
 	@Test
 	public void testRelationMany() {
 		MetaEntity meta = metaProvider.discoverMeta(TestEntity.class);
 		MetaAttribute attr = meta.getAttribute(TestEntity.ATTR_manyRelatedValues);
-		Assert.assertTrue(attr.isAssociation());
-		Assert.assertEquals(TestEntity.ATTR_manyRelatedValues, attr.getName());
-		Assert.assertEquals(TestEntity.class.getName() + "." + TestEntity.ATTR_manyRelatedValues, attr.getId());
-		Assert.assertFalse(attr.isDerived());
-		Assert.assertFalse(attr.isVersion());
-		Assert.assertTrue(attr.isLazy());
-		Assert.assertNotNull(attr.getOppositeAttribute());
-		Assert.assertFalse(attr.isOwner());
-		Assert.assertTrue(attr.getOppositeAttribute().isOwner());
+		Assertions.assertTrue(attr.isAssociation());
+		Assertions.assertEquals(TestEntity.ATTR_manyRelatedValues, attr.getName());
+		Assertions.assertEquals(TestEntity.class.getName() + "." + TestEntity.ATTR_manyRelatedValues, attr.getId());
+		Assertions.assertFalse(attr.isDerived());
+		Assertions.assertFalse(attr.isVersion());
+		Assertions.assertTrue(attr.isLazy());
+		Assertions.assertNotNull(attr.getOppositeAttribute());
+		Assertions.assertFalse(attr.isOwner());
+		Assertions.assertTrue(attr.getOppositeAttribute().isOwner());
 
 		MetaCollectionType colType = attr.getType().asCollection();
-		Assert.assertTrue(colType.isCollection());
-		Assert.assertEquals(RelatedEntity.class, colType.getElementType().getImplementationClass());
-		Assert.assertEquals(RelatedEntity.class, attr.getType().getElementType().getImplementationClass());
+		Assertions.assertTrue(colType.isCollection());
+		Assertions.assertEquals(RelatedEntity.class, colType.getElementType().getImplementationClass());
+		Assertions.assertEquals(RelatedEntity.class, attr.getType().getElementType().getImplementationClass());
 	}
 }

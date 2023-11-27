@@ -5,8 +5,8 @@ import io.crnk.gen.runtime.reflections.ReflectionsMetaResolver;
 import io.crnk.meta.MetaLookup;
 import io.crnk.meta.MetaLookupImpl;
 import io.crnk.meta.model.resource.MetaResource;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -32,6 +32,6 @@ public class ReflectionsMetaResolverTest {
 
         MetaLookup lookup = captor.getValue();
         List<MetaResource> resources = lookup.findElements(MetaResource.class);
-        Assert.assertNotEquals(0, resources.stream().filter(it -> it.getName().contains("Task")).count());
+        Assertions.assertNotEquals(0, resources.stream().filter(it -> it.getName().contains("Task")).count());
     }
 }

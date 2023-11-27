@@ -2,8 +2,8 @@ package io.crnk.internal.boot.cdi;
 
 import io.crnk.cdi.internal.CdiServiceDiscovery;
 import io.crnk.core.repository.Repository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -14,6 +14,6 @@ public class WithoutCdiContextText {
 		CdiServiceDiscovery discovery = new CdiServiceDiscovery();
 
 		List<Repository> list = discovery.getInstancesByType(Repository.class);
-		Assert.assertTrue(list.isEmpty());
+		Assertions.assertTrue(list.isEmpty());
 	}
 }

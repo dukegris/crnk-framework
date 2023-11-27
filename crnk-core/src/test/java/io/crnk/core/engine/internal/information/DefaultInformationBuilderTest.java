@@ -16,16 +16,16 @@ import io.crnk.core.resource.ResourceTypeHolder;
 import io.crnk.core.resource.annotations.LookupIncludeBehavior;
 import io.crnk.core.resource.annotations.RelationshipRepositoryBehavior;
 import io.crnk.core.resource.annotations.SerializeType;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class DefaultInformationBuilderTest {
 
 	private DefaultInformationBuilder builder;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		TypeParser parser = new TypeParser();
 		builder = new DefaultInformationBuilder(parser);
@@ -37,8 +37,8 @@ public class DefaultInformationBuilderTest {
 		ResourceInformation info = resource.build();
 		resource.superResourceType("superTask");
 		resource.implementationType(Project.class);
-		Assert.assertEquals("tasks", info.getResourceType());
-		Assert.assertEquals("tasks", info.getResourcePath());
+		Assertions.assertEquals("tasks", info.getResourceType());
+		Assertions.assertEquals("tasks", info.getResourcePath());
 	}
 
 	@Test
@@ -62,33 +62,33 @@ public class DefaultInformationBuilderTest {
 		projectField.accessor(accessor);
 
 		ResourceInformation info = resource.build();
-		Assert.assertEquals("changedTasks", info.getResourceType());
-		Assert.assertEquals(Project.class, info.getResourceClass());
-		Assert.assertEquals("superTask", info.getSuperResourceType());
+		Assertions.assertEquals("changedTasks", info.getResourceType());
+		Assertions.assertEquals(Project.class, info.getResourceClass());
+		Assertions.assertEquals("superTask", info.getSuperResourceType());
 
 		ResourceField idInfo = info.findFieldByName("id");
-		Assert.assertEquals("id", idInfo.getUnderlyingName());
-		Assert.assertEquals(String.class, idInfo.getType());
-		Assert.assertFalse(idInfo.getAccess().isFilterable());
-		Assert.assertFalse(idInfo.getAccess().isSortable());
-		Assert.assertTrue(idInfo.getAccess().isPostable());
-		Assert.assertTrue(idInfo.getAccess().isPatchable());
-		Assert.assertEquals(SerializeType.EAGER, idInfo.getSerializeType());
-		Assert.assertFalse(idInfo.isCollection());
+		Assertions.assertEquals("id", idInfo.getUnderlyingName());
+		Assertions.assertEquals(String.class, idInfo.getType());
+		Assertions.assertFalse(idInfo.getAccess().isFilterable());
+		Assertions.assertFalse(idInfo.getAccess().isSortable());
+		Assertions.assertTrue(idInfo.getAccess().isPostable());
+		Assertions.assertTrue(idInfo.getAccess().isPatchable());
+		Assertions.assertEquals(SerializeType.EAGER, idInfo.getSerializeType());
+		Assertions.assertFalse(idInfo.isCollection());
 
 		ResourceField projectInfo = info.findFieldByName("project");
-		Assert.assertEquals("project", projectInfo.getUnderlyingName());
-		Assert.assertEquals("tasks", projectInfo.getOppositeName());
-		Assert.assertEquals(LookupIncludeBehavior.AUTOMATICALLY_ALWAYS, projectInfo.getLookupIncludeBehavior());
-		Assert.assertEquals(Project.class, projectInfo.getType());
-		Assert.assertSame(accessor, projectInfo.getAccessor());
-		Assert.assertFalse(projectInfo.getAccess().isFilterable());
-		Assert.assertFalse(projectInfo.getAccess().isSortable());
-		Assert.assertFalse(projectInfo.getAccess().isPostable());
-		Assert.assertTrue(projectInfo.getAccess().isPatchable());
-		Assert.assertEquals(SerializeType.EAGER, projectInfo.getSerializeType());
-		Assert.assertEquals(RelationshipRepositoryBehavior.FORWARD_OWNER, projectInfo.getRelationshipRepositoryBehavior());
-		Assert.assertFalse(projectInfo.isCollection());
+		Assertions.assertEquals("project", projectInfo.getUnderlyingName());
+		Assertions.assertEquals("tasks", projectInfo.getOppositeName());
+		Assertions.assertEquals(LookupIncludeBehavior.AUTOMATICALLY_ALWAYS, projectInfo.getLookupIncludeBehavior());
+		Assertions.assertEquals(Project.class, projectInfo.getType());
+		Assertions.assertSame(accessor, projectInfo.getAccessor());
+		Assertions.assertFalse(projectInfo.getAccess().isFilterable());
+		Assertions.assertFalse(projectInfo.getAccess().isSortable());
+		Assertions.assertFalse(projectInfo.getAccess().isPostable());
+		Assertions.assertTrue(projectInfo.getAccess().isPatchable());
+		Assertions.assertEquals(SerializeType.EAGER, projectInfo.getSerializeType());
+		Assertions.assertEquals(RelationshipRepositoryBehavior.FORWARD_OWNER, projectInfo.getRelationshipRepositoryBehavior());
+		Assertions.assertFalse(projectInfo.isCollection());
 	}
 
 
@@ -116,26 +116,26 @@ public class DefaultInformationBuilderTest {
 		projectField.accessor(accessor);
 
 		ResourceInformation info = resource.build();
-		Assert.assertEquals("changedTasks", info.getResourceType());
-		Assert.assertEquals(Project.class, info.getResourceClass());
-		Assert.assertEquals("superTask", info.getSuperResourceType());
+		Assertions.assertEquals("changedTasks", info.getResourceType());
+		Assertions.assertEquals(Project.class, info.getResourceClass());
+		Assertions.assertEquals("superTask", info.getSuperResourceType());
 
 		ResourceField projectInfo = info.findFieldByName("project");
-		Assert.assertEquals("project", projectInfo.getUnderlyingName());
-		Assert.assertEquals("tasks", projectInfo.getOppositeName());
-		Assert.assertEquals(LookupIncludeBehavior.AUTOMATICALLY_ALWAYS, projectInfo.getLookupIncludeBehavior());
-		Assert.assertEquals(Project.class, projectInfo.getType());
-		Assert.assertSame(accessor, projectInfo.getAccessor());
-		Assert.assertFalse(projectInfo.getAccess().isFilterable());
-		Assert.assertFalse(projectInfo.getAccess().isSortable());
-		Assert.assertFalse(projectInfo.getAccess().isPostable());
-		Assert.assertTrue(projectInfo.getAccess().isPatchable());
-		Assert.assertEquals(SerializeType.EAGER, projectInfo.getSerializeType());
-		Assert.assertTrue(projectInfo.hasIdField());
-		Assert.assertEquals("taskId", projectInfo.getIdName());
-		Assert.assertEquals(Long.class, projectInfo.getIdType());
-		Assert.assertSame(idAccessor, projectInfo.getIdAccessor());
-		Assert.assertFalse(projectInfo.isCollection());
+		Assertions.assertEquals("project", projectInfo.getUnderlyingName());
+		Assertions.assertEquals("tasks", projectInfo.getOppositeName());
+		Assertions.assertEquals(LookupIncludeBehavior.AUTOMATICALLY_ALWAYS, projectInfo.getLookupIncludeBehavior());
+		Assertions.assertEquals(Project.class, projectInfo.getType());
+		Assertions.assertSame(accessor, projectInfo.getAccessor());
+		Assertions.assertFalse(projectInfo.getAccess().isFilterable());
+		Assertions.assertFalse(projectInfo.getAccess().isSortable());
+		Assertions.assertFalse(projectInfo.getAccess().isPostable());
+		Assertions.assertTrue(projectInfo.getAccess().isPatchable());
+		Assertions.assertEquals(SerializeType.EAGER, projectInfo.getSerializeType());
+		Assertions.assertTrue(projectInfo.hasIdField());
+		Assertions.assertEquals("taskId", projectInfo.getIdName());
+		Assertions.assertEquals(Long.class, projectInfo.getIdType());
+		Assertions.assertSame(idAccessor, projectInfo.getIdAccessor());
+		Assertions.assertFalse(projectInfo.isCollection());
 	}
 
 	@Test
@@ -148,15 +148,15 @@ public class DefaultInformationBuilderTest {
 		repositoryBuilder.setAccess(expectedAccess);
 		ResourceRepositoryInformation repositoryInformation = repositoryBuilder.build();
 		RepositoryMethodAccess actualAccess = repositoryInformation.getAccess();
-		Assert.assertEquals(expectedAccess, actualAccess);
-		Assert.assertSame(resourceInformation, repositoryInformation.getResourceInformation().get());
+		Assertions.assertEquals(expectedAccess, actualAccess);
+		Assertions.assertSame(resourceInformation, repositoryInformation.getResourceInformation().get());
 	}
 
 	@Test
 	public void checkResourceTypeHolderIngored() {
 		ResourceInformation resourceInformation = builder.createResource(Task.class, "tasks", null).build();
-		Assert.assertTrue(ResourceTypeHolder.class.isAssignableFrom(ResourceTypeHolder.class));
-		Assert.assertNull(resourceInformation.findFieldByName("type"));
+		Assertions.assertTrue(ResourceTypeHolder.class.isAssignableFrom(ResourceTypeHolder.class));
+		Assertions.assertNull(resourceInformation.findFieldByName("type"));
 	}
 
 	@Test
@@ -166,6 +166,6 @@ public class DefaultInformationBuilderTest {
 		repositoryBuilder.setAccess(expectedAccess);
 		RelationshipRepositoryInformation repositoryInformation = repositoryBuilder.build();
 		RepositoryMethodAccess actualAccess = repositoryInformation.getAccess();
-		Assert.assertEquals(expectedAccess, actualAccess);
+		Assertions.assertEquals(expectedAccess, actualAccess);
 	}
 }

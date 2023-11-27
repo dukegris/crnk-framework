@@ -32,9 +32,9 @@ import io.crnk.core.queryspec.PathSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class ResourcePostControllerTest extends ControllerTestBase {
@@ -52,7 +52,7 @@ public class ResourcePostControllerTest extends ControllerTestBase {
         boolean result = sut.isAcceptable(jsonPath, REQUEST_TYPE);
 
         // THEN
-        Assert.assertEquals(result, false);
+        Assertions.assertEquals(result, false);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ResourcePostControllerTest extends ControllerTestBase {
         boolean result = sut.isAcceptable(jsonPath, REQUEST_TYPE);
 
         // THEN
-        Assert.assertEquals(result, true);
+        Assertions.assertEquals(result, true);
     }
 
     @Test
@@ -81,10 +81,13 @@ public class ResourcePostControllerTest extends ControllerTestBase {
         sut.init(controllerContext);
 
         // THEN
-        expectedException.expect(RuntimeException.class);
+        // RCS deprecated
+        // expectedException.expect(RuntimeException.class);
 
         // WHEN
+        Assertions.assertThrows(RuntimeException.class, () -> {
         sut.handle(projectPath, emptyTaskQuery, newProjectBody);
+        });
     }
 
     @Test
@@ -99,10 +102,13 @@ public class ResourcePostControllerTest extends ControllerTestBase {
         sut.init(controllerContext);
 
         // THEN
-        expectedException.expect(BadRequestException.class);
+        // RCS deprecated
+        // expectedException.expect(BadRequestException.class);
 
         // WHEN
+        Assertions.assertThrows(BadRequestException.class, () -> {
         sut.handle(projectPath, emptyTaskQuery, newProjectBody);
+        });
     }
 
 
@@ -113,11 +119,14 @@ public class ResourcePostControllerTest extends ControllerTestBase {
         sut.init(controllerContext);
 
         // THEN
-        expectedException.expect(RequestBodyNotFoundException.class);
+        // RCS deprecated
+        // expectedException.expect(RequestBodyNotFoundException.class);
 
         // WHEN
+        Assertions.assertThrows(RequestBodyNotFoundException.class, () -> {
         JsonPath path = pathBuilder.build("tasks", queryContext);
         sut.handle(path, emptyTaskQuery, null);
+        });
     }
 
     @Test
@@ -187,11 +196,11 @@ public class ResourcePostControllerTest extends ControllerTestBase {
         try {
             // WHEN
             sut.handle(projectPath, emptyProjectQuery, newProjectBody);
-            Assert.fail();
+            Assertions.fail();
 		}
 		catch (IllegalStateException e) {
             // THEN
-            Assert.assertEquals(e.getMessage(),
+            Assertions.assertEquals(e.getMessage(),
 					"upon POST with status 201 a resource must be returned");
         }
     }
@@ -212,11 +221,11 @@ public class ResourcePostControllerTest extends ControllerTestBase {
 		try {
 			// WHEN
 			sut.handle(projectPath, emptyProjectQuery, newProjectBody);
-			Assert.fail();
+			Assertions.fail();
 		}
 		catch (IllegalStateException e) {
 			// THEN
-			Assert.assertEquals(e.getMessage(), "upon POST with status 201 the resource must have an ID, consider 202 otherwise");
+			Assertions.assertEquals(e.getMessage(), "upon POST with status 201 the resource must have an ID, consider 202 otherwise");
 		}
 	}
 
@@ -239,10 +248,10 @@ public class ResourcePostControllerTest extends ControllerTestBase {
         // WHEN
         try {
             sut.handle(path, emptyTaskQuery, requestDocument);
-            Assert.fail("should not be allowed to update read-only field");
+            Assertions.fail("should not be allowed to update read-only field");
 		}
 		catch (ForbiddenException e) {
-            Assert.assertEquals("field 'tasks.readOnlyValue' cannot be accessed for POST", e.getMessage());
+            Assertions.assertEquals("field 'tasks.readOnlyValue' cannot be accessed for POST", e.getMessage());
         }
     }
 
@@ -271,7 +280,7 @@ public class ResourcePostControllerTest extends ControllerTestBase {
         // WHEN
         Response response = sut.handle(path, emptyTaskQuery, requestDocument);
         String persistedValue = response.getDocument().getSingleData().get().getAttributes().get("readOnlyValue").asText();
-        Assert.assertEquals("someReadOnlyValue", persistedValue);
+        Assertions.assertEquals("someReadOnlyValue", persistedValue);
     }
 
     @Test
@@ -375,10 +384,10 @@ public class ResourcePostControllerTest extends ControllerTestBase {
         // WHEN
         try {
             sut.handle(taskPath, emptyUserQuery, newUserBody);
-            Assert.fail("should not be allowed to create a relationship with an invalid resource");
+            Assertions.fail("should not be allowed to create a relationship with an invalid resource");
 		}
 		catch (RepositoryNotFoundException e) {
-            Assert.assertTrue(e.getMessage().contains("Repository for a resource not found: notAResource"));
+            Assertions.assertTrue(e.getMessage().contains("Repository for a resource not found: notAResource"));
         }
     }
 
@@ -464,7 +473,7 @@ public class ResourcePostControllerTest extends ControllerTestBase {
     }
 
     @Test
-    @Ignore // TODO
+    @Disabled // TODO
     public void onNewInheritedResourceShouldPersistThisResource() throws Exception {
         // GIVEN
         Document newMemorandumBody = new Document();
@@ -491,7 +500,7 @@ public class ResourcePostControllerTest extends ControllerTestBase {
 
 
     @Test
-    @Ignore // TODO support inhertiance
+    @Disabled // TODO support inhertiance
     public void onResourceWithCustomNamesShouldSaveParametersCorrectly() {
         // GIVEN - creating sample project id
         Document newProjectBody = new Document();
@@ -588,11 +597,14 @@ public class ResourcePostControllerTest extends ControllerTestBase {
         JsonPath pojoPath = pathBuilder.build("/pojo", queryContext);
 
         // THEN
-        expectedException.expect(ResourceException.class);
-        expectedException.expectMessage(String.format("Invalid relationship name: %s", invalidRelationshipName));
+        // RCS deprecated
+        // expectedException.expect(ResourceException.class);
+        // expectedException.expectMessage(String.format("Invalid relationship name: %s", invalidRelationshipName));
 
         // WHEN
+        Assertions.assertThrows(ResourceException.class, () -> {
         sut.handle(pojoPath, container.toQueryAdapter(new QuerySpec(Pojo.class)), pojoBody);
+        });
     }
 
     @Test
@@ -613,7 +625,7 @@ public class ResourcePostControllerTest extends ControllerTestBase {
         Response response = sut.handle(taskPath, emptyTaskQuery, taskPatch);
 
         // not relationship not posted since not not postable due to @JsonApiField(postable=false)
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         Resource savedTask = response.getDocument().getSingleData().get();
         assertThat(savedTask.getType()).isEqualTo("tasks");
         assertThat(savedTask.getAttributes().get("name").asText()).isEqualTo("task created");

@@ -20,10 +20,10 @@ import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.boot.CrnkProperties;
 import io.crnk.core.engine.http.HttpHeaders;
 import io.crnk.servlet.resource.model.ServletTestModule;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import static net.javacrumbs.jsonunit.JsonAssert.assertJsonPartEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CrnkFilterTest {
 
@@ -69,7 +69,7 @@ public class CrnkFilterTest {
 
     private Filter filter;
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         filter = new CrnkFilter() {
             @Override
@@ -87,7 +87,7 @@ public class CrnkFilterTest {
         filter.init(filterConfig);
     }
 
-    @After
+    @AfterEach
     public void after() {
         filter.destroy();
     }
@@ -126,7 +126,7 @@ public class CrnkFilterTest {
         filter.doFilter(request, response, filterChain);
 
         // no content set yet
-        Assert.assertEquals(0, response.getContentLength());
+        Assertions.assertEquals(0, response.getContentLength());
     }
 
     @Test
@@ -146,7 +146,7 @@ public class CrnkFilterTest {
 
         filter.doFilter(request, response, filterChain);
 
-        Assert.assertEquals(200, response.getStatus());
+        Assertions.assertEquals(200, response.getStatus());
 
         String responseContent = response.getContentAsString();
 

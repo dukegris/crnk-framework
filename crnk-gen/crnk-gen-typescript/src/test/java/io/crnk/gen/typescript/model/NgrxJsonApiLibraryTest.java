@@ -2,7 +2,7 @@ package io.crnk.gen.typescript.model;
 
 import io.crnk.gen.typescript.model.libraries.NgrxJsonApiLibrary;
 import io.crnk.test.mock.ClassTestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class NgrxJsonApiLibraryTest {
 

@@ -9,8 +9,8 @@ import io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapper;
 import io.crnk.spring.boot.CrnkSpringBootProperties;
 import io.crnk.spring.boot.v3.CrnkConfigV3;
 import io.crnk.spring.internal.SpringServiceDiscovery;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
@@ -41,19 +41,19 @@ public class CrnkConfigV3Test {
         CrnkBoot boot = config.crnkBoot(serviceDiscovery);
 
         PropertiesProvider propertiesProvider = boot.getPropertiesProvider();
-        Assert.assertEquals("testDomain", propertiesProvider.getProperty(CrnkProperties.RESOURCE_DEFAULT_DOMAIN));
-        Assert.assertEquals("/prefix", propertiesProvider.getProperty(CrnkProperties.WEB_PATH_PREFIX));
-        Assert.assertEquals("true", propertiesProvider.getProperty(CrnkProperties.ALLOW_UNKNOWN_ATTRIBUTES));
-        Assert.assertEquals("true", propertiesProvider.getProperty(CrnkProperties.RETURN_404_ON_NULL));
+        Assertions.assertEquals("testDomain", propertiesProvider.getProperty(CrnkProperties.RESOURCE_DEFAULT_DOMAIN));
+        Assertions.assertEquals("/prefix", propertiesProvider.getProperty(CrnkProperties.WEB_PATH_PREFIX));
+        Assertions.assertEquals("true", propertiesProvider.getProperty(CrnkProperties.ALLOW_UNKNOWN_ATTRIBUTES));
+        Assertions.assertEquals("true", propertiesProvider.getProperty(CrnkProperties.RETURN_404_ON_NULL));
 
         DefaultQuerySpecUrlMapper deserializer = (DefaultQuerySpecUrlMapper) boot.getUrlMapper();
-        Assert.assertTrue(deserializer.getAllowUnknownAttributes());
+        Assertions.assertTrue(deserializer.getAllowUnknownAttributes());
 
         ConstantServiceUrlProvider constantServiceUrlProvider = (ConstantServiceUrlProvider) boot.getServiceUrlProvider();
-        Assert.assertEquals("testDomain/prefix", constantServiceUrlProvider.getUrl());
+        Assertions.assertEquals("testDomain/prefix", constantServiceUrlProvider.getUrl());
 
-        Assert.assertSame(objectMapper, boot.getObjectMapper());
+        Assertions.assertSame(objectMapper, boot.getObjectMapper());
 
-        Assert.assertNotNull(boot.getModuleRegistry().getSecurityProvider());
+        Assertions.assertNotNull(boot.getModuleRegistry().getSecurityProvider());
     }
 }

@@ -1,6 +1,6 @@
 package io.crnk.spring.metrics;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import io.crnk.core.boot.CrnkBoot;
@@ -8,15 +8,13 @@ import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.spring.setup.boot.monitor.CrnkWebMvcTagsProvider;
 import io.crnk.test.mock.TestModule;
 import io.micrometer.core.instrument.Tag;
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-@RunWith(JUnitParamsRunner.class)
 public class CrnkWebMvcTagsProviderTest {
 
 	private ResourceRegistry resourceRegistry;
@@ -25,7 +23,7 @@ public class CrnkWebMvcTagsProviderTest {
 
 	private CrnkWebMvcTagsProvider compositeTagsProvider;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		boot = new CrnkBoot();
 		boot.addModule(new TestModule());
@@ -66,8 +64,8 @@ public class CrnkWebMvcTagsProviderTest {
 		};
 	}
 
-	@Test
-	@Parameters(method = "handleCrnkResourceParameters")
+	@ParameterizedTest
+	@MethodSource("handleCrnkResourceParameters")
 	public void handleCrnkResource(final String requestUrl, final String expected) {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setRequestURI(requestUrl);

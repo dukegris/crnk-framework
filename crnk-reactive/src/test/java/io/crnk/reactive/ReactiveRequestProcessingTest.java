@@ -19,9 +19,9 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.internal.QuerySpecAdapter;
 import io.crnk.core.repository.response.JsonApiResponse;
 import io.crnk.reactive.model.ReactiveTask;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import reactor.core.publisher.Hooks;
@@ -34,7 +34,7 @@ public class ReactiveRequestProcessingTest extends ReactiveTestBase {
 
 	private HttpRequestContextBase requestContextBase;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -59,7 +59,7 @@ public class ReactiveRequestProcessingTest extends ReactiveTestBase {
 		Mockito.when(requestContextBase.getMethod()).thenReturn("GET");
 		Mockito.when(requestContextBase.getPath()).thenReturn("/reactive/task/");
 		Mockito.when(requestContextBase.getRequestHeader("Accept")).thenReturn("*");
-		Assert.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
+		Assertions.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
 	}
 
 	@Test
@@ -71,15 +71,15 @@ public class ReactiveRequestProcessingTest extends ReactiveTestBase {
 		HttpResponse response = processor.processAsync(requestContext).get();
 
 		String json = new String(response.getBody());
-		Assert.assertEquals(200, response.getStatusCode());
+		Assertions.assertEquals(200, response.getStatusCode());
 		Document document = boot.getObjectMapper().readerFor(Document.class).readValue(json);
-		Assert.assertTrue(document.getData().isPresent());
+		Assertions.assertTrue(document.getData().isPresent());
 
 		List<Resource> resources = document.getCollectionData().get();
-		Assert.assertEquals(1, resources.size());
+		Assertions.assertEquals(1, resources.size());
 		Resource resource = resources.get(0);
-		Assert.assertEquals("http://localhost:8080/reactive/task/1", resource.getLinks().get("self").asText());
-		Assert.assertNotNull(resource.getLinks().get("value"));
+		Assertions.assertEquals("http://localhost:8080/reactive/task/1", resource.getLinks().get("self").asText());
+		Assertions.assertNotNull(resource.getLinks().get("value"));
 	}
 
 	private String createRequestBody(String name) throws JsonProcessingException {
@@ -112,13 +112,13 @@ public class ReactiveRequestProcessingTest extends ReactiveTestBase {
 		Mockito.verify(requestContextBase, Mockito.times(1)).setResponse(contentCaptor.capture());
 
 		String json = new String(contentCaptor.getValue().getBody());
-		Assert.assertEquals(HttpStatus.CREATED_201, contentCaptor.getValue().getStatusCode());
+		Assertions.assertEquals(HttpStatus.CREATED_201, contentCaptor.getValue().getStatusCode());
 
 		Document document = boot.getObjectMapper().readerFor(Document.class).readValue(json);
-		Assert.assertTrue(document.getData().isPresent());
+		Assertions.assertTrue(document.getData().isPresent());
 		Resource updatedTask = (Resource) document.getData().get();
-		Assert.assertEquals("1", updatedTask.getId());
-		Assert.assertEquals("reactive/task", updatedTask.getType());
+		Assertions.assertEquals("1", updatedTask.getId());
+		Assertions.assertEquals("reactive/task", updatedTask.getType());
 	}
 
 
@@ -138,14 +138,14 @@ public class ReactiveRequestProcessingTest extends ReactiveTestBase {
 		ArgumentCaptor<HttpResponse> contentCaptor = ArgumentCaptor.forClass(HttpResponse.class);
 		Mockito.verify(requestContextBase, Mockito.times(1)).setResponse(contentCaptor.capture());
 
-		Assert.assertEquals(HttpStatus.BAD_REQUEST_400, contentCaptor.getValue().getStatusCode());
+		Assertions.assertEquals(HttpStatus.BAD_REQUEST_400, contentCaptor.getValue().getStatusCode());
 		String json = new String(contentCaptor.getValue().getBody());
 
 		Document document = boot.getObjectMapper().readerFor(Document.class).readValue(json);
-		Assert.assertFalse(document.getData().isPresent());
-		Assert.assertEquals(1, document.getErrors().size());
+		Assertions.assertFalse(document.getData().isPresent());
+		Assertions.assertEquals(1, document.getErrors().size());
 		ErrorData errorData = document.getErrors().get(0);
-		Assert.assertEquals("400", errorData.getStatus());
+		Assertions.assertEquals("400", errorData.getStatus());
 	}
 
 	@Test
@@ -157,7 +157,7 @@ public class ReactiveRequestProcessingTest extends ReactiveTestBase {
 				.thenReturn(HttpHeaders.JSONAPI_CONTENT_TYPE);
 		Mockito.when(requestContext.getRequestBody()).thenReturn("{ INVALID }".getBytes());
 
-		Assert.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
+		Assertions.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
 
 		processor.process(requestContext);
 
@@ -165,16 +165,16 @@ public class ReactiveRequestProcessingTest extends ReactiveTestBase {
 		Mockito.verify(requestContextBase, Mockito.times(1))
 				.setResponse(contentCaptor.capture());
 
-		Assert.assertEquals(HttpStatus.BAD_REQUEST_400, contentCaptor.getValue().getStatusCode());
+		Assertions.assertEquals(HttpStatus.BAD_REQUEST_400, contentCaptor.getValue().getStatusCode());
 
 		String json = new String(contentCaptor.getValue().getBody());
 
 		Document document = boot.getObjectMapper().readerFor(Document.class).readValue(json);
-		Assert.assertFalse(document.getData().isPresent());
-		Assert.assertEquals(1, document.getErrors().size());
+		Assertions.assertFalse(document.getData().isPresent());
+		Assertions.assertEquals(1, document.getErrors().size());
 		ErrorData errorData = document.getErrors().get(0);
-		Assert.assertEquals("400", errorData.getStatus());
-		Assert.assertEquals("Json Parsing failed", errorData.getTitle());
-		Assert.assertNotNull(errorData.getDetail());
+		Assertions.assertEquals("400", errorData.getStatus());
+		Assertions.assertEquals("Json Parsing failed", errorData.getTitle());
+		Assertions.assertNotNull(errorData.getDetail());
 	}
 }

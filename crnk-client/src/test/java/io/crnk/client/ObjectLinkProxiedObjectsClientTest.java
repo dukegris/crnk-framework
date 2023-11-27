@@ -4,14 +4,14 @@ import java.util.concurrent.TimeUnit;
 
 import io.crnk.client.action.JerseyActionStubFactory;
 import io.crnk.test.mock.ClientTestModule;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Class creates a CrnkClient to serialize links as JSON objects.<br />
  * All tests can be found in {@link AbstractProxiedObjectsClientTest}.
  */
-@Ignore
+@Disabled
 public class ObjectLinkProxiedObjectsClientTest extends AbstractProxiedObjectsClientTest {
 
     @Override
@@ -30,14 +30,14 @@ public class ObjectLinkProxiedObjectsClientTest extends AbstractProxiedObjectsCl
     }
 
 
-    @Ignore
+    @Disabled
     @Override
     @Test
     public void noproxyForIdFieldAndSerializedId() {
         // TODO fully implement on crnk client
     }
 
-    @Ignore
+    @Disabled
     @Override
     @Test
     public void noProxyForLazy() {
@@ -45,7 +45,7 @@ public class ObjectLinkProxiedObjectsClientTest extends AbstractProxiedObjectsCl
     }
 
 
-    @Ignore
+    @Disabled
     @Override
     @Test
     public void proxyForSerializedIdWithoutRelationId() {

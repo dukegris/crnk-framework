@@ -10,9 +10,9 @@ import io.crnk.core.mock.repository.ScheduleRepositoryImpl;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -26,7 +26,7 @@ public class MultiValuedRelationIdLookupTest extends AbstractDocumentMapperTest 
     private Schedule schedule4;
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -76,25 +76,25 @@ public class MultiValuedRelationIdLookupTest extends AbstractDocumentMapperTest 
 
         Document document = mapper.toDocument(toResponse(entity), toAdapter(querySpec), mappingConfig).get();
         Resource resource = document.getSingleData().get();
-        Assert.assertEquals("2", resource.getId());
-        Assert.assertEquals("relationIdTest", resource.getType());
-        Assert.assertEquals("test", resource.getAttributes().get("name").asText());
+        Assertions.assertEquals("2", resource.getId());
+        Assertions.assertEquals("relationIdTest", resource.getType());
+        Assertions.assertEquals("test", resource.getAttributes().get("name").asText());
 
         Nullable<ResourceIdentifier> data = resource.getRelationships().get("testMultipleValues").getSingleData();
-        Assert.assertTrue(data.isPresent());
+        Assertions.assertTrue(data.isPresent());
 
         if (setRelatedId) {
-            Assert.assertNotNull(data.get());
-            Assert.assertEquals(2, document.getIncluded().size());
-            Assert.assertEquals("3", document.getIncluded().get(0).getId());
-            Assert.assertEquals("4", document.getIncluded().get(1).getId());
+            Assertions.assertNotNull(data.get());
+            Assertions.assertEquals(2, document.getIncluded().size());
+            Assertions.assertEquals("3", document.getIncluded().get(0).getId());
+            Assertions.assertEquals("4", document.getIncluded().get(1).getId());
             if (setRelatedEntity) {
-                Assert.assertEquals(0, scheduleRepository.getNumFindAll());
+                Assertions.assertEquals(0, scheduleRepository.getNumFindAll());
             } else {
-                Assert.assertEquals(1, scheduleRepository.getNumFindAll());
+                Assertions.assertEquals(1, scheduleRepository.getNumFindAll());
             }
         } else {
-            Assert.assertNull(data.get());
+            Assertions.assertNull(data.get());
         }
     }
 

@@ -8,8 +8,8 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.RelationshipRepository;
 import io.crnk.core.repository.decorate.WrappedRelationshipRepository;
 import io.crnk.core.repository.decorate.WrappedResourceRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class DecoratorTest {
@@ -19,7 +19,7 @@ public class DecoratorTest {
     public void testDecoratedResourceRepositoryBase() {
         ScheduleRepository repository = Mockito.mock(ScheduleRepository.class);
         WrappedResourceRepository<Schedule, Long> decorator = new WrappedResourceRepository<>(repository);
-        Assert.assertSame(repository, decorator.getWrappedObject());
+        Assertions.assertSame(repository, decorator.getWrappedObject());
 
         decorator.create(null);
         Mockito.verify(repository, Mockito.times(1)).create(Mockito.any(Schedule.class));
@@ -31,7 +31,7 @@ public class DecoratorTest {
         Mockito.verify(repository, Mockito.times(1)).findAll(Mockito.any(QuerySpec.class));
 
         decorator.findAll(null, null);
-        Mockito.verify(repository, Mockito.times(1)).findAll(Mockito.anyListOf(Long.class), Mockito.any(QuerySpec.class));
+        Mockito.verify(repository, Mockito.times(1)).findAll(Mockito.anyList(), Mockito.any(QuerySpec.class));
 
         decorator.getResourceClass();
         Mockito.verify(repository, Mockito.times(1)).getResourceClass();
@@ -67,15 +67,15 @@ public class DecoratorTest {
                 Mockito.anyString());
 
         decorator.addRelations(null, null, null);
-        Mockito.verify(repository, Mockito.times(1)).addRelations(Mockito.any(Schedule.class), Mockito.anyListOf(Long.class),
+        Mockito.verify(repository, Mockito.times(1)).addRelations(Mockito.any(Schedule.class), Mockito.anyList(),
                 Mockito.anyString());
 
         decorator.setRelations(null, null, null);
-        Mockito.verify(repository, Mockito.times(1)).setRelations(Mockito.any(Schedule.class), Mockito.anyListOf(Long.class),
+        Mockito.verify(repository, Mockito.times(1)).setRelations(Mockito.any(Schedule.class), Mockito.anyList(),
                 Mockito.anyString());
 
         decorator.removeRelations(null, null, null);
-        Mockito.verify(repository, Mockito.times(1)).removeRelations(Mockito.any(Schedule.class), Mockito.anyListOf(Long.class),
+        Mockito.verify(repository, Mockito.times(1)).removeRelations(Mockito.any(Schedule.class), Mockito.anyList(),
                 Mockito.anyString());
 
         decorator.getTargetResourceClass();

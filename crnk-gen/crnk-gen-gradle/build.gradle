@@ -31,7 +31,9 @@ dependencies {
 
     compile 'com.fasterxml.jackson.core:jackson-databind'
 
-    compileOnly 'junit:junit:4.12'
+	testCompile "org.junit.jupiter:junit-jupiter-api:$JUNIT_VERSION"
+	testCompile "org.junit.jupiter:junit-jupiter-params:$JUNIT_VERSION"
+	testCompile "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
 
     testCompile gradleTestKit()
     testCompile project(':crnk-core')

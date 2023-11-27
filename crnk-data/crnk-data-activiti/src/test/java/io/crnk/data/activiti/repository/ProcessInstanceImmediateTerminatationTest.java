@@ -2,15 +2,15 @@ package io.crnk.data.activiti.repository;
 
 import io.crnk.data.activiti.example.model.ImmediateTerminatationProcessInstance;
 import io.crnk.data.activiti.internal.repository.ProcessInstanceResourceRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ProcessInstanceImmediateTerminatationTest extends ActivitiTestBase {
 
     private ProcessInstanceResourceRepository<ImmediateTerminatationProcessInstance> processRepository;
 
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -26,13 +26,13 @@ public class ProcessInstanceImmediateTerminatationTest extends ActivitiTestBase 
         processInstance.setValue("test");
 
         ImmediateTerminatationProcessInstance createdProcessInstance = processRepository.create(processInstance);
-        Assert.assertNotNull(createdProcessInstance);
-        Assert.assertTrue(createdProcessInstance.isEnded());
-        Assert.assertFalse(createdProcessInstance.isSuspended());
-        Assert.assertNull(createdProcessInstance.getDescription());
-        Assert.assertEquals("quickStartEvent", createdProcessInstance.getActivityId());
-        Assert.assertEquals("test", createdProcessInstance.getValue());
+        Assertions.assertNotNull(createdProcessInstance);
+        Assertions.assertTrue(createdProcessInstance.isEnded());
+        Assertions.assertFalse(createdProcessInstance.isSuspended());
+        Assertions.assertNull(createdProcessInstance.getDescription());
+        Assertions.assertEquals("quickStartEvent", createdProcessInstance.getActivityId());
+        Assertions.assertEquals("test", createdProcessInstance.getValue());
 
-        Assert.assertNotNull(createdProcessInstance.getId());
+        Assertions.assertNotNull(createdProcessInstance.getId());
     }
 }

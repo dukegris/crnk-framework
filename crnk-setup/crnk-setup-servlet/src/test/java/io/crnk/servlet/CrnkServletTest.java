@@ -23,10 +23,10 @@ import io.crnk.servlet.resource.model.Locale;
 import io.crnk.servlet.resource.model.Node;
 import io.crnk.servlet.resource.model.NodeComment;
 import io.crnk.servlet.resource.model.ServletTestModule;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -47,9 +47,9 @@ import java.util.Map;
 
 import static net.javacrumbs.jsonunit.JsonAssert.assertJsonNodePresent;
 import static net.javacrumbs.jsonunit.JsonAssert.assertJsonPartEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CrnkServletTest {
 
@@ -76,7 +76,7 @@ public class CrnkServletTest {
     private CrnkServlet servlet;
 
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         servlet = new CrnkServlet();
         servlet.getBoot().addModule(new ServletTestModule());
@@ -90,14 +90,14 @@ public class CrnkServletTest {
         servlet.init(servletConfig);
     }
 
-    @After
+    @AfterEach
     public void after() {
         servlet.destroy();
     }
 
     @Test
     public void testGetBoot() {
-        Assert.assertNotNull(servlet.getBoot());
+        Assertions.assertNotNull(servlet.getBoot());
     }
 
     @Test

@@ -4,9 +4,9 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.test.mock.models.BulkTask;
 import io.crnk.test.mock.repository.BulkTaskRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class BulkClientTest extends AbstractClientTest {
 
 	protected BulkTaskRepository taskRepo;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -45,8 +45,8 @@ public class BulkClientTest extends AbstractClientTest {
 		}
 
 		List<BulkTask> createdTasks = taskRepo.create(tasks);
-		Assert.assertEquals(n, createdTasks.size());
-		Assert.assertEquals("task0", createdTasks.get(0).getName());
+		Assertions.assertEquals(n, createdTasks.size());
+		Assertions.assertEquals("task0", createdTasks.get(0).getName());
 	}
 
 	@Test
@@ -60,13 +60,13 @@ public class BulkClientTest extends AbstractClientTest {
 		}
 
 		List<BulkTask> createdTasks = taskRepo.create(tasks);
-		Assert.assertEquals(10, createdTasks.size());
-		Assert.assertEquals("task0", createdTasks.get(0).getName());
+		Assertions.assertEquals(10, createdTasks.size());
+		Assertions.assertEquals("task0", createdTasks.get(0).getName());
 
 		List<Long> taskIds = tasks.stream().map(BulkTask::getId).collect(Collectors.toList());
 		taskRepo.delete(taskIds);
 		QuerySpec querySpec = new QuerySpec(BulkTask.class);
 		ResourceList<BulkTask> afterModTasks = taskRepo.findAll(querySpec);
-		Assert.assertEquals(0, afterModTasks.size());
+		Assertions.assertEquals(0, afterModTasks.size());
 	}
 }

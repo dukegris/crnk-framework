@@ -4,8 +4,8 @@ import io.crnk.client.module.ClientModuleFactory;
 import io.crnk.core.module.Module;
 import io.crnk.data.jpa.JpaModule;
 import io.crnk.meta.MetaModule;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -26,8 +26,8 @@ public class JpaClientModuleFactoryTest {
 			moduleClasses.add(module.getClass());
 		}
 
-		Assert.assertEquals(2, moduleClasses.size());
-		Assert.assertTrue(moduleClasses.contains(JpaModule.class));
-		Assert.assertTrue(moduleClasses.contains(MetaModule.class));
+		Assertions.assertEquals(2, moduleClasses.size());
+		Assertions.assertTrue(moduleClasses.contains(JpaModule.class));
+		Assertions.assertTrue(moduleClasses.contains(MetaModule.class));
 	}
 }

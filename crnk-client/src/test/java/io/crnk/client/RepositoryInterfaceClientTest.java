@@ -16,8 +16,8 @@ import io.crnk.test.mock.repository.ScheduleRepository;
 import io.crnk.test.mock.repository.ScheduleRepository.ScheduleList;
 import io.crnk.test.mock.repository.ScheduleRepository.ScheduleListLinks;
 import io.crnk.test.mock.repository.ScheduleRepository.ScheduleListMeta;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class RepositoryInterfaceClientTest extends AbstractClientTest {
 
@@ -33,20 +33,20 @@ public class RepositoryInterfaceClientTest extends AbstractClientTest {
 
 		QuerySpec querySpec = new QuerySpec(Schedule.class);
 		ScheduleList list = scheduleRepository.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		ScheduleListMeta meta = list.getMeta();
 		ScheduleListLinks links = list.getLinks();
-		Assert.assertNotNull(meta);
-		Assert.assertNotNull(links);
+		Assertions.assertNotNull(meta);
+		Assertions.assertNotNull(links);
 	}
 
 	@Test
 	public void testUnwrapRepository() {
 		ScheduleRepository scheduleRepository = client.getRepositoryForInterface(ScheduleRepository.class);
-		Assert.assertTrue(scheduleRepository instanceof Wrapper);
+		Assertions.assertTrue(scheduleRepository instanceof Wrapper);
 		Wrapper wrapper = (Wrapper) scheduleRepository;
 		Object wrappedObject = wrapper.getWrappedObject();
-		Assert.assertEquals(wrappedObject.getClass(), ResourceRepositoryStubImpl.class);
+		Assertions.assertEquals(wrappedObject.getClass(), ResourceRepositoryStubImpl.class);
 	}
 
 	@Test
@@ -71,6 +71,6 @@ public class RepositoryInterfaceClientTest extends AbstractClientTest {
 				return moduleRegistry.getInformationBuilder();
 			}
 		});
-		Assert.assertFalse(information.isExposed());
+		Assertions.assertFalse(information.isExposed());
 	}
 }

@@ -1,14 +1,13 @@
 package io.crnk.test;
 
 import org.glassfish.jersey.test.JerseyTest;
-import org.junit.BeforeClass;
-
+import org.junit.jupiter.api.BeforeAll;
 import java.io.IOException;
 import java.net.ServerSocket;
 
 public class JerseyTestBase extends JerseyTest {
 
-	@BeforeClass
+	@BeforeAll
 	public static void selectPort() {
 		try {
 			ServerSocket s = new ServerSocket(0);
@@ -19,4 +18,5 @@ public class JerseyTestBase extends JerseyTest {
 			throw new IllegalStateException(e);
 		}
 	}
+
 }

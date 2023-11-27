@@ -7,8 +7,9 @@ import io.crnk.core.utils.Supplier;
 import io.crnk.meta.internal.MetaResourceRepositoryImpl;
 import io.crnk.meta.model.MetaElement;
 import io.crnk.meta.provider.resource.ResourceMetaProvider;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MetaResourceRepositoryTest extends AbstractMetaTest {
 
@@ -16,7 +17,7 @@ public class MetaResourceRepositoryTest extends AbstractMetaTest {
 
 	private MetaLookupImpl lookup;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -36,8 +37,10 @@ public class MetaResourceRepositoryTest extends AbstractMetaTest {
 		repo.setHttpRequestContextProvider(container.getModuleRegistry().getHttpRequestContextProvider());
 	}
 
-	@Test(expected = ResourceNotFoundException.class)
+	@Test
 	public void checkThrowsNotFoundException() {
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {		
 		repo.findOne("does not exist", new QuerySpec(MetaElement.class));
+		});
 	}
 }

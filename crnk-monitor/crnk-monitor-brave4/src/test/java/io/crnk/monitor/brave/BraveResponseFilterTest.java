@@ -20,16 +20,16 @@ import io.crnk.core.repository.response.JsonApiResponse;
 import io.crnk.monitor.brave.internal.BraveRepositoryFilter;
 import io.crnk.test.mock.TestModule;
 import io.crnk.test.mock.models.Task;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-@Ignore // TODO deal with the new finals in Brave code base
+@Disabled // TODO deal with the new finals in Brave code base
 public class BraveResponseFilterTest {
 
     private Tracing tracing;
@@ -53,7 +53,7 @@ public class BraveResponseFilterTest {
     private Tracer tracer;
 
 
-    @Before
+    @BeforeEach
     public void setup() {
         boot = new CrnkBoot();
         boot.addModule(new TestModule());
@@ -113,7 +113,7 @@ public class BraveResponseFilterTest {
 
         try {
             filter.filterRequest(filterContext, filterChain);
-            Assert.fail();
+            Assertions.fail();
         } catch (IllegalStateException e) {
             // ok
         }

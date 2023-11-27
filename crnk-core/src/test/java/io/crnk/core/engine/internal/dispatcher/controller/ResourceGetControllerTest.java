@@ -14,9 +14,9 @@ import io.crnk.core.queryspec.PathSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.internal.QuerySpecAdapter;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class ResourceGetControllerTest extends ControllerTestBase {
 
     private static final String REQUEST_TYPE = "GET";
 
-    @Before
+    @BeforeEach
     public void before() {
         this.prepare();
     }
@@ -45,7 +45,7 @@ public class ResourceGetControllerTest extends ControllerTestBase {
         boolean result = sut.isAcceptable(jsonPath, REQUEST_TYPE);
 
         // THEN
-        Assert.assertEquals(result, false);
+        Assertions.assertEquals(result, false);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class ResourceGetControllerTest extends ControllerTestBase {
         boolean result = sut.isAcceptable(jsonPath, REQUEST_TYPE);
 
         // THEN
-        Assert.assertEquals(result, true);
+        Assertions.assertEquals(result, true);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class ResourceGetControllerTest extends ControllerTestBase {
         boolean result = sut.isAcceptable(jsonPath, "POST");
 
         // THEN
-        Assert.assertEquals(result, false);
+        Assertions.assertEquals(result, false);
     }
 
     @Test
@@ -102,11 +102,12 @@ public class ResourceGetControllerTest extends ControllerTestBase {
         Response response = sut.handle(jsonPath, emptyTaskQuery, null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
     }
 
-    @Test(expected = ResourceNotFoundException.class)
+    @Test
     public void onGivenRequestResourceGetShouldThrowError() {
+	Assertions.assertThrows(ResourceNotFoundException.class, () -> {
         // GIVEN
         JsonPath jsonPath = pathBuilder.build("/tasks/" + -1, queryContext);
         ResourceGetController sut = new ResourceGetController();
@@ -116,7 +117,8 @@ public class ResourceGetControllerTest extends ControllerTestBase {
         Response response = sut.handle(jsonPath, emptyTaskQuery, null);
 
         // THEN
-        Assert.assertNull(response);
+	Assertions.assertNull(response);
+	});
     }
 
     @Test
@@ -138,7 +140,7 @@ public class ResourceGetControllerTest extends ControllerTestBase {
         Response response = responseGetResp.handle(jsonPath, queryParamsAdapter, null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getDocument().getData().get()).isExactlyInstanceOf(Resource.class);
         assertThat(response.getDocument().getSingleData().get().getType()).isEqualTo("task-with-lookup");
         Resource responseData = response.getDocument().getSingleData().get();
@@ -204,7 +206,7 @@ public class ResourceGetControllerTest extends ControllerTestBase {
         // THEN
         TaskToProjectRepository taskToProjectRepository = (TaskToProjectRepository) container.getRepository(Task.class, "project");
         Map<Long, Project> map = taskToProjectRepository.findOneRelations(Arrays.asList(TASK_ID), "project", new QuerySpec(Project.class));
-        Assert.assertEquals(1, map.size());
+        Assertions.assertEquals(1, map.size());
         Project project = map.get(TASK_ID);
         assertThat(project.getId()).isEqualTo(PROJECT_ID);
 
@@ -219,7 +221,7 @@ public class ResourceGetControllerTest extends ControllerTestBase {
         Response response = responseGetResp.handle(jsonPath, container.toQueryAdapter(requestParams), null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getDocument().getSingleData().get().getType()).isEqualTo("tasks");
         assertThat(taskResponse.getDocument().getSingleData().get().getRelationships().get("project").getData().get()).isNull();
     }

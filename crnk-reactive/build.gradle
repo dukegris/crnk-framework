@@ -12,5 +12,5 @@ dependencies {
 	testCompile "org.junit.jupiter:junit-jupiter-api:$JUNIT_VERSION"
 	testCompile "org.junit.jupiter:junit-jupiter-params:$JUNIT_VERSION"
 	testCompile "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
-	testCompile "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+
 }

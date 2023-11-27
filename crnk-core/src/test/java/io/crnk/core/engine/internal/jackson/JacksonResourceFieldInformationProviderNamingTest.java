@@ -10,8 +10,8 @@ import io.crnk.core.engine.internal.information.resource.AnnotatedClassBuilder;
 import io.crnk.core.engine.internal.information.resource.AnnotatedFieldBuilder;
 import io.crnk.core.engine.internal.information.resource.AnnotatedMethodBuilder;
 import io.crnk.core.engine.internal.utils.CoreClassTestUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.lang.reflect.Field;
@@ -29,7 +29,7 @@ public class JacksonResourceFieldInformationProviderNamingTest {
 
 	private BeanInformation beanDesc;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		objectMapper = new ObjectMapper();
 

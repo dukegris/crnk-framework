@@ -3,8 +3,8 @@ package io.crnk.operations;
 import io.crnk.core.engine.document.Resource;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class OperationTest {
 
@@ -20,8 +20,8 @@ public class OperationTest {
 		Operation op1 = new Operation("a", "b", new Resource());
 		Operation op2 = new Operation("a", "b", new Resource());
 		Operation op3 = new Operation("x", "b", new Resource());
-		Assert.assertEquals(op1, op2);
-		Assert.assertNotEquals(op3.hashCode(), op2.hashCode());
+		Assertions.assertEquals(op1, op2);
+		Assertions.assertNotEquals(op3.hashCode(), op2.hashCode());
 	}
 
 }

@@ -6,7 +6,7 @@ import io.crnk.meta.model.resource.MetaResourceField;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class SortTest extends MetaResourceBaseTest {
@@ -20,13 +20,13 @@ class SortTest extends MetaResourceBaseTest {
     additionalMetaResourceField.setSortable(false);
 
     Parameter parameter = new Sort(metaResource).parameter();
-    Assert.assertEquals("sort", parameter.getName());
-    Assert.assertEquals("query", parameter.getIn());
-    Assert.assertEquals("ResourceType sort order (csv)", parameter.getDescription());
-    Assert.assertNull(parameter.getRequired());
+    Assertions.assertEquals("sort", parameter.getName());
+    Assertions.assertEquals("query", parameter.getIn());
+    Assertions.assertEquals("ResourceType sort order (csv)", parameter.getDescription());
+    Assertions.assertNull(parameter.getRequired());
     Schema schema = parameter.getSchema();
-    Assert.assertTrue(schema instanceof StringSchema);
-    Assert.assertEquals("", schema.getExample());
+    Assertions.assertTrue(schema instanceof StringSchema);
+    Assertions.assertEquals("", schema.getExample());
   }
 
   @Test
@@ -38,13 +38,13 @@ class SortTest extends MetaResourceBaseTest {
     additionalMetaResourceField.setSortable(true);
 
     Parameter parameter = new Sort(metaResource).parameter();
-    Assert.assertEquals("sort", parameter.getName());
-    Assert.assertEquals("query", parameter.getIn());
-    Assert.assertEquals("ResourceType sort order (csv)", parameter.getDescription());
-    Assert.assertNull(parameter.getRequired());
+    Assertions.assertEquals("sort", parameter.getName());
+    Assertions.assertEquals("query", parameter.getIn());
+    Assertions.assertEquals("ResourceType sort order (csv)", parameter.getDescription());
+    Assertions.assertNull(parameter.getRequired());
     Schema schema = parameter.getSchema();
-    Assert.assertTrue(schema instanceof StringSchema);
-    Assert.assertEquals("name", schema.getExample());
+    Assertions.assertTrue(schema instanceof StringSchema);
+    Assertions.assertEquals("name", schema.getExample());
   }
 
   @Test
@@ -56,12 +56,12 @@ class SortTest extends MetaResourceBaseTest {
     additionalMetaResourceField.setSortable(true);
 
     Parameter parameter = new Sort(metaResource).parameter();
-    Assert.assertEquals("sort", parameter.getName());
-    Assert.assertEquals("query", parameter.getIn());
-    Assert.assertEquals("ResourceType sort order (csv)", parameter.getDescription());
-    Assert.assertNull(parameter.getRequired());
+    Assertions.assertEquals("sort", parameter.getName());
+    Assertions.assertEquals("query", parameter.getIn());
+    Assertions.assertEquals("ResourceType sort order (csv)", parameter.getDescription());
+    Assertions.assertNull(parameter.getRequired());
     Schema schema = parameter.getSchema();
-    Assert.assertTrue(schema instanceof StringSchema);
-    Assert.assertEquals("id,name", schema.getExample());
+    Assertions.assertTrue(schema instanceof StringSchema);
+    Assertions.assertEquals("id,name", schema.getExample());
   }
 }

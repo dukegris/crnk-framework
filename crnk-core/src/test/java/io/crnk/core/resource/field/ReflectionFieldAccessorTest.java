@@ -2,9 +2,10 @@ package io.crnk.core.resource.field;
 
 import io.crnk.core.engine.internal.information.resource.ReflectionFieldAccessor;
 import io.crnk.core.engine.internal.utils.PropertyException;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+// import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+// import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,22 +14,26 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ReflectionFieldAccessorTest {
 
-	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
+	// RCS innecesario
+    // @Rule
+    // public ExpectedException expectedException = ExpectedException.none();
 
 	@Test
 	public void onNullBeanGetShouldThrowException() {
 		ReflectionFieldAccessor accessor = new ReflectionFieldAccessor(Bean.class, "privatePropertyWithMutator", String.class);
 
 		// THEN
-		expectedException.expect(PropertyException.class);
+		// RCS deprecated
+        // expectedException.expect(PropertyException.class);
 
 		// WHEN
+		Assertions.assertThrows(PropertyException.class, () -> {
 		accessor.getValue(null);
+		});
 	}
 
 	@Test
@@ -36,37 +41,49 @@ public class ReflectionFieldAccessorTest {
 		ReflectionFieldAccessor accessor = new ReflectionFieldAccessor(Bean.class, "privatePropertyWithMutator", String.class);
 
 		// THEN
-		expectedException.expect(PropertyException.class);
+		// RCS deprecated
+        // expectedException.expect(PropertyException.class);
 
 		// WHEN
+		Assertions.assertThrows(PropertyException.class, () -> {
 		accessor.setValue(null, null);
+		});
 	}
 
 	@Test
 	public void onNullFieldNameShouldThrowException() {
 		// THEN
-		expectedException.expect(IllegalArgumentException.class);
+		// RCS deprecated
+        // expectedException.expect(IllegalArgumentException.class);
 
 		// WHEN
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
 		new ReflectionFieldAccessor(Bean.class, null, String.class);
+		});
 	}
 
 	@Test
 	public void onNullFieldTypeShouldThrowException() {
 		// THEN
-		expectedException.expect(IllegalArgumentException.class);
+		// RCS deprecated
+        // expectedException.expect(IllegalArgumentException.class);
 
 		// WHEN
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
 		new ReflectionFieldAccessor(Bean.class, "a", null);
+		});
 	}
 
 	@Test
 	public void onNullResourceClassShouldThrowException() {
 		// THEN
-		expectedException.expect(IllegalArgumentException.class);
+		// RCS deprecated
+        // expectedException.expect(IllegalArgumentException.class);
 
 		// WHEN
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
 		new ReflectionFieldAccessor(null, "a", String.class);
+		});
 	}
 
 	@Test
@@ -237,10 +254,13 @@ public class ReflectionFieldAccessorTest {
 		ReflectionFieldAccessor accessor = new ReflectionFieldAccessor(Bean.class, "nonExistingProperty", String.class);
 
 		// THEN
-		expectedException.expect(PropertyException.class);
+		// RCS deprecated
+        // expectedException.expect(PropertyException.class);
 
 		// WHEN
+		Assertions.assertThrows(PropertyException.class, () -> {
 		accessor.getValue(bean);
+		});
 	}
 
 	@Test
@@ -334,10 +354,13 @@ public class ReflectionFieldAccessorTest {
 		ReflectionFieldAccessor accessor = new ReflectionFieldAccessor(Bean.class, "uncheckedExceptionalField", String.class);
 
 		// THEN
-		expectedException.expect(PropertyException.class);
+		// RCS deprecated
+        // expectedException.expect(PropertyException.class);
 
 		// WHEN
+		Assertions.assertThrows(PropertyException.class, () -> {
 		accessor.getValue(bean);
+		});
 	}
 
 	@Test
@@ -347,10 +370,13 @@ public class ReflectionFieldAccessorTest {
 		ReflectionFieldAccessor accessor = new ReflectionFieldAccessor(Bean.class, "uncheckedExceptionalField", String.class);
 
 		// THEN
-		expectedException.expect(PropertyException.class);
+		// RCS deprecated
+        // expectedException.expect(PropertyException.class);
 
 		// WHEN
+		Assertions.assertThrows(PropertyException.class, () -> {
 		accessor.setValue(bean, "value");
+		});
 	}
 
 	@Test
@@ -360,10 +386,13 @@ public class ReflectionFieldAccessorTest {
 		ReflectionFieldAccessor accessor = new ReflectionFieldAccessor(Bean.class, "checkedExceptionalField", String.class);
 
 		// THEN
-		expectedException.expect(PropertyException.class);
+		// RCS deprecated
+        // expectedException.expect(PropertyException.class);
 
 		// WHEN
+		Assertions.assertThrows(PropertyException.class, () -> {
 		accessor.getValue(bean);
+		});
 	}
 
 	@Test
@@ -373,10 +402,13 @@ public class ReflectionFieldAccessorTest {
 		ReflectionFieldAccessor accessor = new ReflectionFieldAccessor(Bean.class, "checkedExceptionalField", String.class);
 
 		// THEN
-		expectedException.expect(PropertyException.class);
+		// RCS deprecated
+        // expectedException.expect(PropertyException.class);
 
 		// WHEN
+		Assertions.assertThrows(PropertyException.class, () -> {
 		accessor.setValue(bean, "value");
+		});
 	}
 
 	@Test
@@ -386,10 +418,13 @@ public class ReflectionFieldAccessorTest {
 		ReflectionFieldAccessor accessor = new ReflectionFieldAccessor(Bean.class, "attrThatDoesNotExist", String.class);
 
 		// THEN
-		expectedException.expect(PropertyException.class);
+		// RCS deprecated
+        // expectedException.expect(PropertyException.class);
 
 		// WHEN
+		Assertions.assertThrows(PropertyException.class, () -> {
 		accessor.setValue(bean, "value");
+		});
 	}
 
 	public static class Bean {

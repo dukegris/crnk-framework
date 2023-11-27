@@ -14,9 +14,9 @@ import io.crnk.meta.provider.resource.ResourceMetaProvider;
 import io.crnk.rs.internal.JaxrsModule;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.TaskRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class MetaModuleTest {
 
     private CrnkBoot boot;
 
-    @Before
+    @BeforeEach
     public void setup() {
         metaModuleConfig = new MetaModuleConfig();
         metaModuleConfig.addMetaProvider(new ResourceMetaProvider());
@@ -62,15 +62,15 @@ public class MetaModuleTest {
         Set<Class<? extends MetaElement>> metaClasses = metaModule.collectMetaClasses();
 
         // meta classes out of testProvider dependency (resource meta provider)
-        Assert.assertTrue(metaClasses.contains(MetaResource.class));
-        Assert.assertTrue(metaClasses.contains(MetaResourceRepository.class));
+        Assertions.assertTrue(metaClasses.contains(MetaResource.class));
+        Assertions.assertTrue(metaClasses.contains(MetaResourceRepository.class));
     }
 
 
     @Test
     public void checkName() {
         MetaModule module = MetaModule.createClientModule();
-        Assert.assertEquals("meta", module.getModuleName());
+        Assertions.assertEquals("meta", module.getModuleName());
     }
 
     @Test
@@ -84,15 +84,15 @@ public class MetaModuleTest {
         MetaLookup lookup = metaModule.getLookup();
 
         ThreadLocal<MetaLookup> lookupRequestLocal = metaModule.getLookupRequestLocal();
-        Assert.assertNotNull(lookupRequestLocal.get());
+        Assertions.assertNotNull(lookupRequestLocal.get());
 
         // clear global instance, still in request local
         metaModule.reset();
-        Assert.assertSame(lookup, metaModule.getLookup());
+        Assertions.assertSame(lookup, metaModule.getLookup());
 
         // clear request local, new instance to be returned
         metaModule.getLookupRequestLocal().remove();
-        Assert.assertNotSame(lookup, metaModule.getLookup());
+        Assertions.assertNotSame(lookup, metaModule.getLookup());
     }
 
 
@@ -105,11 +105,11 @@ public class MetaModuleTest {
         resourceRegistry.addEntry(createRegistryEntry());
 
         // check request local caching against concurrent modifications
-        Assert.assertEquals(prevResources.size(), metaModule.getLookup().findElements(MetaResource.class).size());
+        Assertions.assertEquals(prevResources.size(), metaModule.getLookup().findElements(MetaResource.class).size());
 
         // check new meta available for next request
         metaModule.getLookupRequestLocal().remove();
-        Assert.assertEquals(prevResources.size() + 1, metaModule.getLookup().findElements(MetaResource.class).size());
+        Assertions.assertEquals(prevResources.size() + 1, metaModule.getLookup().findElements(MetaResource.class).size());
     }
 
     private RegistryEntry createRegistryEntry() {

@@ -4,8 +4,8 @@ package io.crnk.core.resource.meta;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DefaultPagedMetaInformationTest {
 
@@ -16,7 +16,7 @@ public class DefaultPagedMetaInformationTest {
 
 		DefaultPagedMetaInformation metaInformation = new DefaultPagedMetaInformation();
 		String json = writer.writeValueAsString(metaInformation);
-		Assert.assertEquals("{}", json);
+		Assertions.assertEquals("{}", json);
 	}
 
 	@Test
@@ -28,6 +28,6 @@ public class DefaultPagedMetaInformationTest {
 		metaInformation.setTotalResourceCount(12L);
 
 		String json = writer.writeValueAsString(metaInformation);
-		Assert.assertEquals("{\"totalResourceCount\":12}", json);
+		Assertions.assertEquals("{\"totalResourceCount\":12}", json);
 	}
 }

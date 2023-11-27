@@ -20,8 +20,8 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient.Builder;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class PlainTextRepositoryAccessClientTest extends BasicRepositoryAccessTestBase {
 
@@ -32,9 +32,9 @@ public class PlainTextRepositoryAccessClientTest extends BasicRepositoryAccessTe
 
 	@Test
 	public void testGetters() {
-		Assert.assertEquals(Task.class, taskRepo.getResourceClass());
-		Assert.assertEquals(Task.class, relRepo.getSourceResourceClass());
-		Assert.assertEquals(Project.class, relRepo.getTargetResourceClass());
+		Assertions.assertEquals(Task.class, taskRepo.getResourceClass());
+		Assertions.assertEquals(Task.class, relRepo.getSourceResourceClass());
+		Assertions.assertEquals(Project.class, relRepo.getTargetResourceClass());
 	}
 
 	@Test
@@ -58,13 +58,13 @@ public class PlainTextRepositoryAccessClientTest extends BasicRepositoryAccessTe
 
 		QuerySpec querySpec = new QuerySpec(Schedule.class);
 		ScheduleList list = scheduleRepository.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		schedule = list.get(0);
-		Assert.assertNotNull(schedule.getId());
+		Assertions.assertNotNull(schedule.getId());
 		ScheduleListMeta meta = list.getMeta();
 		ScheduleListLinks links = list.getLinks();
-		Assert.assertNotNull(meta);
-		Assert.assertNotNull(links);
+		Assertions.assertNotNull(meta);
+		Assertions.assertNotNull(links);
 	}
 
 
@@ -102,7 +102,7 @@ public class PlainTextRepositoryAccessClientTest extends BasicRepositoryAccessTe
 		taskRepo.create(task);
 
 		Task savedTask = taskRepo.findOne(1L, new QuerySpec(Task.class));
-		Assert.assertNotNull(savedTask);
+		Assertions.assertNotNull(savedTask);
 
 		// perform update
 		task.setName("updatedName");
@@ -110,22 +110,22 @@ public class PlainTextRepositoryAccessClientTest extends BasicRepositoryAccessTe
 
 		// check updated
 		savedTask = taskRepo.findOne(1L, new QuerySpec(Task.class));
-		Assert.assertNotNull(savedTask);
-		Assert.assertEquals("updatedName", task.getName());
+		Assertions.assertNotNull(savedTask);
+		Assertions.assertEquals("updatedName", task.getName());
 
 		if (httpAdapter instanceof OkHttpAdapter) {
 			// check HTTP handling
-			Assert.assertEquals(4, methods.size());
-			Assert.assertEquals(4, paths.size());
-			Assert.assertEquals("POST", methods.get(0));
-			Assert.assertEquals("GET", methods.get(1));
-			Assert.assertEquals("PATCH", methods.get(2));
-			Assert.assertEquals("/tasks/1", paths.get(2));
-			Assert.assertEquals("GET", methods.get(3));
+			Assertions.assertEquals(4, methods.size());
+			Assertions.assertEquals(4, paths.size());
+			Assertions.assertEquals("POST", methods.get(0));
+			Assertions.assertEquals("GET", methods.get(1));
+			Assertions.assertEquals("PATCH", methods.get(2));
+			Assertions.assertEquals("/tasks/1", paths.get(2));
+			Assertions.assertEquals("GET", methods.get(3));
 
-			Assert.assertEquals("/tasks", paths.get(0));
-			Assert.assertEquals("/tasks/1", paths.get(1));
-			Assert.assertEquals("/tasks/1", paths.get(3));
+			Assertions.assertEquals("/tasks", paths.get(0));
+			Assertions.assertEquals("/tasks/1", paths.get(1));
+			Assertions.assertEquals("/tasks/1", paths.get(3));
 		}
 	}
 }

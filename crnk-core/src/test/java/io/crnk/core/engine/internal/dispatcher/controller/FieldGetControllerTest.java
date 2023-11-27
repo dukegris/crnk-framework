@@ -16,8 +16,8 @@ import io.crnk.core.mock.models.Task;
 import io.crnk.core.mock.models.User;
 import io.crnk.core.queryspec.PathSpec;
 import io.crnk.core.queryspec.QuerySpec;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
@@ -82,7 +82,7 @@ public class FieldGetControllerTest extends ControllerTestBase {
 		Response response = sut.handle(jsonPath, emptyProjectQuery, null);
 
 		// THEN
-		Assert.assertNotNull(response);
+		Assertions.assertNotNull(response);
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class FieldGetControllerTest extends ControllerTestBase {
 		Response response = sut.handle(jsonPath, emptyProjectQuery, null);
 
 		// THEN
-		Assert.assertNotNull(response);
+		Assertions.assertNotNull(response);
 	}
 
 	@Test
@@ -144,16 +144,16 @@ public class FieldGetControllerTest extends ControllerTestBase {
 		Response response = sut.handle(jsonPath, queryAdapter, null);
 
 		// THEN
-		Assert.assertNotNull(response);
-		Assert.assertNotNull(response.getDocument().getData());
+		Assertions.assertNotNull(response);
+		Assertions.assertNotNull(response.getDocument().getData());
 		List<Resource> entityList = ((List<Resource>) response.getDocument().getData().get());
-		Assert.assertEquals(true, entityList.size() > 0);
-		Assert.assertEquals("projects", entityList.get(0).getType());
+		Assertions.assertEquals(true, entityList.size() > 0);
+		Assertions.assertEquals("projects", entityList.get(0).getType());
 		Resource returnedProject = entityList.get(0);
-		Assert.assertEquals(project.getId().toString(), returnedProject.getId());
+		Assertions.assertEquals(project.getId().toString(), returnedProject.getId());
 		Relationship relationship = returnedProject.getRelationships().get("includedTask");
-		Assert.assertNotNull(relationship);
-		Assert.assertEquals(task.getId().toString(), relationship.getSingleData().get().getId());
+		Assertions.assertNotNull(relationship);
+		Assertions.assertEquals(task.getId().toString(), relationship.getSingleData().get().getId());
 	}
 
 }

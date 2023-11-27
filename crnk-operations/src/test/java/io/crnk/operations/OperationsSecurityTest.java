@@ -12,9 +12,9 @@ import io.crnk.operations.client.OperationsCall;
 import io.crnk.operations.client.OperationsClient;
 import io.crnk.operations.model.PersonEntity;
 import io.crnk.rs.CrnkFeature;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class OperationsSecurityTest extends AbstractOperationsTest {
 
@@ -23,7 +23,7 @@ public class OperationsSecurityTest extends AbstractOperationsTest {
 
     private boolean active = false;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -58,7 +58,7 @@ public class OperationsSecurityTest extends AbstractOperationsTest {
         insertCall.add(HttpMethod.POST, person2);
         try {
             insertCall.execute();
-            Assert.fail();
+            Assertions.fail();
         } catch (ForbiddenException e) {
             // ok
         }

@@ -9,10 +9,10 @@ import io.crnk.test.mock.models.Project.ProjectMeta;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.ProjectRepository.ProjectsLinksInformation;
 import io.crnk.test.mock.repository.ProjectRepository.ProjectsMetaInformation;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class InformationAccessTestBase {
 
@@ -22,7 +22,7 @@ public abstract class InformationAccessTestBase {
 
 	protected ResourceRepository<Project, Long> projectRepo;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		testContainer.start();
 		taskRepo = testContainer.getRepositoryForType(Task.class);
@@ -33,7 +33,7 @@ public abstract class InformationAccessTestBase {
 		projectRepo.create(project);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		testContainer.stop();
 	}
@@ -44,11 +44,11 @@ public abstract class InformationAccessTestBase {
 		QuerySpec querySpec = new QuerySpec(Project.class);
 		ResourceList<Project> list = projectRepo.findAll(querySpec);
 		ProjectsMetaInformation metaInformation = list.getMeta(ProjectsMetaInformation.class);
-		Assert.assertEquals("testMeta", metaInformation.getMetaValue());
+		Assertions.assertEquals("testMeta", metaInformation.getMetaValue());
 		Project project = list.get(0);
 		ProjectMeta projectMeta = project.getMeta();
-		Assert.assertNotNull(projectMeta);
-		Assert.assertEquals("someMetaValue", projectMeta.getValue());
+		Assertions.assertNotNull(projectMeta);
+		Assertions.assertEquals("someMetaValue", projectMeta.getValue());
 	}
 
 	@Test
@@ -61,9 +61,9 @@ public abstract class InformationAccessTestBase {
 		project.setMeta(meta);
 
 		Project createdProject = projectRepo.create(project);
-		Assert.assertEquals(project.getName(), createdProject.getName());
+		Assertions.assertEquals(project.getName(), createdProject.getName());
 		ProjectMeta createdMeta = createdProject.getMeta();
-		Assert.assertEquals(meta.getValue(), createdMeta.getValue());
+		Assertions.assertEquals(meta.getValue(), createdMeta.getValue());
 	}
 
 	@Test
@@ -79,9 +79,9 @@ public abstract class InformationAccessTestBase {
 		project.getMeta().setValue("patch...");
 
 		Project updatedProject = projectRepo.save(project);
-		Assert.assertEquals(project.getName(), updatedProject.getName());
+		Assertions.assertEquals(project.getName(), updatedProject.getName());
 		ProjectMeta updatedMeta = updatedProject.getMeta();
-		Assert.assertEquals("patch...", updatedMeta.getValue());
+		Assertions.assertEquals("patch...", updatedMeta.getValue());
 	}
 
 	@Test
@@ -90,11 +90,11 @@ public abstract class InformationAccessTestBase {
 		querySpec.setLimit(1L);
 		ResourceList<Project> list = projectRepo.findAll(querySpec);
 		ProjectsLinksInformation lnksInformation = list.getLinks(ProjectsLinksInformation.class);
-		Assert.assertEquals("testLink", lnksInformation.getLinkValue().getHref());
+		Assertions.assertEquals("testLink", lnksInformation.getLinkValue().getHref());
 		Project project = list.get(0);
 		ProjectLinks projectLinks = project.getLinks();
-		Assert.assertNotNull(projectLinks);
-		Assert.assertEquals("someLinkValue", projectLinks.getValue().getHref());
+		Assertions.assertNotNull(projectLinks);
+		Assertions.assertEquals("someLinkValue", projectLinks.getValue().getHref());
 	}
 
 	@Test
@@ -107,9 +107,9 @@ public abstract class InformationAccessTestBase {
 		project.setLinks(links);
 
 		Project createdProject = projectRepo.create(project);
-		Assert.assertEquals(project.getName(), createdProject.getName());
+		Assertions.assertEquals(project.getName(), createdProject.getName());
 		ProjectLinks createdLinks = createdProject.getLinks();
-		Assert.assertEquals("linksValue...", createdLinks.getValue().getHref());
+		Assertions.assertEquals("linksValue...", createdLinks.getValue().getHref());
 	}
 
 	@Test
@@ -125,8 +125,8 @@ public abstract class InformationAccessTestBase {
 		project.getLinks().setValue("patch...");
 
 		Project updatedProject = projectRepo.save(project);
-		Assert.assertEquals(project.getName(), updatedProject.getName());
+		Assertions.assertEquals(project.getName(), updatedProject.getName());
 		ProjectLinks updatedLinks = updatedProject.getLinks();
-		Assert.assertEquals("patch...", updatedLinks.getValue().getHref());
+		Assertions.assertEquals("patch...", updatedLinks.getValue().getHref());
 	}
 }

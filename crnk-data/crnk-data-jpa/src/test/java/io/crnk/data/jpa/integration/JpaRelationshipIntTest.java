@@ -25,10 +25,10 @@ import io.crnk.data.jpa.model.TestEntity;
 import io.crnk.data.jpa.query.criteria.JpaCriteriaQueryFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.stat.Statistics;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
 
@@ -39,7 +39,7 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 	private SessionFactory sessionFactory;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 		testRepo = client.getRepositoryForType(TestEntity.class);
@@ -94,15 +94,15 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		QuerySpec querySpec = new QuerySpec(OneToOneTestEntity.class);
 		querySpec.includeRelation(Arrays.asList("oneRelatedValue"));
 		ResourceList<OneToOneTestEntity> list = testRepo.findAll(querySpec);
-		Assert.assertEquals(10, list.size());
+		Assertions.assertEquals(10, list.size());
 		OneToOneTestEntity testCopy = list.get(0);
-		Assert.assertNotNull(testCopy.getOneRelatedValue());
-		Assert.assertEquals(12L, testCopy.getOneRelatedValue().getId().longValue());
+		Assertions.assertNotNull(testCopy.getOneRelatedValue());
+		Assertions.assertEquals(12L, testCopy.getOneRelatedValue().getId().longValue());
 
 		// verify no lazy loading and n+1 issues
-		Assert.assertEquals(0, stats.getEntityFetchCount());
-		Assert.assertEquals(2, stats.getQueryExecutionCount());
-		Assert.assertEquals(0, stats.getCollectionFetchCount());
+		Assertions.assertEquals(0, stats.getEntityFetchCount());
+		Assertions.assertEquals(2, stats.getQueryExecutionCount());
+		Assertions.assertEquals(0, stats.getCollectionFetchCount());
 	}
 
 	@Test
@@ -153,15 +153,15 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		QuerySpec querySpec = new QuerySpec(OneToOneTestEntity.class);
 		querySpec.includeRelation(Arrays.asList("oppositeValue"));
 		ResourceList<OneToOneTestEntity> list = testRepo.findAll(querySpec);
-		Assert.assertEquals(10, list.size());
+		Assertions.assertEquals(10, list.size());
 		OneToOneTestEntity testCopy = list.get(0);
-		Assert.assertNotNull(testCopy.getOppositeValue());
-		Assert.assertEquals(12L, testCopy.getOppositeValue().getId().longValue());
+		Assertions.assertNotNull(testCopy.getOppositeValue());
+		Assertions.assertEquals(12L, testCopy.getOppositeValue().getId().longValue());
 
 		// verify no lazy loading and n+1 issues
-		Assert.assertEquals(0, stats.getEntityFetchCount());
-		Assert.assertEquals(2, stats.getQueryExecutionCount());
-		Assert.assertEquals(0, stats.getCollectionFetchCount());
+		Assertions.assertEquals(0, stats.getEntityFetchCount());
+		Assertions.assertEquals(2, stats.getQueryExecutionCount());
+		Assertions.assertEquals(0, stats.getCollectionFetchCount());
 	}
 
 
@@ -220,16 +220,16 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		QuerySpec querySpec = new QuerySpec(ManyToManyTestEntity.class);
 		querySpec.includeRelation(Arrays.asList("opposites"));
 		ResourceList<ManyToManyTestEntity> list = testRepo.findAll(querySpec);
-		Assert.assertEquals(10, list.size());
+		Assertions.assertEquals(10, list.size());
 		for (int i = 0; i < 10; i++) {
 			ManyToManyTestEntity testCopy = list.get(i);
-			Assert.assertEquals(1, testCopy.getOpposites().size());
+			Assertions.assertEquals(1, testCopy.getOpposites().size());
 		}
 
 		// verify no lazy loading and n+1 issues
-		Assert.assertEquals(0, stats.getEntityFetchCount());
-		Assert.assertEquals(2, stats.getQueryExecutionCount());
-		Assert.assertEquals(0, stats.getCollectionFetchCount());
+		Assertions.assertEquals(0, stats.getEntityFetchCount());
+		Assertions.assertEquals(2, stats.getQueryExecutionCount());
+		Assertions.assertEquals(0, stats.getCollectionFetchCount());
 	}
 
 
@@ -241,16 +241,16 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		querySpec.includeRelation(Arrays.asList(TestEntity.ATTR_manyRelatedValues, RelatedEntity.ATTR_otherEntity));
 		List<TestEntity> list = testRepo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		TestEntity testEntity = list.get(0);
 
 		List<RelatedEntity> manyRelatedValues = testEntity.getManyRelatedValues();
-		Assert.assertNotNull(manyRelatedValues);
-		Assert.assertEquals(5, manyRelatedValues.size());
+		Assertions.assertNotNull(manyRelatedValues);
+		Assertions.assertEquals(5, manyRelatedValues.size());
 
 		// three out of five have a relationship defined
 		long n = manyRelatedValues.stream().filter(it -> it.getOtherEntity() != null).count();
-		Assert.assertEquals(3, n);
+		Assertions.assertEquals(3, n);
 	}
 
 	@Test
@@ -262,20 +262,20 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		querySpec.includeRelation(Arrays.asList(TestEntity.ATTR_oneRelatedValue, RelatedEntity.ATTR_otherEntity));
 		List<TestEntity> list = testRepo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		TestEntity testEntity = list.get(0);
 
 		RelatedEntity ontRelatedValue = testEntity.getOneRelatedValue();
-		Assert.assertNotNull(ontRelatedValue);
-		Assert.assertNotNull(ontRelatedValue.getOtherEntity());
+		Assertions.assertNotNull(ontRelatedValue);
+		Assertions.assertNotNull(ontRelatedValue.getOtherEntity());
 
 		List<RelatedEntity> manyRelatedValues = testEntity.getManyRelatedValues();
-		Assert.assertNotNull(manyRelatedValues);
-		Assert.assertEquals(5, manyRelatedValues.size());
+		Assertions.assertNotNull(manyRelatedValues);
+		Assertions.assertEquals(5, manyRelatedValues.size());
 
 		// three out of five have a relationship defined
 		long n = manyRelatedValues.stream().filter(it -> it.getOtherEntity() != null).count();
-		Assert.assertEquals(3, n);
+		Assertions.assertEquals(3, n);
 	}
 
 	@Test
@@ -290,7 +290,7 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 
 		RelatedEntity related =
 				relRepo.findOneTarget(test.getId(), TestEntity.ATTR_oneRelatedValue, new QuerySpec(RelatedEntity.class));
-		Assert.assertNull(related);
+		Assertions.assertNull(related);
 	}
 
 
@@ -301,18 +301,18 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		QuerySpec querySpec = new QuerySpec(TestEntity.class);
 		List<TestEntity> list = testRepo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		TestEntity testEntity = list.get(0);
 
 		List<RelatedEntity> manyRelatedValues = testEntity.getManyRelatedValues();
-		Assert.assertNotNull(manyRelatedValues);
+		Assertions.assertNotNull(manyRelatedValues);
 
 		ObjectProxy proxy = (ObjectProxy) manyRelatedValues;
-		Assert.assertFalse(proxy.isLoaded());
-		Assert.assertEquals(5, manyRelatedValues.size());
+		Assertions.assertFalse(proxy.isLoaded());
+		Assertions.assertEquals(5, manyRelatedValues.size());
 
 		for (RelatedEntity relatedEntity : manyRelatedValues) {
-			Assert.assertNotNull(relatedEntity.getStringValue());
+			Assertions.assertNotNull(relatedEntity.getStringValue());
 		}
 	}
 
@@ -326,15 +326,15 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		relatedSpec.addFilter(new FilterSpec(Arrays.asList(RelatedEntity.ATTR_id), FilterOperator.LT, 103L));
 		List<TestEntity> list = testRepo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		TestEntity testEntity = list.get(0);
 
 		List<RelatedEntity> manyRelatedValues = testEntity.getManyRelatedValues();
-		Assert.assertNotNull(manyRelatedValues);
-		Assert.assertEquals(2, manyRelatedValues.size());
+		Assertions.assertNotNull(manyRelatedValues);
+		Assertions.assertEquals(2, manyRelatedValues.size());
 
 		for (RelatedEntity manyRelatedValue : manyRelatedValues) {
-			Assert.assertTrue(manyRelatedValue.getId() == 101L || manyRelatedValue.getId() == 102L);
+			Assertions.assertTrue(manyRelatedValue.getId() == 101L || manyRelatedValue.getId() == 102L);
 		}
 	}
 
@@ -349,22 +349,22 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		querySpec.includeRelation(Arrays.asList(TestEntity.ATTR_manyRelatedValues));
 		List<TestEntity> list = testRepo.findAll(querySpec);
 
-		Assert.assertEquals(10, list.size());
+		Assertions.assertEquals(10, list.size());
 		TestEntity testEntity = list.get(0);
 
 		List<RelatedEntity> manyRelatedValues = testEntity.getManyRelatedValues();
-		Assert.assertNotNull(manyRelatedValues);
-		Assert.assertEquals(5, manyRelatedValues.size());
+		Assertions.assertNotNull(manyRelatedValues);
+		Assertions.assertEquals(5, manyRelatedValues.size());
 
-		Assert.assertEquals(0, stats.getEntityFetchCount());
-		Assert.assertEquals(3, stats.getQueryExecutionCount());
+		Assertions.assertEquals(0, stats.getEntityFetchCount());
+		Assertions.assertEquals(3, stats.getQueryExecutionCount());
 		// TODO issue with map eager loading:
-		// Assert.assertEquals(1, stats.getCollectionFetchCount());
+		// Assertions.assertEquals(1, stats.getCollectionFetchCount());
 	}
 
 
 	@Test
-	@Ignore
+	@Disabled
 	// TODO bidirectionality not properly handled, see
 	// ResourceUpsert should make use of relationship repositories #130
 	public void testAddManyRelationWithResourceSave() {
@@ -400,15 +400,15 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		}
 		List<RelatedEntity> related =
 				relRepo.findManyTargets(test.getId(), TestEntity.ATTR_manyRelatedValues, new QuerySpec(RelatedEntity.class));
-		Assert.assertEquals(2, related.size());
+		Assertions.assertEquals(2, related.size());
 
 		// query relation in opposite direction
 		RelationshipRepository<RelatedEntity, Serializable, TestEntity, Serializable> backRelRepo = client
 				.getRepositoryForType(RelatedEntity.class, TestEntity.class);
 
 		test = backRelRepo.findOneTarget(2L, RelatedEntity.ATTR_testEntity, new QuerySpec(TestEntity.class));
-		Assert.assertNotNull(test);
-		Assert.assertEquals(3L, test.getId().longValue());
+		Assertions.assertNotNull(test);
+		Assertions.assertEquals(3L, test.getId().longValue());
 	}
 
 	@Test
@@ -419,9 +419,9 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		querySpec.includeRelation(Arrays.asList(TestEntity.ATTR_oneRelatedValue));
 		List<TestEntity> list = testRepo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		for (TestEntity test : list) {
-			Assert.assertNotNull(test.getOneRelatedValue());
+			Assertions.assertNotNull(test.getOneRelatedValue());
 		}
 	}
 
@@ -430,10 +430,10 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		addTestWithOneRelation();
 
 		List<TestEntity> list = testRepo.findAll(new QuerySpec(TestEntity.class));
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		for (TestEntity test : list) {
 			// in the future we may get proxies here
-			Assert.assertNull(test.getOneRelatedValue());
+			Assertions.assertNull(test.getOneRelatedValue());
 		}
 	}
 
@@ -447,7 +447,7 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 
 		RelatedEntity related =
 				relRepo.findOneTarget(test.getId(), TestEntity.ATTR_oneRelatedValue, new QuerySpec(RelatedEntity.class));
-		Assert.assertNotNull(related);
+		Assertions.assertNotNull(related);
 	}
 
 	@Test
@@ -455,10 +455,10 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 		TestEntity test = addTestWithOneRelation();
 
 		TestEntity savedTest = testRepo.findOne(2L, includeOneRelatedValueParams());
-		Assert.assertEquals(test.getId(), savedTest.getId());
-		Assert.assertEquals(test.getStringValue(), savedTest.getStringValue());
-		Assert.assertNotNull(savedTest.getOneRelatedValue());
-		Assert.assertEquals(1L, savedTest.getOneRelatedValue().getId().longValue());
+		Assertions.assertEquals(test.getId(), savedTest.getId());
+		Assertions.assertEquals(test.getStringValue(), savedTest.getStringValue());
+		Assertions.assertNotNull(savedTest.getOneRelatedValue());
+		Assertions.assertEquals(1L, savedTest.getOneRelatedValue().getId().longValue());
 	}
 
 	private TestEntity addTestWithOneRelation() {
@@ -593,10 +593,10 @@ public class JpaRelationshipIntTest extends AbstractJpaJerseyTest {
 
 		QuerySpec querySpec0 = new QuerySpec(TestEntity.class);
 		querySpec0.addFilter(PathSpec.of(TestEntity.ATTR_manyRelatedValues, RelatedEntity.ATTR_stringValue).filter(FilterOperator.EQ, "project0"));
-		Assert.assertEquals(1, testRepo.findAll(querySpec0).size());
+		Assertions.assertEquals(1, testRepo.findAll(querySpec0).size());
 
 		QuerySpec querySpec2 = new QuerySpec(TestEntity.class);
 		querySpec2.addFilter(PathSpec.of(TestEntity.ATTR_manyRelatedValues, RelatedEntity.ATTR_stringValue).filter(FilterOperator.EQ, "project1"));
-		Assert.assertEquals(0, testRepo.findAll(querySpec2).size());
+		Assertions.assertEquals(0, testRepo.findAll(querySpec2).size());
 	}
 }

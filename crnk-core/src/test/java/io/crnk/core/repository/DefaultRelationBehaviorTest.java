@@ -16,9 +16,9 @@ import io.crnk.core.resource.annotations.JsonApiRelationId;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import io.crnk.core.resource.annotations.LookupIncludeBehavior;
 import io.crnk.core.resource.annotations.RelationshipRepositoryBehavior;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,7 +29,7 @@ public class DefaultRelationBehaviorTest {
 
     private CrnkBoot boot;
 
-    @Before
+    @BeforeEach
     public void setup() {
         SimpleModule module = new SimpleModule("test");
         module.addRepository(new InMemoryResourceRepository<>(BuilderTestTask.class));
@@ -61,9 +61,9 @@ public class DefaultRelationBehaviorTest {
         ResourceInformation project = entry.getResourceInformation();
         ResourceField tasks = project.findFieldByUnderlyingName("tasks");
 
-        Assert.assertTrue(tasks.isMappedBy());
-        Assert.assertEquals(RelationshipRepositoryBehavior.FORWARD_OPPOSITE, tasks.getRelationshipRepositoryBehavior());
-        Assert.assertEquals(LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL, tasks.getLookupIncludeBehavior());
+        Assertions.assertTrue(tasks.isMappedBy());
+        Assertions.assertEquals(RelationshipRepositoryBehavior.FORWARD_OPPOSITE, tasks.getRelationshipRepositoryBehavior());
+        Assertions.assertEquals(LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL, tasks.getLookupIncludeBehavior());
     }
 
 
@@ -74,9 +74,9 @@ public class DefaultRelationBehaviorTest {
         ResourceInformation project = entry.getResourceInformation();
         ResourceField parentField = project.findFieldByUnderlyingName("parent");
 
-        Assert.assertFalse(parentField.isMappedBy());
-        Assert.assertEquals(RelationshipRepositoryBehavior.FORWARD_OWNER, parentField.getRelationshipRepositoryBehavior());
-        Assert.assertEquals(LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL, parentField.getLookupIncludeBehavior());
+        Assertions.assertFalse(parentField.isMappedBy());
+        Assertions.assertEquals(RelationshipRepositoryBehavior.FORWARD_OWNER, parentField.getRelationshipRepositoryBehavior());
+        Assertions.assertEquals(LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL, parentField.getLookupIncludeBehavior());
     }
 
     @Test
@@ -86,9 +86,9 @@ public class DefaultRelationBehaviorTest {
         ResourceInformation task = entry.getResourceInformation();
         ResourceField projectField = task.findFieldByUnderlyingName("project");
 
-        Assert.assertFalse(projectField.isMappedBy());
-        Assert.assertEquals(RelationshipRepositoryBehavior.FORWARD_OWNER, projectField.getRelationshipRepositoryBehavior());
-        Assert.assertEquals(LookupIncludeBehavior.NONE, projectField.getLookupIncludeBehavior());
+        Assertions.assertFalse(projectField.isMappedBy());
+        Assertions.assertEquals(RelationshipRepositoryBehavior.FORWARD_OWNER, projectField.getRelationshipRepositoryBehavior());
+        Assertions.assertEquals(LookupIncludeBehavior.NONE, projectField.getLookupIncludeBehavior());
     }
 
     @Test
@@ -98,9 +98,9 @@ public class DefaultRelationBehaviorTest {
         ResourceInformation task = entry.getResourceInformation();
         ResourceField subTasksField = task.findFieldByUnderlyingName("subTasks");
 
-        Assert.assertFalse(subTasksField.isMappedBy());
-        Assert.assertEquals(RelationshipRepositoryBehavior.CUSTOM, subTasksField.getRelationshipRepositoryBehavior());
-        Assert.assertEquals(LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL, subTasksField.getLookupIncludeBehavior());
+        Assertions.assertFalse(subTasksField.isMappedBy());
+        Assertions.assertEquals(RelationshipRepositoryBehavior.CUSTOM, subTasksField.getRelationshipRepositoryBehavior());
+        Assertions.assertEquals(LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL, subTasksField.getLookupIncludeBehavior());
     }
 
 

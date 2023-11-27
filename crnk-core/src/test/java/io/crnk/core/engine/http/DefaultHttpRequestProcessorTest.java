@@ -1,6 +1,7 @@
 package io.crnk.core.engine.http;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DefaultHttpRequestProcessorTest {
 
@@ -11,14 +12,17 @@ public class DefaultHttpRequestProcessorTest {
 		}
 	};
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void test() {
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
 		processor.accepts(null);
+		});
 	}
 
-
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void processAsync() {
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
 		processor.processAsync(null);
+		});
 	}
 }

@@ -3,8 +3,8 @@ package io.crnk.core.utils;
 import io.crnk.core.engine.internal.utils.MultivaluedMap;
 import io.crnk.core.module.TestResource;
 import io.crnk.core.queryspec.PathSpec;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class MultivaluedMapTest {
 		list.add(t2);
 
 		MultivaluedMap<Object, TestResource> map = MultivaluedMap.fromCollection(list, PathSpec.of("id"));
-		Assert.assertEquals(t1, map.getUnique(1));
-		Assert.assertEquals(t2, map.getUnique(2));
+		Assertions.assertEquals(t1, map.getUnique(1));
+		Assertions.assertEquals(t2, map.getUnique(2));
 	}
 }

@@ -13,7 +13,7 @@ import io.crnk.validation.mock.repository.ProjectRepository;
 import io.crnk.validation.mock.repository.ScheduleRepository;
 import io.crnk.validation.mock.repository.TaskRepository;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -29,7 +29,7 @@ public abstract class AbstractValidationTest extends JerseyTestBase {
 
     protected RelationshipRepository<Task, Long, Project, Long> relRepo;
 
-    @Before
+    @BeforeEach
     public void setup() {
         client = new CrnkClient(getBaseUri().toString());
         client.addModule(ValidationModule.create());

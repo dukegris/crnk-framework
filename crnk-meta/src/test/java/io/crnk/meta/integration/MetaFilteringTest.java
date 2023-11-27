@@ -19,9 +19,9 @@ import io.crnk.meta.model.resource.MetaResource;
 import io.crnk.rs.CrnkFeature;
 import io.crnk.test.mock.models.Project;
 import io.crnk.test.mock.models.Task;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class MetaFilteringTest extends AbstractMetaJerseyTest {
     private ResourceFilter filter;
 
 
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
         repository = client.getRepositoryForType(MetaResource.class);
@@ -115,11 +115,11 @@ public class MetaFilteringTest extends AbstractMetaJerseyTest {
         QuerySpec querySpec = new QuerySpec(MetaResource.class);
         querySpec.addFilter(new FilterSpec(Arrays.asList("name"), FilterOperator.EQ, "Tasks"));
         ResourceList<MetaResource> list = repository.findAll(querySpec);
-        Assert.assertEquals(1, list.size());
+        Assertions.assertEquals(1, list.size());
         MetaResource taskMeta = list.get(0);
 
         // project attribute not available as opposite project type not available
-        Assert.assertFalse(taskMeta.hasAttribute("project"));
+        Assertions.assertFalse(taskMeta.hasAttribute("project"));
     }
 
 
@@ -135,13 +135,13 @@ public class MetaFilteringTest extends AbstractMetaJerseyTest {
         QuerySpec querySpec = new QuerySpec(MetaResource.class);
         querySpec.addFilter(new FilterSpec(Arrays.asList("name"), FilterOperator.EQ, "Tasks"));
         ResourceList<MetaResource> list = repository.findAll(querySpec);
-        Assert.assertEquals(1, list.size());
+        Assertions.assertEquals(1, list.size());
         MetaResource taskMeta = list.get(0);
 
-        Assert.assertTrue(taskMeta.hasAttribute("project"));
+        Assertions.assertTrue(taskMeta.hasAttribute("project"));
         MetaAttribute projectAttr = taskMeta.getAttribute("project");
-        Assert.assertFalse(projectAttr.isInsertable());
-        Assert.assertFalse(projectAttr.isUpdatable());
+        Assertions.assertFalse(projectAttr.isInsertable());
+        Assertions.assertFalse(projectAttr.isUpdatable());
     }
 
     @Test
@@ -156,13 +156,13 @@ public class MetaFilteringTest extends AbstractMetaJerseyTest {
         QuerySpec querySpec = new QuerySpec(MetaResource.class);
         querySpec.addFilter(new FilterSpec(Arrays.asList("name"), FilterOperator.EQ, "Tasks"));
         ResourceList<MetaResource> list = repository.findAll(querySpec);
-        Assert.assertEquals(1, list.size());
+        Assertions.assertEquals(1, list.size());
         MetaResource taskMeta = list.get(0);
 
-        Assert.assertTrue(taskMeta.hasAttribute("project"));
+        Assertions.assertTrue(taskMeta.hasAttribute("project"));
         MetaAttribute projectAttr = taskMeta.getAttribute("project");
-        Assert.assertTrue(projectAttr.isInsertable());
-        Assert.assertFalse(projectAttr.isUpdatable());
+        Assertions.assertTrue(projectAttr.isInsertable());
+        Assertions.assertFalse(projectAttr.isUpdatable());
     }
 
 
@@ -171,16 +171,16 @@ public class MetaFilteringTest extends AbstractMetaJerseyTest {
         querySpec.addFilter(new FilterSpec(Arrays.asList("name"), FilterOperator.EQ, "Tasks"));
         ResourceList<MetaResource> list = repository.findAll(querySpec);
         boolean filtered = !readable && !insertable && !updatable && !deletable;
-        Assert.assertEquals(filtered, list.isEmpty());
+        Assertions.assertEquals(filtered, list.isEmpty());
         if (!filtered) {
             MetaResource metaResource = list.get(0);
-            Assert.assertEquals(readable, metaResource.isReadable());
-            Assert.assertEquals(deletable, metaResource.isDeletable());
-            Assert.assertEquals(insertable, metaResource.isInsertable());
-            Assert.assertEquals(updatable, metaResource.isUpdatable());
+            Assertions.assertEquals(readable, metaResource.isReadable());
+            Assertions.assertEquals(deletable, metaResource.isDeletable());
+            Assertions.assertEquals(insertable, metaResource.isInsertable());
+            Assertions.assertEquals(updatable, metaResource.isUpdatable());
 
             MetaAttribute idAttr = metaResource.getAttribute("id");
-            Assert.assertNotNull(idAttr);
+            Assertions.assertNotNull(idAttr);
         }
     }
 }

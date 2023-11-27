@@ -12,9 +12,9 @@ import io.crnk.core.repository.response.JsonApiResponse;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.reactive.internal.adapter.ReactiveResourceRepositoryAdapter;
 import io.crnk.reactive.model.ReactiveTask;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class ReactiveResourceRepositoryAdapterTest extends ReactiveTestBase {
 	private QuerySpecAdapter queryAdapter;
 	private ReactiveResourceRepositoryAdapter adapter;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -43,11 +43,11 @@ public class ReactiveResourceRepositoryAdapterTest extends ReactiveTestBase {
 		ResourceRegistry resourceRegistry = boot.getResourceRegistry();
 		RegistryEntry entry = resourceRegistry.getEntry(ReactiveTask.class);
 
-		Assert.assertNotNull(entry);
+		Assertions.assertNotNull(entry);
 		ResourceInformation resourceInformation = entry.getResourceInformation();
-		Assert.assertEquals("reactive/task", resourceInformation.getResourceType());
+		Assertions.assertEquals("reactive/task", resourceInformation.getResourceType());
 		ResourceRepositoryAdapter adapter = entry.getResourceRepository();
-		Assert.assertEquals(ReactiveResourceRepositoryAdapter.class, adapter.getClass());
+		Assertions.assertEquals(ReactiveResourceRepositoryAdapter.class, adapter.getClass());
 	}
 
 	@Test
@@ -55,10 +55,10 @@ public class ReactiveResourceRepositoryAdapterTest extends ReactiveTestBase {
 		ReactiveTask task = createTask(1);
 		Result<JsonApiResponse> result = adapter.create(task, queryAdapter);
 		JsonApiResponse response = result.get();
-		Assert.assertEquals(task, response.getEntity());
+		Assertions.assertEquals(task, response.getEntity());
 
 		Map<Long, ReactiveTask> map = taskRepository.getMap();
-		Assert.assertEquals(task, map.get(1L));
+		Assertions.assertEquals(task, map.get(1L));
 	}
 
 	@Test
@@ -66,10 +66,10 @@ public class ReactiveResourceRepositoryAdapterTest extends ReactiveTestBase {
 		ReactiveTask task = createTask(1);
 		Result<JsonApiResponse> result = adapter.update(task, queryAdapter);
 		JsonApiResponse response = result.get();
-		Assert.assertEquals(task, response.getEntity());
+		Assertions.assertEquals(task, response.getEntity());
 
 		Map<Long, ReactiveTask> map = taskRepository.getMap();
-		Assert.assertEquals(task, map.get(1L));
+		Assertions.assertEquals(task, map.get(1L));
 	}
 
 	@Test
@@ -80,7 +80,7 @@ public class ReactiveResourceRepositoryAdapterTest extends ReactiveTestBase {
 
 		Result<JsonApiResponse> result = adapter.findOne(1L, queryAdapter);
 		JsonApiResponse response = result.get();
-		Assert.assertEquals(task, response.getEntity());
+		Assertions.assertEquals(task, response.getEntity());
 	}
 
 	@Test
@@ -92,8 +92,8 @@ public class ReactiveResourceRepositoryAdapterTest extends ReactiveTestBase {
 		Result<JsonApiResponse> result = adapter.findAll(queryAdapter);
 		JsonApiResponse response = result.get();
 		ResourceList list = (ResourceList) response.getEntity();
-		Assert.assertEquals(1, list.size());
-		Assert.assertEquals(task, list.get(0));
+		Assertions.assertEquals(1, list.size());
+		Assertions.assertEquals(task, list.get(0));
 	}
 
 	@Test
@@ -105,8 +105,8 @@ public class ReactiveResourceRepositoryAdapterTest extends ReactiveTestBase {
 		Result<JsonApiResponse> result = adapter.findAll(Arrays.asList(1L), queryAdapter);
 		JsonApiResponse response = result.get();
 		ResourceList list = (ResourceList) response.getEntity();
-		Assert.assertEquals(1, list.size());
-		Assert.assertEquals(task, list.get(0));
+		Assertions.assertEquals(1, list.size());
+		Assertions.assertEquals(task, list.get(0));
 	}
 
 	@Test
@@ -117,6 +117,6 @@ public class ReactiveResourceRepositoryAdapterTest extends ReactiveTestBase {
 
 		Result<JsonApiResponse> result = adapter.delete(1L, queryAdapter);
 		result.get();
-		Assert.assertTrue(map.isEmpty());
+		Assertions.assertTrue(map.isEmpty());
 	}
 }

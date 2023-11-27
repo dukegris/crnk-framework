@@ -1,7 +1,7 @@
 package io.crnk.core.engine.internal.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class IOUtilsTest {
 		for (int i = 0; i < 100; i++) {
 			byte[] b = new byte[i * 100];
 			r.nextBytes(b);
-			Assert.assertTrue(Arrays.equals(b, IOUtils.readFully(new ByteArrayInputStream(b))));
+			Assertions.assertTrue(Arrays.equals(b, IOUtils.readFully(new ByteArrayInputStream(b))));
 		}
 	}
 }

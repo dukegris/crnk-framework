@@ -5,8 +5,8 @@ import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.boot.CrnkProperties;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.mock.models.RelationIdTestResource;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,7 +45,7 @@ public class RepositoryBackedInMemoryEvaluatorTest extends InMemoryEvaluatorTest
         QuerySpec mismatchQuerySpec = new QuerySpec(RelationIdTestResource.class);
         mismatchQuerySpec.addFilter(new FilterSpec(PathSpec.of("testRenamed.id"), FilterOperator.EQ, 99999L));
 
-        Assert.assertEquals(1, evaluator.eval(resources, matchQuerySpec).size());
-        Assert.assertEquals(0, evaluator.eval(resources, mismatchQuerySpec).size());
+        Assertions.assertEquals(1, evaluator.eval(resources, matchQuerySpec).size());
+        Assertions.assertEquals(0, evaluator.eval(resources, mismatchQuerySpec).size());
     }
 }

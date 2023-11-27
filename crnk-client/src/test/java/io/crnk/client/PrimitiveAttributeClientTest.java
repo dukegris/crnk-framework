@@ -4,16 +4,16 @@ import java.util.Optional;
 
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.test.mock.models.PrimitiveAttributeResource;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PrimitiveAttributeClientTest extends AbstractClientTest {
 
 
 	private ResourceRepository<PrimitiveAttributeResource, Object> repository;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -26,7 +26,7 @@ public class PrimitiveAttributeClientTest extends AbstractClientTest {
 		attr.setId(1L);
 		attr.setOptionalValue(Optional.empty());
 		PrimitiveAttributeResource created = repository.create(attr);
-		Assert.assertFalse(created.getOptionalValue().isPresent());
+		Assertions.assertFalse(created.getOptionalValue().isPresent());
 	}
 
 	@Test
@@ -35,6 +35,6 @@ public class PrimitiveAttributeClientTest extends AbstractClientTest {
 		attr.setId(1L);
 		attr.setOptionalValue(Optional.of("Hello"));
 		PrimitiveAttributeResource created = repository.create(attr);
-		Assert.assertEquals("Hello", created.getOptionalValue().get());
+		Assertions.assertEquals("Hello", created.getOptionalValue().get());
 	}
 }

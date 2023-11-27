@@ -5,10 +5,10 @@ import java.util.List;
 
 import io.crnk.test.mock.models.BulkTask;
 import io.crnk.test.mock.repository.BulkTaskRepository;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PlainJsonBulkText {
 
@@ -16,14 +16,14 @@ public class PlainJsonBulkText {
 
 	private PlainJsonTestContainer container;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		container = new PlainJsonTestContainer();
 		container.start();
 		taskRepo = container.getClient().getRepositoryForInterface(BulkTaskRepository.class);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		container.stop();
 	}
@@ -39,7 +39,7 @@ public class PlainJsonBulkText {
 		}
 
 		List<BulkTask> createdTasks = taskRepo.create(tasks);
-		Assert.assertEquals(10, createdTasks.size());
-		Assert.assertEquals("bulkTask0", createdTasks.get(0).getName());
+		Assertions.assertEquals(10, createdTasks.size());
+		Assertions.assertEquals("bulkTask0", createdTasks.get(0).getName());
 	}
 }

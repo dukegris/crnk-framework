@@ -8,18 +8,18 @@ import io.crnk.core.engine.document.ResourceIdentifier;
 import io.crnk.core.engine.properties.PropertiesProvider;
 import io.crnk.core.mock.models.HierarchicalTask;
 import io.crnk.core.queryspec.QuerySpec;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class PerRootPathIncludeBehaviorTest extends AbstractIncludeBehaviorTest {
 
 	@Override

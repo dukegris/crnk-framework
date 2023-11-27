@@ -8,9 +8,9 @@ import io.crnk.gen.typescript.model.TSInterfaceType;
 import io.crnk.gen.typescript.model.TSModule;
 import io.crnk.gen.typescript.model.TSParameterizedType;
 import io.crnk.gen.typescript.model.TSSource;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class TSImportProcessorTest {
 
 	private TSImportProcessor processor;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		processor = new TSImportProcessor();
 
@@ -58,11 +58,11 @@ public class TSImportProcessorTest {
 	@Test
 	public void sameDirectoryImport() {
 		List<TSSource> updatedSources = processor.process(sources);
-		Assert.assertEquals(sources.size(), updatedSources.size());
+		Assertions.assertEquals(sources.size(), updatedSources.size());
 
-		Assert.assertEquals(1, classSource.getImports().size());
+		Assertions.assertEquals(1, classSource.getImports().size());
 		TSImport tsImport = classSource.getImports().get(0);
-		Assert.assertEquals("./some-interface", tsImport.getPath());
+		Assertions.assertEquals("./some-interface", tsImport.getPath());
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class TSImportProcessorTest {
 
 		processor.process(sources);
 		TSImport tsImport = classSource.getImports().get(0);
-		Assert.assertEquals("./child-dir/some-interface", tsImport.getPath());
+		Assertions.assertEquals("./child-dir/some-interface", tsImport.getPath());
 	}
 
 	@Test
@@ -80,7 +80,7 @@ public class TSImportProcessorTest {
 
 		processor.process(sources);
 		TSImport tsImport = classSource.getImports().get(0);
-		Assert.assertEquals("../some-interface", tsImport.getPath());
+		Assertions.assertEquals("../some-interface", tsImport.getPath());
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class TSImportProcessorTest {
 
 		processor.process(sources);
 		TSImport tsImport = classSource.getImports().get(0);
-		Assert.assertEquals("../other-dir/some-interface", tsImport.getPath());
+		Assertions.assertEquals("../other-dir/some-interface", tsImport.getPath());
 	}
 
 
@@ -102,7 +102,7 @@ public class TSImportProcessorTest {
 
 		processor.process(sources);
 		TSImport tsImport = classSource.getImports().get(0);
-		Assert.assertEquals("./some-interface", tsImport.getPath());
+		Assertions.assertEquals("./some-interface", tsImport.getPath());
 	}
 
 	@Test
@@ -122,9 +122,9 @@ public class TSImportProcessorTest {
 		classType.addDeclaredMember(field);
 
 		processor.process(sources);
-		Assert.assertEquals(2, classSource.getImports().size());
-		Assert.assertEquals("./some-interface", classSource.getImports().get(0).getPath());
-		Assert.assertEquals("./some-param", classSource.getImports().get(1).getPath());
+		Assertions.assertEquals(2, classSource.getImports().size());
+		Assertions.assertEquals("./some-interface", classSource.getImports().get(0).getPath());
+		Assertions.assertEquals("./some-param", classSource.getImports().get(1).getPath());
 	}
 
 	@Test
@@ -150,10 +150,10 @@ public class TSImportProcessorTest {
 		classType.addDeclaredMember(field);
 
 		processor.process(sources);
-		Assert.assertEquals(1, classSource.getImports().size());
+		Assertions.assertEquals(1, classSource.getImports().size());
 		TSImport intImport = classSource.getImports().get(0);
-		Assert.assertEquals("./some-module", intImport.getPath());
-		Assert.assertEquals(1, intImport.getTypeNames().size());
-		Assert.assertEquals("SomeModule", intImport.getTypeNames().iterator().next());
+		Assertions.assertEquals("./some-module", intImport.getPath());
+		Assertions.assertEquals(1, intImport.getTypeNames().size());
+		Assertions.assertEquals("SomeModule", intImport.getTypeNames().iterator().next());
 	}
 }

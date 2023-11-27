@@ -2,22 +2,22 @@ package io.crnk.core.queryspec;
 
 import java.util.Arrays;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class IncludeRelationSpecTest {
 
 	@Test
 	public void testBasic() {
 		IncludeRelationSpec spec = new IncludeRelationSpec(Arrays.asList("name"));
-		Assert.assertEquals(Arrays.asList("name"), spec.getAttributePath());
+		Assertions.assertEquals(Arrays.asList("name"), spec.getAttributePath());
 	}
 
 	@Test
 	public void testToString() {
-		Assert.assertEquals("name", new IncludeRelationSpec(Arrays.asList("name")).toString());
-		Assert.assertEquals("name1.name2", new IncludeRelationSpec(Arrays.asList("name1", "name2")).toString());
-		Assert.assertEquals("name", new IncludeRelationSpec(Arrays.asList("name")).toString());
+		Assertions.assertEquals("name", new IncludeRelationSpec(Arrays.asList("name")).toString());
+		Assertions.assertEquals("name1.name2", new IncludeRelationSpec(Arrays.asList("name1", "name2")).toString());
+		Assertions.assertEquals("name", new IncludeRelationSpec(Arrays.asList("name")).toString());
 	}
 
 	@Test
@@ -27,23 +27,23 @@ public class IncludeRelationSpecTest {
 		IncludeRelationSpec spec3 = new IncludeRelationSpec(Arrays.asList("name2"));
 		IncludeFieldSpec rel = new IncludeFieldSpec(Arrays.asList("name2"));
 
-		Assert.assertEquals(spec1, spec1);
-		Assert.assertEquals(spec3, spec3);
-		Assert.assertEquals(spec1, spec2);
-		Assert.assertEquals(spec2, spec1);
-		Assert.assertEquals(spec1.hashCode(), spec1.hashCode());
-		Assert.assertEquals(spec3.hashCode(), spec3.hashCode());
-		Assert.assertEquals(spec1.hashCode(), spec2.hashCode());
-		Assert.assertNotEquals(spec2, spec3);
-		Assert.assertNotEquals(spec3, spec2);
-		Assert.assertNotEquals(spec1, rel);
+		Assertions.assertEquals(spec1, spec1);
+		Assertions.assertEquals(spec3, spec3);
+		Assertions.assertEquals(spec1, spec2);
+		Assertions.assertEquals(spec2, spec1);
+		Assertions.assertEquals(spec1.hashCode(), spec1.hashCode());
+		Assertions.assertEquals(spec3.hashCode(), spec3.hashCode());
+		Assertions.assertEquals(spec1.hashCode(), spec2.hashCode());
+		Assertions.assertNotEquals(spec2, spec3);
+		Assertions.assertNotEquals(spec3, spec2);
+		Assertions.assertNotEquals(spec1, rel);
 	}
 
 	@Test
 	public void testClone() {
 		IncludeRelationSpec spec = new IncludeRelationSpec(Arrays.asList("sortAttr"));
 		IncludeRelationSpec duplicate = spec.clone();
-		Assert.assertNotSame(spec, duplicate);
-		Assert.assertNotSame(spec.getAttributePath(), duplicate.getAttributePath());
+		Assertions.assertNotSame(spec, duplicate);
+		Assertions.assertNotSame(spec.getAttributePath(), duplicate.getAttributePath());
 	}
 }

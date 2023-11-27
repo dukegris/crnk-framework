@@ -12,9 +12,9 @@ import io.crnk.data.jpa.internal.PersistenceExceptionMapper;
 import io.crnk.data.jpa.internal.PersistenceRollbackExceptionMapper;
 import io.crnk.data.jpa.internal.TransactionRollbackExceptionMapper;
 import org.hibernate.exception.ConstraintViolationException;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.persistence.PersistenceException;
 
@@ -22,7 +22,7 @@ public class JpaExceptionMapperTests {
 
     private CrnkBoot boot;
 
-    @Before
+    @BeforeEach
     public void setup() {
         boot = new CrnkBoot();
         boot.addModule(JpaModule.newClientModule());
@@ -37,8 +37,8 @@ public class JpaExceptionMapperTests {
         PersistenceExceptionMapper mapper = (PersistenceExceptionMapper) exceptionMapperRegistry.findMapperFor(PersistenceException.class).get();
         ErrorResponse response = mapper.toErrorResponse(exception);
         ErrorData errorData = response.getErrors().iterator().next();
-        Assert.assertEquals(Integer.toString(HttpStatus.BAD_REQUEST_400), errorData.getStatus());
-        Assert.assertEquals("test", errorData.getDetail());
+        Assertions.assertEquals(Integer.toString(HttpStatus.BAD_REQUEST_400), errorData.getStatus());
+        Assertions.assertEquals("test", errorData.getDetail());
     }
 
     @Test
@@ -48,14 +48,14 @@ public class JpaExceptionMapperTests {
         HibernateConstraintViolationExceptionMapper mapper = (HibernateConstraintViolationExceptionMapper) exceptionMapperRegistry.findMapperFor(ConstraintViolationException.class).get();
         ErrorResponse response = mapper.toErrorResponse(exception);
         ErrorData errorData = response.getErrors().iterator().next();
-        Assert.assertEquals(Integer.toString(HttpStatus.UNPROCESSABLE_ENTITY_422), errorData.getStatus());
-        Assert.assertEquals(exception.getConstraintName(), errorData.getCode());
-        Assert.assertEquals(exception.getMessage(), errorData.getDetail());
+        Assertions.assertEquals(Integer.toString(HttpStatus.UNPROCESSABLE_ENTITY_422), errorData.getStatus());
+        Assertions.assertEquals(exception.getConstraintName(), errorData.getCode());
+        Assertions.assertEquals(exception.getMessage(), errorData.getDetail());
 
-        Assert.assertTrue(mapper.accepts(response));
+        Assertions.assertTrue(mapper.accepts(response));
         ConstraintViolationException deserializedException = mapper.fromErrorResponse(response);
-        Assert.assertEquals(exception.getMessage(), deserializedException.getMessage());
-        Assert.assertEquals(exception.getConstraintName(), deserializedException.getConstraintName());
+        Assertions.assertEquals(exception.getMessage(), deserializedException.getMessage());
+        Assertions.assertEquals(exception.getConstraintName(), deserializedException.getConstraintName());
     }
 
     @Test
@@ -65,8 +65,8 @@ public class JpaExceptionMapperTests {
         PersistenceRollbackExceptionMapper mapper = (PersistenceRollbackExceptionMapper) exceptionMapperRegistry.findMapperFor(javax.persistence.RollbackException.class).get();
         ErrorResponse response = mapper.toErrorResponse(exception);
         ErrorData errorData = response.getErrors().iterator().next();
-        Assert.assertEquals(Integer.toString(HttpStatus.BAD_REQUEST_400), errorData.getStatus());
-        Assert.assertEquals("test", errorData.getDetail());
+        Assertions.assertEquals(Integer.toString(HttpStatus.BAD_REQUEST_400), errorData.getStatus());
+        Assertions.assertEquals("test", errorData.getDetail());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class JpaExceptionMapperTests {
         TransactionRollbackExceptionMapper mapper = (TransactionRollbackExceptionMapper) exceptionMapperRegistry.findMapperFor(exception.getClass()).get();
         ErrorResponse response = mapper.toErrorResponse(exception);
         ErrorData errorData = response.getErrors().iterator().next();
-        Assert.assertEquals(Integer.toString(HttpStatus.BAD_REQUEST_400), errorData.getStatus());
-        Assert.assertEquals("test", errorData.getDetail());
+        Assertions.assertEquals(Integer.toString(HttpStatus.BAD_REQUEST_400), errorData.getStatus());
+        Assertions.assertEquals("test", errorData.getDetail());
     }
 }

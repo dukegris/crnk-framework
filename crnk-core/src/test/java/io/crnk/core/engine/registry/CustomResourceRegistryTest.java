@@ -11,8 +11,8 @@ import io.crnk.core.module.discovery.TestServiceDiscovery;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.pagingspec.OffsetLimitPagingSpec;
 import io.crnk.core.repository.response.JsonApiResponse;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -26,15 +26,15 @@ public class CustomResourceRegistryTest {
         container.boot();
 
         RegistryEntry entry = container.getEntry("somePrefix/custom");
-        Assert.assertNotNull(entry);
+        Assertions.assertNotNull(entry);
         ResourceRepositoryAdapter adapter = entry.getResourceRepository();
 
         QueryAdapter queryAdapter = container.toQueryAdapter(new QuerySpec("somePrefix/custom"));
 
         JsonApiResponse response = adapter.findAll(queryAdapter).get();
-        Assert.assertNotNull(response.getEntity());
+        Assertions.assertNotNull(response.getEntity());
         List<Resource> resources = (List<Resource>) response.getEntity();
-        Assert.assertEquals(1, resources.size());
+        Assertions.assertEquals(1, resources.size());
     }
 
     // tag::docs[]

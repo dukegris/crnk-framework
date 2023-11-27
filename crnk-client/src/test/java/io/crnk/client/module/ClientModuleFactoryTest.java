@@ -5,8 +5,8 @@ import io.crnk.core.engine.information.resource.ResourceInformationProviderModul
 import io.crnk.core.engine.internal.jackson.JacksonModule;
 import io.crnk.core.module.Module;
 import io.crnk.test.mock.ClientTestModule;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -16,11 +16,11 @@ public class ClientModuleFactoryTest {
 		client.findModules();
 		List<Module> modules = client.getModuleRegistry().getModules();
 
-		Assert.assertEquals(4, modules.size());
-		Assert.assertEquals(ClientModule.class, modules.get(0).getClass());
-		Assert.assertEquals(ResourceInformationProviderModule.class, modules.get(1).getClass());
-		Assert.assertEquals(JacksonModule.class, modules.get(2).getClass());
-		Assert.assertEquals(ClientTestModule.class, modules.get(3).getClass());
+		Assertions.assertEquals(4, modules.size());
+		Assertions.assertEquals(ClientModule.class, modules.get(0).getClass());
+		Assertions.assertEquals(ResourceInformationProviderModule.class, modules.get(1).getClass());
+		Assertions.assertEquals(JacksonModule.class, modules.get(2).getClass());
+		Assertions.assertEquals(ClientTestModule.class, modules.get(3).getClass());
 	}
 
 	@Test

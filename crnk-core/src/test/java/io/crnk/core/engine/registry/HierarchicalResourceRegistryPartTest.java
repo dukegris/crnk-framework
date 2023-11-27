@@ -6,27 +6,29 @@ import java.util.Collection;
 import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.engine.information.resource.VersionRange;
 import io.crnk.core.module.TestResource;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class HierarchicalResourceRegistryPartTest {
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testDuplicatePartThrowsException() {
+		Assertions.assertThrows(IllegalStateException.class, () -> {
 		HierarchicalResourceRegistryPart part = new HierarchicalResourceRegistryPart();
 		part.putPart("", new DefaultResourceRegistryPart());
 		part.putPart("", new DefaultResourceRegistryPart());
+		});
 	}
 
 	@Test
 	public void checkHasEntryForNonExistentEntry() {
 		HierarchicalResourceRegistryPart part = new HierarchicalResourceRegistryPart();
-		Assert.assertFalse(part.hasEntry("doesNotExists"));
-		Assert.assertFalse(part.hasEntry(String.class));
-		Assert.assertNull(part.getEntry("doesNotExists")); // TODO consider exception
-		Assert.assertNull(part.getEntryByPath("doesNotExists")); // TODO consider exception
-		Assert.assertNull(part.getEntry(String.class)); // TODO consider exception
+		Assertions.assertFalse(part.hasEntry("doesNotExists"));
+		Assertions.assertFalse(part.hasEntry(String.class));
+		Assertions.assertNull(part.getEntry("doesNotExists")); // TODO consider exception
+		Assertions.assertNull(part.getEntryByPath("doesNotExists")); // TODO consider exception
+		Assertions.assertNull(part.getEntry(String.class)); // TODO consider exception
 	}
 
 
@@ -44,14 +46,14 @@ public class HierarchicalResourceRegistryPartTest {
 		RegistryEntry entry = Mockito.mock(RegistryEntry.class);
 		Mockito.when(entry.getResourceInformation()).thenReturn(information);
 		RegistryEntry savedEntry = part.addEntry(entry);
-		Assert.assertSame(savedEntry, entry);
+		Assertions.assertSame(savedEntry, entry);
 
 		Collection<RegistryEntry> resources = part.getEntries();
-		Assert.assertEquals(1, resources.size());
-		Assert.assertSame(entry, part.getEntry("test"));
-		Assert.assertSame(entry, part.getEntry(TestResource.class));
-		Assert.assertTrue(part.hasEntry("test"));
-		Assert.assertTrue(part.hasEntry(TestResource.class));
+		Assertions.assertEquals(1, resources.size());
+		Assertions.assertSame(entry, part.getEntry("test"));
+		Assertions.assertSame(entry, part.getEntry(TestResource.class));
+		Assertions.assertTrue(part.hasEntry("test"));
+		Assertions.assertTrue(part.hasEntry(TestResource.class));
 	}
 
 	@Test
@@ -69,19 +71,20 @@ public class HierarchicalResourceRegistryPartTest {
 		RegistryEntry entry = Mockito.mock(RegistryEntry.class);
 		Mockito.when(entry.getResourceInformation()).thenReturn(information);
 		RegistryEntry savedEntry = part.addEntry(entry);
-		Assert.assertSame(savedEntry, entry);
+		Assertions.assertSame(savedEntry, entry);
 		Mockito.verify(listener, Mockito.times(1)).onChanged(Mockito.any(ResourceRegistryPartEvent.class));
 
 		Collection<RegistryEntry> resources = part.getEntries();
-		Assert.assertEquals(1, resources.size());
-		Assert.assertSame(entry, part.getEntry("child/test"));
-		Assert.assertSame(entry, part.getEntry(TestResource.class));
-		Assert.assertTrue(part.hasEntry("child/test"));
-		Assert.assertTrue(part.hasEntry(TestResource.class));
+		Assertions.assertEquals(1, resources.size());
+		Assertions.assertSame(entry, part.getEntry("child/test"));
+		Assertions.assertSame(entry, part.getEntry(TestResource.class));
+		Assertions.assertTrue(part.hasEntry("child/test"));
+		Assertions.assertTrue(part.hasEntry(TestResource.class));
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testMissingChildPart() {
+		Assertions.assertThrows(IllegalStateException.class, () -> {
 		HierarchicalResourceRegistryPart part = new HierarchicalResourceRegistryPart();
 		part.putPart("otherChild", new DefaultResourceRegistryPart());
 
@@ -92,5 +95,6 @@ public class HierarchicalResourceRegistryPartTest {
 		RegistryEntry entry = Mockito.mock(RegistryEntry.class);
 		Mockito.when(entry.getResourceInformation()).thenReturn(information);
 		part.addEntry(entry);
+		});
 	}
 }

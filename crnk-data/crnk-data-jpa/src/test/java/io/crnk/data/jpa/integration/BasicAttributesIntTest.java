@@ -9,8 +9,8 @@ import io.crnk.data.jpa.AbstractJpaJerseyTest;
 import io.crnk.data.jpa.model.BasicAttributesTestEntity;
 import io.crnk.data.jpa.model.JpaTransientTestEntity;
 import io.crnk.data.jpa.model.TestEnum;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -34,12 +34,12 @@ public class BasicAttributesIntTest extends AbstractJpaJerseyTest {
 		repo.create(test);
 
 		ResourceList<BasicAttributesTestEntity> list = repo.findAll(new QuerySpec(BasicAttributesTestEntity.class));
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		BasicAttributesTestEntity saved = list.get(0);
-		Assert.assertEquals(saved.getLongValue(), test.getLongValue());
-		Assert.assertEquals(saved.getNullableBooleanValue(), test.getNullableBooleanValue());
-		Assert.assertEquals(saved.getBooleanValue(), test.getBooleanValue());
-		Assert.assertEquals(saved.getNullableBooleanValue(), test.getNullableBooleanValue());
+		Assertions.assertEquals(saved.getLongValue(), test.getLongValue());
+		Assertions.assertEquals(saved.getNullableBooleanValue(), test.getNullableBooleanValue());
+		Assertions.assertEquals(saved.getBooleanValue(), test.getBooleanValue());
+		Assertions.assertEquals(saved.getNullableBooleanValue(), test.getNullableBooleanValue());
 	}
 
 	@Test
@@ -54,13 +54,13 @@ public class BasicAttributesIntTest extends AbstractJpaJerseyTest {
 		repo.create(entity);
 
 		List<JpaTransientTestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		entity = list.get(0);
-		Assert.assertNotNull(entity);
+		Assertions.assertNotNull(entity);
 
 		repo.delete(entity.getId());
 		list = repo.findAll(querySpec);
-		Assert.assertEquals(0, list.size());
+		Assertions.assertEquals(0, list.size());
 	}
 
 
@@ -82,9 +82,9 @@ public class BasicAttributesIntTest extends AbstractJpaJerseyTest {
 		QuerySpec querySpec = new QuerySpec(BasicAttributesTestEntity.class);
 		querySpec.addFilter(new FilterSpec(Arrays.asList(BasicAttributesTestEntity.ATTR_enumValue), FilterOperator.LIKE, "FOO"));
 		List<BasicAttributesTestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		BasicAttributesTestEntity testEntity = list.get(0);
-		Assert.assertEquals(2L, testEntity.getId().longValue());
+		Assertions.assertEquals(2L, testEntity.getId().longValue());
 	}
 
 	@Test
@@ -105,9 +105,9 @@ public class BasicAttributesIntTest extends AbstractJpaJerseyTest {
 		QuerySpec querySpec = new QuerySpec(BasicAttributesTestEntity.class);
 		querySpec.addFilter(new FilterSpec(Arrays.asList(BasicAttributesTestEntity.ATTR_enumValue), FilterOperator.LIKE, "BA%"));
 		List<BasicAttributesTestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		BasicAttributesTestEntity testEntity = list.get(0);
-		Assert.assertEquals(1L, testEntity.getId().longValue());
+		Assertions.assertEquals(1L, testEntity.getId().longValue());
 	}
 
 
@@ -129,9 +129,9 @@ public class BasicAttributesIntTest extends AbstractJpaJerseyTest {
 		QuerySpec querySpec = new QuerySpec(BasicAttributesTestEntity.class);
 		querySpec.addFilter(new FilterSpec(Arrays.asList(BasicAttributesTestEntity.ATTR_enumValue), FilterOperator.EQ, null));
 		List<BasicAttributesTestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		BasicAttributesTestEntity testEntity = list.get(0);
-		Assert.assertEquals(1L, testEntity.getId().longValue());
+		Assertions.assertEquals(1L, testEntity.getId().longValue());
 	}
 
 	@Test
@@ -157,7 +157,7 @@ public class BasicAttributesIntTest extends AbstractJpaJerseyTest {
 		QuerySpec querySpec = new QuerySpec(BasicAttributesTestEntity.class);
 		querySpec.addFilter(new FilterSpec(Arrays.asList(BasicAttributesTestEntity.ATTR_enumValue), FilterOperator.LIKE, Arrays.asList("F%", "B%")));
 		List<BasicAttributesTestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(2, list.size());
+		Assertions.assertEquals(2, list.size());
 	}
 
 	@Test
@@ -181,16 +181,16 @@ public class BasicAttributesIntTest extends AbstractJpaJerseyTest {
 		querySpec.addFilter(
 				new FilterSpec(Arrays.asList(BasicAttributesTestEntity.ATTR_offsetDateTimeValue), FilterOperator.EQ, now));
 		List<BasicAttributesTestEntity> list = repo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		BasicAttributesTestEntity testEntity = list.get(0);
-		Assert.assertEquals(1L, testEntity.getId().longValue());
+		Assertions.assertEquals(1L, testEntity.getId().longValue());
 
 		querySpec = new QuerySpec(BasicAttributesTestEntity.class);
 		querySpec.addFilter(
 				new FilterSpec(Arrays.asList(BasicAttributesTestEntity.ATTR_offsetDateTimeValue), FilterOperator.GT, now));
 		list = repo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		testEntity = list.get(0);
-		Assert.assertEquals(2L, testEntity.getId().longValue());
+		Assertions.assertEquals(2L, testEntity.getId().longValue());
 	}
 }

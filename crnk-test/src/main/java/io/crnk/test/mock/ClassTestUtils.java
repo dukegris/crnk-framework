@@ -1,6 +1,6 @@
 package io.crnk.test.mock;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
@@ -9,13 +9,13 @@ public class ClassTestUtils {
 
 	public static void assertPrivateConstructor(Class<?> clazz) {
 		Constructor[] constructors = clazz.getDeclaredConstructors();
-		Assert.assertEquals(1, constructors.length);
-		Assert.assertTrue(Modifier.isPrivate(constructors[0].getModifiers()));
+		Assertions.assertEquals(1, constructors.length);
+		Assertions.assertTrue(Modifier.isPrivate(constructors[0].getModifiers()));
 
 		// ensure coverage
 		try {
 			constructors[0].setAccessible(true);
-			Assert.assertNotNull(constructors[0].newInstance());
+			Assertions.assertNotNull(constructors[0].newInstance());
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}
@@ -27,9 +27,9 @@ public class ClassTestUtils {
 	public static void assertProtectedConstructor(Class<?> clazz) {
 		try {
 			Constructor constructor = clazz.getDeclaredConstructor();
-			Assert.assertTrue(Modifier.isProtected(constructor.getModifiers()));
+			Assertions.assertTrue(Modifier.isProtected(constructor.getModifiers()));
 			constructor.setAccessible(true);
-			Assert.assertNotNull(constructor.newInstance());
+			Assertions.assertNotNull(constructor.newInstance());
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}

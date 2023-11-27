@@ -22,18 +22,18 @@ import io.crnk.test.mock.repository.ScheduleRepository;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -42,7 +42,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 public class RestTemplateClientTest {
@@ -66,7 +66,7 @@ public class RestTemplateClientTest {
 
     private HttpAdapterListener adapterListener;
 
-    @Before
+    @BeforeEach
     public void setupClient() {
         client = new CrnkClient("http://127.0.0.1:" + port);
         client.findModules();
@@ -99,7 +99,7 @@ public class RestTemplateClientTest {
         TestModule.clear();
     }
 
-    @After
+    @AfterEach
     public void tearTown() {
         TestModule.clear();
     }
@@ -114,7 +114,7 @@ public class RestTemplateClientTest {
         // links manipulated by test header sent along by http listener
         JsonLinksInformation links = (JsonLinksInformation) results.getLinks();
         String modifiedUrl = links.as(SelfLinksInformation.class).getSelf().getHref();
-        Assert.assertEquals("Hello", modifiedUrl);
+        Assertions.assertEquals("Hello", modifiedUrl);
     }
 
     @Test
@@ -127,13 +127,13 @@ public class RestTemplateClientTest {
 
         QuerySpec querySpec = new QuerySpec(Schedule.class);
         ScheduleRepository.ScheduleList list = scheduleRepository.findAll(querySpec);
-        Assert.assertEquals(1, list.size());
+        Assertions.assertEquals(1, list.size());
         schedule = list.get(0);
-        Assert.assertNotNull(schedule.getId());
+        Assertions.assertNotNull(schedule.getId());
         ScheduleRepository.ScheduleListMeta meta = list.getMeta();
         ScheduleRepository.ScheduleListLinks links = list.getLinks();
-        Assert.assertNotNull(meta);
-        Assert.assertNotNull(links);
+        Assertions.assertNotNull(meta);
+        Assertions.assertNotNull(links);
     }
 
     @Test
@@ -141,12 +141,14 @@ public class RestTemplateClientTest {
         QuerySpec querySpec = new QuerySpec(Task.class);
         querySpec.addFilter(new FilterSpec(Arrays.asList("name"), FilterOperator.EQ, "doesNotExist"));
         List<Task> tasks = taskRepo.findAll(querySpec);
-        Assert.assertTrue(tasks.isEmpty());
+        Assertions.assertTrue(tasks.isEmpty());
     }
 
-    @Test(expected = ResourceNotFoundException.class)
+    @Test
     public void testFindNull() {
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
         taskRepo.findOne(123422L, new QuerySpec(Task.class));
+		});
     }
 
     @Test
@@ -158,22 +160,22 @@ public class RestTemplateClientTest {
 
         // check retrievable with findAll
         List<Task> tasks = taskRepo.findAll(new QuerySpec(Task.class));
-        Assert.assertEquals(1, tasks.size());
+        Assertions.assertEquals(1, tasks.size());
         Task savedTask = tasks.get(0);
-        Assert.assertEquals(task.getId(), savedTask.getId());
-        Assert.assertEquals(task.getName(), savedTask.getName());
+        Assertions.assertEquals(task.getId(), savedTask.getId());
+        Assertions.assertEquals(task.getName(), savedTask.getName());
 
         // check retrievable with findAll(ids)
         tasks = taskRepo.findAll(Arrays.asList(1L), new QuerySpec(Task.class));
-        Assert.assertEquals(1, tasks.size());
+        Assertions.assertEquals(1, tasks.size());
         savedTask = tasks.get(0);
-        Assert.assertEquals(task.getId(), savedTask.getId());
-        Assert.assertEquals(task.getName(), savedTask.getName());
+        Assertions.assertEquals(task.getId(), savedTask.getId());
+        Assertions.assertEquals(task.getName(), savedTask.getName());
 
         // check retrievable with findOne
         savedTask = taskRepo.findOne(1L, new QuerySpec(Task.class));
-        Assert.assertEquals(task.getId(), savedTask.getId());
-        Assert.assertEquals(task.getName(), savedTask.getName());
+        Assertions.assertEquals(task.getId(), savedTask.getId());
+        Assertions.assertEquals(task.getName(), savedTask.getName());
     }
 
     @Test
@@ -199,7 +201,7 @@ public class RestTemplateClientTest {
         taskRepo.create(task);
 
         Task savedTask = taskRepo.findOne(1L, new QuerySpec(Task.class));
-        Assert.assertNotNull(savedTask);
+        Assertions.assertNotNull(savedTask);
 
         // perform update
         task.setName("updatedName");
@@ -207,8 +209,8 @@ public class RestTemplateClientTest {
 
         // check updated
         savedTask = taskRepo.findOne(1L, new QuerySpec(Task.class));
-        Assert.assertNotNull(savedTask);
-        Assert.assertEquals("updatedName", task.getName());
+        Assertions.assertNotNull(savedTask);
+        Assertions.assertEquals("updatedName", task.getName());
     }
 
     @Test
@@ -221,6 +223,7 @@ public class RestTemplateClientTest {
         taskRepo.delete(1L);
 
         List<Task> tasks = taskRepo.findAll(new QuerySpec(Task.class));
-        Assert.assertEquals(0, tasks.size());
+        Assertions.assertEquals(0, tasks.size());
     }
+
 }

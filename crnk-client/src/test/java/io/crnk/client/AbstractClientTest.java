@@ -19,8 +19,8 @@ import io.crnk.test.mock.repository.TaskRepository;
 import io.crnk.test.mock.repository.TaskToProjectRepository;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class AbstractClientTest extends JerseyTestBase {
 
@@ -28,15 +28,15 @@ public abstract class AbstractClientTest extends JerseyTestBase {
 
 	protected TestApplication testApplication;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		createClient();
 		setupClient(client);
 
 		cleanRepositories();
 
-		Assert.assertNotNull(client.getActionStubFactory());
-		Assert.assertNotNull(client.getModuleRegistry());
+		Assertions.assertNotNull(client.getActionStubFactory());
+		Assertions.assertNotNull(client.getModuleRegistry());
 	}
 
 	protected void createClient() {
@@ -78,12 +78,12 @@ public abstract class AbstractClientTest extends JerseyTestBase {
 	 */
 	protected void assertHasHeaderValue(String name, String value) {
 		MultivaluedMap<String, String> headers = getLastReceivedHeaders();
-		Assert.assertNotNull(headers);
+		Assertions.assertNotNull(headers);
 
 		List<String> values = headers.get(name);
-		Assert.assertNotNull(values);
+		Assertions.assertNotNull(values);
 
-		Assert.assertTrue(values.toString(), values.contains(value));
+		Assertions.assertTrue(values.contains(value), values.toString());
 	}
 
 	/**

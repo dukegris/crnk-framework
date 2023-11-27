@@ -18,9 +18,9 @@ import io.crnk.core.exception.InternalServerErrorException;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.module.SimpleModule;
 import io.crnk.test.mock.models.Task;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class ClientStubBaseTest {
@@ -32,7 +32,7 @@ public class ClientStubBaseTest {
 
 	private ClientStubBase stub;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		client = new CrnkClient("http://x");
 
@@ -53,7 +53,7 @@ public class ClientStubBaseTest {
 		Mockito.when(response.code()).thenReturn(404);
 
 		RuntimeException exception = stub.handleError(null, response);
-		Assert.assertTrue(exception instanceof ResourceNotFoundException);
+		Assertions.assertTrue(exception instanceof ResourceNotFoundException);
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class ClientStubBaseTest {
 		Mockito.when(response.code()).thenReturn(500);
 
 		RuntimeException exception = stub.handleError(null, response);
-		Assert.assertTrue(exception instanceof InternalServerErrorException);
+		Assertions.assertTrue(exception instanceof InternalServerErrorException);
 	}
 
 	@Test
@@ -73,8 +73,8 @@ public class ClientStubBaseTest {
 		Mockito.when(response.code()).thenReturn(599);
 
 		RuntimeException exception = stub.handleError(null, response);
-		Assert.assertTrue(exception instanceof ClientException);
-		Assert.assertTrue(exception.getCause() instanceof IOException);
+		Assertions.assertTrue(exception instanceof ClientException);
+		Assertions.assertTrue(exception.getCause() instanceof IOException);
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class ClientStubBaseTest {
 		Mockito.when(response.code()).thenReturn(500);
 
 		RuntimeException exception = stub.handleError(null, response);
-		Assert.assertTrue(exception instanceof InternalServerErrorException);
+		Assertions.assertTrue(exception instanceof InternalServerErrorException);
 	}
 
 	@Test
@@ -106,8 +106,8 @@ public class ClientStubBaseTest {
 		Mockito.when(response.code()).thenReturn(404);
 
 		RuntimeException exception = stub.handleError(null, response);
-		Assert.assertTrue(exception instanceof ResourceNotFoundException);
-		Assert.assertEquals("detail", exception.getMessage());
+		Assertions.assertTrue(exception instanceof ResourceNotFoundException);
+		Assertions.assertEquals("detail", exception.getMessage());
 	}
 
 	@Test
@@ -123,8 +123,8 @@ public class ClientStubBaseTest {
 		Mockito.when(response.code()).thenReturn(404);
 
 		RuntimeException exception = stub.handleError(null, response);
-		Assert.assertTrue(exception instanceof ResourceNotFoundException);
-		Assert.assertNull(exception.getMessage());
+		Assertions.assertTrue(exception instanceof ResourceNotFoundException);
+		Assertions.assertNull(exception.getMessage());
 	}
 
 

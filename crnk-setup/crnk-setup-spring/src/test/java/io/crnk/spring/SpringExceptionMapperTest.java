@@ -8,16 +8,16 @@ import io.crnk.core.engine.internal.exception.ExceptionMapperRegistry;
 import io.crnk.core.exception.BadRequestException;
 import io.crnk.spring.exception.BeanExceptionMapper;
 import io.crnk.spring.exception.SpringExceptionModule;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanCreationException;
 
 public class SpringExceptionMapperTest {
 
 	private CrnkBoot boot;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		boot = new CrnkBoot();
 		boot.addModule(new SpringExceptionModule());
@@ -31,7 +31,7 @@ public class SpringExceptionMapperTest {
 		BeanExceptionMapper mapper = (BeanExceptionMapper) exceptionMapperRegistry.findMapperFor(BeanCreationException.class).get();
 		ErrorResponse response = mapper.toErrorResponse(exception);
 		ErrorData errorData = response.getErrors().iterator().next();
-		Assert.assertEquals(Integer.toString(HttpStatus.BAD_REQUEST_400), errorData.getStatus());
-		Assert.assertEquals("test", errorData.getDetail());
+		Assertions.assertEquals(Integer.toString(HttpStatus.BAD_REQUEST_400), errorData.getStatus());
+		Assertions.assertEquals("test", errorData.getDetail());
 	}
 }

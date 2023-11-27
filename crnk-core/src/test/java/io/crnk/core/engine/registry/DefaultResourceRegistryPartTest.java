@@ -2,9 +2,9 @@ package io.crnk.core.engine.registry;
 
 import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.engine.information.resource.VersionRange;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -18,7 +18,7 @@ public class DefaultResourceRegistryPartTest {
 
 	private RegistryEntry entry3;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		part = new DefaultResourceRegistryPart();
 
@@ -73,9 +73,9 @@ public class DefaultResourceRegistryPartTest {
 	@Test
 	public void checkLatestVersionComputation() {
 		part.addEntry(entry);
-		Assert.assertEquals(0, part.getLatestVersion());
+		Assertions.assertEquals(0, part.getLatestVersion());
 
 		part.addEntry(entry2);
-		Assert.assertEquals(3, part.getLatestVersion());
+		Assertions.assertEquals(3, part.getLatestVersion());
 	}
 }

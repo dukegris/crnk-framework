@@ -1,7 +1,7 @@
 package io.crnk.core.engine.internal.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class CompareUtilsTest {
 
@@ -12,11 +12,11 @@ public class CompareUtilsTest {
 
 	@Test
 	public void test() {
-		Assert.assertTrue(CompareUtils.isEquals("a", "a"));
-		Assert.assertFalse(CompareUtils.isEquals(null, "a"));
-		Assert.assertFalse(CompareUtils.isEquals("a", null));
-		Assert.assertTrue(CompareUtils.isEquals(null, null));
-		Assert.assertFalse(CompareUtils.isEquals("b", "a"));
+		Assertions.assertTrue(CompareUtils.isEquals("a", "a"));
+		Assertions.assertFalse(CompareUtils.isEquals(null, "a"));
+		Assertions.assertFalse(CompareUtils.isEquals("a", null));
+		Assertions.assertTrue(CompareUtils.isEquals(null, null));
+		Assertions.assertFalse(CompareUtils.isEquals("b", "a"));
 	}
 
 }

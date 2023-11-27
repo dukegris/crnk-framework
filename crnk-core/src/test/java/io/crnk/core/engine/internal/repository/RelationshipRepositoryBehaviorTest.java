@@ -6,15 +6,15 @@ import io.crnk.core.engine.registry.RegistryEntry;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.mock.models.RelationshipBehaviorTestResource;
 import io.crnk.core.repository.foward.ForwardingRelationshipRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RelationshipRepositoryBehaviorTest {
 
     private ResourceRegistry resourceRegistry;
 
-    @Before
+    @BeforeEach
     public void setup() {
         CoreTestContainer container = new CoreTestContainer();
         container.addModule(new CoreTestModule());
@@ -27,7 +27,7 @@ public class RelationshipRepositoryBehaviorTest {
         RegistryEntry entry = resourceRegistry.getEntry(RelationshipBehaviorTestResource.class);
         Object relRepository = entry.getRelationshipRepository("testRelationId")
                 .getImplementation();
-        Assert.assertEquals(ForwardingRelationshipRepository.class, relRepository.getClass());
+        Assertions.assertEquals(ForwardingRelationshipRepository.class, relRepository.getClass());
     }
 
     @Test
@@ -35,7 +35,7 @@ public class RelationshipRepositoryBehaviorTest {
         RegistryEntry entry = resourceRegistry.getEntry(RelationshipBehaviorTestResource.class);
         Object relRepository = entry.getRelationshipRepository("testNoLookup")
                 .getImplementation();
-        Assert.assertEquals(ForwardingRelationshipRepository.class, relRepository.getClass());
+        Assertions.assertEquals(ForwardingRelationshipRepository.class, relRepository.getClass());
     }
 
     @Test
@@ -43,6 +43,6 @@ public class RelationshipRepositoryBehaviorTest {
         RegistryEntry entry = resourceRegistry.getEntry(RelationshipBehaviorTestResource.class);
         Object relRepository = entry.getRelationshipRepository("testImplicityFromOwner")
                 .getImplementation();
-        Assert.assertEquals(ForwardingRelationshipRepository.class, relRepository.getClass());
+        Assertions.assertEquals(ForwardingRelationshipRepository.class, relRepository.getClass());
     }
 }

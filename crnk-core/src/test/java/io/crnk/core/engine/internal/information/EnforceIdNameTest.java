@@ -9,8 +9,8 @@ import io.crnk.core.module.SimpleModule;
 import io.crnk.core.repository.InMemoryResourceRepository;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiResource;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class EnforceIdNameTest {
 
@@ -42,9 +42,9 @@ public class EnforceIdNameTest {
 		RegistryEntry entry = boot.getResourceRegistry().getEntry(RenamedIdResource.class);
 		ResourceField idField = entry.getResourceInformation().getIdField();
 		if (enabled) {
-			Assert.assertEquals("id", idField.getJsonName());
+			Assertions.assertEquals("id", idField.getJsonName());
 		} else {
-			Assert.assertEquals("notId", idField.getJsonName());
+			Assertions.assertEquals("notId", idField.getJsonName());
 		}
 	}
 
