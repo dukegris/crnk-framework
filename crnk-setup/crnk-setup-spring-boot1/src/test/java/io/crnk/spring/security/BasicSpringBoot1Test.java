@@ -83,7 +83,7 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BasicSpringBootApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.error.include-message=always")
 @DirtiesContext
-public class BasicSpringBoot2Test {
+public class BasicSpringBoot1Test {
 
 	@Value("${local.server.port}")
 	private int port;
