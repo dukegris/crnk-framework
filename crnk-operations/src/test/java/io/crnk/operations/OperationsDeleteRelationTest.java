@@ -10,9 +10,9 @@ import io.crnk.operations.client.OperationsCall;
 import io.crnk.operations.client.OperationsClient;
 import io.crnk.operations.model.MovieEntity;
 import io.crnk.operations.model.PersonEntity;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -26,7 +26,7 @@ public class OperationsDeleteRelationTest extends AbstractOperationsTest {
 
 	private OperationsClient operationsClient;
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -63,6 +63,6 @@ public class OperationsDeleteRelationTest extends AbstractOperationsTest {
 		Resource movieResource = call.getResponse(0).getSingleData().get();
 		Relationship directorsRelationship = movieResource.getRelationships().get("directors");
 		List<ResourceIdentifier> directorIds = directorsRelationship.getCollectionData().get();
-		Assert.assertEquals(1, directorIds.size());
+		Assertions.assertEquals(1, directorIds.size());
 	}
 }

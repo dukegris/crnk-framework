@@ -13,18 +13,18 @@ import io.crnk.core.module.ModuleRegistry;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.internal.QuerySpecAdapter;
 import io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapper;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class PagingSpecUrlBuilderTest {
 
     @Mock
@@ -35,7 +35,7 @@ public class PagingSpecUrlBuilderTest {
 
     private ModuleRegistry moduleRegistry;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         when(resourceRegistry.getResourceUrl(any(QueryContext.class), any(ResourceInformation.class), any())).thenReturn("tasks");
         when(resourceRegistry.getEntry(any(Class.class))).thenReturn(mock(RegistryEntry.class));
@@ -58,7 +58,7 @@ public class PagingSpecUrlBuilderTest {
         QuerySpecAdapter adapter = new QuerySpecAdapter(new QuerySpec(Task.class), resourceRegistry, queryContext);
 
         PagingSpecUrlBuilder urlBuilder = new PagingSpecUrlBuilder(moduleRegistry, repositoryRequestSpec);
-        Assert.assertEquals("tasks/relationships/any", urlBuilder.build(adapter));
+        Assertions.assertEquals("tasks/relationships/any", urlBuilder.build(adapter));
     }
 
     @Test
@@ -69,6 +69,6 @@ public class PagingSpecUrlBuilderTest {
         QuerySpecAdapter adapter = new QuerySpecAdapter(new QuerySpec(Task.class), resourceRegistry, queryContext);
 
         PagingSpecUrlBuilder urlBuilder = new PagingSpecUrlBuilder(moduleRegistry, repositoryRequestSpec);
-        Assert.assertEquals("tasks/any", urlBuilder.build(adapter));
+        Assertions.assertEquals("tasks/any", urlBuilder.build(adapter));
     }
 }

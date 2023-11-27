@@ -3,8 +3,8 @@ package io.crnk.gen.openapi.internal;
 import io.crnk.gen.openapi.internal.schemas.Failure;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
@@ -14,13 +14,13 @@ public class OASErrorsTest {
     Map<String, ApiResponse> apiResponseCodes = OASErrors.generateStandardApiErrorResponses();
 
     for (Map.Entry<String, ApiResponse> entry : apiResponseCodes.entrySet()) {
-      Assert.assertTrue(entry.getKey().startsWith("4") || entry.getKey().startsWith("5"));
+      Assertions.assertTrue(entry.getKey().startsWith("4") || entry.getKey().startsWith("5"));
 
       ApiResponse apiResponse = entry.getValue();
-      Assert.assertNotNull(apiResponse.getDescription());
+      Assertions.assertNotNull(apiResponse.getDescription());
 
       Schema schema = apiResponse.getContent().get("application/vnd.api+json").getSchema();
-      Assert.assertEquals(new Failure().$ref(), schema);
+      Assertions.assertEquals(new Failure().$ref(), schema);
     }
   }
 }

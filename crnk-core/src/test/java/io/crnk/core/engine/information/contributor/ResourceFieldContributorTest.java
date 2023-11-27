@@ -31,9 +31,9 @@ import io.crnk.core.repository.RelationshipMatcher;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.annotations.LookupIncludeBehavior;
 import io.crnk.core.resource.annotations.SerializeType;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public class ResourceFieldContributorTest {
         DefaultRegistryEntryBuilder.FAIL_ON_MISSING_REPOSITORY = false;
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         contributedRepository = Mockito.spy(new ContributorRelationshipRepository());
 
@@ -77,9 +77,9 @@ public class ResourceFieldContributorTest {
         RegistryEntry entry = container.getEntry(Task.class);
         ResourceInformation resourceInformation = entry.getResourceInformation();
         ResourceField contributedField = resourceInformation.findFieldByName("contributedProject");
-        Assert.assertNotNull(contributedField);
-        Assert.assertEquals("projects", contributedField.getOppositeResourceType());
-        Assert.assertEquals(SerializeType.LAZY, contributedField.getSerializeType());
+        Assertions.assertNotNull(contributedField);
+        Assertions.assertEquals("projects", contributedField.getOppositeResourceType());
+        Assertions.assertEquals(SerializeType.LAZY, contributedField.getSerializeType());
     }
 
     @Test
@@ -98,22 +98,22 @@ public class ResourceFieldContributorTest {
 
         Document document = response.getDocument();
         Resource resource = document.getCollectionData().get().get(0);
-        Assert.assertEquals("1", resource.getId());
-        Assert.assertEquals("tasks", resource.getType());
-        Assert.assertEquals("someTask", resource.getAttributes().get("name").asText());
+        Assertions.assertEquals("1", resource.getId());
+        Assertions.assertEquals("tasks", resource.getType());
+        Assertions.assertEquals("someTask", resource.getAttributes().get("name").asText());
 
         Relationship relationship = resource.getRelationships().get("contributedProject");
-        Assert.assertNotNull(relationship);
+        Assertions.assertNotNull(relationship);
         ResourceIdentifier relationshipId = relationship.getSingleData().get();
-        Assert.assertEquals("projects", relationshipId.getType());
-        Assert.assertEquals("11", relationshipId.getId());
+        Assertions.assertEquals("projects", relationshipId.getType());
+        Assertions.assertEquals("11", relationshipId.getId());
 
         List<Resource> included = document.getIncluded();
-        Assert.assertEquals(1, included.size());
+        Assertions.assertEquals(1, included.size());
         Resource includedResource = included.get(0);
-        Assert.assertEquals("projects", includedResource.getType());
-        Assert.assertEquals("11", includedResource.getId());
-        Assert.assertEquals("someProject", includedResource.getAttributes().get("name").asText());
+        Assertions.assertEquals("projects", includedResource.getType());
+        Assertions.assertEquals("11", includedResource.getId());
+        Assertions.assertEquals("someProject", includedResource.getAttributes().get("name").asText());
     }
 
 

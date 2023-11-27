@@ -11,8 +11,8 @@ import io.crnk.core.mock.repository.TaskToProjectRepository;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ManyRelationshipRepository;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -107,11 +107,11 @@ public class FieldPostControllerTest extends ControllerTestBase {
 
         Task task = container.getRepository(Task.class).findOne(taskId, new QuerySpec(Task.class));
         Project createdProject = task.getProject();
-        Assert.assertEquals("sample project", createdProject.getName());
+        Assertions.assertEquals("sample project", createdProject.getName());
 
         TaskToProjectRepository taskToProjectRepository = (TaskToProjectRepository) container.getRepository(Task.class, "project");
         Map<Long, Project> relations = taskToProjectRepository.findOneRelations(Arrays.asList(taskId), "project", new QuerySpec(Project.class));
-        Assert.assertEquals(1, relations.size());
+        Assertions.assertEquals(1, relations.size());
         Project project = relations.get(taskId);
         assertThat(project.getId()).isEqualTo(projectId);
     }
@@ -157,6 +157,6 @@ public class FieldPostControllerTest extends ControllerTestBase {
         assertThat(projectId).isNotNull();
 
         Task updatedTask = container.getRepository(Task.class).findOne(taskId, new QuerySpec(Task.class));
-        Assert.assertEquals(1, updatedTask.getProjects().size());
+        Assertions.assertEquals(1, updatedTask.getProjects().size());
     }
 }

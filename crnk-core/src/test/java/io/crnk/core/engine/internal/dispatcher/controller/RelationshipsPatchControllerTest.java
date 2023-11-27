@@ -20,9 +20,9 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,8 +31,8 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class RelationshipsPatchControllerTest extends ControllerTestBase {
 
@@ -40,7 +40,7 @@ public class RelationshipsPatchControllerTest extends ControllerTestBase {
 
     private UserToProjectRepository localUserToProjectRepository;
 
-    @Before
+    @BeforeEach
     public void beforeTest() {
         localUserToProjectRepository = (UserToProjectRepository) container.getRepository(User.class, "assignedProjects");
     }
@@ -133,7 +133,7 @@ public class RelationshipsPatchControllerTest extends ControllerTestBase {
         // THEN
         TaskToProjectRepository taskToProjectRepository = (TaskToProjectRepository) container.getRepository(Task.class, "project");
         Map<Long, Project> map = taskToProjectRepository.findOneRelations(Arrays.asList(taskId), "project", new QuerySpec(Project.class));
-        Assert.assertEquals(1, map.size());
+        Assertions.assertEquals(1, map.size());
         Project project = map.get(taskId);
         assertThat(project.getId()).isEqualTo(projectId);
     }

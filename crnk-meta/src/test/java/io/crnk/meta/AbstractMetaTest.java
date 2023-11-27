@@ -3,7 +3,7 @@ package io.crnk.meta;
 import io.crnk.meta.provider.resource.ResourceMetaProvider;
 import io.crnk.rs.internal.JaxrsModule;
 import io.crnk.test.TestContainer;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class AbstractMetaTest {
 
@@ -14,7 +14,7 @@ public abstract class AbstractMetaTest {
 
 	protected TestContainer container;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		container = new TestContainer();
 		container.getBoot().getCoreModule()

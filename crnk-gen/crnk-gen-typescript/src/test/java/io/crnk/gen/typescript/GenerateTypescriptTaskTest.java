@@ -28,8 +28,8 @@ import io.crnk.test.mock.repository.TaskSubtypeRepository;
 import io.crnk.test.mock.repository.TaskToProjectRepository;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -168,7 +168,7 @@ public class GenerateTypescriptTaskTest {
 		try (InputStream in = new FileInputStream(new File(outputDir, "projects.ts"))) {
 			String actualSource = IOUtils
 					.toString(in, utf8);
-			Assert.assertTrue(actualSource.contains(" from './types/project.data'"));
+			Assertions.assertTrue(actualSource.contains(" from './types/project.data'"));
 		}
 	}
 
@@ -210,18 +210,18 @@ public class GenerateTypescriptTaskTest {
 		String[] expectedLines = org.apache.commons.lang3.StringUtils.split(expectedSource, '\n');
 		String[] actualLines = org.apache.commons.lang3.StringUtils.split(actualSource, '\n');
 		for (int i = 0; i < expectedLines.length; i++) {
-			Assert.assertEquals("line: " + i + ", " + expectedLines[i], expectedLines[i], actualLines[i]);
+			Assertions.assertEquals("line: " + i + ", " + expectedLines[i], expectedLines[i], actualLines[i]);
 		}
-		Assert.assertEquals(expectedLines.length, actualLines.length);
+		Assertions.assertEquals(expectedLines.length, actualLines.length);
 	}
 
 	private void assertExists(String path) {
 		File file = new File(outputDir, path);
-		Assert.assertTrue(file.getAbsolutePath(), file.exists());
+		Assertions.assertTrue(file.exists(), file.getAbsolutePath());
 	}
 
 	private void assertNotExists(String path) {
 		File file = new File(outputDir, path);
-		Assert.assertFalse(file.getAbsolutePath(), file.exists());
+		Assertions.assertFalse(file.exists(), file.getAbsolutePath());
 	}
 }

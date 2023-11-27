@@ -33,15 +33,15 @@ import io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapper;
 import io.crnk.core.queryspec.pagingspec.OffsetLimitPagingBehavior;
 import io.crnk.core.repository.decorate.RepositoryDecoratorFactory;
 import io.crnk.core.repository.response.JsonApiResponse;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Properties;
 
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 
 public class CrnkBootTest {
@@ -50,7 +50,7 @@ public class CrnkBootTest {
 
     private ServiceDiscovery serviceDiscovery;
 
-    @Before
+    @BeforeEach
     public void setup() {
         serviceDiscoveryFactory = mock(ServiceDiscoveryFactory.class);
         serviceDiscovery = mock(ServiceDiscovery.class);
@@ -62,14 +62,16 @@ public class CrnkBootTest {
         CrnkBoot boot = new CrnkBoot();
         ObjectMapper mapper = new ObjectMapper();
         boot.setObjectMapper(mapper);
-        Assert.assertSame(mapper, boot.getObjectMapper());
+        Assertions.assertSame(mapper, boot.getObjectMapper());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void checkCannotBootTwice() {
-        CrnkBoot boot = new CrnkBoot();
-        boot.boot();
-        boot.boot();
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+	        CrnkBoot boot = new CrnkBoot();
+	        boot.boot();
+	        boot.boot();
+		});
     }
 
     @Test
@@ -83,7 +85,7 @@ public class CrnkBootTest {
         CrnkBoot boot = new CrnkBoot();
         ServiceDiscovery serviceDiscovery = mock(ServiceDiscovery.class);
         boot.setServiceDiscovery(serviceDiscovery);
-        Assert.assertSame(serviceDiscovery, boot.getServiceDiscovery());
+        Assertions.assertSame(serviceDiscovery, boot.getServiceDiscovery());
     }
 
     @Test
@@ -93,7 +95,7 @@ public class CrnkBootTest {
         boot.setServiceUrlProvider(mock(ServiceUrlProvider.class));
         boot.boot();
         Mockito.verify(serviceDiscoveryFactory, Mockito.times(1)).getInstance();
-        Assert.assertNotNull(boot.getServiceDiscovery());
+        Assertions.assertNotNull(boot.getServiceDiscovery());
     }
 
     @Test
@@ -102,7 +104,7 @@ public class CrnkBootTest {
         boot.setServiceDiscoveryFactory(serviceDiscoveryFactory);
         boot.setServiceUrlProvider(mock(ServiceUrlProvider.class));
         boot.boot();
-        Assert.assertNotNull(boot.getPropertiesProvider());
+        Assertions.assertNotNull(boot.getPropertiesProvider());
     }
 
     @Test
@@ -142,13 +144,13 @@ public class CrnkBootTest {
         boot.boot();
 
         ModuleRegistry moduleRegistry = boot.getModuleRegistry();
-        Assert.assertTrue(moduleRegistry.getModules().contains(module));
-        Assert.assertTrue(moduleRegistry.getFilters().contains(filter));
-        Assert.assertTrue(moduleRegistry.getResourceFieldContributors().contains(resourceFieldContributor));
-        Assert.assertEquals(2, moduleRegistry.getHttpStatusProviders().size());
-        Assert.assertTrue(moduleRegistry.getRepositoryDecoratorFactories().contains(decoratorFactory));
-        Assert.assertTrue(moduleRegistry.getExceptionMapperLookup().getExceptionMappers().contains(exceptionMapper));
-        Assert.assertTrue(moduleRegistry.getSecurityProviders().contains(securityProvider));
+        Assertions.assertTrue(moduleRegistry.getModules().contains(module));
+        Assertions.assertTrue(moduleRegistry.getFilters().contains(filter));
+        Assertions.assertTrue(moduleRegistry.getResourceFieldContributors().contains(resourceFieldContributor));
+        Assertions.assertEquals(2, moduleRegistry.getHttpStatusProviders().size());
+        Assertions.assertTrue(moduleRegistry.getRepositoryDecoratorFactories().contains(decoratorFactory));
+        Assertions.assertTrue(moduleRegistry.getExceptionMapperLookup().getExceptionMappers().contains(exceptionMapper));
+        Assertions.assertTrue(moduleRegistry.getSecurityProviders().contains(securityProvider));
     }
 
     class TestExceptionMapper implements ExceptionMapper<IllegalStateException> {
@@ -176,7 +178,7 @@ public class CrnkBootTest {
         ServiceUrlProvider serviceUrlProvider = mock(ServiceUrlProvider.class);
         boot.setServiceUrlProvider(serviceUrlProvider);
         boot.boot();
-        Assert.assertEquals(serviceUrlProvider, boot.getServiceUrlProvider());
+        Assertions.assertEquals(serviceUrlProvider, boot.getServiceUrlProvider());
     }
 
     @Test
@@ -186,7 +188,7 @@ public class CrnkBootTest {
         boot.boot();
 
         DefaultQuerySpecUrlMapper urlMapper = (DefaultQuerySpecUrlMapper) boot.getUrlMapper();
-        Assert.assertTrue(urlMapper.getAllowUnknownAttributes());
+        Assertions.assertTrue(urlMapper.getAllowUnknownAttributes());
     }
 
     @Test
@@ -196,7 +198,7 @@ public class CrnkBootTest {
         boot.boot();
 
         DefaultQuerySpecUrlMapper urlMapper = (DefaultQuerySpecUrlMapper) boot.getUrlMapper();
-        Assert.assertTrue(urlMapper.getAllowUnknownParameters());
+        Assertions.assertTrue(urlMapper.getAllowUnknownParameters());
     }
 
 
@@ -217,16 +219,18 @@ public class CrnkBootTest {
         boot.boot();
 
         ServiceUrlProvider serviceUrlProvider = boot.getServiceUrlProvider();
-        Assert.assertTrue(serviceUrlProvider instanceof ConstantServiceUrlProvider);
-        Assert.assertEquals("http://something", serviceUrlProvider.getUrl());
+        Assertions.assertTrue(serviceUrlProvider instanceof ConstantServiceUrlProvider);
+        Assertions.assertEquals("http://something", serviceUrlProvider.getUrl());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testReconfigurationProtection() {
-        CrnkBoot boot = new CrnkBoot();
-        boot.setServiceDiscoveryFactory(serviceDiscoveryFactory);
-        boot.boot();
-        boot.setObjectMapper(null);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+	        CrnkBoot boot = new CrnkBoot();
+	        boot.setServiceDiscoveryFactory(serviceDiscoveryFactory);
+	        boot.boot();
+	        boot.setObjectMapper(null);
+		});
     }
 
     @Test
@@ -245,22 +249,22 @@ public class CrnkBootTest {
         ResourceRegistry resourceRegistry = boot.getResourceRegistry();
         RegistryEntry taskEntry = resourceRegistry.getEntry(Task.class);
         ResourceRepositoryAdapter repositoryAdapter = taskEntry.getResourceRepository();
-        Assert.assertNotNull(repositoryAdapter.getImplementation());
+        Assertions.assertNotNull(repositoryAdapter.getImplementation());
         JsonApiResponse response = repositoryAdapter.findAll(new QuerySpecAdapter(new QuerySpec(Task.class), resourceRegistry, queryContext)).get();
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
 
-        Assert.assertNotNull(requestDispatcher);
+        Assertions.assertNotNull(requestDispatcher);
 
         ServiceDiscovery serviceDiscovery = boot.getServiceDiscovery();
-        Assert.assertNotNull(serviceDiscovery);
-        Assert.assertNotNull(boot.getModuleRegistry());
-        Assert.assertNotNull(boot.getExceptionMapperRegistry());
+        Assertions.assertNotNull(serviceDiscovery);
+        Assertions.assertNotNull(boot.getModuleRegistry());
+        Assertions.assertNotNull(boot.getExceptionMapperRegistry());
 
         boot.setDefaultPageLimit(20L);
         boot.setMaxPageLimit(100L);
 
-        Assert.assertEquals(1, boot.getPagingBehaviors().size());
-        Assert.assertTrue(boot.getPagingBehaviors().get(0) instanceof OffsetLimitPagingBehavior);
+        Assertions.assertEquals(1, boot.getPagingBehaviors().size());
+        Assertions.assertTrue(boot.getPagingBehaviors().get(0) instanceof OffsetLimitPagingBehavior);
     }
 
     @Test
@@ -278,9 +282,9 @@ public class CrnkBootTest {
         JsonApiResponse response = new JsonApiResponse();
         Result<Document> document = documentMapper.toDocument(response, querySpecAdapter, mappingConfig);
         ObjectNode jsonapi = document.get().getJsonapi();
-        Assert.assertNotNull(jsonapi);
-        Assert.assertNotNull(jsonapi.get("a"));
-        Assert.assertEquals("b", jsonapi.get("a").asText());
+        Assertions.assertNotNull(jsonapi);
+        Assertions.assertNotNull(jsonapi.get("a"));
+        Assertions.assertEquals("b", jsonapi.get("a").asText());
     }
 
     @Test
@@ -297,6 +301,6 @@ public class CrnkBootTest {
         JsonApiResponse response = new JsonApiResponse();
         Result<Document> document = documentMapper.toDocument(response, querySpecAdapter, mappingConfig);
         ObjectNode jsonapi = document.get().getJsonapi();
-        Assert.assertNull(jsonapi);
+        Assertions.assertNull(jsonapi);
     }
 }

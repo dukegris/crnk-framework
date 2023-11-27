@@ -11,9 +11,9 @@ import io.crnk.core.engine.internal.dispatcher.controller.ControllerContext;
 import io.crnk.core.engine.registry.RegistryEntry;
 import io.crnk.test.mock.TestModule;
 import io.crnk.test.mock.models.Task;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class ClientResourceUpsertTest {
 
 	private CrnkBoot boot;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		boot = new CrnkBoot();
 		boot.addModule(new TestModule());
@@ -46,33 +46,41 @@ public class ClientResourceUpsertTest {
 		Mockito.when(resourceInformation.toIdString(Mockito.eq(id))).thenReturn("someId");
 		Mockito.when(entry.getResourceInformation()).thenReturn(resourceInformation);
 		String uid = upsert.getUID(entry, id);
-		Assert.assertEquals("someType#someId", uid);
+		Assertions.assertEquals("someType#someId", uid);
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void testAcceptableNotSupported() {
-		upsert.isAcceptable(null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			upsert.isAcceptable(null, null);
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void handleNotSupported() {
-		upsert.handle(null, null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			upsert.handle(null, null, null);
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void testMethodNotSupported() {
-		upsert.getHttpMethod();
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			upsert.getHttpMethod();
+		});
 	}
 
-	@Test(expected = ResponseBodyException.class)
+	@Test
 	public void setInvalidMetaThrowsException() throws IOException {
-		Resource resource = new Resource();
-		JsonNode invalidMeta = boot.getObjectMapper().reader().readTree("{\"invalidAttr\": 1}");
-		resource.setMeta((ObjectNode) invalidMeta);
-
-		Task task = new Task();
-		ResourceInformation resourceInformation = boot.getResourceRegistry().getEntry(Task.class).getResourceInformation();
-		upsert.setMeta(resource, task, resourceInformation);
+		Assertions.assertThrows(ResponseBodyException.class, () -> {
+			Resource resource = new Resource();
+			JsonNode invalidMeta = boot.getObjectMapper().reader().readTree("{\"invalidAttr\": 1}");
+			resource.setMeta((ObjectNode) invalidMeta);
+	
+			Task task = new Task();
+			ResourceInformation resourceInformation = boot.getResourceRegistry().getEntry(Task.class).getResourceInformation();
+			upsert.setMeta(resource, task, resourceInformation);
+		});
 	}
 
 	@Test
@@ -84,18 +92,20 @@ public class ClientResourceUpsertTest {
 		Task task = new Task();
 		ResourceInformation resourceInformation = boot.getResourceRegistry().getEntry(Task.class).getResourceInformation();
 		upsert.setMeta(resource, task, resourceInformation);
-		Assert.assertEquals("metaValue", task.getMetaInformation().value);
+		Assertions.assertEquals("metaValue", task.getMetaInformation().value);
 	}
 
-	@Test(expected = ResponseBodyException.class)
+	@Test
 	public void setInvalidLinksThrowsException() throws IOException {
-		Resource resource = new Resource();
-		JsonNode invalidLinks = boot.getObjectMapper().reader().readTree("{\"invalidAttr\": 1}");
-		resource.setLinks((ObjectNode) invalidLinks);
-
-		Task task = new Task();
-		ResourceInformation resourceInformation = boot.getResourceRegistry().getEntry(Task.class).getResourceInformation();
-		upsert.setLinks(resource, task, resourceInformation);
+		Assertions.assertThrows(ResponseBodyException.class, () -> {
+			Resource resource = new Resource();
+			JsonNode invalidLinks = boot.getObjectMapper().reader().readTree("{\"invalidAttr\": 1}");
+			resource.setLinks((ObjectNode) invalidLinks);
+	
+			Task task = new Task();
+			ResourceInformation resourceInformation = boot.getResourceRegistry().getEntry(Task.class).getResourceInformation();
+			upsert.setLinks(resource, task, resourceInformation);
+		});
 	}
 
 	@Test
@@ -107,6 +117,6 @@ public class ClientResourceUpsertTest {
 		Task task = new Task();
 		ResourceInformation resourceInformation = boot.getResourceRegistry().getEntry(Task.class).getResourceInformation();
 		upsert.setLinks(resource, task, resourceInformation);
-		Assert.assertEquals("linksValue", task.getLinksInformation().value.getHref());
+		Assertions.assertEquals("linksValue", task.getLinksInformation().value.getHref());
 	}
 }

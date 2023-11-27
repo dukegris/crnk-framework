@@ -15,8 +15,8 @@ import io.crnk.core.repository.ManyRelationshipRepository;
 import io.crnk.core.resource.annotations.SerializeType;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,7 +41,7 @@ public class CollectionGetControllerTest extends ControllerTestBase {
         boolean result = sut.isAcceptable(jsonPath, REQUEST_TYPE);
 
         // THEN
-        Assert.assertEquals(result, true);
+        Assertions.assertEquals(result, true);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class CollectionGetControllerTest extends ControllerTestBase {
         boolean result = sut.isAcceptable(jsonPath, REQUEST_TYPE);
 
         // THEN
-        Assert.assertEquals(result, false);
+        Assertions.assertEquals(result, false);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class CollectionGetControllerTest extends ControllerTestBase {
         Response response = sut.handle(jsonPath, emptyTaskQuery, null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class CollectionGetControllerTest extends ControllerTestBase {
         Response response = sut.handle(jsonPath, emptyTaskQuery, null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
     }
 
     @Test
@@ -168,7 +168,7 @@ public class CollectionGetControllerTest extends ControllerTestBase {
         // THEN
         ManyRelationshipRepository taskToProjectRepository = (ManyRelationshipRepository) container.getRepository(Task.class, "includedProjects");
         Map<Long, List<Project>> map = taskToProjectRepository.findManyRelations(Arrays.asList(taskId), "includedProjects", new QuerySpec(Project.class));
-        Assert.assertEquals(1, map.size());
+        Assertions.assertEquals(1, map.size());
         List<Project> projects = map.get(taskId);
         assertThat(projects.get(0).getId()).isEqualTo(projectId);
 
@@ -184,7 +184,7 @@ public class CollectionGetControllerTest extends ControllerTestBase {
                 container.toQueryAdapter(queryParams1), null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         data = response.getDocument().getSingleData().get();
         assertThat(data.getType()).isEqualTo("tasks");
         Relationship relationship = data.getRelationships().get("includedProjects");
@@ -254,9 +254,9 @@ public class CollectionGetControllerTest extends ControllerTestBase {
         // THEN
         ManyRelationshipRepository taskToProjectRepository = (ManyRelationshipRepository) container.getRepository(Task.class, "projects");
         Map<Long, ResourceList<Project>> map = taskToProjectRepository.findManyRelations(Arrays.asList(taskId), "projects", new QuerySpec(Project.class));
-        Assert.assertEquals(1, map.size());
+        Assertions.assertEquals(1, map.size());
         ResourceList<Project> projects = map.get(taskId);
-        Assert.assertEquals(1, projects.size());
+        Assertions.assertEquals(1, projects.size());
         assertThat(projects.get(0).getId()).isNotNull();
 
         // Given
@@ -271,13 +271,13 @@ public class CollectionGetControllerTest extends ControllerTestBase {
                 container.toQueryAdapter(requestParams), null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getDocument().getSingleData().get().getType()).isEqualTo("tasks");
 
         // eager loading but no inclusion
         RegistryEntry entry = resourceRegistry.getEntry(Task.class);
         ResourceField projectsField = entry.getResourceInformation().findFieldByUnderlyingName("projects");
-        Assert.assertEquals(SerializeType.ONLY_ID, projectsField.getSerializeType());
+        Assertions.assertEquals(SerializeType.ONLY_ID, projectsField.getSerializeType());
         assertThat(response.getDocument().getSingleData().get().getRelationships().get("projects").getData().isPresent())
                 .isTrue();
     }

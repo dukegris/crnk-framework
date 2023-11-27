@@ -1,6 +1,5 @@
 package io.crnk.servlet.reactive;
 
-
 import io.crnk.client.ClientException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
@@ -10,19 +9,19 @@ import io.crnk.servlet.reactive.model.SlowResourceRepository;
 import io.crnk.servlet.reactive.model.SlowTask;
 import io.crnk.servlet.resource.ReactiveServletTestApplication;
 import io.crnk.servlet.resource.ReactiveServletTestContainer;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.concurrent.TimeoutException;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ReactiveServletTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 public class AsyncServletTimeoutTest {
@@ -45,7 +44,7 @@ public class AsyncServletTimeoutTest {
 		ResourceRepository<SlowTask, Serializable> repository = testContainer.getRepositoryForType(SlowTask.class);
 		QuerySpec querySpec = new QuerySpec(SlowTask.class);
 		ResourceList<SlowTask> list = repository.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 	}
 
 	@Test
@@ -57,9 +56,9 @@ public class AsyncServletTimeoutTest {
 		QuerySpec querySpec = new QuerySpec(SlowTask.class);
 		try {
 			repository.findAll(querySpec);
-			Assert.fail();
+			Assertions.fail();
 		} catch (ClientException e) {
-			Assert.assertTrue(e.getCause() instanceof TimeoutException);
+			Assertions.assertTrue(e.getCause() instanceof TimeoutException);
 		}
 	}
 }

@@ -101,6 +101,8 @@ public class ResourceFieldAccess {
         result = prime * result + (postable ? 1231 : 1237);
         result = prime * result + (sortable ? 1231 : 1237);
         result = prime * result + (filterable ? 1231 : 1237);
+        // RCS Al hahaber deprecado el código no se ha actualizado el hash con delteable
+        result = prime * result + (deletable ? 1231 : 1237);
         return result;
     }
 
@@ -113,8 +115,10 @@ public class ResourceFieldAccess {
             return false;
         }
         ResourceFieldAccess other = (ResourceFieldAccess) obj;
-        return readable == other.readable && patchable == other.patchable && postable == other.postable && sortable == other.sortable
-                && filterable == other.filterable;
+        // RCS Al hahaber deprecado el código no se ha actualizado el hash con delteable
+        // return readable == other.readable && patchable == other.patchable && postable == other.postable && sortable == other.sortable && filterable == other.filterable;
+        return readable == other.readable && patchable == other.patchable && postable == other.postable && sortable == other.sortable && filterable == other.filterable
+        		&& deletable == other.deletable;
     }
 
     public boolean allows(HttpMethod method) {

@@ -16,9 +16,9 @@ import io.crnk.test.mock.models.Project;
 import io.crnk.test.mock.models.Schedule;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.BulkInMemoryRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class OperationsDeleteTest extends AbstractOperationsTest {
   private BulkInMemoryRepository bulkRepository;
 
 
-  @Before
+  @BeforeEach
   @Override
   public void setUp() throws Exception {
     super.setUp();
@@ -79,12 +79,12 @@ public class OperationsDeleteTest extends AbstractOperationsTest {
 
     QuerySpec querySpec = new QuerySpec(PersonEntity.class);
     ResourceList<PersonEntity> persons = personRepo.findAll(querySpec);
-    Assert.assertEquals(0, persons.size());
+    Assertions.assertEquals(0, persons.size());
 
     querySpec = new QuerySpec(MovieEntity.class);
     querySpec.includeRelation(Arrays.asList("directors"));
     ResourceList<MovieEntity> movies = movieRepo.findAll(querySpec);
-    Assert.assertEquals(0, movies.size());
+    Assertions.assertEquals(0, movies.size());
   }
 
   @Test
@@ -102,7 +102,7 @@ public class OperationsDeleteTest extends AbstractOperationsTest {
 
     QuerySpec querySpecBeforeDelete = new QuerySpec(PersonEntity.class);
     ResourceList<PersonEntity> personsBeforeDelete = personRepo.findAll(querySpecBeforeDelete);
-    Assert.assertEquals(2, personsBeforeDelete.size());
+    Assertions.assertEquals(2, personsBeforeDelete.size());
 
     call = operationsClient.createCall();
     call.add(HttpMethod.DELETE, "person/" + person1.getId());
@@ -111,7 +111,7 @@ public class OperationsDeleteTest extends AbstractOperationsTest {
 
     QuerySpec querySpecAfterDelete = new QuerySpec(PersonEntity.class);
     ResourceList<PersonEntity> personsAfterDelete = personRepo.findAll(querySpecAfterDelete);
-    Assert.assertEquals(0, personsAfterDelete.size());
+    Assertions.assertEquals(0, personsAfterDelete.size());
   }
 
   @Test
@@ -130,11 +130,11 @@ public class OperationsDeleteTest extends AbstractOperationsTest {
     call.add(HttpMethod.DELETE, task2);
     call.execute();
 
-    Assert.assertEquals(HttpStatus.NO_CONTENT_204, call.getResponse(0).getStatus());
+    Assertions.assertEquals(HttpStatus.NO_CONTENT_204, call.getResponse(0).getStatus());
 
     QuerySpec querySpec = new QuerySpec(Task.class);
     ResourceList<Task> tasks = bulkRepository.findAll(querySpec);
-    Assert.assertEquals(0, tasks.size());
+    Assertions.assertEquals(0, tasks.size());
     Mockito.verify(bulkRepository, Mockito.times(1)).delete(Arrays.asList(task1.getId(), task2.getId()));
   }
 }

@@ -1,13 +1,13 @@
 package io.crnk.rs;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.UriInfo;
 import java.io.IOException;
 
 public class CrnkFilterTest {
@@ -22,9 +22,9 @@ public class CrnkFilterTest {
 		Mockito.when(requestContext.getUriInfo()).thenThrow(new RuntimeException("test"));
 		try {
 			filter.filter(requestContext);
-			Assert.fail();
+			Assertions.fail();
 		} catch (WebApplicationException e) {
-			Assert.assertEquals("test", e.getCause().getMessage());
+			Assertions.assertEquals("test", e.getCause().getMessage());
 		}
 	}
 
@@ -37,10 +37,10 @@ public class CrnkFilterTest {
 		Mockito.when(requestContext.getUriInfo()).thenThrow(new WebApplicationException("test"));
 		try {
 			filter.filter(requestContext);
-			Assert.fail();
+			Assertions.fail();
 		} catch (WebApplicationException e) {
-			Assert.assertEquals("test", e.getMessage());
-			Assert.assertNull(e.getCause());
+			Assertions.assertEquals("test", e.getMessage());
+			Assertions.assertNull(e.getCause());
 		}
 	}
 
@@ -59,9 +59,9 @@ public class CrnkFilterTest {
 		Mockito.when(requestContext.getUriInfo()).thenReturn(uriInfo);
 		try {
 			filter.filter(requestContext);
-			Assert.fail();
+			Assertions.fail();
 		} catch (WebApplicationException e) {
-			Assert.assertEquals("test", e.getMessage());
+			Assertions.assertEquals("test", e.getMessage());
 		}
 	}
 
@@ -80,9 +80,9 @@ public class CrnkFilterTest {
 		Mockito.when(requestContext.getUriInfo()).thenReturn(uriInfo);
 		try {
 			filter.filter(requestContext);
-			Assert.fail();
+			Assertions.fail();
 		} catch (WebApplicationException e) {
-			Assert.assertEquals("test", e.getMessage());
+			Assertions.assertEquals("test", e.getMessage());
 		}
 	}
 
@@ -102,7 +102,7 @@ public class CrnkFilterTest {
 		try {
 			filter.filter(requestContext);
 		} catch (WebApplicationException e) {
-			Assert.fail();
+			Assertions.fail();
 		}
 	}
 }

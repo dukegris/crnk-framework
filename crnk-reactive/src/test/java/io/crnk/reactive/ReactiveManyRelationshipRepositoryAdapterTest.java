@@ -9,9 +9,9 @@ import io.crnk.core.repository.response.JsonApiResponse;
 import io.crnk.reactive.internal.adapter.ReactiveManyRelationshipRepositoryAdapter;
 import io.crnk.reactive.model.ReactiveProject;
 import io.crnk.reactive.model.ReactiveTask;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class ReactiveManyRelationshipRepositoryAdapterTest extends ReactiveTestB
 
 	private ReactiveManyRelationshipRepositoryAdapter adapter;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -43,8 +43,8 @@ public class ReactiveManyRelationshipRepositoryAdapterTest extends ReactiveTestB
 		adapter.setRelations(project, Arrays.asList(task.getId()), adapter.getResourceField(), queryAdapter).get();
 
 		MultivaluedMap<Long, Long> relationMap = projectToTasks.getRelationMap();
-		Assert.assertEquals(1, relationMap.keySet().size());
-		Assert.assertEquals(Arrays.asList(Long.valueOf(task.getId())), relationMap.getList(Long.valueOf(project.getId())));
+		Assertions.assertEquals(1, relationMap.keySet().size());
+		Assertions.assertEquals(Arrays.asList(Long.valueOf(task.getId())), relationMap.getList(Long.valueOf(project.getId())));
 	}
 
 	@Test
@@ -59,8 +59,8 @@ public class ReactiveManyRelationshipRepositoryAdapterTest extends ReactiveTestB
 		adapter.removeRelations(project, Arrays.asList(task2.getId()), adapter.getResourceField(), queryAdapter).get();
 
 		MultivaluedMap<Long, Long> relationMap = projectToTasks.getRelationMap();
-		Assert.assertEquals(1, relationMap.keySet().size());
-		Assert.assertEquals(Arrays.asList(task1.getId(), task3.getId()), relationMap.getList(Long.valueOf(project.getId())));
+		Assertions.assertEquals(1, relationMap.keySet().size());
+		Assertions.assertEquals(Arrays.asList(task1.getId(), task3.getId()), relationMap.getList(Long.valueOf(project.getId())));
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class ReactiveManyRelationshipRepositoryAdapterTest extends ReactiveTestB
 		projectToTasks.getRelationMap().addAll(1L, Arrays.asList(2L, 3L));
 
 		JsonApiResponse response = adapter.findManyRelations(1L, adapter.getResourceField(), queryAdapter).get();
-		Assert.assertEquals(Arrays.asList(task2, task3), response.getEntity());
+		Assertions.assertEquals(Arrays.asList(task2, task3), response.getEntity());
 	}
 
 	@Test
@@ -84,25 +84,31 @@ public class ReactiveManyRelationshipRepositoryAdapterTest extends ReactiveTestB
 		projectToTasks.getRelationMap().addAll(1L, Arrays.asList(2L, 3L));
 
 		Map<Object, JsonApiResponse> responses = adapter.findBulkManyTargets(Arrays.asList(1L), adapter.getResourceField(), queryAdapter).get();
-		Assert.assertEquals(1, responses.keySet().size());
-		Assert.assertEquals(Arrays.asList(task2, task3), responses.get(1L).getEntity());
+		Assertions.assertEquals(1, responses.keySet().size());
+		Assertions.assertEquals(Arrays.asList(task2, task3), responses.get(1L).getEntity());
 	}
 
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void setRelation() {
-		adapter.setRelation(null, null, null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			adapter.setRelation(null, null, null, null);
+		});
 	}
 
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void findOneTarget() {
-		adapter.findOneRelations(null, null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			adapter.findOneRelations(null, null, null);
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void findBulkOneTargets() {
-		adapter.findBulkOneTargets(null, null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			adapter.findBulkOneTargets(null, null, null);
+		});
 	}
 
 }

@@ -1,5 +1,7 @@
 package io.crnk.security;
 
+// RCS Inutil y complica la compilación
+// import io.crnk.client.AbstractClientTest.TestApplication;
 import io.crnk.client.CrnkClient;
 import io.crnk.client.http.okhttp.OkHttpAdapter;
 import io.crnk.client.http.okhttp.OkHttpAdapterListenerBase;
@@ -33,14 +35,14 @@ import org.glassfish.jersey.test.DeploymentContext;
 import org.glassfish.jersey.test.spi.TestContainer;
 import org.glassfish.jersey.test.spi.TestContainerException;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
@@ -105,13 +107,13 @@ public class SecurityModuleIntTest extends JerseyTestBase {
         };
     }
 
-    @After
-    @Before
+    @AfterEach
+    @BeforeEach
     public void cleanup() {
         module.setEnabled(true);
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         identityManager.clear();
 
@@ -149,7 +151,7 @@ public class SecurityModuleIntTest extends JerseyTestBase {
         ResourceList<Project> list = projectRepo.findAll(new QuerySpec(Project.class));
         ResourcePermissionInformation metaInformation = list.getMeta(ResourcePermissionInformationImpl.class);
         ResourcePermission resourcePermission = metaInformation.getResourcePermission();
-        Assert.assertEquals(ResourcePermission.ALL, resourcePermission);
+        Assertions.assertEquals(ResourcePermission.ALL, resourcePermission);
     }
 
     @Test
@@ -159,7 +161,7 @@ public class SecurityModuleIntTest extends JerseyTestBase {
         ResourceList<Project> list = projectRepo.findAll(new QuerySpec(Project.class));
         ResourcePermissionInformation metaInformation = list.getMeta(ResourcePermissionInformationImpl.class);
         ResourcePermission resourcePermission = metaInformation.getResourcePermission();
-        Assert.assertEquals(ResourcePermission.GET.or(ResourcePermission.POST), resourcePermission);
+        Assertions.assertEquals(ResourcePermission.GET.or(ResourcePermission.POST), resourcePermission);
     }
 
     @Test
@@ -175,30 +177,33 @@ public class SecurityModuleIntTest extends JerseyTestBase {
         projectRepo.save(project);
 
         project = projectRepo.findOne(project.getId(), new QuerySpec(Project.class));
-        Assert.assertNotNull(project);
+        Assertions.assertNotNull(project);
 
         projectRepo.delete(project.getId());
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void forbiddenPost() {
-        identityManager.addUser("doe", "doePass", "getRole");
+		Assertions.assertThrows(ForbiddenException.class, () -> {
+            identityManager.addUser("doe", "doePass", "getRole");
 
-        Task task = new Task();
-        task.setId(1L);
-        task.setName("test");
-        taskRepo.create(task);
+            Task task = new Task();
+            task.setId(1L);
+            task.setName("test");
+            taskRepo.create(task);
+        });
     }
 
-
-    @Test(expected = UnauthorizedException.class)
+    @Test
     public void unauthorizedPost() {
-        userName = null; // do not authenticate
+		Assertions.assertThrows(UnauthorizedException.class, () -> {
+            userName = null; // do not authenticate
 
-        Task task = new Task();
-        task.setId(1L);
-        task.setName("test");
-        taskRepo.create(task);
+            Task task = new Task();
+            task.setId(1L);
+            task.setName("test");
+            taskRepo.create(task);
+        });
     }
 
     @Test
@@ -206,19 +211,21 @@ public class SecurityModuleIntTest extends JerseyTestBase {
         module.setEnabled(false);
 
         QueryContext queryContext = Mockito.mock(QueryContext.class);
-        Assert.assertEquals(ResourcePermission.ALL, module.getCallerPermissions(queryContext,"projects"));
-        Assert.assertEquals(ResourcePermission.ALL, module.getCallerPermissions(queryContext, "tasks"));
-        Assert.assertTrue(module.isAllowed(queryContext, Project.class, ResourcePermission.ALL));
-        Assert.assertTrue(module.isAllowed(queryContext, Task.class, ResourcePermission.ALL));
-        Assert.assertEquals(ResourcePermission.ALL, module.getResourcePermission(queryContext, Task.class));
+        Assertions.assertEquals(ResourcePermission.ALL, module.getCallerPermissions(queryContext,"projects"));
+        Assertions.assertEquals(ResourcePermission.ALL, module.getCallerPermissions(queryContext, "tasks"));
+        Assertions.assertTrue(module.isAllowed(queryContext, Project.class, ResourcePermission.ALL));
+        Assertions.assertTrue(module.isAllowed(queryContext, Task.class, ResourcePermission.ALL));
+        Assertions.assertEquals(ResourcePermission.ALL, module.getResourcePermission(queryContext, Task.class));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void noIsRolesAllowedWhenDisabled() {
-        module.setEnabled(false);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+            module.setEnabled(false);
 
-        QueryContext queryContext = Mockito.mock(QueryContext.class);
-        module.isUserInRole(queryContext,"whatever");
+            QueryContext queryContext = Mockito.mock(QueryContext.class);
+            module.isUserInRole(queryContext,"whatever");
+        });
     }
 
     @Test
@@ -231,17 +238,19 @@ public class SecurityModuleIntTest extends JerseyTestBase {
         projectRepo.create(project);
 
         project = projectRepo.findOne(project.getId(), new QuerySpec(Project.class));
-        Assert.assertNotNull(project);
+        Assertions.assertNotNull(project);
     }
 
-    @Test(expected = UnauthorizedException.class)
+    @Test
     public void unauthorizedException() {
-        identityManager.addUser("otherUser", "doePass", "allRole");
+		Assertions.assertThrows(UnauthorizedException.class, () -> {
+            identityManager.addUser("otherUser", "doePass", "allRole");
 
-        Project project = new Project();
-        project.setId(1L);
-        project.setName("test");
-        projectRepo.create(project);
+            Project project = new Project();
+            project.setId(1L);
+            project.setName("test");
+            projectRepo.create(project);
+        });
     }
 
     @Test
@@ -259,13 +268,15 @@ public class SecurityModuleIntTest extends JerseyTestBase {
         projectRepo.create(project);
     }
 
-    @Test(expected = ForbiddenException.class)
+    @Test
     public void permitAllNoMatch() {
-        identityManager.addUser("doe", "doePass");
-        Task task = new Task();
-        task.setId(1L);
-        task.setName("test");
-        taskRepo.create(task);
+		Assertions.assertThrows(ForbiddenException.class, () -> {
+            identityManager.addUser("doe", "doePass");
+            Task task = new Task();
+            task.setId(1L);
+            task.setName("test");
+            taskRepo.create(task);
+        });
     }
 
     private static class TestAuthenticator implements Authenticator {

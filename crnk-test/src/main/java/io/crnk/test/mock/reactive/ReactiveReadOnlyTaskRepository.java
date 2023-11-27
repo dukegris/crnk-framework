@@ -4,7 +4,7 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.reactive.repository.ReactiveResourceRepository;
 import io.crnk.test.mock.models.ReadOnlyTask;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
@@ -41,19 +41,19 @@ public class ReactiveReadOnlyTaskRepository implements ReactiveResourceRepositor
 
     @Override
     public Mono<ReadOnlyTask> save(ReadOnlyTask resource) {
-        Assert.fail();
+        Assertions.fail();
         return null;
     }
 
     @Override
     public Mono<ReadOnlyTask> create(io.crnk.test.mock.models.ReadOnlyTask resource) {
-        Assert.fail();
+        Assertions.fail();
         return null;
     }
 
     @Override
     public Mono<Boolean> delete(Long id) {
-        Assert.fail();
+        Assertions.fail();
         return null;
     }
 }

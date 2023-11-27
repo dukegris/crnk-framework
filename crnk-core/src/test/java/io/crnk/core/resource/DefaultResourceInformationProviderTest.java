@@ -15,6 +15,7 @@ import io.crnk.core.engine.internal.information.DefaultInformationBuilder;
 import io.crnk.core.engine.internal.information.resource.DefaultResourceFieldInformationProvider;
 import io.crnk.core.engine.internal.information.resource.DefaultResourceInformationProvider;
 import io.crnk.core.engine.internal.jackson.JacksonResourceFieldInformationProvider;
+import io.crnk.core.engine.internal.utils.PropertyException;
 import io.crnk.core.engine.parser.TypeParser;
 import io.crnk.core.engine.properties.NullPropertiesProvider;
 import io.crnk.core.engine.properties.PropertiesProvider;
@@ -45,11 +46,11 @@ import io.crnk.core.resource.annotations.LookupIncludeBehavior;
 import io.crnk.core.resource.annotations.PatchStrategy;
 import io.crnk.core.resource.annotations.SerializeType;
 import io.crnk.legacy.registry.DefaultResourceInformationProviderContext;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+// import org.junit.Rule;
+import org.junit.jupiter.api.Test;
+// import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ import java.util.List;
 import java.util.concurrent.Future;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class DefaultResourceInformationProviderTest {
 
@@ -76,10 +77,11 @@ public class DefaultResourceInformationProviderTest {
             new DefaultResourceInformationProviderContext(resourceInformationProvider,
                     new DefaultInformationBuilder(new TypeParser()), new TypeParser(), () -> new ObjectMapper());
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    // RCS innecesario
+    // @Rule
+    // public ExpectedException expectedException = ExpectedException.none();
 
-    @Before
+    @BeforeEach
     public void setup() {
         resourceInformationProvider.init(context);
         testResourceInformationProvider.init(context);
@@ -96,17 +98,17 @@ public class DefaultResourceInformationProviderTest {
     public void checkJsonApiFieldOnAttributeAnnotation() {
         ResourceInformation resourceInformation = resourceInformationProvider.build(Task.class);
         ResourceField field = resourceInformation.findAttributeFieldByName("status");
-        Assert.assertFalse(field.getAccess().isPatchable());
-        Assert.assertFalse(field.getAccess().isPostable());
+        Assertions.assertFalse(field.getAccess().isPatchable());
+        Assertions.assertFalse(field.getAccess().isPostable());
     }
 
     @Test
     public void checkJsonApiFieldOnRelationshipAnnotation() {
         ResourceInformation resourceInformation = resourceInformationProvider.build(Task.class);
         ResourceField field = resourceInformation.findRelationshipFieldByName("statusThing");
-        Assert.assertFalse(field.getAccess().isPatchable());
-        Assert.assertFalse(field.getAccess().isPostable());
-        Assert.assertFalse(field.getAccess().isDeletable());
+        Assertions.assertFalse(field.getAccess().isPatchable());
+        Assertions.assertFalse(field.getAccess().isPostable());
+        Assertions.assertFalse(field.getAccess().isDeletable());
     }
 
     @Test
@@ -180,34 +182,34 @@ public class DefaultResourceInformationProviderTest {
         ResourceField readOnlyAttribute = resourceInformation.findAttributeFieldByName("readOnlyAttribute");
         ResourceField readWriteAttribute = resourceInformation.findAttributeFieldByName("readWriteAttribute");
         ResourceField writeOnlyAttribute = resourceInformation.findAttributeFieldByName("writeOnlyAttribute");
-        Assert.assertTrue(defaultAttribute.getAccess().isPatchable());
-        Assert.assertTrue(defaultAttribute.getAccess().isPostable());
-        Assert.assertFalse(readOnlyAttribute.getAccess().isPatchable());
-        Assert.assertFalse(readOnlyAttribute.getAccess().isPostable());
-        Assert.assertTrue(readOnlyAttribute.getAccess().isReadable());
-        Assert.assertTrue(readWriteAttribute.getAccess().isPatchable());
-        Assert.assertTrue(readWriteAttribute.getAccess().isPostable());
-        Assert.assertTrue(readWriteAttribute.getAccess().isReadable());
-        Assert.assertTrue(writeOnlyAttribute.getAccess().isPatchable());
-        Assert.assertTrue(writeOnlyAttribute.getAccess().isPostable());
-        Assert.assertFalse(writeOnlyAttribute.getAccess().isReadable());
+        Assertions.assertTrue(defaultAttribute.getAccess().isPatchable());
+        Assertions.assertTrue(defaultAttribute.getAccess().isPostable());
+        Assertions.assertFalse(readOnlyAttribute.getAccess().isPatchable());
+        Assertions.assertFalse(readOnlyAttribute.getAccess().isPostable());
+        Assertions.assertTrue(readOnlyAttribute.getAccess().isReadable());
+        Assertions.assertTrue(readWriteAttribute.getAccess().isPatchable());
+        Assertions.assertTrue(readWriteAttribute.getAccess().isPostable());
+        Assertions.assertTrue(readWriteAttribute.getAccess().isReadable());
+        Assertions.assertTrue(writeOnlyAttribute.getAccess().isPatchable());
+        Assertions.assertTrue(writeOnlyAttribute.getAccess().isPostable());
+        Assertions.assertFalse(writeOnlyAttribute.getAccess().isReadable());
     }
 
     @Test
     public void checkJsonApiAttributeAnnotationDefaults() {
         ResourceInformation resourceInformation = resourceInformationProvider.build(Task.class);
         ResourceField field = resourceInformation.findAttributeFieldByName("name");
-        Assert.assertTrue(field.getAccess().isPatchable());
-        Assert.assertTrue(field.getAccess().isPostable());
+        Assertions.assertTrue(field.getAccess().isPatchable());
+        Assertions.assertTrue(field.getAccess().isPostable());
     }
 
     @Test
     public void checkJsonApiAttributeAnnotationDefaultsForIds() {
         ResourceInformation resourceInformation = resourceInformationProvider.build(Task.class);
         ResourceField field = resourceInformation.getIdField();
-        Assert.assertFalse(field.getAccess().isPatchable());
-        Assert.assertTrue(field.getAccess().isPostable());
-        Assert.assertTrue(field.getAccess().isReadable());
+        Assertions.assertFalse(field.getAccess().isPatchable());
+        Assertions.assertTrue(field.getAccess().isPostable());
+        Assertions.assertTrue(field.getAccess().isReadable());
     }
 
     @Test
@@ -222,9 +224,9 @@ public class DefaultResourceInformationProviderTest {
         ResourceInformation resourceInformation = resourceInformationProvider.build(Task.class);
 
         ResourceField field = resourceInformation.findAttributeFieldByName("readOnlyValue");
-        Assert.assertTrue(field.getAccess().isReadable());
-        Assert.assertFalse(field.getAccess().isPostable());
-        Assert.assertFalse(field.getAccess().isPatchable());
+        Assertions.assertTrue(field.getAccess().isReadable());
+        Assertions.assertFalse(field.getAccess().isPostable());
+        Assertions.assertFalse(field.getAccess().isPatchable());
     }
 
     @Test
@@ -232,24 +234,30 @@ public class DefaultResourceInformationProviderTest {
         ResourceInformation resourceInformation = resourceInformationProvider.build(Task.class);
 
         ResourceField field = resourceInformation.findAttributeFieldByName("name");
-        Assert.assertTrue(field.getAccess().isReadable());
-        Assert.assertTrue(field.getAccess().isPostable());
-        Assert.assertTrue(field.getAccess().isPatchable());
+        Assertions.assertTrue(field.getAccess().isReadable());
+        Assertions.assertTrue(field.getAccess().isPostable());
+        Assertions.assertTrue(field.getAccess().isPatchable());
     }
 
     @Test
     public void shouldThrowExceptionWhenResourceWithNoAnnotation() {
-        expectedException.expect(RepositoryAnnotationNotFoundException.class);
+        // RCS deprecated
+        // expectedException.expect(RepositoryAnnotationNotFoundException.class);
 
-        resourceInformationProvider.build(UnAnnotatedTask.class);
+		Assertions.assertThrows(RepositoryAnnotationNotFoundException.class, () -> {
+            resourceInformationProvider.build(UnAnnotatedTask.class);
+        });
     }
 
     @Test
     public void shouldThrowExceptionWhenMoreThan1IdAnnotationFound() {
-        expectedException.expect(ResourceDuplicateIdException.class);
-        expectedException.expectMessage("Duplicated Id field found in class");
+        // RCS deprecated
+        // expectedException.expect(ResourceDuplicateIdException.class);
+        // expectedException.expectMessage("Duplicated Id field found in class");
 
-        resourceInformationProvider.build(DuplicatedIdResource.class);
+		Assertions.assertThrows(ResourceDuplicateIdException.class, () -> {
+            resourceInformationProvider.build(DuplicatedIdResource.class);
+        });
     }
 
     @Test
@@ -262,9 +270,12 @@ public class DefaultResourceInformationProviderTest {
 
     @Test
     public void shouldThrowExceptionWhenResourceWithIgnoredIdAnnotation() {
-        expectedException.expect(ResourceIdNotFoundException.class);
+        // RCS deprecated
+        // expectedException.expect(ResourceIdNotFoundException.class);
 
-        resourceInformationProvider.build(IgnoredIdResource.class);
+		Assertions.assertThrows(ResourceIdNotFoundException.class, () -> {
+            resourceInformationProvider.build(IgnoredIdResource.class);
+        });
     }
 
     @Test
@@ -304,34 +315,40 @@ public class DefaultResourceInformationProviderTest {
     @Test
     public void shouldIgnoreTransientAttributes() {
         ResourceInformation resourceInformation = resourceInformationProvider.build(IgnoredTransientAttributeResource.class);
-        Assert.assertNull(resourceInformation.findFieldByName("attribute"));
+        Assertions.assertNull(resourceInformation.findFieldByName("attribute"));
     }
 
     @Test
     public void shouldIgnoreStaticAttributes() {
         ResourceInformation resourceInformation = resourceInformationProvider.build(IgnoredStaticAttributeResource.class);
-        Assert.assertNull(resourceInformation.findFieldByName("attribute"));
+        Assertions.assertNull(resourceInformation.findFieldByName("attribute"));
     }
 
     @Test
     public void checkWriteOnlyAttributesCurrentlyNotSupported() {
         ResourceInformation resourceInformation = resourceInformationProvider.build(WriteOnlyAttributeResource.class);
-        Assert.assertNull(resourceInformation.findAttributeFieldByName("attribute"));
+        Assertions.assertNull(resourceInformation.findAttributeFieldByName("attribute"));
     }
 
 
     @Test
     public void shouldContainLinksInformationField() {
-        expectedException.expect(IllegalStateException.class);
+        // RCS deprecated
+        // expectedException.expect(IllegalStateException.class);
 
-        resourceInformationProvider.build(MultipleMetaInformationResource.class);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+            resourceInformationProvider.build(MultipleMetaInformationResource.class);
+        });
     }
 
     @Test
     public void shouldThrowExceptionOnMultipleLinksInformationFields() {
-        expectedException.expect(IllegalStateException.class);
+        // RCS deprecated
+        // expectedException.expect(IllegalStateException.class);
 
-        resourceInformationProvider.build(MultipleLinksInformationResource.class);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+	        resourceInformationProvider.build(MultipleLinksInformationResource.class);
+        });
     }
 
     @Test
@@ -412,17 +429,17 @@ public class DefaultResourceInformationProviderTest {
         ResourceInformation resourceInformation = resourceInformationProvider.build(Project.class);
         ResourceField dataField = resourceInformation.findFieldByUnderlyingName("data");
         EmbeddableInformation embeddedType = dataField.getEmbeddedType();
-        Assert.assertNotNull(embeddedType);
+        Assertions.assertNotNull(embeddedType);
 
-        Assert.assertEquals(ProjectData.class, embeddedType.getImplementationClass());
+        Assertions.assertEquals(ProjectData.class, embeddedType.getImplementationClass());
 
         List<ResourceField> fields = embeddedType.getFields();
-        Assert.assertEquals(5, fields.size());
+        Assertions.assertEquals(5, fields.size());
 
         ResourceField statusField = embeddedType.findFieldByUnderlyingName("status");
         EmbeddableInformation statusType = statusField.getEmbeddedType();
-        Assert.assertNotNull(statusType);
-        Assert.assertEquals(2, statusType.getFields().size());
+        Assertions.assertNotNull(statusType);
+        Assertions.assertEquals(2, statusType.getFields().size());
     }
 
     @Test
@@ -449,19 +466,19 @@ public class DefaultResourceInformationProviderTest {
     @Test
     public void checkResourceAccessProperties() {
         ResourceInformation resourceInformation = resourceInformationProvider.build(AccessDeniedTestResource.class);
-        Assert.assertFalse(resourceInformation.getAccess().isPostable());
-        Assert.assertFalse(resourceInformation.getAccess().isReadable());
-        Assert.assertFalse(resourceInformation.getAccess().isPatchable());
-        Assert.assertFalse(resourceInformation.getAccess().isDeletable());
-        Assert.assertFalse(resourceInformation.getAccess().isFilterable());
-        Assert.assertFalse(resourceInformation.getAccess().isSortable());
+        Assertions.assertFalse(resourceInformation.getAccess().isPostable());
+        Assertions.assertFalse(resourceInformation.getAccess().isReadable());
+        Assertions.assertFalse(resourceInformation.getAccess().isPatchable());
+        Assertions.assertFalse(resourceInformation.getAccess().isDeletable());
+        Assertions.assertFalse(resourceInformation.getAccess().isFilterable());
+        Assertions.assertFalse(resourceInformation.getAccess().isSortable());
         for (ResourceField field : resourceInformation.getFields()) {
-            Assert.assertFalse(field.getAccess().isPostable());
-            Assert.assertFalse(field.getAccess().isReadable());
-            Assert.assertFalse(field.getAccess().isPatchable());
-            Assert.assertFalse(field.getAccess().isDeletable());
-            Assert.assertFalse(field.getAccess().isFilterable());
-            Assert.assertFalse(field.getAccess().isSortable());
+            Assertions.assertFalse(field.getAccess().isPostable());
+            Assertions.assertFalse(field.getAccess().isReadable());
+            Assertions.assertFalse(field.getAccess().isPatchable());
+            Assertions.assertFalse(field.getAccess().isDeletable());
+            Assertions.assertFalse(field.getAccess().isFilterable());
+            Assertions.assertFalse(field.getAccess().isSortable());
         }
 
         SimpleModule module = new SimpleModule("test");
@@ -498,19 +515,19 @@ public class DefaultResourceInformationProviderTest {
     @Test
     public void checkResourcePartialAccessProperties() {
         ResourceInformation resourceInformation = resourceInformationProvider.build(AccessPartialDeniedTestResource.class);
-        Assert.assertTrue(resourceInformation.getAccess().isPostable());
-        Assert.assertTrue(resourceInformation.getAccess().isReadable());
-        Assert.assertFalse(resourceInformation.getAccess().isPatchable());
-        Assert.assertFalse(resourceInformation.getAccess().isDeletable());
-        Assert.assertTrue(resourceInformation.getAccess().isFilterable());
-        Assert.assertFalse(resourceInformation.getAccess().isSortable());
+        Assertions.assertTrue(resourceInformation.getAccess().isPostable());
+        Assertions.assertTrue(resourceInformation.getAccess().isReadable());
+        Assertions.assertFalse(resourceInformation.getAccess().isPatchable());
+        Assertions.assertFalse(resourceInformation.getAccess().isDeletable());
+        Assertions.assertTrue(resourceInformation.getAccess().isFilterable());
+        Assertions.assertFalse(resourceInformation.getAccess().isSortable());
         for (ResourceField field : resourceInformation.getFields()) {
-            Assert.assertTrue(field.getAccess().isPostable());
-            Assert.assertTrue(field.getAccess().isReadable());
-            Assert.assertFalse(field.getAccess().isPatchable());
-            Assert.assertFalse(field.getAccess().isDeletable());
-            Assert.assertTrue(field.getAccess().isFilterable());
-            Assert.assertFalse(field.getAccess().isSortable());
+            Assertions.assertTrue(field.getAccess().isPostable());
+            Assertions.assertTrue(field.getAccess().isReadable());
+            Assertions.assertFalse(field.getAccess().isPatchable());
+            Assertions.assertFalse(field.getAccess().isDeletable());
+            Assertions.assertTrue(field.getAccess().isFilterable());
+            Assertions.assertFalse(field.getAccess().isSortable());
         }
 
         SimpleModule module = new SimpleModule("test");
@@ -912,13 +929,13 @@ public class DefaultResourceInformationProviderTest {
     public void checkJsonApiDefaultPatchStrategy() {
         ResourceInformation resourceInformation = resourceInformationProvider.build(Project.class);
         ResourceField field = resourceInformation.findAttributeFieldByName("data");
-        Assert.assertEquals(PatchStrategy.MERGE, field.getPatchStrategy());
+        Assertions.assertEquals(PatchStrategy.MERGE, field.getPatchStrategy());
     }
 
     @Test
     public void checkJsonApiPatchStrategy() {
         ResourceInformation resourceInformation = resourceInformationProvider.build(ProjectPatchStrategy.class);
         ResourceField field = resourceInformation.findAttributeFieldByName("data");
-        Assert.assertEquals(PatchStrategy.SET, field.getPatchStrategy());
+        Assertions.assertEquals(PatchStrategy.SET, field.getPatchStrategy());
     }
 }

@@ -1,8 +1,8 @@
 package io.crnk.validation;
 
 import io.crnk.test.mock.ClassTestUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ValidationModuleTest {
 
@@ -13,6 +13,6 @@ public class ValidationModuleTest {
 
 	@Test
 	public void testName() {
-		Assert.assertEquals("validation", ValidationModule.create().getModuleName());
+		Assertions.assertEquals("validation", ValidationModule.create().getModuleName());
 	}
 }

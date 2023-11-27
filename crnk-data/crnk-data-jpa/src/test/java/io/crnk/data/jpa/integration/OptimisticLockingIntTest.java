@@ -6,11 +6,11 @@ import io.crnk.data.jpa.AbstractJpaJerseyTest;
 import io.crnk.data.jpa.JpaModuleConfig;
 import io.crnk.data.jpa.model.VersionedEntity;
 import io.crnk.data.jpa.query.criteria.JpaCriteriaQueryFactory;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.OptimisticLockException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.OptimisticLockException;
 import java.io.Serializable;
 
 public class OptimisticLockingIntTest extends AbstractJpaJerseyTest {
@@ -31,27 +31,27 @@ public class OptimisticLockingIntTest extends AbstractJpaJerseyTest {
 		entity.setId(1L);
 		entity.setLongValue(13L);
 		VersionedEntity saved = repo.create(entity);
-		Assert.assertEquals(0, saved.getVersion());
+		Assertions.assertEquals(0, saved.getVersion());
 
 		saved.setLongValue(14L);
 		saved = repo.save(saved);
-		Assert.assertEquals(1, saved.getVersion());
+		Assertions.assertEquals(1, saved.getVersion());
 
 		saved.setLongValue(15L);
 		saved = repo.save(saved);
-		Assert.assertEquals(2, saved.getVersion());
+		Assertions.assertEquals(2, saved.getVersion());
 
 		saved.setLongValue(16L);
 		saved.setVersion(saved.getVersion() - 1);
 		try {
 			saved = repo.save(saved);
-			Assert.fail();
+			Assertions.fail();
 		} catch (OptimisticLockException e) {
 			// ok
 		}
 
 		VersionedEntity persisted = repo.findOne(1L, new QuerySpec(VersionedEntity.class));
-		Assert.assertEquals(2, persisted.getVersion());
-		Assert.assertEquals(15L, persisted.getLongValue());
+		Assertions.assertEquals(2, persisted.getVersion());
+		Assertions.assertEquals(15L, persisted.getLongValue());
 	}
 }

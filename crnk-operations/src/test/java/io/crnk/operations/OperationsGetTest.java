@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import io.crnk.core.engine.http.HttpMethod;
 import io.crnk.core.repository.ResourceRepository;
@@ -25,7 +25,7 @@ public class OperationsGetTest extends AbstractOperationsTest {
   PersonEntity person1;
   PersonEntity person2;
 
-  @Before
+  @BeforeEach
   @Override
   public void setUp() throws Exception {
     super.setUp();
@@ -58,8 +58,8 @@ public class OperationsGetTest extends AbstractOperationsTest {
     call.add(HttpMethod.GET, "person/" + person2.getId());
     call.execute();
 
-    Assert.assertEquals("P1", call.getResponse(0).getSingleData().get().getAttributes().get("name").asText());
-    Assert.assertEquals("P2", call.getResponse(1).getSingleData().get().getAttributes().get("name").asText());
+    Assertions.assertEquals("P1", call.getResponse(0).getSingleData().get().getAttributes().get("name").asText());
+    Assertions.assertEquals("P2", call.getResponse(1).getSingleData().get().getAttributes().get("name").asText());
   }
 
   @Test
@@ -71,9 +71,9 @@ public class OperationsGetTest extends AbstractOperationsTest {
     call.execute();
 
     // directedMovies should have been included:
-    Assert.assertEquals(1, call.getResponse(0).getSingleData().get().getRelationships().get("directedMovies")
+    Assertions.assertEquals(1, call.getResponse(0).getSingleData().get().getRelationships().get("directedMovies")
         .getCollectionData().get().size());
-    Assert.assertEquals(1, call.getResponse(1).getSingleData().get().getRelationships().get("directedMovies")
+    Assertions.assertEquals(1, call.getResponse(1).getSingleData().get().getRelationships().get("directedMovies")
         .getCollectionData().get().size());
   }
 

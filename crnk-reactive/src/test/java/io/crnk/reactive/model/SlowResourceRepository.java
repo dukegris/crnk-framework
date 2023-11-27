@@ -5,7 +5,7 @@ import io.crnk.core.engine.http.HttpRequestContextProvider;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryBase;
 import io.crnk.core.resource.list.ResourceList;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +30,10 @@ public class SlowResourceRepository extends ResourceRepositoryBase<SlowTask, Lon
 	@Override
 	public ResourceList<SlowTask> findAll(QuerySpec querySpec) {
 		try {
-			Assert.assertNotNull(requestContextProvider);
-			Assert.assertTrue(requestContextProvider.hasThreadRequestContext());
-			Assert.assertNotNull(requestContextProvider.getRequestContext());
-			Assert.assertNotNull(requestContextProvider.getRequestContext().getQueryContext());
+			Assertions.assertNotNull(requestContextProvider);
+			Assertions.assertTrue(requestContextProvider.hasThreadRequestContext());
+			Assertions.assertNotNull(requestContextProvider.getRequestContext());
+			Assertions.assertNotNull(requestContextProvider.getRequestContext().getQueryContext());
 
 			Thread.sleep(DELAY);
 		} catch (InterruptedException e) {

@@ -1,6 +1,6 @@
 package io.crnk.gen.asciidoc;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AsciidocGeneratorConfigTest {
 

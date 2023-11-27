@@ -1,8 +1,8 @@
 package io.crnk.meta.model;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class MetaMapAttributeTest {
@@ -15,7 +15,7 @@ public class MetaMapAttributeTest {
 
 	private MetaDataObject parent;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		String keyString = "13";
 		mapAttr = Mockito.mock(MetaAttribute.class);
@@ -27,9 +27,9 @@ public class MetaMapAttributeTest {
 
 	@Test
 	public void testGetters() {
-		Assert.assertEquals(mapAttr, impl.getMapAttribute());
-		Assert.assertEquals(parent, impl.getParent());
-		Assert.assertEquals(mapType, impl.getType());
+		Assertions.assertEquals(mapAttr, impl.getMapAttribute());
+		Assertions.assertEquals(parent, impl.getParent());
+		Assertions.assertEquals(mapType, impl.getType());
 	}
 
 	@Test
@@ -38,7 +38,7 @@ public class MetaMapAttributeTest {
 		Mockito.when(keyType.getImplementationClass()).thenReturn((Class) Integer.class);
 		Mockito.when(mapType.getKeyType()).thenReturn(keyType);
 
-		Assert.assertEquals(Integer.valueOf(13), impl.getKey());
+		Assertions.assertEquals(Integer.valueOf(13), impl.getKey());
 	}
 
 	@Test
@@ -54,21 +54,27 @@ public class MetaMapAttributeTest {
 	}
 
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void checkGetAnnotationsNotSupported() {
-		impl.getAnnotations();
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {		
+			impl.getAnnotations();
+		});
 	}
 
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void checkGetAnnotationNotSupported() {
-		impl.getAnnotation(null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {		
+			impl.getAnnotation(null);
+		});
 	}
 
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void checkSetOppositeAttributeNotSupported() {
-		impl.setOppositeAttribute(null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {		
+			impl.setOppositeAttribute(null);
+		});
 	}
 
 
@@ -78,43 +84,59 @@ public class MetaMapAttributeTest {
 		Mockito.verify(mapAttr, Mockito.times(1)).isAssociation();
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void getIdNotSupported() {
-		impl.getId();
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {		
+			impl.getId();
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void getVersionNotSupported() {
-		impl.isVersion();
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {		
+			impl.isVersion();
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void isIdNotSupported() {
-		impl.isId();
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {		
+			impl.isId();
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void getOppositeAttributeNotSupported() {
-		impl.getOppositeAttribute();
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {		
+			impl.getOppositeAttribute();
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void getValueNotSupported() {
-		impl.getValue(null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {		
+			impl.getValue(null);
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void addValueNotSupported() {
-		impl.addValue(null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {		
+			impl.addValue(null, null);
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void removeValueNotSupported() {
-		impl.removeValue(null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {		
+			impl.removeValue(null, null);
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void setValueNotSupported() {
-		impl.setValue(null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {		
+			impl.setValue(null, null);
+		});
 	}
 }

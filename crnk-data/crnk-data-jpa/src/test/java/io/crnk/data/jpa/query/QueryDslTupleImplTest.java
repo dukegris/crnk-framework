@@ -3,9 +3,9 @@ package io.crnk.data.jpa.query;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
 import io.crnk.data.jpa.internal.query.backend.querydsl.QuerydslTupleImpl;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public class QueryDslTupleImplTest {
 	private QuerydslTupleImpl impl;
 	private Expression expression;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 
 		expression = Mockito.mock(Expression.class);
@@ -34,15 +34,15 @@ public class QueryDslTupleImplTest {
 
 	@Test
 	public void testReduce() {
-		Assert.assertEquals(2, impl.size());
-		Assert.assertEquals(2, impl.size());
-		Assert.assertArrayEquals(new Object[]{"0", "1"}, impl.toArray());
+		Assertions.assertEquals(2, impl.size());
+		Assertions.assertEquals(2, impl.size());
+		Assertions.assertArrayEquals(new Object[]{"0", "1"}, impl.toArray());
 		impl.reduce(1);
-		Assert.assertEquals("1", impl.get(0, String.class));
-		Assert.assertEquals(1, impl.size());
-		Assert.assertArrayEquals(new Object[]{"1"}, impl.toArray());
+		Assertions.assertEquals("1", impl.get(0, String.class));
+		Assertions.assertEquals(1, impl.size());
+		Assertions.assertArrayEquals(new Object[]{"1"}, impl.toArray());
 
-		Assert.assertEquals("test", impl.get(expression));
+		Assertions.assertEquals("test", impl.get(expression));
 
 	}
 }

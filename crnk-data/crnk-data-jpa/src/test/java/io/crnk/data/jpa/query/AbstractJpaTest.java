@@ -39,19 +39,19 @@ import io.crnk.data.jpa.util.JpaTestConfig;
 import io.crnk.data.jpa.util.SpringTransactionRunner;
 import io.crnk.meta.MetaLookupImpl;
 import io.crnk.meta.provider.MetaPartition;
-import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceContext;
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = JpaTestConfig.class)
 public abstract class AbstractJpaTest {
 
@@ -121,7 +121,7 @@ public abstract class AbstractJpaTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         boot = new CrnkBoot();
 

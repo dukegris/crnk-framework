@@ -2,7 +2,7 @@ package io.crnk.core.resource.registry;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.crnk.core.engine.information.resource.ResourceInformationProviderModule;
@@ -22,25 +22,26 @@ import io.crnk.core.mock.models.Task;
 import io.crnk.core.module.ModuleRegistry;
 import io.crnk.core.repository.InMemoryResourceRepository;
 import io.crnk.core.resource.annotations.JsonApiResource;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+// import org.junit.Rule;
+import org.junit.jupiter.api.Test;
+// import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 public class ResourceRegistryTest {
 
 	public static final String TEST_MODELS_URL = "https://service.local";
 
-	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
+	// RCS innecesario
+    // @Rule
+    // public ExpectedException expectedException = ExpectedException.none();
 
 	private ResourceRegistry resourceRegistry;
 
 	private ModuleRegistry moduleRegistry;
 
-	@Before
+	@BeforeEach
 	public void resetResourceRegistry() {
 		moduleRegistry = new ModuleRegistry();
 		moduleRegistry.addModule(new CoreModule());
@@ -138,20 +139,25 @@ public class ResourceRegistryTest {
 	@Test
 	public void checkHasEntry() {
 		resourceRegistry.addEntry(newRegistryEntry(Task.class, "tasks"));
-		Assert.assertTrue(resourceRegistry.hasEntry(Task.class));
-		Assert.assertFalse(resourceRegistry.hasEntry(String.class));
+		Assertions.assertTrue(resourceRegistry.hasEntry(Task.class));
+		Assertions.assertFalse(resourceRegistry.hasEntry(String.class));
 	}
 
 
 	@Test
 	public void onNonExistingClassShouldThrowException() {
-		expectedException.expect(RepositoryNotFoundException.class);
-		resourceRegistry.findEntry(Long.class);
+		// RCS deprecated
+        // expectedException.expect(RepositoryNotFoundException.class);
+		Assertions.assertThrows(RepositoryNotFoundException.class, () -> {
+			resourceRegistry.findEntry(Long.class);
+		});
 	}
 
-	@Test(expected = RepositoryNotFoundException.class)
+	@Test
 	public void onNonExistingClassShouldReturnNull() {
-		resourceRegistry.findEntry(Long.class);
+		Assertions.assertThrows(RepositoryNotFoundException.class, () -> {
+			resourceRegistry.findEntry(Long.class);
+		});
 	}
 
 	@Test
@@ -191,12 +197,14 @@ public class ResourceRegistryTest {
 		assertThat(clazz).isEqualTo(Task.class);
 	}
 
-	@Test(expected = RepositoryNotFoundException.class)
+	@Test
 	public void onResourceClassReturnNoInstanceClass() {
-		resourceRegistry.addEntry(newRegistryEntry(Task.class, "tasks"));
+		Assertions.assertThrows(RepositoryNotFoundException.class, () -> {
+			resourceRegistry.addEntry(newRegistryEntry(Task.class, "tasks"));
 
-		// WHEN
-		resourceRegistry.findEntry(Object.class);
+			// WHEN
+			resourceRegistry.findEntry(Object.class);
+		});
 	}
 
 	@Test

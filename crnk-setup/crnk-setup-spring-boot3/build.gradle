@@ -1,0 +1,80 @@
+// RCS
+// apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'java-library'
+}
+
+apply plugin: 'io.spring.dependency-management'
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:3.1.5'
+    }
+}
+
+dependencies {
+
+    implementation project(':crnk-core')
+    implementation project(':crnk-data:crnk-data-facet')
+    implementation project(':crnk-data:crnk-data-jpa')
+    implementation project(':crnk-format:crnk-format-plain-json')
+    implementation project(':crnk-home')
+    implementation project(':crnk-meta')
+    implementation project(':crnk-monitor:crnk-monitor-opentracing')
+    implementation project(':crnk-operations')
+    implementation project(':crnk-security')
+    implementation project(':crnk-setup:crnk-setup-servlet')
+    implementation project(':crnk-setup:crnk-setup-spring')
+    implementation project(':crnk-ui')
+    implementation project(':crnk-validation')
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'io.micrometer:micrometer-core:1.11.5'
+    implementation 'io.opentracing:opentracing-api:0.31.0'
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    compileOnly 'jakarta.validation:jakarta.validation-api:3.0.2'
+    implementation 'org.apache.tomcat:tomcat-catalina:10.1.15'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'org.springframework:spring-beans:6.0.13'
+    implementation 'org.springframework:spring-context:6.0.13'
+    implementation 'org.springframework:spring-web:6.0.13'
+    implementation 'org.springframework:spring-webmvc:6.0.13'
+    implementation 'org.springframework.security:spring-security-core:6.1.5'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:3.1.5'
+    implementation 'org.springframework.boot:spring-boot-actuator:3.1.5'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.1.5'
+
+    // RCS unneeded:
+    // testImplementation project(':crnk-core')
+    // testImplementation project(':crnk-data:crnk-data-facet')
+    // testImplementation project(':crnk-data:crnk-data-jpa')
+    // testImplementation project(':crnk-meta')
+    // testImplementation project(':crnk-setup:crnk-setup-spring')
+    testImplementation project(':crnk-client')
+    testImplementation project(':crnk-test')
+
+    // RCS unneeded:
+    // testImplementation 'com.fasterxml.jackson.core:jackson-databind'
+    // testImplementation 'io.micrometer:micrometer-core:1.11.5'
+    // testImplementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    // testImplementation 'org.apache.tomcat:tomcat-catalina:10.1.15'
+    // testImplementation 'org.springframework:spring-web:6.0.13'
+    // testImplementation 'org.springframework:spring-webmvc:6.0.13'
+    // testImplementation 'org.springframework.security:spring-security-core:6.1.5'
+    // testImplementation 'org.springframework.boot:spring-boot-actuator:3.1.5'
+    testImplementation 'jakarta.security.enterprise:jakarta.security.enterprise-api:3.0.0'
+    testImplementation 'net.javacrumbs.json-unit:json-unit-fluent:1.5.3'
+    testImplementation 'org.springframework:spring-test:6.0.13'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.5'
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$JUNIT_VERSION"
+
+    // testRuntimeOnly 'org.apache.groovy:groovy:4.0.15'
+    testRuntimeOnly 'org.mockito:mockito-core:1.10.19'
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-web:3.1.5'
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.5'
+    testRuntimeOnly 'com.h2database:h2:2.2.224'
+    testRuntimeOnly 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
+
+}

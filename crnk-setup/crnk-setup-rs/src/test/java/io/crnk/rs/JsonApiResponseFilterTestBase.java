@@ -10,18 +10,18 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.jetty.JettyTestContainerFactory;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -41,7 +41,7 @@ public abstract class JsonApiResponseFilterTestBase extends JerseyTestBase {
     private static Client httpClient;
     private boolean enableNullResponse;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         ClientConfig config = new ClientConfig();
         config.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
@@ -92,13 +92,13 @@ public abstract class JsonApiResponseFilterTestBase extends JerseyTestBase {
     public void testNullResponseNotWrapped() {
         // GIVEN
         // mapping of null responses to JSON-API enabled, but method produces text/plain -> no wrapping
-        Assume.assumeFalse(enableNullResponse);
+    	Assumptions.assumeFalse(enableNullResponse);
 
         // WHEN
         Response response = get("/repositoryActionWithNullResponse", null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getStatus())
                 .describedAs("Status code")
                 .isEqualTo(Response.Status.NO_CONTENT.getStatusCode());
@@ -116,13 +116,13 @@ public abstract class JsonApiResponseFilterTestBase extends JerseyTestBase {
     public void testNullResponseJsonApi() {
         // GIVEN
         // mapping of null responses to JSON-API enabled
-        Assume.assumeTrue(enableNullResponse);
+    	Assumptions.assumeTrue(enableNullResponse);
 
         // WHEN
         Response response = get("/repositoryActionWithNullResponseJsonApi", null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getStatus())
                 .describedAs("Status code")
                 .isEqualTo(Response.Status.OK.getStatusCode());
@@ -140,13 +140,13 @@ public abstract class JsonApiResponseFilterTestBase extends JerseyTestBase {
     public void testNullResponse() {
         // GIVEN
         // mapping of null responses to JSON-API disabled
-        Assume.assumeFalse(enableNullResponse);
+    	Assumptions.assumeFalse(enableNullResponse);
 
         // WHEN
         Response response = get("/repositoryActionWithNullResponse", null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getStatus())
                 .describedAs("Status code")
                 .isEqualTo(Response.Status.NO_CONTENT.getStatusCode());
@@ -160,13 +160,13 @@ public abstract class JsonApiResponseFilterTestBase extends JerseyTestBase {
     public void testNonInterfaceMethodWithNullResponseJsonApi() {
         // GIVEN
         // mapping of null responses to JSON-API disabled
-        Assume.assumeFalse(enableNullResponse);
+    	Assumptions.assumeFalse(enableNullResponse);
 
         // WHEN
         Response response = get("/nonInterfaceMethodWithNullResponseJsonApi", null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getStatus())
                 .describedAs("Status code")
                 .isEqualTo(Response.Status.NO_CONTENT.getStatusCode());
@@ -180,13 +180,13 @@ public abstract class JsonApiResponseFilterTestBase extends JerseyTestBase {
     public void testNonInterfaceMethodWithNullResponseJsonApiWrapped() {
         // GIVEN
         // mapping of null responses to JSON-API enabled
-        Assume.assumeTrue(enableNullResponse);
+    	Assumptions.assumeTrue(enableNullResponse);
 
         // WHEN
         Response response = get("/nonInterfaceMethodWithNullResponseJsonApi", null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getStatus())
                 .describedAs("Status code")
                 .isEqualTo(Response.Status.OK.getStatusCode());
@@ -211,7 +211,7 @@ public abstract class JsonApiResponseFilterTestBase extends JerseyTestBase {
         Response response = get("/repositoryAction", queryParams);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getStatus())
                 .describedAs("Status code")
                 .isEqualTo(Response.Status.OK.getStatusCode());
@@ -236,7 +236,7 @@ public abstract class JsonApiResponseFilterTestBase extends JerseyTestBase {
         Response response = get("/repositoryActionJsonApi", queryParams);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getStatus())
                 .describedAs("Status code")
                 .isEqualTo(Response.Status.OK.getStatusCode());
@@ -259,7 +259,7 @@ public abstract class JsonApiResponseFilterTestBase extends JerseyTestBase {
         Response response = get("/repositoryActionWithException", null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getStatus())
                 .describedAs("Status code")
                 .isEqualTo(Response.Status.FORBIDDEN.getStatusCode());
@@ -282,7 +282,7 @@ public abstract class JsonApiResponseFilterTestBase extends JerseyTestBase {
         Response response = get("", null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getStatus())
                 .describedAs("Status code")
                 .isEqualTo(Response.Status.OK.getStatusCode());
@@ -308,7 +308,7 @@ public abstract class JsonApiResponseFilterTestBase extends JerseyTestBase {
         Response response = get("/repositoryActionWithResourceResult", null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getStatus())
                 .describedAs("Status code")
                 .isEqualTo(Response.Status.OK.getStatusCode());

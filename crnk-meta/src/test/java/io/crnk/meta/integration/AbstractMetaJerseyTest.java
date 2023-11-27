@@ -14,10 +14,10 @@ import io.crnk.test.JerseyTestBase;
 import io.crnk.test.mock.TestModule;
 import okhttp3.OkHttpClient.Builder;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractMetaJerseyTest extends JerseyTestBase {
@@ -37,7 +37,7 @@ public abstract class AbstractMetaJerseyTest extends JerseyTestBase {
         });
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         client = new CrnkClient(getBaseUri().toString());
         client.addModule(createModule());

@@ -33,7 +33,7 @@ class OperationsBaseTest {
     metaAttribute = new MetaAttribute();
     metaAttribute.setName("id");
     metaPrimaryKey.setElements(Collections.singletonList(metaAttribute));
-    
+
     metaResource.setPrimaryKey(metaPrimaryKey);
   }
 }

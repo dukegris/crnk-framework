@@ -4,9 +4,9 @@ import io.crnk.core.engine.http.HttpHeaders;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.test.mock.models.Task;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class HeadersTest extends AbstractClientTest {
 
 	protected ResourceRepository<Task, Long> taskRepo;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -28,7 +28,7 @@ public class HeadersTest extends AbstractClientTest {
 		clearLastReceivedHeaders();
 
 		List<Task> tasks = taskRepo.findAll(new QuerySpec(Task.class));
-		Assert.assertTrue(tasks.isEmpty());
+		Assertions.assertTrue(tasks.isEmpty());
 
 		assertHasHeaderValue("Accept", EXPECTED_CONTENT_TYPE);
 	}

@@ -10,11 +10,11 @@ import io.crnk.data.jpa.AbstractJpaJerseyTest;
 import io.crnk.data.jpa.JpaModuleConfig;
 import io.crnk.data.jpa.model.RelatedEntity;
 import io.crnk.data.jpa.model.TestEntity;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -23,7 +23,7 @@ public class HasNextPagingIntTest extends AbstractJpaJerseyTest {
 	private ResourceRepository<TestEntity, Long> testRepo;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 		testRepo = client.getRepositoryForType(TestEntity.class);
@@ -52,20 +52,20 @@ public class HasNextPagingIntTest extends AbstractJpaJerseyTest {
 		querySpec.setLimit(2L);
 
 		ResourceList<TestEntity> list = testRepo.findAll(querySpec);
-		Assert.assertEquals(2, list.size());
-		Assert.assertEquals(2, list.get(0).getId().intValue());
-		Assert.assertEquals(3, list.get(1).getId().intValue());
+		Assertions.assertEquals(2, list.size());
+		Assertions.assertEquals(2, list.get(0).getId().intValue());
+		Assertions.assertEquals(3, list.get(1).getId().intValue());
 
 		JsonLinksInformation links = list.getLinks(JsonLinksInformation.class);
 
 		String baseUri = getBaseUri().toString();
-		Assert.assertEquals(baseUri + "test?page[limit]=2", links.asJsonNode().get("first").asText());
-		Assert.assertNull(links.asJsonNode().get("last")); // not available for hasNext
-		Assert.assertEquals(baseUri + "test?page[limit]=2", links.asJsonNode().get("prev").asText());
-		Assert.assertEquals(baseUri + "test?page[limit]=2&page[offset]=4", links.asJsonNode().get("next").asText());
+		Assertions.assertEquals(baseUri + "test?page[limit]=2", links.asJsonNode().get("first").asText());
+		Assertions.assertNull(links.asJsonNode().get("last")); // not available for hasNext
+		Assertions.assertEquals(baseUri + "test?page[limit]=2", links.asJsonNode().get("prev").asText());
+		Assertions.assertEquals(baseUri + "test?page[limit]=2&page[offset]=4", links.asJsonNode().get("next").asText());
 
 		JsonMetaInformation meta = list.getMeta(JsonMetaInformation.class);
-		Assert.assertNull(meta);
+		Assertions.assertNull(meta);
 	}
 
 	@Test
@@ -93,22 +93,22 @@ public class HasNextPagingIntTest extends AbstractJpaJerseyTest {
 		querySpec.setLimit(2L);
 
 		ResourceList<RelatedEntity> list = relRepo.findManyTargets(test.getId(), TestEntity.ATTR_manyRelatedValues, querySpec);
-		Assert.assertEquals(2, list.size());
-		Assert.assertEquals(2, list.get(0).getId().intValue());
-		Assert.assertEquals(3, list.get(1).getId().intValue());
+		Assertions.assertEquals(2, list.size());
+		Assertions.assertEquals(2, list.get(0).getId().intValue());
+		Assertions.assertEquals(3, list.get(1).getId().intValue());
 
 		JsonMetaInformation meta = list.getMeta(JsonMetaInformation.class);
 		JsonLinksInformation links = list.getLinks(JsonLinksInformation.class);
-		Assert.assertNull(meta);
-		Assert.assertNotNull(links);
+		Assertions.assertNull(meta);
+		Assertions.assertNotNull(links);
 
 		String baseUri = getBaseUri().toString();
-		Assert.assertEquals(baseUri + "test/1/manyRelatedValues?page[limit]=2",
+		Assertions.assertEquals(baseUri + "test/1/manyRelatedValues?page[limit]=2",
 				links.asJsonNode().get("first").asText());
-		Assert.assertNull(links.asJsonNode().get("last"));
-		Assert.assertEquals(baseUri + "test/1/manyRelatedValues?page[limit]=2",
+		Assertions.assertNull(links.asJsonNode().get("last"));
+		Assertions.assertEquals(baseUri + "test/1/manyRelatedValues?page[limit]=2",
 				links.asJsonNode().get("prev").asText());
-		Assert.assertEquals(baseUri + "test/1/manyRelatedValues?page[limit]=2&page[offset]=4",
+		Assertions.assertEquals(baseUri + "test/1/manyRelatedValues?page[limit]=2&page[offset]=4",
 				links.asJsonNode().get("next").asText());
 	}
 }

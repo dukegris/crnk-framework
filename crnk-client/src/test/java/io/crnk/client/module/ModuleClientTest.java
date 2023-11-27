@@ -14,9 +14,9 @@ import io.crnk.test.mock.models.Schedule;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.models.UnknownResource;
 import okhttp3.OkHttpClient.Builder;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.HashSet;
@@ -31,7 +31,7 @@ public class ModuleClientTest extends AbstractClientTest {
 
 	private OkHttpTestModule testModule = Mockito.spy(new OkHttpTestModule());
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 		client.setHttpAdapter(new OkHttpAdapter());
@@ -52,7 +52,7 @@ public class ModuleClientTest extends AbstractClientTest {
 		taskRepo.create(task);
 
 		List<Task> tasks = taskRepo.findAll(new QuerySpec(Task.class));
-		Assert.assertEquals(1, tasks.size());
+		Assertions.assertEquals(1, tasks.size());
 
 		Mockito.verify(testModule, Mockito.times(1)).setupModule(Mockito.any(ModuleContext.class));
 		Mockito.verify(testModule, Mockito.times(1)).setHttpAdapter(Mockito.eq(client.getHttpAdapter()));
@@ -61,14 +61,14 @@ public class ModuleClientTest extends AbstractClientTest {
 
 	@Test
 	public void testResourceLookupInitializesRepository() {
-		Assert.assertNotNull(client.getRegistry().findEntry(Schedule.class));
+		Assertions.assertNotNull(client.getRegistry().findEntry(Schedule.class));
 
 		// related loaded as well
-		Assert.assertNotNull(client.getRegistry().findEntry(Project.class));
-		Assert.assertNotNull(client.getRegistry().findEntry(Task.class));
+		Assertions.assertNotNull(client.getRegistry().findEntry(Project.class));
+		Assertions.assertNotNull(client.getRegistry().findEntry(Task.class));
 
 		// unrelated not loaded
-		Assert.assertNotNull(client.getRegistry().findEntry(UnknownResource.class));
+		Assertions.assertNotNull(client.getRegistry().findEntry(UnknownResource.class));
 	}
 
 	@Test

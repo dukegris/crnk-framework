@@ -5,8 +5,8 @@ import io.crnk.gen.typescript.model.TSClassType;
 import io.crnk.gen.typescript.model.TSInterfaceType;
 import io.crnk.gen.typescript.model.TSModule;
 import io.crnk.test.mock.ClassTestUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class TypescriptUtilsTest {
 
@@ -26,12 +26,12 @@ public class TypescriptUtilsTest {
         module.getElements().add(classType);
 
         TSInterfaceType testInterface = TypescriptUtils.getNestedInterface(classType, "TestInterface", true);
-        Assert.assertEquals("TestInterface", testInterface.getName());
-        Assert.assertTrue(testInterface.getParent() instanceof TSModule);
-        Assert.assertEquals(module, testInterface.getParent().getParent());
-        Assert.assertEquals("TestClass", ((TSModule) testInterface.getParent()).getName());
+        Assertions.assertEquals("TestInterface", testInterface.getName());
+        Assertions.assertTrue(testInterface.getParent() instanceof TSModule);
+        Assertions.assertEquals(module, testInterface.getParent().getParent());
+        Assertions.assertEquals("TestClass", ((TSModule) testInterface.getParent()).getName());
 
-        Assert.assertEquals(2, module.getElements().size());
+        Assertions.assertEquals(2, module.getElements().size());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class TypescriptUtilsTest {
         module.getElements().add(classType);
 
         TSInterfaceType testInterface = TypescriptUtils.getNestedInterface(classType, "TestInterface", false);
-        Assert.assertNull(testInterface);
+        Assertions.assertNull(testInterface);
     }
 
     @Test
@@ -54,14 +54,16 @@ public class TypescriptUtilsTest {
         classType.setName("TestClass");
 
         TSInterfaceType testInterface = TypescriptUtils.getNestedInterface(classType, "TestInterface", false);
-        Assert.assertNull(testInterface);
+        Assertions.assertNull(testInterface);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void getNestedInterfacesThrowsExceptionOnCreateIfNoParent() {
-        TSClassType classType = new TSClassType();
-        classType.setName("TestClass");
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+            TSClassType classType = new TSClassType();
+            classType.setName("TestClass");
 
-        TypescriptUtils.getNestedInterface(classType, "TestInterface", true);
+            TypescriptUtils.getNestedInterface(classType, "TestInterface", true);
+        });
     }
 }

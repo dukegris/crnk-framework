@@ -1,18 +1,18 @@
 package io.crnk.example.springboot.simple;
 
-import static com.jayway.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
-import javax.security.auth.message.config.AuthConfigFactory;
+import jakarta.security.auth.message.config.AuthConfigFactory;
 
 import com.google.common.collect.ImmutableMap;
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.response.Response;
-import com.jayway.restassured.response.ValidatableResponse;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import io.crnk.core.queryspec.PathSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.RelationshipRepository;
@@ -27,10 +27,10 @@ import io.crnk.example.springboot.domain.repository.ProjectRepository.ProjectLis
 import io.crnk.example.springboot.domain.repository.ProjectRepository.ProjectListLinks;
 import io.crnk.example.springboot.domain.repository.ProjectRepository.ProjectListMeta;
 import org.apache.catalina.authenticator.jaspic.AuthConfigFactoryImpl;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -38,7 +38,7 @@ import org.springframework.http.HttpStatus;
  */
 public class SpringBootSimpleExampleApplicationTests extends BaseTest {
 
-    @Before
+    @BeforeEach
     public void setup() {
         // NPE fix
         if (AuthConfigFactory.getFactory() == null) {
@@ -52,15 +52,15 @@ public class SpringBootSimpleExampleApplicationTests extends BaseTest {
         QuerySpec querySpec = new QuerySpec(Project.class);
         querySpec.setLimit(10L);
         ProjectList list = projectRepo.findAll(querySpec);
-        Assert.assertNotEquals(0, list.size());
+        Assertions.assertNotEquals(0, list.size());
 
         // test meta access
         ProjectListMeta meta = list.getMeta();
-        Assert.assertEquals(4L, meta.getTotalResourceCount().longValue());
+        Assertions.assertEquals(4L, meta.getTotalResourceCount().longValue());
 
         // test pagination links access
         ProjectListLinks links = list.getLinks();
-        Assert.assertNotNull(links.getFirst());
+        Assertions.assertNotNull(links.getFirst());
     }
 
     @Test
@@ -68,16 +68,16 @@ public class SpringBootSimpleExampleApplicationTests extends BaseTest {
         RelationshipRepository<Project, Serializable, Task, Serializable> relRepo = client.getRepositoryForType(Project.class, Task.class);
         QuerySpec querySpec = new QuerySpec(Task.class);
         ResourceList<Task> tasks = relRepo.findManyTargets(123L, "tasks", querySpec);
-        Assert.assertEquals(1, tasks.size());
+        Assertions.assertEquals(1, tasks.size());
     }
 
     @Test
-	@Ignore // currently not maintained
+	@Disabled // currently not maintained
     public void testUi() {
         Response response = RestAssured.given().when().get("/api/browse/");
         response.then().assertThat().statusCode(200);
         String body = response.getBody().print();
-        Assert.assertTrue(body.contains("<title>Crnk UI</title>"));
+        Assertions.assertTrue(body.contains("<title>Crnk UI</title>"));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class SpringBootSimpleExampleApplicationTests extends BaseTest {
         Response response = RestAssured.given().when().get("/api/");
         response.then().assertThat().statusCode(200);
         String body = response.getBody().print();
-        Assert.assertTrue(body, body.contains("/api/browse/"));
+        Assertions.assertTrue(body.contains("/api/browse/"), body);
     }
 
     @Test
@@ -104,7 +104,7 @@ public class SpringBootSimpleExampleApplicationTests extends BaseTest {
         entityRepo.create(schedule);
 
         list = entityRepo.findAll(querySpec);
-        Assert.assertEquals(1, list.size());
+        Assertions.assertEquals(1, list.size());
     }
 
     @Test
@@ -123,10 +123,10 @@ public class SpringBootSimpleExampleApplicationTests extends BaseTest {
         entityRepo.create(schedule);
 
         list = entityRepo.findAll(querySpec);
-        Assert.assertEquals(1, list.size());
+        Assertions.assertEquals(1, list.size());
         schedule = list.get(0);
-        Assert.assertEquals(13L, schedule.getId().longValue());
-        Assert.assertEquals("My Schedule", schedule.getName());
+        Assertions.assertEquals(13L, schedule.getId().longValue());
+        Assertions.assertEquals("My Schedule", schedule.getName());
     }
 
     @Test
@@ -140,9 +140,9 @@ public class SpringBootSimpleExampleApplicationTests extends BaseTest {
         ResourceList<ScheduleEntity> list = entityRepo.findAll(querySpec);
         for (ScheduleEntity schedule : list) {
             if (schedule.getName().startsWith("schedule")) {
-                Assert.assertNotNull(schedule.getCreator());
+                Assertions.assertNotNull(schedule.getCreator());
                 Set<UserEntity> verifiers = schedule.getVerifiers();
-                Assert.assertEquals(2, verifiers.size());
+                Assertions.assertEquals(2, verifiers.size());
             }
         }
     }
@@ -156,7 +156,7 @@ public class SpringBootSimpleExampleApplicationTests extends BaseTest {
 
         ResourceList<UserEntity> list = entityRepo.findAll(querySpec);
         for (UserEntity user : list) {
-            Assert.assertNotNull(user.getCreatedSchedules());
+            Assertions.assertNotNull(user.getCreatedSchedules());
         }
     }
 

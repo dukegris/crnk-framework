@@ -1,6 +1,6 @@
 package io.crnk.core.engine.filter;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class AbstractDocumentFilterTest {

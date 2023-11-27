@@ -17,7 +17,7 @@ import io.crnk.core.module.ModuleRegistry;
 import io.crnk.core.module.SimpleModule;
 import io.crnk.core.queryspec.mapper.QuerySpecUrlContext;
 import io.crnk.core.queryspec.pagingspec.OffsetLimitPagingSpec;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +43,7 @@ public abstract class AbstractQuerySpecTest {
         params.put(key, new HashSet<>(Arrays.asList(value)));
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         container = new CoreTestContainer();
         ResourceFieldContributor contributor = new ResourceFieldContributor() {

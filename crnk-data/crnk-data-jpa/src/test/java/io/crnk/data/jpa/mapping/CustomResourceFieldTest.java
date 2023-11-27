@@ -26,11 +26,11 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -42,7 +42,7 @@ import java.util.concurrent.Callable;
 public class CustomResourceFieldTest extends AbstractJpaJerseyTest {
 
     @Override
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -175,7 +175,7 @@ public class CustomResourceFieldTest extends AbstractJpaJerseyTest {
     public void test() {
         String url = getBaseUri() + "country/ch";
         io.restassured.response.Response getResponse = RestAssured.get(url);
-        Assert.assertEquals(200, getResponse.getStatusCode());
+        Assertions.assertEquals(200, getResponse.getStatusCode());
 
         getResponse.then().assertThat().body("data.attributes.deText", Matchers.equalTo("Schweiz"));
         getResponse.then().assertThat().body("data.attributes.enText", Matchers.equalTo("Switzerland"));
@@ -190,7 +190,7 @@ public class CustomResourceFieldTest extends AbstractJpaJerseyTest {
         patchResponse.then().statusCode(HttpStatus.SC_OK);
 
         getResponse = RestAssured.get(url);
-        Assert.assertEquals(200, getResponse.getStatusCode());
+        Assertions.assertEquals(200, getResponse.getStatusCode());
         getResponse.then().assertThat().body("data.attributes.deText", Matchers.equalTo("Test"));
         getResponse.then().assertThat().body("data.attributes.enText", Matchers.equalTo("Switzerland"));
     }

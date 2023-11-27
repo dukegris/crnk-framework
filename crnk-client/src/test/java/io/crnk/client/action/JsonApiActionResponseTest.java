@@ -16,10 +16,10 @@ import io.crnk.test.mock.models.Schedule;
 import io.crnk.test.mock.repository.ScheduleRepository;
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -33,7 +33,7 @@ public class JsonApiActionResponseTest extends AbstractClientTest {
 
     private DocumentFilter filter;
 
-    @Before
+    @BeforeEach
     public void setup() {
         SLF4JBridgeHandler.install();
         super.setup();
@@ -70,28 +70,28 @@ public class JsonApiActionResponseTest extends AbstractClientTest {
 
         Iterable<Schedule> schedules = scheduleRepository.findAll(new QuerySpec(Schedule.class));
         schedule = schedules.iterator().next();
-        Assert.assertEquals("schedule", schedule.getName());
+        Assertions.assertEquals("schedule", schedule.getName());
 
         scheduleRepository.delete(schedule.getId());
         schedules = scheduleRepository.findAll(new QuerySpec(Schedule.class));
-        Assert.assertFalse(schedules.iterator().hasNext());
+        Assertions.assertFalse(schedules.iterator().hasNext());
     }
 
     @Test
-    @Ignore
+    @Disabled
     // The DocumentFilterContext is not invoked with this request any more
     public void testInvokeRepositoryAction() {
         // tag::invokeService[]
         String result = scheduleRepository.repositoryAction("hello");
-        Assert.assertEquals("repository action: hello", result);
+        Assertions.assertEquals("repository action: hello", result);
         // end::invokeService[]
 
         // check filters
         ArgumentCaptor<DocumentFilterContext> contexts = ArgumentCaptor.forClass(DocumentFilterContext.class);
         Mockito.verify(filter, Mockito.times(1)).filter(contexts.capture(), Mockito.any(DocumentFilterChain.class));
         DocumentFilterContext actionContext = contexts.getAllValues().get(0);
-        Assert.assertEquals("GET", actionContext.getMethod());
-        Assert.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
+        Assertions.assertEquals("GET", actionContext.getMethod());
+        Assertions.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class JsonApiActionResponseTest extends AbstractClientTest {
         // resources should be received in json api format
         String url = getBaseUri() + "schedules/repositoryActionWithResourceResult?msg=hello&include=project";
         io.restassured.response.Response response = RestAssured.get(url);
-        Assert.assertEquals(200, response.getStatusCode());
+        Assertions.assertEquals(200, response.getStatusCode());
         response.then().assertThat().body("data.attributes.name", Matchers.equalTo("hello"));
 
         response.then().assertThat().body("included", Matchers.hasSize(1));
@@ -117,13 +117,13 @@ public class JsonApiActionResponseTest extends AbstractClientTest {
 
         // post of project
         DocumentFilterContext actionContext = contexts.getAllValues().get(0);
-        Assert.assertEquals("POST", actionContext.getMethod());
-        Assert.assertTrue(actionContext.getJsonPath() instanceof ResourcePath);
+        Assertions.assertEquals("POST", actionContext.getMethod());
+        Assertions.assertTrue(actionContext.getJsonPath() instanceof ResourcePath);
 
         // action
         DocumentFilterContext includeContext = contexts.getAllValues().get(1);
-        Assert.assertEquals("GET", includeContext.getMethod());
-        Assert.assertTrue(includeContext.getJsonPath() instanceof ActionPath);
+        Assertions.assertEquals("GET", includeContext.getMethod());
+        Assertions.assertTrue(includeContext.getJsonPath() instanceof ActionPath);
     }
 
     @Test
@@ -131,7 +131,7 @@ public class JsonApiActionResponseTest extends AbstractClientTest {
         // resources should be received in json api format
         String url = getBaseUri() + "schedules/repositoryActionWithException?msg=hello";
         io.restassured.response.Response response = RestAssured.get(url);
-        Assert.assertEquals(403, response.getStatusCode());
+        Assertions.assertEquals(403, response.getStatusCode());
 
         response.then().assertThat().body("errors[0].status", Matchers.equalTo("403"));
 
@@ -139,8 +139,8 @@ public class JsonApiActionResponseTest extends AbstractClientTest {
         ArgumentCaptor<DocumentFilterContext> contexts = ArgumentCaptor.forClass(DocumentFilterContext.class);
         Mockito.verify(filter, Mockito.times(1)).filter(contexts.capture(), Mockito.any(DocumentFilterChain.class));
         DocumentFilterContext actionContext = contexts.getAllValues().get(0);
-        Assert.assertEquals("GET", actionContext.getMethod());
-        Assert.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
+        Assertions.assertEquals("GET", actionContext.getMethod());
+        Assertions.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
     }
 
     @Test
@@ -151,14 +151,14 @@ public class JsonApiActionResponseTest extends AbstractClientTest {
         scheduleRepository.create(schedule);
 
         String result = scheduleRepository.resourceAction(1, "hello");
-        Assert.assertEquals("{\"data\":\"resource action: hello@scheduleName\"}", result);
+        Assertions.assertEquals("{\"data\":\"resource action: hello@scheduleName\"}", result);
 
         // check filters
         ArgumentCaptor<DocumentFilterContext> contexts = ArgumentCaptor.forClass(DocumentFilterContext.class);
         Mockito.verify(filter, Mockito.times(2)).filter(contexts.capture(), Mockito.any(DocumentFilterChain.class));
         DocumentFilterContext actionContext = contexts.getAllValues().get(1);
-        Assert.assertEquals("GET", actionContext.getMethod());
-        Assert.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
+        Assertions.assertEquals("GET", actionContext.getMethod());
+        Assertions.assertTrue(actionContext.getJsonPath() instanceof ActionPath);
     }
 
     @Test
@@ -175,7 +175,7 @@ public class JsonApiActionResponseTest extends AbstractClientTest {
 
         String url = getBaseUri() + "schedules/1";
         io.restassured.response.Response response = RestAssured.get(url);
-        Assert.assertEquals(200, response.getStatusCode());
+        Assertions.assertEquals(200, response.getStatusCode());
         response.then().assertThat().body("data.attributes.customData", Matchers.notNullValue());
     }
 }

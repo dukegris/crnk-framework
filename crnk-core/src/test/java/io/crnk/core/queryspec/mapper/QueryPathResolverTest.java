@@ -9,9 +9,9 @@ import io.crnk.core.mock.models.Project;
 import io.crnk.core.mock.models.Schedule;
 import io.crnk.core.mock.models.Task;
 import io.crnk.core.queryspec.AbstractQuerySpecTest;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +21,7 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
     private QueryPathResolver resolver;
 
 
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -40,8 +40,8 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
         List<String> jsonPath = Arrays.asList("name");
 
         QueryPathSpec spec = resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JAVA, "test", queryContext);
-        Assert.assertEquals(String.class, spec.getValueType());
-        Assert.assertEquals(jsonPath, spec.getAttributePath());
+        Assertions.assertEquals(String.class, spec.getValueType());
+        Assertions.assertEquals(jsonPath, spec.getAttributePath());
     }
 
     @Test
@@ -50,8 +50,8 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
         List<String> jsonPath = Arrays.asList("id");
 
         QueryPathSpec spec = resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JAVA, "test", queryContext);
-        Assert.assertEquals(Long.class, spec.getValueType());
-        Assert.assertEquals(jsonPath, spec.getAttributePath());
+        Assertions.assertEquals(Long.class, spec.getValueType());
+        Assertions.assertEquals(jsonPath, spec.getAttributePath());
     }
 
 
@@ -61,8 +61,8 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
         List<String> jsonPath = Arrays.asList("data", "data");
 
         QueryPathSpec spec = resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JAVA, "test", queryContext);
-        Assert.assertEquals(String.class, spec.getValueType());
-        Assert.assertEquals(jsonPath, spec.getAttributePath());
+        Assertions.assertEquals(String.class, spec.getValueType());
+        Assertions.assertEquals(jsonPath, spec.getAttributePath());
     }
 
 
@@ -72,8 +72,8 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
         List<String> jsonPath = Arrays.asList("data", "priorities", "foo");
 
         QueryPathSpec spec = resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JAVA, "test", queryContext);
-        Assert.assertEquals(Integer.class, spec.getValueType());
-        Assert.assertEquals(jsonPath, spec.getAttributePath());
+        Assertions.assertEquals(Integer.class, spec.getValueType());
+        Assertions.assertEquals(jsonPath, spec.getAttributePath());
     }
 
     @Test
@@ -82,8 +82,8 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
         List<String> jsonPath = Arrays.asList("project");
 
         QueryPathSpec spec = resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JAVA, "test", queryContext);
-        Assert.assertEquals(Project.class, spec.getValueType());
-        Assert.assertEquals(jsonPath, spec.getAttributePath());
+        Assertions.assertEquals(Project.class, spec.getValueType());
+        Assertions.assertEquals(jsonPath, spec.getAttributePath());
     }
 
     @Test
@@ -94,12 +94,12 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
 
         try {
             resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JAVA, "test", queryContext);
-            Assert.fail();
+            Assertions.fail();
         } catch (BadRequestException e) {
             // ok
-            Assert.assertEquals(HttpStatus.BAD_REQUEST_400, e.getHttpStatus());
-            Assert.assertEquals("test", e.getErrorData().getSourceParameter());
-            Assert.assertEquals("Failed to resolve path to field '" +
+            Assertions.assertEquals(HttpStatus.BAD_REQUEST_400, e.getHttpStatus());
+            Assertions.assertEquals("test", e.getErrorData().getSourceParameter());
+            Assertions.assertEquals("Failed to resolve path to field '" +
 								attributeName+"' from " +
 								resourceInformation.getResourceType(), e.getErrorData().getDetail());
         }
@@ -112,8 +112,8 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
         List<String> jsonPath = Arrays.asList("doesNotExists");
 
         QueryPathSpec spec = resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JAVA, "test", queryContext);
-        Assert.assertEquals(jsonPath, spec.getAttributePath());
-        Assert.assertEquals(Object.class, spec.getValueType());
+        Assertions.assertEquals(jsonPath, spec.getAttributePath());
+        Assertions.assertEquals(Object.class, spec.getValueType());
     }
 
     @Test
@@ -122,8 +122,8 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
         List<String> jsonPath = Arrays.asList("description");
 
         QueryPathSpec spec = resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JSON, "test", queryContext);
-        Assert.assertEquals(Arrays.asList("desc"), spec.getAttributePath());
-        Assert.assertEquals(String.class, spec.getValueType());
+        Assertions.assertEquals(Arrays.asList("desc"), spec.getAttributePath());
+        Assertions.assertEquals(String.class, spec.getValueType());
     }
 
     @Test
@@ -132,16 +132,18 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
         List<String> jsonPath = Arrays.asList("desc");
 
         QueryPathSpec spec = resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JAVA, "test", queryContext);
-        Assert.assertEquals(Arrays.asList("description"), spec.getAttributePath());
-        Assert.assertEquals(String.class, spec.getValueType());
+        Assertions.assertEquals(Arrays.asList("description"), spec.getAttributePath());
+        Assertions.assertEquals(String.class, spec.getValueType());
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void checkJavaNameNotAccessibleIfJsonNameDiffers() {
-        ResourceInformation resourceInformation = resourceRegistry.getEntry(Schedule.class).getResourceInformation();
-        List<String> jsonPath = Arrays.asList("desc");
-
-        resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JSON, "test", queryContext);
+		Assertions.assertThrows(BadRequestException.class, () -> {
+	        ResourceInformation resourceInformation = resourceRegistry.getEntry(Schedule.class).getResourceInformation();
+	        List<String> jsonPath = Arrays.asList("desc");
+	
+	        resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JSON, "test", queryContext);
+		});
     }
 
     @Test
@@ -150,8 +152,8 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
         List<String> jsonPath = Arrays.asList("project", "id");
 
         QueryPathSpec spec = resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JAVA, "test", queryContext);
-        Assert.assertEquals(Long.class, spec.getValueType());
-        Assert.assertEquals(jsonPath, spec.getAttributePath());
+        Assertions.assertEquals(Long.class, spec.getValueType());
+        Assertions.assertEquals(jsonPath, spec.getAttributePath());
     }
 
     @Test
@@ -160,8 +162,8 @@ public class QueryPathResolverTest extends AbstractQuerySpecTest {
         ResourceInformation resourceInformation = resourceRegistry.getEntry(Task.class).getResourceInformation();
 
         QueryPathSpec spec = resolver.resolve(resourceInformation, jsonPath, QueryPathResolver.NamingType.JAVA, "test", queryContext);
-        Assert.assertEquals(Task.class, spec.getValueType());
-        Assert.assertEquals(jsonPath, spec.getAttributePath());
+        Assertions.assertEquals(Task.class, spec.getValueType());
+        Assertions.assertEquals(jsonPath, spec.getAttributePath());
     }
 
 

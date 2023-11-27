@@ -5,9 +5,9 @@ import io.crnk.core.engine.internal.CoreModule;
 import io.crnk.core.engine.internal.jackson.JacksonModule;
 import io.crnk.core.engine.internal.registry.ResourceRegistryImpl;
 import io.crnk.core.engine.registry.DefaultResourceRegistryPart;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
@@ -26,7 +26,7 @@ public class ModuleExtensionTest {
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		optional = false;
 
@@ -56,10 +56,12 @@ public class ModuleExtensionTest {
 		heckInorderInitialization();
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void checkMissingMandatoryDependencyFailsInit() {
-		moduleRegistry.addModule(consumerModule);
-		moduleRegistry.init(objectMapper);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			moduleRegistry.addModule(consumerModule);
+			moduleRegistry.init(objectMapper);
+		});
 	}
 
 	@Test
@@ -85,8 +87,8 @@ public class ModuleExtensionTest {
 		ArgumentCaptor<List> extensionsCaptor = ArgumentCaptor.forClass(List.class);
 		Mockito.verify(providerModule, Mockito.times(1)).setExtensions(extensionsCaptor.capture());
 		List extensions = extensionsCaptor.getValue();
-		Assert.assertEquals(1, extensions.size());
-		Assert.assertTrue(extensions.get(0) instanceof TestModuleExtension);
+		Assertions.assertEquals(1, extensions.size());
+		Assertions.assertTrue(extensions.get(0) instanceof TestModuleExtension);
 	}
 
 	@Test
@@ -100,8 +102,8 @@ public class ModuleExtensionTest {
 		ArgumentCaptor<List> extensionsCaptor = ArgumentCaptor.forClass(List.class);
 		Mockito.verify(providerModule, Mockito.times(1)).setExtensions(extensionsCaptor.capture());
 		List extensions = extensionsCaptor.getValue();
-		Assert.assertEquals(1, extensions.size());
-		Assert.assertTrue(extensions.get(0) instanceof TestModuleExtension);
+		Assertions.assertEquals(1, extensions.size());
+		Assertions.assertTrue(extensions.get(0) instanceof TestModuleExtension);
 	}
 
 

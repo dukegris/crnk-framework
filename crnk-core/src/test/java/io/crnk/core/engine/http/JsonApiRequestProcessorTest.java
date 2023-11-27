@@ -17,9 +17,9 @@ import io.crnk.core.module.Module;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.repository.response.JsonApiResponse;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -39,7 +39,7 @@ public class JsonApiRequestProcessorTest {
     private HttpRequestContextBaseAdapter requestContext;
 
 
-    @Before
+    @BeforeEach
     public void setup() {
         container = new CoreTestContainer();
         container.addModule(new CoreTestModule());
@@ -76,10 +76,10 @@ public class JsonApiRequestProcessorTest {
         Mockito.when(requestContextBase.getPath()).thenReturn("/tasks/");
         Mockito.when(requestContextBase.getRequestHeader("Accept"))
                 .thenReturn("*");
-        Assert.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
+        Assertions.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
         Mockito.when(requestContextBase.getRequestHeader("Accept"))
                 .thenReturn("something");
-        Assert.assertFalse(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
+        Assertions.assertFalse(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
     }
 
 
@@ -89,10 +89,10 @@ public class JsonApiRequestProcessorTest {
         Mockito.when(requestContextBase.getPath()).thenReturn("/tasks/");
         Mockito.when(requestContextBase.getRequestHeader("Accept"))
                 .thenReturn("application/json");
-        Assert.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, true));
+        Assertions.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, true));
         Mockito.when(requestContextBase.getRequestHeader("Accept"))
                 .thenReturn("application/json");
-        Assert.assertFalse(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
+        Assertions.assertFalse(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class JsonApiRequestProcessorTest {
         Mockito.when(requestContextBase.getMethod()).thenReturn("GET");
         Mockito.when(requestContextBase.getPath()).thenReturn("/tasks/");
         Mockito.when(requestContextBase.getRequestHeader("Accept")).thenReturn("*");
-        Assert.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
+        Assertions.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class JsonApiRequestProcessorTest {
         Mockito.when(requestContextBase.getMethod()).thenReturn("PATCH");
         Mockito.when(requestContextBase.getPath()).thenReturn("/tasks/12");
         Mockito.when(requestContextBase.getRequestHeader("Accept")).thenReturn("*");
-        Assert.assertFalse(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
+        Assertions.assertFalse(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
 
         processor.process(requestContext);
         Mockito.verify(requestContextBase, Mockito.times(0)).setResponse(Mockito.any(HttpResponse.class));
@@ -121,7 +121,7 @@ public class JsonApiRequestProcessorTest {
         Mockito.when(requestContextBase.getRequestHeader("Accept")).thenReturn("*");
 
         Result<HttpResponse> result = processor.processAsync(requestContext);
-        Assert.assertEquals(HttpStatus.METHOD_NOT_ALLOWED_405, result.get().getStatusCode());
+        Assertions.assertEquals(HttpStatus.METHOD_NOT_ALLOWED_405, result.get().getStatusCode());
     }
 
     @Test
@@ -129,7 +129,7 @@ public class JsonApiRequestProcessorTest {
         Mockito.when(requestContextBase.getMethod()).thenReturn("POST");
         Mockito.when(requestContextBase.getPath()).thenReturn("/tasks/");
         Mockito.when(requestContextBase.getRequestHeader("Accept")).thenReturn("*");
-        Assert.assertFalse(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
+        Assertions.assertFalse(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
 
         processor.process(requestContext);
         Mockito.verify(requestContextBase, Mockito.times(0)).setResponse(Mockito.any(HttpResponse.class));
@@ -147,15 +147,15 @@ public class JsonApiRequestProcessorTest {
         Mockito.verify(requestContextBase, Mockito.times(1)).setResponse(contentCaptor.capture());
 
         String json = new String(contentCaptor.getValue().getBody());
-        Assert.assertEquals(200, contentCaptor.getValue().getStatusCode());
+        Assertions.assertEquals(200, contentCaptor.getValue().getStatusCode());
         Document document = container.getBoot().getObjectMapper().readerFor(Document.class).readValue(json);
-        Assert.assertTrue(document.getData().isPresent());
+        Assertions.assertTrue(document.getData().isPresent());
 
         List<Resource> resources = document.getCollectionData().get();
-        Assert.assertEquals(1, resources.size());
+        Assertions.assertEquals(1, resources.size());
         Resource resource = resources.get(0);
-        Assert.assertEquals("http://127.0.0.1/tasks/1", resource.getLinks().get("self").asText());
-        Assert.assertNotNull(resource.getLinks().get("value"));
+        Assertions.assertEquals("http://127.0.0.1/tasks/1", resource.getLinks().get("self").asText());
+        Assertions.assertNotNull(resource.getLinks().get("value"));
     }
 
     @Test
@@ -170,16 +170,16 @@ public class JsonApiRequestProcessorTest {
         ArgumentCaptor<HttpResponse> contentCaptor = ArgumentCaptor.forClass(HttpResponse.class);
         Mockito.verify(requestContextBase, Mockito.times(1)).setResponse(contentCaptor.capture());
 
-        Assert.assertEquals(200, contentCaptor.getValue().getStatusCode());
+        Assertions.assertEquals(200, contentCaptor.getValue().getStatusCode());
         String json = new String(contentCaptor.getValue().getBody());
 
         Document document = container.getObjectMapper().readerFor(Document.class).readValue(json);
-        Assert.assertTrue(document.getData().isPresent());
+        Assertions.assertTrue(document.getData().isPresent());
         List<Resource> resources = document.getCollectionData().get();
-        Assert.assertEquals(1, resources.size());
+        Assertions.assertEquals(1, resources.size());
         Resource resource = resources.get(0);
-        Assert.assertNull(resource.getLinks().get("self"));
-        Assert.assertNotNull(resource.getLinks().get("value"));
+        Assertions.assertNull(resource.getLinks().get("self"));
+        Assertions.assertNotNull(resource.getLinks().get("value"));
     }
 
 
@@ -214,13 +214,13 @@ public class JsonApiRequestProcessorTest {
         Mockito.verify(requestContextBase, Mockito.times(1)).setResponse(contentCaptor.capture());
 
         String json = new String(contentCaptor.getValue().getBody());
-        Assert.assertEquals(HttpStatus.CREATED_201, contentCaptor.getValue().getStatusCode());
+        Assertions.assertEquals(HttpStatus.CREATED_201, contentCaptor.getValue().getStatusCode());
 
         Document document = container.getObjectMapper().readerFor(Document.class).readValue(json);
-        Assert.assertTrue(document.getData().isPresent());
+        Assertions.assertTrue(document.getData().isPresent());
         Resource updatedTask = (Resource) document.getData().get();
-        Assert.assertEquals("1", updatedTask.getId());
-        Assert.assertEquals("tasks", updatedTask.getType());
+        Assertions.assertEquals("1", updatedTask.getId());
+        Assertions.assertEquals("tasks", updatedTask.getType());
     }
 
 
@@ -240,14 +240,14 @@ public class JsonApiRequestProcessorTest {
         ArgumentCaptor<HttpResponse> contentCaptor = ArgumentCaptor.forClass(HttpResponse.class);
         Mockito.verify(requestContextBase, Mockito.times(1)).setResponse(contentCaptor.capture());
 
-        Assert.assertEquals(HttpStatus.BAD_REQUEST_400, contentCaptor.getValue().getStatusCode());
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST_400, contentCaptor.getValue().getStatusCode());
         String json = new String(contentCaptor.getValue().getBody());
 
         Document document = container.getObjectMapper().readerFor(Document.class).readValue(json);
-        Assert.assertFalse(document.getData().isPresent());
-        Assert.assertEquals(1, document.getErrors().size());
+        Assertions.assertFalse(document.getData().isPresent());
+        Assertions.assertEquals(1, document.getErrors().size());
         ErrorData errorData = document.getErrors().get(0);
-        Assert.assertEquals("400", errorData.getStatus());
+        Assertions.assertEquals("400", errorData.getStatus());
     }
 
     @Test
@@ -259,7 +259,7 @@ public class JsonApiRequestProcessorTest {
                 .thenReturn(HttpHeaders.JSONAPI_CONTENT_TYPE);
         Mockito.when(requestContext.getRequestBody()).thenReturn("{ INVALID }".getBytes());
 
-        Assert.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
+        Assertions.assertTrue(JsonApiRequestProcessor.isJsonApiRequest(requestContext, false));
 
         processor.process(requestContext);
 
@@ -267,16 +267,16 @@ public class JsonApiRequestProcessorTest {
         Mockito.verify(requestContextBase, Mockito.times(1))
                 .setResponse(contentCaptor.capture());
 
-        Assert.assertEquals(HttpStatus.BAD_REQUEST_400, contentCaptor.getValue().getStatusCode());
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST_400, contentCaptor.getValue().getStatusCode());
 
         String json = new String(contentCaptor.getValue().getBody());
 
         Document document = container.getObjectMapper().readerFor(Document.class).readValue(json);
-        Assert.assertFalse(document.getData().isPresent());
-        Assert.assertEquals(1, document.getErrors().size());
+        Assertions.assertFalse(document.getData().isPresent());
+        Assertions.assertEquals(1, document.getErrors().size());
         ErrorData errorData = document.getErrors().get(0);
-        Assert.assertEquals("400", errorData.getStatus());
-        Assert.assertEquals("Json Parsing failed", errorData.getTitle());
-        Assert.assertNotNull(errorData.getDetail());
+        Assertions.assertEquals("400", errorData.getStatus());
+        Assertions.assertEquals("Json Parsing failed", errorData.getTitle());
+        Assertions.assertNotNull(errorData.getDetail());
     }
 }

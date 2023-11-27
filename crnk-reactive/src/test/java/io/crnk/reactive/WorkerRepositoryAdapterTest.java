@@ -11,8 +11,8 @@ import io.crnk.core.repository.response.JsonApiResponse;
 import io.crnk.reactive.internal.MonoResultFactory;
 import io.crnk.reactive.internal.adapter.WorkerRelationshipRepositoryAdapter;
 import io.crnk.reactive.internal.adapter.WorkerResourceRepositoryAdapter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
@@ -42,7 +42,7 @@ public class WorkerRepositoryAdapterTest {
 	private Result response;
 
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		Scheduler scheduler = Schedulers.immediate();
 		HttpRequestContextProvider requestContextProvider = Mockito.mock(HttpRequestContextProvider.class);

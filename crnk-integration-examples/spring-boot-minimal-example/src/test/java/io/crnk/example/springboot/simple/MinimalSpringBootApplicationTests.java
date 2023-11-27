@@ -1,13 +1,13 @@
 package io.crnk.example.springboot.simple;
 
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.response.Response;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.example.springboot.microservice.Project;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 
@@ -23,7 +23,7 @@ public class MinimalSpringBootApplicationTests extends BaseTest {
 		QuerySpec querySpec = new QuerySpec(Project.class);
 		querySpec.setLimit(10L);
 		ResourceList<Project> list = projectRepo.findAll(querySpec);
-		Assert.assertNotEquals(0, list.size());
+		Assertions.assertNotEquals(0, list.size());
 	}
 
 	@Test
@@ -51,6 +51,6 @@ public class MinimalSpringBootApplicationTests extends BaseTest {
 		Response response = RestAssured.given().when().get("/");
 		response.then().assertThat().statusCode(200);
 		String body = response.getBody().print();
-		Assert.assertTrue(body, body.contains("/projects"));
+		Assertions.assertTrue(body.contains("/projects"), body);
 	}
 }

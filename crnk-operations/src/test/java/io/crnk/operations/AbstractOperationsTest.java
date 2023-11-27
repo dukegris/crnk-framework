@@ -4,17 +4,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.metamodel.ManagedType;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.metamodel.ManagedType;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
 import io.crnk.client.CrnkClient;
 import io.crnk.client.action.JerseyActionStubFactory;
+import io.crnk.client.http.HttpAdapterProvider;
 import io.crnk.client.http.okhttp.OkHttpAdapter;
 import io.crnk.client.http.okhttp.OkHttpAdapterListenerBase;
+import io.crnk.client.http.okhttp.OkHttpAdapterProvider;
 import io.crnk.data.jpa.JpaModule;
 import io.crnk.data.jpa.JpaModuleConfig;
 import io.crnk.data.jpa.JpaRepositoryConfig;
@@ -39,9 +41,9 @@ import io.crnk.test.mock.models.Task;
 import io.crnk.validation.ValidationModule;
 import okhttp3.OkHttpClient.Builder;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public abstract class AbstractOperationsTest extends JerseyTestBase {
@@ -95,10 +97,20 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 		}
 	}
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		clear();
 		client = new CrnkClient(getBaseUri().toString());
+
+		// RCS Blindar el tipo de adaptador
+		for (HttpAdapterProvider httpAdapterProvider : client.getHttpAdapterProviders()) {
+			if (httpAdapterProvider.isAvailable() && httpAdapterProvider instanceof OkHttpAdapterProvider) {
+				OkHttpAdapter httpAdapter = (OkHttpAdapter) httpAdapterProvider.newInstance();
+				client.setHttpAdapter(httpAdapter);
+				break;
+			}
+		}		
+		
 		client.setActionStubFactory(JerseyActionStubFactory.newInstance());
 		client.getHttpAdapter().setReceiveTimeout(10000000, TimeUnit.MILLISECONDS);
 
@@ -112,6 +124,7 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 		client.addModule(module);
 
 		setNetworkTimeout(client, 10000, TimeUnit.SECONDS);
+		
 	}
 
 	protected MovieEntity newMovie(String title) {
@@ -141,14 +154,16 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		super.tearDown();
 
 		clear();
 
 		if (context != null) {
-			context.destroy();
+			// RCS deprecated
+			// context.destroy();
+			context.close();
 		}
 	}
 
@@ -171,7 +186,7 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 
 
 		public TestApplication() {
-			Assert.assertNull(context);
+			Assertions.assertNull(context);
 
 			context = new AnnotationConfigApplicationContext(io.crnk.operations.OperationsTestConfig.class);
 			context.start();

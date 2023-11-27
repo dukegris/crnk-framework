@@ -8,10 +8,10 @@ import io.crnk.core.repository.ResourceRepository;
 import io.crnk.test.mock.models.Project;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.models.TaskSubType;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,7 @@ public abstract class InheritanceAccessTestBase {
 
 	protected RelationshipRepository<Project, Long, Task, Long> relRepo;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		testContainer.start();
 		taskRepo = testContainer.getRepositoryForType(Task.class);
@@ -53,7 +53,7 @@ public abstract class InheritanceAccessTestBase {
 		relRepo.addRelations(project, Arrays.asList(baseTask.getId(), taskSubType.getId()), "tasks");
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		testContainer.stop();
 	}
@@ -64,9 +64,9 @@ public abstract class InheritanceAccessTestBase {
 		QuerySpec querySpec = new QuerySpec(Task.class);
 		querySpec.addSort(new SortSpec(Arrays.asList("name"), Direction.ASC));
 		List<Task> tasks = taskRepo.findAll(querySpec);
-		Assert.assertEquals(2, tasks.size());
+		Assertions.assertEquals(2, tasks.size());
 
-		Assert.assertEquals("baseTask", tasks.get(0).getName());
-		Assert.assertEquals("taskSubType", tasks.get(1).getName());
+		Assertions.assertEquals("baseTask", tasks.get(0).getName());
+		Assertions.assertEquals("taskSubType", tasks.get(1).getName());
 	}
 }

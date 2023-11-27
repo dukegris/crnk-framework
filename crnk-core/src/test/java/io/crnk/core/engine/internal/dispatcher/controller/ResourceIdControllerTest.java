@@ -12,9 +12,9 @@ import io.crnk.core.mock.models.Schedule;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
@@ -37,7 +37,7 @@ public class ResourceIdControllerTest extends ControllerTestBase {
 
 	private ResourceRepository<RelationIdTestResource, Object> repository;
 
-	@Before
+	@BeforeEach
 	public void prepare() {
 		super.prepare();
 
@@ -98,18 +98,18 @@ public class ResourceIdControllerTest extends ControllerTestBase {
 		assertThat(taskResponse.getHttpStatus()).isEqualTo(HttpStatus.CREATED_201);
 		Resource createdResource = taskResponse.getDocument().getSingleData().get();
 
-		Assert.assertEquals(resource.getType(), createdResource.getType());
-		Assert.assertEquals(resource.getId(), createdResource.getId());
-		Assert.assertEquals(resource.getAttributes().get("name"), createdResource.getAttributes().get("name"));
+		Assertions.assertEquals(resource.getType(), createdResource.getType());
+		Assertions.assertEquals(resource.getId(), createdResource.getId());
+		Assertions.assertEquals(resource.getAttributes().get("name"), createdResource.getAttributes().get("name"));
 
 		Relationship relationship = createdResource.getRelationships().get("testLookupAlways");
-		Assert.assertTrue(relationship.getData().isPresent());
-		Assert.assertEquals(schedule3Id, relationship.getData().get());
+		Assertions.assertTrue(relationship.getData().isPresent());
+		Assertions.assertEquals(schedule3Id, relationship.getData().get());
 
 		// validate relationship not accessed, only id set => performance
 		RelationIdTestResource entity = repository.findOne(1L, new QuerySpec(RelationIdTestResource.class));
-		Assert.assertEquals(schedule3.getId(), entity.getTestLookupAlwaysId());
-		Assert.assertNull(entity.getTestLookupAlways());
+		Assertions.assertEquals(schedule3.getId(), entity.getTestLookupAlwaysId());
+		Assertions.assertNull(entity.getTestLookupAlways());
 
 		return createdResource;
 
@@ -131,18 +131,18 @@ public class ResourceIdControllerTest extends ControllerTestBase {
 		assertThat(taskResponse.getHttpStatus()).isEqualTo(HttpStatus.OK_200);
 		Resource updatedResource = taskResponse.getDocument().getSingleData().get();
 
-		Assert.assertEquals(resource.getType(), updatedResource.getType());
-		Assert.assertEquals(resource.getId(), updatedResource.getId());
-		Assert.assertEquals(resource.getAttributes().get("name"), updatedResource.getAttributes().get("name"));
+		Assertions.assertEquals(resource.getType(), updatedResource.getType());
+		Assertions.assertEquals(resource.getId(), updatedResource.getId());
+		Assertions.assertEquals(resource.getAttributes().get("name"), updatedResource.getAttributes().get("name"));
 
 		Relationship relationship = updatedResource.getRelationships().get("testLookupAlways");
-		Assert.assertTrue(relationship.getData().isPresent());
-		Assert.assertEquals(schedule2Id, relationship.getData().get());
+		Assertions.assertTrue(relationship.getData().isPresent());
+		Assertions.assertEquals(schedule2Id, relationship.getData().get());
 
 		// validate relationship not accessed, only id set => performance
 		RelationIdTestResource entity = repository.findOne(1L, new QuerySpec(RelationIdTestResource.class));
-		Assert.assertEquals(schedule2.getId(), entity.getTestLookupAlwaysId());
-		Assert.assertNull(entity.getTestLookupAlways());
+		Assertions.assertEquals(schedule2.getId(), entity.getTestLookupAlwaysId());
+		Assertions.assertNull(entity.getTestLookupAlways());
 
 		return updatedResource;
 	}
@@ -163,7 +163,7 @@ public class ResourceIdControllerTest extends ControllerTestBase {
 
 		// validate relationship not accessed, only id set => performance
 		RelationIdTestResource entity = repository.findOne(1L, new QuerySpec(RelationIdTestResource.class));
-		Assert.assertEquals(scheduleId != null ? Long.parseLong(scheduleId.getId()) : null, entity.getTestLookupAlwaysId());
-		Assert.assertNull(entity.getTestLookupAlways());
+		Assertions.assertEquals(scheduleId != null ? Long.parseLong(scheduleId.getId()) : null, entity.getTestLookupAlwaysId());
+		Assertions.assertNull(entity.getTestLookupAlways());
 	}
 }

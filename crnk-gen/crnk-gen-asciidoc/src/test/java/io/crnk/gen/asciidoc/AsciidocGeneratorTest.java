@@ -8,8 +8,8 @@ import io.crnk.meta.MetaModuleConfig;
 import io.crnk.meta.provider.resource.ResourceMetaProvider;
 import io.crnk.test.mock.TestModule;
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class AsciidocGeneratorTest {
 
     private AsciidocGeneratorModule module;
 
-    @Before
+    @BeforeEach
     public void setup() throws IOException {
         File buildDir = new File("build/tmp/asciidoc");
 

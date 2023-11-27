@@ -1,6 +1,6 @@
 package io.crnk.servlet;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.engine.http.HttpHeaders;
@@ -10,8 +10,8 @@ import io.crnk.core.engine.result.ImmediateResultFactory;
 import io.crnk.core.engine.security.SecurityProvider;
 import io.crnk.servlet.internal.ServletModule;
 import io.crnk.servlet.internal.ServletRequestContext;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -23,7 +23,7 @@ public class ServletModuleTest {
 		ImmediateResultFactory resultFactory = new ImmediateResultFactory();
 		HttpRequestContextProvider provider = new HttpRequestContextProvider(() -> resultFactory, null);
 		ServletModule module = new ServletModule(provider);
-		Assert.assertEquals("servlet", module.getModuleName());
+		Assertions.assertEquals("servlet", module.getModuleName());
 	}
 
 	@Test
@@ -47,9 +47,9 @@ public class ServletModuleTest {
 		provider.onRequestStarted(new HttpRequestContextBaseAdapter(new ServletRequestContext(servletContext, request,
 				response, "api", HttpHeaders.DEFAULT_CHARSET)));
 
-		Assert.assertFalse(securityProvider.isAuthenticated(null));
-		Assert.assertFalse(securityProvider.isUserInRole("doesNotExist", null));
-		Assert.assertTrue(securityProvider.isUserInRole("guest", null));
-		Assert.assertTrue(securityProvider.isUserInRole("admin", null));
+		Assertions.assertFalse(securityProvider.isAuthenticated(null));
+		Assertions.assertFalse(securityProvider.isUserInRole("doesNotExist", null));
+		Assertions.assertTrue(securityProvider.isUserInRole("guest", null));
+		Assertions.assertTrue(securityProvider.isUserInRole("admin", null));
 	}
 }

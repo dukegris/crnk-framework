@@ -18,9 +18,9 @@ import io.crnk.core.module.SimpleModule;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.internal.QuerySpecAdapter;
 import io.crnk.core.queryspec.pagingspec.OffsetLimitPagingSpec;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -57,7 +57,7 @@ public class RepositoryFilterTest {
 
     private CoreTestContainer container;
 
-    @Before
+    @BeforeEach
     public void prepare() {
         SimpleModule filterModule = new SimpleModule("filter");
         filterModule.addRepositoryFilter(filter);
@@ -124,16 +124,16 @@ public class RepositoryFilterTest {
         Mockito.verify(filter, Mockito.times(1)).filterMeta(Mockito.any(RepositoryFilterContext.class), metaResources.capture(),
                 Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, linksResources.getAllValues().size());
-        Assert.assertEquals(1, metaResources.getAllValues().size());
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, linksResources.getAllValues().size());
+        Assertions.assertEquals(1, metaResources.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertNull(requestSpec.getId());
-        Assert.assertNull(requestSpec.getIds());
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertNull(requestSpec.getId());
+        Assertions.assertNull(requestSpec.getIds());
         QuerySpec actualQuerySpec = requestSpec.getQuerySpec(scheduleInfo);
-        Assert.assertSame(querySpec, actualQuerySpec);
+        Assertions.assertSame(querySpec, actualQuerySpec);
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -155,15 +155,15 @@ public class RepositoryFilterTest {
         Mockito.verify(filter, Mockito.times(1)).filterMeta(Mockito.any(RepositoryFilterContext.class), metaResources.capture(),
                 Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, linksResources.getAllValues().size());
-        Assert.assertEquals(1, metaResources.getAllValues().size());
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, linksResources.getAllValues().size());
+        Assertions.assertEquals(1, metaResources.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertNull(requestSpec.getId());
-        Assert.assertNull(requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertNull(requestSpec.getId());
+        Assertions.assertNull(requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -186,15 +186,15 @@ public class RepositoryFilterTest {
         Mockito.verify(filter, Mockito.times(1)).filterMeta(Mockito.any(RepositoryFilterContext.class), metaResources.capture(),
                 Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, linksResources.getAllValues().size());
-        Assert.assertEquals(1, metaResources.getAllValues().size());
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, linksResources.getAllValues().size());
+        Assertions.assertEquals(1, metaResources.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertEquals(1L, requestSpec.getId());
-        Assert.assertEquals(Collections.singleton(1L), requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertEquals(1L, requestSpec.getId());
+        Assertions.assertEquals(Collections.singleton(1L), requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -216,16 +216,16 @@ public class RepositoryFilterTest {
         Mockito.verify(filter, Mockito.times(1)).filterMeta(Mockito.any(RepositoryFilterContext.class), metaResources.capture(),
                 Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, linksResources.getAllValues().size());
-        Assert.assertEquals(1, metaResources.getAllValues().size());
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, linksResources.getAllValues().size());
+        Assertions.assertEquals(1, metaResources.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertEquals(2L, requestSpec.getId());
-        Assert.assertEquals(HttpMethod.GET, requestSpec.getMethod());
-        Assert.assertEquals(Arrays.asList(2L), requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertEquals(2L, requestSpec.getId());
+        Assertions.assertEquals(HttpMethod.GET, requestSpec.getMethod());
+        Assertions.assertEquals(Arrays.asList(2L), requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -249,16 +249,16 @@ public class RepositoryFilterTest {
         Mockito.verify(filter, Mockito.times(1)).filterMeta(Mockito.any(RepositoryFilterContext.class), metaResources.capture(),
                 Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, linksResources.getAllValues().size());
-        Assert.assertEquals(1, metaResources.getAllValues().size());
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, linksResources.getAllValues().size());
+        Assertions.assertEquals(1, metaResources.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertEquals(3L, requestSpec.getId());
-        Assert.assertEquals(HttpMethod.POST, requestSpec.getMethod());
-        Assert.assertEquals(Collections.singleton(3L), requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertEquals(3L, requestSpec.getId());
+        Assertions.assertEquals(HttpMethod.POST, requestSpec.getMethod());
+        Assertions.assertEquals(Collections.singleton(3L), requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -282,16 +282,16 @@ public class RepositoryFilterTest {
         Mockito.verify(filter, Mockito.times(1)).filterMeta(Mockito.any(RepositoryFilterContext.class), metaResources.capture(),
                 Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, linksResources.getAllValues().size());
-        Assert.assertEquals(1, metaResources.getAllValues().size());
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, linksResources.getAllValues().size());
+        Assertions.assertEquals(1, metaResources.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertEquals(3L, requestSpec.getId());
-        Assert.assertEquals(HttpMethod.PATCH, requestSpec.getMethod());
-        Assert.assertEquals(Collections.singleton(3L), requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertEquals(3L, requestSpec.getId());
+        Assertions.assertEquals(HttpMethod.PATCH, requestSpec.getMethod());
+        Assertions.assertEquals(Collections.singleton(3L), requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -312,14 +312,14 @@ public class RepositoryFilterTest {
                 .filterMeta(Mockito.any(RepositoryFilterContext.class), Mockito.any(Collection.class),
                         Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertEquals(2L, requestSpec.getId());
-        Assert.assertEquals(HttpMethod.DELETE, requestSpec.getMethod());
-        Assert.assertEquals(Arrays.asList(2L), requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertEquals(2L, requestSpec.getId());
+        Assertions.assertEquals(HttpMethod.DELETE, requestSpec.getMethod());
+        Assertions.assertEquals(Arrays.asList(2L), requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -340,14 +340,14 @@ public class RepositoryFilterTest {
                 .filterMeta(Mockito.any(RepositoryFilterContext.class), Mockito.any(Collection.class),
                         Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertEquals(1L, requestSpec.getId());
-        Assert.assertEquals(HttpMethod.GET, requestSpec.getMethod());
-        Assert.assertEquals(Arrays.asList(1L), requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertEquals(1L, requestSpec.getId());
+        Assertions.assertEquals(HttpMethod.GET, requestSpec.getMethod());
+        Assertions.assertEquals(Arrays.asList(1L), requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -368,15 +368,15 @@ public class RepositoryFilterTest {
                 .filterMeta(Mockito.any(RepositoryFilterContext.class), Mockito.any(Collection.class),
                         Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertEquals(1L, requestSpec.getId());
-        Assert.assertEquals("assignedProjects", requestSpec.getRelationshipField().getUnderlyingName());
-        Assert.assertEquals(HttpMethod.GET, requestSpec.getMethod());
-        Assert.assertEquals(Arrays.asList(1L), requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertEquals(1L, requestSpec.getId());
+        Assertions.assertEquals("assignedProjects", requestSpec.getRelationshipField().getUnderlyingName());
+        Assertions.assertEquals(HttpMethod.GET, requestSpec.getMethod());
+        Assertions.assertEquals(Arrays.asList(1L), requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -397,16 +397,16 @@ public class RepositoryFilterTest {
                 .filterMeta(Mockito.any(RepositoryFilterContext.class), Mockito.any(Collection.class),
                         Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertEquals(13L, requestSpec.getId());
-        Assert.assertEquals(user1, requestSpec.getEntity());
-        Assert.assertEquals("assignedProjects", requestSpec.getRelationshipField().getUnderlyingName());
-        Assert.assertEquals(HttpMethod.PATCH, requestSpec.getMethod());
-        Assert.assertEquals(Arrays.asList(13L), requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertEquals(13L, requestSpec.getId());
+        Assertions.assertEquals(user1, requestSpec.getEntity());
+        Assertions.assertEquals("assignedProjects", requestSpec.getRelationshipField().getUnderlyingName());
+        Assertions.assertEquals(HttpMethod.PATCH, requestSpec.getMethod());
+        Assertions.assertEquals(Arrays.asList(13L), requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -427,15 +427,15 @@ public class RepositoryFilterTest {
                 .filterMeta(Mockito.any(RepositoryFilterContext.class), Mockito.any(Collection.class),
                         Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertEquals(user1, requestSpec.getEntity());
-        Assert.assertEquals("assignedProjects", requestSpec.getRelationshipField().getUnderlyingName());
-        Assert.assertEquals(HttpMethod.PATCH, requestSpec.getMethod());
-        Assert.assertEquals(Arrays.asList(13L, 14L), requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertEquals(user1, requestSpec.getEntity());
+        Assertions.assertEquals("assignedProjects", requestSpec.getRelationshipField().getUnderlyingName());
+        Assertions.assertEquals(HttpMethod.PATCH, requestSpec.getMethod());
+        Assertions.assertEquals(Arrays.asList(13L, 14L), requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -456,14 +456,14 @@ public class RepositoryFilterTest {
                 .filterMeta(Mockito.any(RepositoryFilterContext.class), Mockito.any(Collection.class),
                         Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertEquals(user1, requestSpec.getEntity());
-        Assert.assertEquals(HttpMethod.POST, requestSpec.getMethod());
-        Assert.assertEquals(Arrays.asList(13L, 14L), requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertEquals(user1, requestSpec.getEntity());
+        Assertions.assertEquals(HttpMethod.POST, requestSpec.getMethod());
+        Assertions.assertEquals(Arrays.asList(13L, 14L), requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -484,15 +484,15 @@ public class RepositoryFilterTest {
                 .filterMeta(Mockito.any(RepositoryFilterContext.class), Mockito.any(Collection.class),
                         Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context = contexts.getAllValues().iterator().next();
         RepositoryRequestSpec requestSpec = context.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
-        Assert.assertEquals(user1, requestSpec.getEntity());
-        Assert.assertEquals("assignedProjects", requestSpec.getRelationshipField().getUnderlyingName());
-        Assert.assertEquals(HttpMethod.DELETE, requestSpec.getMethod());
-        Assert.assertEquals(Arrays.asList(13L, 14L), requestSpec.getIds());
-        Assert.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec.getQueryAdapter());
+        Assertions.assertEquals(user1, requestSpec.getEntity());
+        Assertions.assertEquals("assignedProjects", requestSpec.getRelationshipField().getUnderlyingName());
+        Assertions.assertEquals(HttpMethod.DELETE, requestSpec.getMethod());
+        Assertions.assertEquals(Arrays.asList(13L, 14L), requestSpec.getIds());
+        Assertions.assertSame(querySpec, requestSpec.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -515,15 +515,15 @@ public class RepositoryFilterTest {
                 .filterMeta(Mockito.any(RepositoryFilterContext.class), Mockito.any(Collection.class),
                         Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context1 = contexts.getAllValues().get(0);
         RepositoryRequestSpec requestSpec1 = context1.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec1.getQueryAdapter());
-        Assert.assertNull(requestSpec1.getEntity());
-        Assert.assertEquals("assignedTasks", requestSpec1.getRelationshipField().getUnderlyingName());
-        Assert.assertEquals(HttpMethod.GET, requestSpec1.getMethod());
-        Assert.assertEquals(Arrays.asList(1L), requestSpec1.getIds());
-        Assert.assertSame(querySpec, requestSpec1.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec1.getQueryAdapter());
+        Assertions.assertNull(requestSpec1.getEntity());
+        Assertions.assertEquals("assignedTasks", requestSpec1.getRelationshipField().getUnderlyingName());
+        Assertions.assertEquals(HttpMethod.GET, requestSpec1.getMethod());
+        Assertions.assertEquals(Arrays.asList(1L), requestSpec1.getIds());
+        Assertions.assertSame(querySpec, requestSpec1.getQuerySpec(userInfo));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -547,14 +547,14 @@ public class RepositoryFilterTest {
                 .filterMeta(Mockito.any(RepositoryFilterContext.class), Mockito.any(Collection.class),
                         Mockito.any(RepositoryMetaFilterChain.class));
 
-        Assert.assertEquals(1, contexts.getAllValues().size());
+        Assertions.assertEquals(1, contexts.getAllValues().size());
         RepositoryFilterContext context1 = contexts.getAllValues().get(0);
         RepositoryRequestSpec requestSpec1 = context1.getRequest();
-        Assert.assertEquals(queryAdapter, requestSpec1.getQueryAdapter());
-        Assert.assertNull(requestSpec1.getEntity());
-        Assert.assertEquals("assignedTasks", requestSpec1.getRelationshipField().getUnderlyingName());
-        Assert.assertEquals(HttpMethod.GET, requestSpec1.getMethod());
-        Assert.assertEquals(Arrays.asList(1L, 2L), requestSpec1.getIds());
-        Assert.assertSame(querySpec, requestSpec1.getQuerySpec(userInfo));
+        Assertions.assertEquals(queryAdapter, requestSpec1.getQueryAdapter());
+        Assertions.assertNull(requestSpec1.getEntity());
+        Assertions.assertEquals("assignedTasks", requestSpec1.getRelationshipField().getUnderlyingName());
+        Assertions.assertEquals(HttpMethod.GET, requestSpec1.getMethod());
+        Assertions.assertEquals(Arrays.asList(1L, 2L), requestSpec1.getIds());
+        Assertions.assertSame(querySpec, requestSpec1.getQuerySpec(userInfo));
     }
 }

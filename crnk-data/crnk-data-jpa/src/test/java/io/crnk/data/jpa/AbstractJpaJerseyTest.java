@@ -20,17 +20,17 @@ import io.crnk.test.JerseyTestBase;
 import io.crnk.test.mock.TestModule;
 import okhttp3.OkHttpClient.Builder;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.metamodel.ManagedType;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.metamodel.ManagedType;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -58,7 +58,7 @@ public abstract class AbstractJpaJerseyTest extends JerseyTestBase {
         });
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         client = new CrnkClient(getBaseUri().toString());
         client.getObjectMapper().registerModule(new JavaTimeModule());
@@ -81,7 +81,7 @@ public abstract class AbstractJpaJerseyTest extends JerseyTestBase {
     }
 
     @Override
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         super.tearDown();
 
@@ -97,7 +97,9 @@ public abstract class AbstractJpaJerseyTest extends JerseyTestBase {
         });
 
         if (context != null) {
-            context.destroy();
+			// RCS deprecated
+			// context.destroy();
+			context.close();
         }
     }
 
@@ -111,7 +113,7 @@ public abstract class AbstractJpaJerseyTest extends JerseyTestBase {
 
         public TestApplication() {
 
-            Assert.assertNull(context);
+            Assertions.assertNull(context);
 
             context = new AnnotationConfigApplicationContext(JpaTestConfig.class);
             context.start();

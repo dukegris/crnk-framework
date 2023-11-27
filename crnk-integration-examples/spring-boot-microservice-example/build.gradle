@@ -14,10 +14,10 @@ dependencies {
     implementation project(':crnk-core')
 
     implementation 'com.fasterxml.jackson.core:jackson-annotations'
-    implementation 'org.springframework:spring-beans:5.2.25.RELEASE'
-    implementation 'org.springframework:spring-context:5.2.25.RELEASE'
-    implementation 'org.springframework.boot:spring-boot:2.3.12.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE'
+    implementation 'org.springframework:spring-beans:6.0.13'
+    implementation 'org.springframework:spring-context:6.0.13'
+    implementation 'org.springframework.boot:spring-boot:3.1.5'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:3.1.5'
 
     // RCS unneeded:
     // testImplementation project(':crnk-client')
@@ -25,11 +25,11 @@ dependencies {
     testImplementation project(':crnk-testkit')
 
     // RCS unneeded:
-    // testImplementation 'org.springframework:spring-context:5.2.25.RELEASE'
-    testImplementation 'com.jayway.restassured:rest-assured:2.9.0'
+    // testImplementation 'org.springframework:spring-context:6.0.13'
+    testImplementation 'io.rest-assured:rest-assured:5.3.2'
 
-    testRuntimeOnly 'org.springframework.boot:spring-boot-starter:2.3.12.RELEASE'
-    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-web:2.3.12.RELEASE'
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter:3.1.5'
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-web:3.1.5'
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
 
 }

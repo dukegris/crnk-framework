@@ -4,8 +4,8 @@ import io.crnk.core.engine.internal.utils.CoreClassTestUtils;
 import io.crnk.core.mock.models.Project;
 import io.crnk.core.mock.models.Task;
 import io.crnk.core.repository.RelationshipRepositoryBase;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 @Deprecated
 public class RelationshipRepositoryBaseTest {
@@ -18,8 +18,8 @@ public class RelationshipRepositoryBaseTest {
 	@Test
 	public void checkAccessors() {
 		RelationshipRepositoryBase base = new RelationshipRepositoryBase(Task.class, Project.class);
-		Assert.assertEquals(Task.class, base.getSourceResourceClass());
-		Assert.assertEquals(Project.class, base.getTargetResourceClass());
+		Assertions.assertEquals(Task.class, base.getSourceResourceClass());
+		Assertions.assertEquals(Project.class, base.getTargetResourceClass());
 	}
 
 	@Test

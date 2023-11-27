@@ -9,12 +9,12 @@ import io.crnk.data.jpa.model.TestEntity;
 import io.crnk.data.jpa.query.AbstractJpaTest;
 import io.crnk.data.jpa.query.JpaQueryFactory;
 import io.crnk.data.jpa.query.criteria.JpaCriteriaQueryFactory;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class StandaloneJpaEntityRepositoryTest extends AbstractJpaTest {
 	protected JpaEntityRepository<TestEntity, Long> standaloneRepo;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -46,10 +46,10 @@ public class StandaloneJpaEntityRepositoryTest extends AbstractJpaTest {
 		querySpec.addFilter(new FilterSpec(Arrays.asList("longValue"), FilterOperator.EQ, 2L));
 		List<TestEntity> list = standaloneRepo.findAll(querySpec);
 
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		TestEntity entity = list.get(0);
-		Assert.assertEquals(2, entity.getId().longValue());
-		Assert.assertEquals(2L, entity.getLongValue());
+		Assertions.assertEquals(2, entity.getId().longValue());
+		Assertions.assertEquals(2L, entity.getLongValue());
 	}
 
 }

@@ -5,14 +5,14 @@ import io.crnk.core.repository.ResourceRepository;
 import io.crnk.data.jpa.model.TestEntity;
 import io.crnk.data.jpa.query.criteria.JpaCriteriaQueryFactory;
 import io.crnk.data.jpa.query.criteria.JpaCriteriaRepositoryFilterBase;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaQuery;
 
 public class JpaFilterTest extends AbstractJpaJerseyTest {
 
@@ -21,7 +21,7 @@ public class JpaFilterTest extends AbstractJpaJerseyTest {
 	private JpaCriteriaRepositoryFilterBase filter;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 		testRepo = client.getRepositoryForType(TestEntity.class);
@@ -45,7 +45,7 @@ public class JpaFilterTest extends AbstractJpaJerseyTest {
 				.filterCriteriaQuery(Mockito.any(), Mockito.any(QuerySpec.class), criteriaQueryCaptor.capture());
 
 		CriteriaQuery value = criteriaQueryCaptor.getValue();
-		Assert.assertNotNull(value);
+		Assertions.assertNotNull(value);
 	}
 
 }

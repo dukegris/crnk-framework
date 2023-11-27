@@ -3,13 +3,13 @@ package io.crnk.rs;
 import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.engine.security.SecurityProvider;
 import io.crnk.core.engine.url.ServiceUrlProvider;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import javax.ws.rs.core.Configuration;
-import javax.ws.rs.core.FeatureContext;
-import javax.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.FeatureContext;
+import jakarta.ws.rs.core.SecurityContext;
 
 public class CrnkFeatureTest {
 
@@ -19,7 +19,7 @@ public class CrnkFeatureTest {
 
 		ServiceUrlProvider serviceUrlProvider = Mockito.mock(ServiceUrlProvider.class);
 		feature.setServiceUrlProvider(serviceUrlProvider);
-		Assert.assertSame(serviceUrlProvider, feature.getBoot().getServiceUrlProvider());
+		Assertions.assertSame(serviceUrlProvider, feature.getBoot().getServiceUrlProvider());
 	}
 
 	@Test
@@ -45,9 +45,9 @@ public class CrnkFeatureTest {
 		CrnkBoot boot = feature.getBoot();
 		if (enabled) {
 			SecurityProvider securityProvider = boot.getModuleRegistry().getSecurityProvider();
-			Assert.assertNotNull(securityProvider);
+			Assertions.assertNotNull(securityProvider);
 		} else {
-			Assert.assertEquals(0, boot.getModuleRegistry().getSecurityProviders().size());
+			Assertions.assertEquals(0, boot.getModuleRegistry().getSecurityProviders().size());
 		}
 	}
 }

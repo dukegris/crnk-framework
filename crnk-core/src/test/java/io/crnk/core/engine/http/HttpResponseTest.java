@@ -1,9 +1,9 @@
 package io.crnk.core.engine.http;
 
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -14,27 +14,27 @@ public class HttpResponseTest {
 
 	private HttpResponse response;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		response = new HttpResponse();
 	}
 
 	@Test
 	public void checkHeaderAccess() {
-		Assert.assertNotNull(response.getHeaders());
+		Assertions.assertNotNull(response.getHeaders());
 
 		Map<String, String> headers = new HashMap<>();
 		response.setHeaders(headers);
-		Assert.assertSame(headers, response.getHeaders());
+		Assertions.assertSame(headers, response.getHeaders());
 
 		response.setContentType("test");
-		Assert.assertEquals("test", headers.get(HttpHeaders.HTTP_CONTENT_TYPE));
+		Assertions.assertEquals("test", headers.get(HttpHeaders.HTTP_CONTENT_TYPE));
 	}
 
 	@Test
 	public void checkBodyUtf8Encoding() throws UnsupportedEncodingException {
 		response.setBody("aäöü");
-		Assert.assertNotEquals(4, response.getBody().length);
-		Assert.assertEquals("aäöü", new String(response.getBody(), StandardCharsets.UTF_8));
+		Assertions.assertNotEquals(4, response.getBody().length);
+		Assertions.assertEquals("aäöü", new String(response.getBody(), StandardCharsets.UTF_8));
 	}
 }

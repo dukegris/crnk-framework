@@ -1,7 +1,7 @@
 package io.crnk.core.queryspec;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -10,46 +10,54 @@ public class FilterSpecTest {
 	@Test
 	public void testBasic() {
 		FilterSpec spec = new FilterSpec(Arrays.asList("name"), FilterOperator.EQ, "test");
-		Assert.assertEquals("test", spec.getValue());
-		Assert.assertEquals(FilterOperator.EQ, spec.getOperator());
-		Assert.assertEquals(Arrays.asList("name"), spec.getAttributePath());
-		Assert.assertFalse(spec.hasExpressions());
+		Assertions.assertEquals("test", spec.getValue());
+		Assertions.assertEquals(FilterOperator.EQ, spec.getOperator());
+		Assertions.assertEquals(Arrays.asList("name"), spec.getAttributePath());
+		Assertions.assertFalse(spec.hasExpressions());
 		spec.setValue("newValue");
-		Assert.assertEquals("newValue", spec.getValue());
+		Assertions.assertEquals("newValue", spec.getValue());
 	}
 
 	@Test
 	public void fromPathSpec() {
 		FilterSpec filter = PathSpec.of("a", "b").filter(FilterOperator.EQ, "12");
-		Assert.assertEquals("12", filter.getValue());
-		Assert.assertEquals(FilterOperator.EQ, filter.getOperator());
-		Assert.assertEquals("a.b", filter.getPath().toString());
+		Assertions.assertEquals("12", filter.getValue());
+		Assertions.assertEquals(FilterOperator.EQ, filter.getOperator());
+		Assertions.assertEquals("a.b", filter.getPath().toString());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testNullOperatorThrowsException() {
-		new FilterSpec(Arrays.asList("name"), null, "test");
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			new FilterSpec(Arrays.asList("name"), null, "test");
+		});
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testAndOperatorWithValueThrowsException() {
-		new FilterSpec(Arrays.asList("name"), FilterOperator.AND, "test");
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			new FilterSpec(Arrays.asList("name"), FilterOperator.AND, "test");
+		});
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testOrOperatorWithValueThrowsException() {
-		new FilterSpec(Arrays.asList("name"), FilterOperator.OR, "test");
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			new FilterSpec(Arrays.asList("name"), FilterOperator.OR, "test");
+		});
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testNotOperatorWithValueThrowsException() {
-		new FilterSpec(Arrays.asList("name"), FilterOperator.NOT, "test");
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			new FilterSpec(Arrays.asList("name"), FilterOperator.NOT, "test");
+		});
 	}
 
 	@Test
 	public void testCloneBasic() {
 		FilterSpec spec = new FilterSpec(Arrays.asList("name"), FilterOperator.EQ, "test");
-		Assert.assertEquals(spec, spec.clone());
+		Assertions.assertEquals(spec, spec.clone());
 	}
 
 	@Test
@@ -57,28 +65,28 @@ public class FilterSpecTest {
 		FilterSpec spec1 = new FilterSpec(Arrays.asList("name1"), FilterOperator.EQ, "test");
 		FilterSpec spec2 = new FilterSpec(Arrays.asList("name2"), FilterOperator.EQ, "test");
 		FilterSpec andSpec = FilterSpec.and(spec1, spec2);
-		Assert.assertEquals(andSpec, andSpec.clone());
+		Assertions.assertEquals(andSpec, andSpec.clone());
 	}
 
 	@Test
 	public void testToString() {
-		Assert.assertEquals("name EQ test",
+		Assertions.assertEquals("name EQ test",
 				new FilterSpec(Arrays.asList("name"), FilterOperator.EQ, "test").toString());
-		Assert.assertEquals("name1.name2 EQ test",
+		Assertions.assertEquals("name1.name2 EQ test",
 				new FilterSpec(Arrays.asList("name1", "name2"), FilterOperator.EQ, "test").toString());
-		Assert.assertEquals("name NEQ test",
+		Assertions.assertEquals("name NEQ test",
 				new FilterSpec(Arrays.asList("name"), FilterOperator.NEQ, "test").toString());
-		Assert.assertEquals("NOT(name NEQ test)",
+		Assertions.assertEquals("NOT(name NEQ test)",
 				FilterSpec.not(new FilterSpec(Arrays.asList("name"), FilterOperator.NEQ, "test")).toString());
-		Assert.assertEquals("(name1 NEQ test1) AND (name2 EQ test2)",
+		Assertions.assertEquals("(name1 NEQ test1) AND (name2 EQ test2)",
 				FilterSpec.and(new FilterSpec(Arrays.asList("name1"), FilterOperator.NEQ, "test1"),
 						new FilterSpec(Arrays.asList("name2"), FilterOperator.EQ, "test2")).toString());
-		Assert.assertEquals("NOT((name1 NEQ test1) AND (name2 EQ test2))",
+		Assertions.assertEquals("NOT((name1 NEQ test1) AND (name2 EQ test2))",
 				new FilterSpec(FilterOperator.NOT,
 						Arrays.asList(new FilterSpec(Arrays.asList("name1"), FilterOperator.NEQ, "test1"),
 								new FilterSpec(Arrays.asList("name2"), FilterOperator.EQ, "test2"))).toString());
 
-		Assert.assertEquals("NOT(name2 EQ test2)", new FilterSpec(FilterOperator.NOT,
+		Assertions.assertEquals("NOT(name2 EQ test2)", new FilterSpec(FilterOperator.NOT,
 				Arrays.asList(new FilterSpec(Arrays.asList("name2"), FilterOperator.EQ, "test2"))).toString());
 
 	}
@@ -88,16 +96,16 @@ public class FilterSpecTest {
 		FilterSpec spec1 = new FilterSpec(Arrays.asList("name1"), FilterOperator.EQ, "test");
 		FilterSpec spec2 = new FilterSpec(Arrays.asList("name2"), FilterOperator.EQ, "test");
 		FilterSpec andSpec = FilterSpec.and(spec1, spec2);
-		Assert.assertTrue(andSpec.hasExpressions());
-		Assert.assertEquals(FilterOperator.AND, andSpec.getOperator());
-		Assert.assertEquals(2, andSpec.getExpression().size());
+		Assertions.assertTrue(andSpec.hasExpressions());
+		Assertions.assertEquals(FilterOperator.AND, andSpec.getOperator());
+		Assertions.assertEquals(2, andSpec.getExpression().size());
 	}
 
 	@Test
 	public void testAndOneExpr() {
 		FilterSpec spec1 = new FilterSpec(Arrays.asList("name1"), FilterOperator.EQ, "test");
 		FilterSpec andSpec = FilterSpec.and(spec1);
-		Assert.assertSame(spec1, andSpec);
+		Assertions.assertSame(spec1, andSpec);
 	}
 
 	@Test
@@ -105,9 +113,9 @@ public class FilterSpecTest {
 		FilterSpec spec1 = new FilterSpec(Arrays.asList("name1"), FilterOperator.EQ, "test");
 		FilterSpec spec2 = new FilterSpec(Arrays.asList("name2"), FilterOperator.EQ, "test");
 		FilterSpec orSpec = FilterSpec.or(spec1, spec2);
-		Assert.assertTrue(orSpec.hasExpressions());
-		Assert.assertEquals(FilterOperator.OR, orSpec.getOperator());
-		Assert.assertEquals(2, orSpec.getExpression().size());
+		Assertions.assertTrue(orSpec.hasExpressions());
+		Assertions.assertEquals(FilterOperator.OR, orSpec.getOperator());
+		Assertions.assertEquals(2, orSpec.getExpression().size());
 	}
 
 	@Test
@@ -115,16 +123,16 @@ public class FilterSpecTest {
 		FilterSpec spec1 = new FilterSpec(Arrays.asList("name1"), FilterOperator.EQ, "test");
 		FilterSpec spec2 = new FilterSpec(Arrays.asList("name2"), FilterOperator.EQ, "test");
 		FilterSpec orSpec = FilterSpec.or(Arrays.asList(spec1, spec2));
-		Assert.assertTrue(orSpec.hasExpressions());
-		Assert.assertEquals(FilterOperator.OR, orSpec.getOperator());
-		Assert.assertEquals(2, orSpec.getExpression().size());
+		Assertions.assertTrue(orSpec.hasExpressions());
+		Assertions.assertEquals(FilterOperator.OR, orSpec.getOperator());
+		Assertions.assertEquals(2, orSpec.getExpression().size());
 	}
 
 	@Test
 	public void testOrOneExpr() {
 		FilterSpec spec1 = new FilterSpec(Arrays.asList("name1"), FilterOperator.EQ, "test");
 		FilterSpec orSpec = FilterSpec.or(spec1);
-		Assert.assertSame(spec1, orSpec);
+		Assertions.assertSame(spec1, orSpec);
 	}
 
 	@Test
@@ -138,23 +146,23 @@ public class FilterSpecTest {
 		FilterSpec orSpecB = FilterSpec.or(spec1B, spec2B);
 		FilterSpec notSpec = FilterSpec.not(spec1A);
 
-		Assert.assertEquals(orSpecA, orSpecB);
-		Assert.assertEquals(spec1A, spec1A);
-		Assert.assertEquals(spec1A, spec1B);
-		Assert.assertEquals(spec2A, spec2B);
-		Assert.assertEquals(orSpecA.hashCode(), orSpecB.hashCode());
-		Assert.assertEquals(spec1A.hashCode(), spec1B.hashCode());
-		Assert.assertEquals(spec2A.hashCode(), spec2B.hashCode());
-		Assert.assertNotEquals(spec1A, spec2B);
-		Assert.assertNotEquals(spec1A, "somethingDifferent");
-		Assert.assertNotEquals(spec1A, null);
-		Assert.assertNotEquals(spec2A, spec1B);
-		Assert.assertNotEquals(orSpecA, spec1B);
-		Assert.assertNotEquals(spec2B, orSpecA);
-		Assert.assertNotEquals(spec2B, notSpec);
-		Assert.assertEquals(notSpec, notSpec);
-		Assert.assertEquals(orSpecB, orSpecB);
-		Assert.assertNotEquals(notSpec, orSpecB);
+		Assertions.assertEquals(orSpecA, orSpecB);
+		Assertions.assertEquals(spec1A, spec1A);
+		Assertions.assertEquals(spec1A, spec1B);
+		Assertions.assertEquals(spec2A, spec2B);
+		Assertions.assertEquals(orSpecA.hashCode(), orSpecB.hashCode());
+		Assertions.assertEquals(spec1A.hashCode(), spec1B.hashCode());
+		Assertions.assertEquals(spec2A.hashCode(), spec2B.hashCode());
+		Assertions.assertNotEquals(spec1A, spec2B);
+		Assertions.assertNotEquals(spec1A, "somethingDifferent");
+		Assertions.assertNotEquals(spec1A, null);
+		Assertions.assertNotEquals(spec2A, spec1B);
+		Assertions.assertNotEquals(orSpecA, spec1B);
+		Assertions.assertNotEquals(spec2B, orSpecA);
+		Assertions.assertNotEquals(spec2B, notSpec);
+		Assertions.assertEquals(notSpec, notSpec);
+		Assertions.assertEquals(orSpecB, orSpecB);
+		Assertions.assertNotEquals(notSpec, orSpecB);
 	}
 
 	@Test
@@ -166,14 +174,14 @@ public class FilterSpecTest {
 		FilterSpec spec1B = new FilterSpec(Arrays.asList("name2"), FilterOperator.EQ, "test");
 		FilterSpec spec2B = new FilterSpec(Arrays.asList("name1"), FilterOperator.EQ, "test");
 		FilterSpec orSpecB = FilterSpec.or(spec1B, spec2B);
-		Assert.assertNotEquals(orSpecA, orSpecB);
+		Assertions.assertNotEquals(orSpecA, orSpecB);
 
 		// A does not change since sorted alphabetically
-		Assert.assertEquals(orSpecA, orSpecA.normalize());
+		Assertions.assertEquals(orSpecA, orSpecA.normalize());
 
 		// norm B equals A
 		FilterSpec norm = orSpecB.normalize();
-		Assert.assertEquals(orSpecA, norm);
+		Assertions.assertEquals(orSpecA, norm);
 	}
 
 }

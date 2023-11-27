@@ -8,7 +8,7 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.22.RELEASE'
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:3.1.5'
     }
 }
 
@@ -17,9 +17,9 @@ dependencies {
     implementation project(':crnk-core')
     implementation project(':crnk-reactive')
 
-    implementation 'io.projectreactor:reactor-core:3.2.3.RELEASE'
-    implementation 'io.vertx:vertx-rx-java2:3.7.1'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'io.projectreactor:reactor-core:3.5.11'
+    implementation 'io.vertx:vertx-rx-java2:4.4.6'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation project(':crnk-core')
@@ -29,10 +29,11 @@ dependencies {
     testImplementation project(':crnk-test')
 
     // RCS unneeded:
-    // testImplementation 'io.projectreactor:reactor-core:3.2.3.RELEASE'
-    // testImplementation 'io.vertx:vertx-rx-java2:3.7.1'
-    // testImplementation 'org.slf4j:slf4j-api:1.7.13'
+    // testImplementation 'io.projectreactor:reactor-core:3.5.11'
+    // testImplementation 'io.vertx:vertx-rx-java2:4.4.6'
+    // testImplementation 'org.slf4j:slf4j-api:2.0.9'
+    testImplementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.3'
 
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
 
 }

@@ -1,7 +1,7 @@
 package io.crnk.core.engine.internal.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class UrlUtilsTest {
 
@@ -12,19 +12,19 @@ public class UrlUtilsTest {
 
 	@Test
 	public void testRemoveTrailingSlash() {
-		Assert.assertNull(UrlUtils.removeTrailingSlash(null));
-		Assert.assertEquals("/test", UrlUtils.removeTrailingSlash("/test/"));
-		Assert.assertEquals("test", UrlUtils.removeTrailingSlash("test/"));
-		Assert.assertEquals("/test", UrlUtils.removeTrailingSlash("/test"));
-		Assert.assertEquals("test", UrlUtils.removeTrailingSlash("test"));
+		Assertions.assertNull(UrlUtils.removeTrailingSlash(null));
+		Assertions.assertEquals("/test", UrlUtils.removeTrailingSlash("/test/"));
+		Assertions.assertEquals("test", UrlUtils.removeTrailingSlash("test/"));
+		Assertions.assertEquals("/test", UrlUtils.removeTrailingSlash("/test"));
+		Assertions.assertEquals("test", UrlUtils.removeTrailingSlash("test"));
 	}
 
 	@Test
 	public void testRemoveLeadingSlash() {
-		Assert.assertNull(UrlUtils.removeLeadingSlash(null));
-		Assert.assertEquals("test/", UrlUtils.removeLeadingSlash("/test/"));
-		Assert.assertEquals("test/", UrlUtils.removeLeadingSlash("test/"));
-		Assert.assertEquals("test", UrlUtils.removeLeadingSlash("/test"));
-		Assert.assertEquals("test", UrlUtils.removeLeadingSlash("test"));
+		Assertions.assertNull(UrlUtils.removeLeadingSlash(null));
+		Assertions.assertEquals("test/", UrlUtils.removeLeadingSlash("/test/"));
+		Assertions.assertEquals("test/", UrlUtils.removeLeadingSlash("test/"));
+		Assertions.assertEquals("test", UrlUtils.removeLeadingSlash("/test"));
+		Assertions.assertEquals("test", UrlUtils.removeLeadingSlash("test"));
 	}
 }

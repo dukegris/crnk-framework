@@ -29,8 +29,8 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.repository.response.JsonApiResponse;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class ResourcePatchControllerTest extends ControllerTestBase {
@@ -48,7 +48,7 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         boolean result = sut.isAcceptable(jsonPath, REQUEST_TYPE);
 
         // THEN
-        Assert.assertEquals(result, false);
+        Assertions.assertEquals(result, false);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         boolean result = sut.isAcceptable(jsonPath, REQUEST_TYPE);
 
         // THEN
-        Assert.assertEquals(result, true);
+        Assertions.assertEquals(result, true);
     }
 
     @Test
@@ -72,11 +72,14 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         sut.init(controllerContext);
 
         // THEN
-        expectedException.expect(RuntimeException.class);
+        // RCS deprecated
+        // expectedException.expect(RuntimeException.class);
 
         // WHEN
-        JsonPath path = pathBuilder.build("/frides", queryContext);
-        sut.handle(path, emptyProjectQuery, null);
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            JsonPath path = pathBuilder.build("/frides", queryContext);
+            sut.handle(path, emptyProjectQuery, null);
+        });
     }
 
     @Test
@@ -109,7 +112,7 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         Response response = sut.handle(jsonPath, emptyTaskQuery, taskPatch);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getDocument().getSingleData().get().getType()).isEqualTo("tasks");
         assertThat(response.getDocument().getSingleData().get().getAttributes().get("name").asText()).isEqualTo("task updated");
 
@@ -138,26 +141,28 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         sut.init(controllerContext);
 
         Response response = sut.handle(projectPath, emptyProjectQuery, newProjectBody);
-        Assert.assertEquals(HttpStatus.NO_CONTENT_204, response.getHttpStatus().intValue());
+        Assertions.assertEquals(HttpStatus.NO_CONTENT_204, response.getHttpStatus().intValue());
     }
 
-    @Test(expected = ResourceNotFoundException.class)
+    @Test
     public void onPatchNonExistingResourceThrowException() throws Exception {
-        // GIVEN
-        Document newTaskBody = new Document();
-        Resource data = createTask();
-        newTaskBody.setData(Nullable.of(data));
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+	        // GIVEN
+	        Document newTaskBody = new Document();
+	        Resource data = createTask();
+	        newTaskBody.setData(Nullable.of(data));
 
-        Document taskPatch = new Document();
-        data = createTask();
-        taskPatch.setData(Nullable.of(data));
-        data.setAttribute("name", objectMapper.readTree("\"task updated\""));
-        JsonPath jsonPath = pathBuilder.build("/tasks/1234567", queryContext);
-        ResourcePatchController sut = new ResourcePatchController();
-        sut.init(controllerContext);
+	        Document taskPatch = new Document();
+	        data = createTask();
+	        taskPatch.setData(Nullable.of(data));
+	        data.setAttribute("name", objectMapper.readTree("\"task updated\""));
+	        JsonPath jsonPath = pathBuilder.build("/tasks/1234567", queryContext);
+	        ResourcePatchController sut = new ResourcePatchController();
+	        sut.init(controllerContext);
 
-        // WHEN
-        sut.handle(jsonPath, emptyTaskQuery, taskPatch);
+	        // WHEN
+	        sut.handle(jsonPath, emptyTaskQuery, taskPatch);
+		});
     }
 
     @Test
@@ -183,9 +188,9 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         try {
             JsonPath patchPath = pathBuilder.build("/tasks/" + data.getId(), queryContext);
             sut.handle(patchPath, emptyTaskQuery, requestDocument);
-            Assert.fail("should not be allowed to update read-only field");
+            Assertions.fail("should not be allowed to update read-only field");
         } catch (ForbiddenException e) {
-            Assert.assertEquals("field 'tasks.readOnlyValue' cannot be accessed for PATCH", e.getMessage());
+            Assertions.assertEquals("field 'tasks.readOnlyValue' cannot be accessed for PATCH", e.getMessage());
         }
     }
 
@@ -221,16 +226,16 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         Response response = null;
         try {
             response = sut.handle(jsonPath, emptyTaskQuery, taskPatch);
-            Assert.fail("Should have recieved exception.");
+            Assertions.fail("Should have recieved exception.");
         } catch (CrnkException rbe) {
             // Got correct exception
         } catch (Error ex) {
-            Assert.fail("Got bad exception: " + ex);
+            Assertions.fail("Got bad exception: " + ex);
         }
     }
 
     @Test
-    @org.junit.Ignore // TODO inhertiance/resourceregistry
+    @org.junit.jupiter.api.Disabled // TODO inhertiance/resourceregistry
     public void onInheritedResourceShouldUpdateInheritedResource() throws Exception {
         // GIVEN
         Document memorandumBody = new Document();
@@ -322,9 +327,9 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
 
         // verify attributes updated and relationship nulled
         Task updatedTask = container.getRepository(Task.class).findOne(taskId, new QuerySpec(Task.class));
-        Assert.assertEquals(null, updatedTask.getProject());
-        Assert.assertEquals("task updated", updatedTask.getName());
-        Assert.assertNotNull(response);
+        Assertions.assertEquals(null, updatedTask.getProject());
+        Assertions.assertEquals("task updated", updatedTask.getName());
+        Assertions.assertNotNull(response);
     }
 
 
@@ -374,7 +379,7 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         Response response = sut.handle(schedulePath, emptyScheduleQuery, schedulePatch);
 
         // verify attributes updated and relationship nulled
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         Resource updatedResource = response.getDocument().getSingleData().get();
         assertThat(updatedResource.getType()).isEqualTo("schedules");
         assertThat(updatedResource.getAttributes().get("name").asText()).isEqualTo("schedule updated");
@@ -406,7 +411,7 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         Response response = sut.handle(taskPath, emptyTaskQuery, taskPatch);
 
         // not relationship not patched since not not patchable due to @JsonApiField(patchable=false)
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         Resource savedTask = response.getDocument().getSingleData().get();
         assertThat(savedTask.getType()).isEqualTo("tasks");
         assertThat(savedTask.getAttributes().get("name").asText()).isEqualTo("task updated");
@@ -731,7 +736,7 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         Response response = sut.handle(jsonPath, emptyComplexPojoQuery, complexPojoPatch);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getDocument().getSingleData().get().getType()).isEqualTo("complexpojos");
         assertThat(response.getDocument().getSingleData().get().getAttributes().get("containedPojo").get("updateableProperty1")
                 .asText()).isEqualTo("updated value");
@@ -767,7 +772,7 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         Response response = sut.handle(jsonPath, emptyTaskQuery, taskPatch);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getDocument().getSingleData().get().getType()).isEqualTo("tasks");
         Resource updatedTask = response.getDocument().getSingleData().get();
         assertThat(updatedTask.getAttributes().get("name").asText()).isEqualTo("Mary Jane");
@@ -799,13 +804,13 @@ public class ResourcePatchControllerTest extends ControllerTestBase {
         Response response = sut.handle(jsonPath, emptyTaskQuery, taskPatch);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         assertThat(response.getDocument().getSingleData().get().getType()).isEqualTo("tasks");
         Resource updatedTask = response.getDocument().getSingleData().get();
         assertThat(updatedTask.getAttributes().get("name").asText()).isEqualTo("Mary Joe");
         assertThat(updatedTask.getAttributes().get("category").asText()).isEqualTo("TestCategory");
         assertThat(updatedTask.getId()).isEqualTo(task.getId().toString());
-        Assert.assertEquals("Mary Joe", task.getName());
-        Assert.assertEquals("TestCategory", task.getCategory());
+        Assertions.assertEquals("Mary Joe", task.getName());
+        Assertions.assertEquals("TestCategory", task.getCategory());
     }
 }

@@ -167,6 +167,7 @@ public class ResourceMapper {
 		if (isValueIncluded(field, value)) { // Quick decision
 			JsonNode valueNode = objectMapper.valueToTree(value);
 			if (isNodeIncluded(field, valueNode)) { //  take decision based on serialization
+				// RCS bug valueNode no es el valor para los Optional
 				resource.getAttributes().put(field.getJsonName(), valueNode);
 			}
 		}
@@ -174,6 +175,7 @@ public class ResourceMapper {
 
 	protected void setAnyAttribute(Resource resource, String field, Object value) {
 		JsonNode valueNode = objectMapper.valueToTree(value);
+		// RCS bug valueNode no es el valor para los Optional
 		resource.getAttributes().put(field, valueNode);
 	}
 

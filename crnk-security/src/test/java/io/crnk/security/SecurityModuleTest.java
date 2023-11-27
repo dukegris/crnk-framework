@@ -25,9 +25,9 @@ import io.crnk.security.repository.RolePermissionRepository;
 import io.crnk.security.repository.RoleRepository;
 import io.crnk.test.mock.ClassTestUtils;
 import io.crnk.test.mock.models.UnknownResource;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Set;
@@ -43,7 +43,7 @@ public class SecurityModuleTest {
 
     private boolean authenticated;
 
-    @Before
+    @BeforeEach
     public void setup() {
         // TODO simplify ones simple module is fixed
         SimpleModule appModule = new SimpleModule("app") {
@@ -77,7 +77,7 @@ public class SecurityModuleTest {
         builder.permitRole("projectRole", "projects", ResourcePermission.POST);
         SecurityConfig config = builder.build();
         securityModule = SecurityModule.newServerModule(config);
-        Assert.assertSame(config, securityModule.getConfig());
+        Assertions.assertSame(config, securityModule.getConfig());
 
         boot = new CrnkBoot();
         boot.addModule(securityModule);
@@ -92,10 +92,10 @@ public class SecurityModuleTest {
         ResourceList<Role> roles = repository.findAll(new QuerySpec(Role.class));
 
         Set<String> roleNames = roles.stream().map(it -> it.getId()).collect(Collectors.toSet());
-        Assert.assertTrue(roleNames.contains("taskRole"));
-        Assert.assertTrue(roleNames.contains("projectRole"));
-        Assert.assertTrue(roleNames.contains(SecurityModule.ANY_ROLE));
-        Assert.assertEquals(3, roleNames.size());
+        Assertions.assertTrue(roleNames.contains("taskRole"));
+        Assertions.assertTrue(roleNames.contains("projectRole"));
+        Assertions.assertTrue(roleNames.contains(SecurityModule.ANY_ROLE));
+        Assertions.assertEquals(3, roleNames.size());
     }
 
 
@@ -107,11 +107,11 @@ public class SecurityModuleTest {
         QuerySpec querySpec = new QuerySpec(CallerPermission.class);
         querySpec.addSort(PathSpec.of("resourceType").sort(Direction.ASC));
         ResourceList<CallerPermission> permissions = repository.findAll(querySpec);
-        Assert.assertEquals("projects", permissions.get(0).getResourceType());
-        Assert.assertEquals(ResourcePermission.GET, permissions.get(0).getPermission());
-        Assert.assertEquals("tasks", permissions.get(4).getResourceType());
-        Assert.assertEquals(ResourcePermission.GET, permissions.get(4).getPermission());
-        Assert.assertNull(permissions.get(3).getDataRoomFilter());
+        Assertions.assertEquals("projects", permissions.get(0).getResourceType());
+        Assertions.assertEquals(ResourcePermission.GET, permissions.get(0).getPermission());
+        Assertions.assertEquals("tasks", permissions.get(4).getResourceType());
+        Assertions.assertEquals(ResourcePermission.GET, permissions.get(4).getPermission());
+        Assertions.assertNull(permissions.get(3).getDataRoomFilter());
     }
 
     @Test
@@ -124,25 +124,25 @@ public class SecurityModuleTest {
         querySpec.addFilter(PathSpec.of("resourceType").filter(FilterOperator.EQ, "projects"));
         ResourceList<RolePermission> permissions = repository.findAll(querySpec);
 
-        Assert.assertEquals(3, permissions.size());
+        Assertions.assertEquals(3, permissions.size());
 
         RolePermission anyRole = permissions.get(0);
-        Assert.assertEquals("ANY", anyRole.getRole());
-        Assert.assertEquals("projects", anyRole.getResourceType());
-        Assert.assertEquals(ResourcePermission.GET, anyRole.getPermission());
-        Assert.assertNull(anyRole.getDataRoomFilter());
+        Assertions.assertEquals("ANY", anyRole.getRole());
+        Assertions.assertEquals("projects", anyRole.getResourceType());
+        Assertions.assertEquals(ResourcePermission.GET, anyRole.getPermission());
+        Assertions.assertNull(anyRole.getDataRoomFilter());
 
         RolePermission projectRole = permissions.get(1);
-        Assert.assertEquals("projectRole", projectRole.getRole());
-        Assert.assertEquals("projects", projectRole.getResourceType());
-        Assert.assertEquals(ResourcePermission.POST.or(ResourcePermission.GET), projectRole.getPermission());
-        Assert.assertNull(projectRole.getDataRoomFilter());
+        Assertions.assertEquals("projectRole", projectRole.getRole());
+        Assertions.assertEquals("projects", projectRole.getResourceType());
+        Assertions.assertEquals(ResourcePermission.POST.or(ResourcePermission.GET), projectRole.getPermission());
+        Assertions.assertNull(projectRole.getDataRoomFilter());
 
         RolePermission taskRole = permissions.get(2);
-        Assert.assertEquals("taskRole", taskRole.getRole());
-        Assert.assertEquals("projects", taskRole.getResourceType());
-        Assert.assertEquals(ResourcePermission.GET, taskRole.getPermission());
-        Assert.assertNull(taskRole.getDataRoomFilter());
+        Assertions.assertEquals("taskRole", taskRole.getRole());
+        Assertions.assertEquals("projects", taskRole.getResourceType());
+        Assertions.assertEquals(ResourcePermission.GET, taskRole.getPermission());
+        Assertions.assertNull(taskRole.getDataRoomFilter());
     }
 
     @Test
@@ -156,9 +156,9 @@ public class SecurityModuleTest {
         boot.boot();
         try {
             securityModule.checkInit();
-            Assert.fail();
+            Assertions.fail();
         } catch (RepositoryNotFoundException e) {
-            Assert.assertEquals("Repository for a resource not found: io.crnk.security.model.Task", e.getMessage());
+            Assertions.assertEquals("Repository for a resource not found: io.crnk.security.model.Task", e.getMessage());
         }
     }
 
@@ -173,15 +173,15 @@ public class SecurityModuleTest {
         boot.boot();
         try {
             securityModule.checkInit();
-            Assert.fail();
+            Assertions.fail();
         } catch (RepositoryNotFoundException e) {
-            Assert.assertTrue(e.getMessage().contains("Repository for a resource not found: doesNotExist"));
+            Assertions.assertTrue(e.getMessage().contains("Repository for a resource not found: doesNotExist"));
         }
     }
 
     @Test
     public void testModuleName() {
-        Assert.assertEquals("security", securityModule.getModuleName());
+        Assertions.assertEquals("security", securityModule.getModuleName());
     }
 
     @Test
@@ -196,65 +196,65 @@ public class SecurityModuleTest {
         allowedRule = "taskRole";
         ResourcePermission projectPermissions = securityModule.getCallerPermissions(queryContext, "projects");
         ResourcePermission tasksPermissions = securityModule.getCallerPermissions(queryContext, "tasks");
-        Assert.assertEquals(ResourcePermission.ALL, tasksPermissions);
-        Assert.assertEquals(ResourcePermission.GET, projectPermissions);
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.GET));
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.GET));
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.ALL));
-        Assert.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
-        Assert.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.POST));
+        Assertions.assertEquals(ResourcePermission.ALL, tasksPermissions);
+        Assertions.assertEquals(ResourcePermission.GET, projectPermissions);
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.GET));
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.GET));
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.ALL));
+        Assertions.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
+        Assertions.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.POST));
         allowedRule = "projectRole";
         projectPermissions = securityModule.getCallerPermissions(queryContext, "projects");
         tasksPermissions = securityModule.getCallerPermissions(queryContext, "tasks");
-        Assert.assertEquals(ResourcePermission.GET, tasksPermissions);
-        Assert.assertEquals(ResourcePermission.GET.or(ResourcePermission.POST), projectPermissions);
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.GET));
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.GET));
-        Assert.assertFalse(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.ALL));
-        Assert.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.POST));
+        Assertions.assertEquals(ResourcePermission.GET, tasksPermissions);
+        Assertions.assertEquals(ResourcePermission.GET.or(ResourcePermission.POST), projectPermissions);
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.GET));
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.GET));
+        Assertions.assertFalse(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.ALL));
+        Assertions.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.POST));
     }
 
     @Test
     public void testBlackListingOfUnknownResources() {
         QueryContext queryContext = Mockito.mock(QueryContext.class);
-        Assert.assertEquals(ResourcePermission.EMPTY, securityModule.getResourcePermission(queryContext, "doesNotExist"));
+        Assertions.assertEquals(ResourcePermission.EMPTY, securityModule.getResourcePermission(queryContext, "doesNotExist"));
     }
 
-
-    @Test(expected = RepositoryNotFoundException.class)
+    @Test
     public void testBlackListingOfUnknownClass() {
-        QueryContext queryContext = Mockito.mock(QueryContext.class);
-        securityModule.isAllowed(queryContext, UnknownResource.class, ResourcePermission.GET);
+		Assertions.assertThrows(RepositoryNotFoundException.class, () -> {
+            QueryContext queryContext = Mockito.mock(QueryContext.class);
+            securityModule.isAllowed(queryContext, UnknownResource.class, ResourcePermission.GET);
+        });
     }
-
 
     @Test
     public void testReconfigure() {
         QueryContext queryContext = Mockito.mock(QueryContext.class);
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.GET));
-        Assert.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.GET));
+        Assertions.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
 
         Builder builder = SecurityConfig.builder();
         builder.permitRole(allowedRule, "projects", ResourcePermission.DELETE);
         securityModule.reconfigure(builder.build());
-        Assert.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.GET));
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
+        Assertions.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.GET));
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
     }
 
     @Test
     public void testUnknownResource() {
         QueryContext queryContext = Mockito.mock(QueryContext.class);
         allowedRule = "taskRole";
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.GET));
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.ALL));
-        Assert.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
-        Assert.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.POST));
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.GET));
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.ALL));
+        Assertions.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
+        Assertions.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.POST));
         allowedRule = "projectRole";
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.GET));
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.GET));
-        Assert.assertFalse(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.ALL));
-        Assert.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
-        Assert.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.POST));
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.GET));
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.GET));
+        Assertions.assertFalse(securityModule.isAllowed(queryContext, Task.class, ResourcePermission.ALL));
+        Assertions.assertFalse(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.DELETE));
+        Assertions.assertTrue(securityModule.isAllowed(queryContext, Project.class, ResourcePermission.POST));
     }
 }

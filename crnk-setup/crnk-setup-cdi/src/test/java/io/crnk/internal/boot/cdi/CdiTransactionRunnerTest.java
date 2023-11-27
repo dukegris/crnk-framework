@@ -1,35 +1,36 @@
 package io.crnk.internal.boot.cdi;
 
+import com.github.cschabl.cdiunit.junit5.CdiUnitExtension;
 import io.crnk.cdi.internal.CdiTransactionRunner;
 import io.crnk.core.engine.transaction.TransactionRunner;
 import io.crnk.core.module.discovery.DefaultServiceDiscoveryFactory;
 import io.crnk.core.module.discovery.ServiceDiscovery;
 import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.TransactionalException;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.TransactionalException;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-@RunWith(CdiTestRunner.class)
+@ExtendWith(CdiUnitExtension.class)
 @ApplicationScoped
 public class CdiTransactionRunnerTest {
 
 
 	private TransactionRunner runner;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		DefaultServiceDiscoveryFactory factory = new DefaultServiceDiscoveryFactory();
 		ServiceDiscovery instance = factory.getInstance();
 		List<TransactionRunner> runners = instance.getInstancesByType(TransactionRunner.class);
-		Assert.assertEquals(1, runners.size());
+		Assertions.assertEquals(1, runners.size());
 		runner = runners.get(0);
 	}
 
@@ -44,7 +45,7 @@ public class CdiTransactionRunnerTest {
 
 	@Test
 	public void testHasPublicNoArgConstructor() {
-		Assert.assertNotNull(new CdiTransactionRunner());
+		Assertions.assertNotNull(new CdiTransactionRunner());
 	}
 
 
@@ -54,9 +55,9 @@ public class CdiTransactionRunnerTest {
 		Mockito.when(callable.call()).thenThrow(new TransactionalException("a", new IllegalStateException("b")));
 		try {
 			runner.doInTransaction(callable);
-			Assert.fail();
+			Assertions.fail();
 		} catch (IllegalStateException e) {
-			Assert.assertEquals("b", e.getMessage());
+			Assertions.assertEquals("b", e.getMessage());
 		}
 		Mockito.verify(callable, Mockito.times(1)).call();
 	}
@@ -68,9 +69,9 @@ public class CdiTransactionRunnerTest {
 		Mockito.when(callable.call()).thenThrow(new TransactionalException("a", new IOException("b")));
 		try {
 			runner.doInTransaction(callable);
-			Assert.fail();
+			Assertions.fail();
 		} catch (TransactionalException e) {
-			Assert.assertEquals("a", e.getMessage());
+			Assertions.assertEquals("a", e.getMessage());
 		}
 		Mockito.verify(callable, Mockito.times(1)).call();
 	}
@@ -81,9 +82,9 @@ public class CdiTransactionRunnerTest {
 		Mockito.when(callable.call()).thenThrow(new IllegalStateException("b"));
 		try {
 			runner.doInTransaction(callable);
-			Assert.fail();
+			Assertions.fail();
 		} catch (IllegalStateException e) {
-			Assert.assertEquals("b", e.getMessage());
+			Assertions.assertEquals("b", e.getMessage());
 		}
 		Mockito.verify(callable, Mockito.times(1)).call();
 	}
@@ -94,9 +95,9 @@ public class CdiTransactionRunnerTest {
 		Mockito.when(callable.call()).thenThrow(new Exception("b"));
 		try {
 			runner.doInTransaction(callable);
-			Assert.fail();
+			Assertions.fail();
 		} catch (IllegalStateException e) {
-			Assert.assertEquals("b", e.getCause().getMessage());
+			Assertions.assertEquals("b", e.getCause().getMessage());
 		}
 		Mockito.verify(callable, Mockito.times(1)).call();
 	}

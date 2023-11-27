@@ -29,11 +29,11 @@ import io.crnk.core.queryspec.SortSpec;
 import io.crnk.core.queryspec.pagingspec.CustomOffsetLimitPagingBehavior;
 import io.crnk.core.queryspec.pagingspec.OffsetLimitPagingBehavior;
 import io.crnk.core.queryspec.pagingspec.OffsetLimitPagingSpec;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+// import org.junit.Rule;
+import org.junit.jupiter.api.Test;
+// import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,8 +43,9 @@ import java.util.Set;
 
 public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends AbstractQuerySpecTest {
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    // RCS innecesario
+    // @Rule
+    // public ExpectedException expectedException = ExpectedException.none();
 
     protected DefaultQuerySpecUrlMapper urlMapper;
 
@@ -54,7 +55,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
 
     private QuerySpecUrlContext deserializerContext;
 
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -104,51 +105,57 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
 
     @Test
     public void operations() {
-        Assert.assertFalse(urlMapper.getAllowUnknownAttributes());
+        Assertions.assertFalse(urlMapper.getAllowUnknownAttributes());
         urlMapper.setAllowUnknownAttributes(true);
-        Assert.assertTrue(urlMapper.getAllowUnknownAttributes());
+        Assertions.assertTrue(urlMapper.getAllowUnknownAttributes());
         urlMapper.getSupportedOperators().clear();
         urlMapper.setDefaultOperator(FilterOperator.LIKE);
         urlMapper.addSupportedOperator(FilterOperator.LIKE);
-        Assert.assertEquals(FilterOperator.LIKE, urlMapper.getDefaultOperator());
-        Assert.assertEquals(1, urlMapper.getSupportedOperators().size());
+        Assertions.assertEquals(FilterOperator.LIKE, urlMapper.getDefaultOperator());
+        Assertions.assertEquals(1, urlMapper.getSupportedOperators().size());
     }
 
     @Test
     public void checkIgnoreParseExceptions() {
-        Assert.assertFalse(urlMapper.isIgnoreParseExceptions());
+        Assertions.assertFalse(urlMapper.isIgnoreParseExceptions());
         urlMapper.setIgnoreParseExceptions(true);
-        Assert.assertTrue(urlMapper.isIgnoreParseExceptions());
+        Assertions.assertTrue(urlMapper.isIgnoreParseExceptions());
 
         Map<String, Set<String>> params = new HashMap<>();
         add(params, "filter[id]", "notAnInteger");
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
         QuerySpec expectedSpec = new QuerySpec(Task.class);
         expectedSpec.addFilter(new FilterSpec(Arrays.asList("id"), FilterOperator.EQ, "notAnInteger"));
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
-    @Test(expected = ParametersDeserializationException.class)
+    @Test
     public void throwParseExceptionsByDefault() {
-        Assert.assertFalse(urlMapper.isIgnoreParseExceptions());
+		Assertions.assertThrows(ParametersDeserializationException.class, () -> {
+	        Assertions.assertFalse(urlMapper.isIgnoreParseExceptions());
 
-        Map<String, Set<String>> params = new HashMap<>();
-        add(params, "filter[id]", "notAnInteger");
-        urlMapper.deserialize(taskInformation, params, queryContext);
+	        Map<String, Set<String>> params = new HashMap<>();
+	        add(params, "filter[id]", "notAnInteger");
+	        urlMapper.deserialize(taskInformation, params, queryContext);
+		});
     }
 
-    @Test(expected = ParametersDeserializationException.class)
+    @Test
     public void throwParseExceptionsForMultiValuedOffset() {
-        Map<String, Set<String>> params = new HashMap<>();
-        params.put("page[offset]", new HashSet<>(Arrays.asList("1", "2")));
-        urlMapper.deserialize(taskInformation, params, queryContext);
+		Assertions.assertThrows(ParametersDeserializationException.class, () -> {
+	        Map<String, Set<String>> params = new HashMap<>();
+	        params.put("page[offset]", new HashSet<>(Arrays.asList("1", "2")));
+	        urlMapper.deserialize(taskInformation, params, queryContext);
+		});
     }
 
-    @Test(expected = ParametersDeserializationException.class)
+    @Test
     public void throwParseExceptionsWhenBracketsNotClosed() {
-        Map<String, Set<String>> params = new HashMap<>();
-        add(params, "filter[", "someValue");
-        urlMapper.deserialize(taskInformation, params, queryContext);
+		Assertions.assertThrows(ParametersDeserializationException.class, () -> {
+	        Map<String, Set<String>> params = new HashMap<>();
+	        add(params, "filter[", "someValue");
+	        urlMapper.deserialize(taskInformation, params, queryContext);
+		});
     }
 
     @Test
@@ -157,15 +164,15 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
         QuerySpec expectedSpec = new QuerySpec(Task.class);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
     public void defaultPaginationOnRoot() {
         Map<String, Set<String>> params = new HashMap<>();
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(0L, actualSpec.getOffset());
-        Assert.assertNull(actualSpec.getLimit());
+        Assertions.assertEquals(0L, actualSpec.getOffset());
+        Assertions.assertNull(actualSpec.getLimit());
     }
 
     @Test
@@ -173,15 +180,15 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         Map<String, Set<String>> params = new HashMap<>();
         add(params, "sort[projects]", "name");
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(0L, actualSpec.getOffset());
-        Assert.assertNull(actualSpec.getLimit());
+        Assertions.assertEquals(0L, actualSpec.getOffset());
+        Assertions.assertNull(actualSpec.getLimit());
         QuerySpec projectQuerySpec = actualSpec.getQuerySpec(Project.class);
-        Assert.assertNotNull(projectQuerySpec);
-        Assert.assertEquals(0L, projectQuerySpec.getOffset());
-        Assert.assertNull(projectQuerySpec.getLimit());
+        Assertions.assertNotNull(projectQuerySpec);
+        Assertions.assertEquals(0L, projectQuerySpec.getOffset());
+        Assertions.assertNull(projectQuerySpec.getLimit());
 
         Map<String, Set<String>> serialized = urlMapper.serialize(actualSpec, queryContext);
-        Assert.assertEquals(serialized, params);
+        Assertions.assertEquals(serialized, params);
     }
 
     @Test
@@ -194,28 +201,28 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "include", "followup");
         QuerySpec actualSpec = urlMapper.deserialize(scheduleInformation, params, queryContext);
 
-        Assert.assertEquals(1, actualSpec.getSort().size());
-        Assert.assertEquals(1, actualSpec.getFilters().size());
-        Assert.assertEquals(1, actualSpec.getIncludedFields().size());
-        Assert.assertEquals(1, actualSpec.getIncludedRelations().size());
+        Assertions.assertEquals(1, actualSpec.getSort().size());
+        Assertions.assertEquals(1, actualSpec.getFilters().size());
+        Assertions.assertEquals(1, actualSpec.getIncludedFields().size());
+        Assertions.assertEquals(1, actualSpec.getIncludedRelations().size());
 
         SortSpec sortSpec = actualSpec.getSort().get(0);
         FilterSpec filterSpec = actualSpec.getFilters().get(0);
         IncludeRelationSpec includeRelationSpec = actualSpec.getIncludedRelations().get(0);
         IncludeFieldSpec includeFieldSpec = actualSpec.getIncludedFields().get(0);
 
-        Assert.assertEquals(Arrays.asList("desc"), sortSpec.getAttributePath());
-        Assert.assertEquals(Arrays.asList("desc"), filterSpec.getAttributePath());
-        Assert.assertEquals(Arrays.asList("followupProject"), includeRelationSpec.getAttributePath());
-        Assert.assertEquals(Arrays.asList("desc"), includeFieldSpec.getAttributePath());
+        Assertions.assertEquals(Arrays.asList("desc"), sortSpec.getAttributePath());
+        Assertions.assertEquals(Arrays.asList("desc"), filterSpec.getAttributePath());
+        Assertions.assertEquals(Arrays.asList("followupProject"), includeRelationSpec.getAttributePath());
+        Assertions.assertEquals(Arrays.asList("desc"), includeFieldSpec.getAttributePath());
     }
 
     @Test
     public void customPaginationOnRoot() {
         Map<String, Set<String>> params = new HashMap<>();
         QuerySpec actualSpec = urlMapper.deserialize(taskWithPagingBehaviorInformation, params, queryContext);
-        Assert.assertEquals(1L, actualSpec.getOffset());
-        Assert.assertEquals(10L, actualSpec.getLimit().longValue());
+        Assertions.assertEquals(1L, actualSpec.getOffset());
+        Assertions.assertEquals(10L, actualSpec.getLimit().longValue());
     }
 
     @Test
@@ -223,12 +230,12 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         Map<String, Set<String>> params = new HashMap<>();
         add(params, "sort[projects]", "name");
         QuerySpec actualSpec = urlMapper.deserialize(taskWithPagingBehaviorInformation, params, queryContext);
-        Assert.assertEquals(1L, actualSpec.getOffset());
-        Assert.assertEquals(10L, actualSpec.getLimit().longValue());
+        Assertions.assertEquals(1L, actualSpec.getOffset());
+        Assertions.assertEquals(10L, actualSpec.getLimit().longValue());
         QuerySpec projectQuerySpec = actualSpec.getQuerySpec(Project.class);
-        Assert.assertNotNull(projectQuerySpec);
-        Assert.assertEquals(0L, projectQuerySpec.getOffset());
-        Assert.assertNull(projectQuerySpec.getLimit());
+        Assertions.assertNotNull(projectQuerySpec);
+        Assertions.assertEquals(0L, projectQuerySpec.getOffset());
+        Assertions.assertNull(projectQuerySpec.getLimit());
     }
 
     @Test
@@ -239,10 +246,10 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         Map<String, Set<String>> params = new HashMap<>();
         add(params, "sort", "name");
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
 
         Map<String, Set<String>> serialized = urlMapper.serialize(actualSpec, queryContext);
-        Assert.assertEquals(serialized, params);
+        Assertions.assertEquals(serialized, params);
     }
 
     @Test
@@ -256,10 +263,10 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         Map<String, Set<String>> params = new HashMap<>();
         add(params, "sort", "data.data");
         QuerySpec actualSpec = urlMapper.deserialize(projectInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
 
         Map<String, Set<String>> serialized = urlMapper.serialize(actualSpec, queryContext);
-        Assert.assertEquals(new HashSet(Arrays.asList("data.data")), serialized.get("sort"));
+        Assertions.assertEquals(new HashSet(Arrays.asList("data.data")), serialized.get("sort"));
     }
 
     @Test
@@ -271,10 +278,10 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         Map<String, Set<String>> params = new HashMap<>();
         add(params, "sort", "name,id");
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
 
         Map<String, Set<String>> serialized = urlMapper.serialize(actualSpec, queryContext);
-        Assert.assertEquals(serialized, params);
+        Assertions.assertEquals(serialized, params);
     }
 
     @Test
@@ -286,10 +293,10 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "sort", "-name");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
 
         Map<String, Set<String>> serialized = urlMapper.serialize(actualSpec, queryContext);
-        Assert.assertEquals(serialized, params);
+        Assertions.assertEquals(serialized, params);
     }
 
     @Test
@@ -301,7 +308,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[tasks][name]", "value");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -319,11 +326,11 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         FilterSpec completedFilterSpec = PathSpec.of("completed").filter(FilterOperator.EQ, true);
         QuerySpec expectedQuerySpec = new QuerySpec(Task.class);
         expectedQuerySpec.addFilter(FilterSpec.or(idFilterSpec, completedFilterSpec));
-        Assert.assertEquals(expectedQuerySpec.getFilters(), actualSpec.getFilters());
-        Assert.assertEquals(expectedQuerySpec, actualSpec);
+        Assertions.assertEquals(expectedQuerySpec.getFilters(), actualSpec.getFilters());
+        Assertions.assertEquals(expectedQuerySpec, actualSpec);
 
         Map<String, Set<String>> actualParams = urlMapper.serialize(actualSpec, queryContext);
-        Assert.assertEquals(expectedParams, actualParams);
+        Assertions.assertEquals(expectedParams, actualParams);
     }
 
     @Test
@@ -337,9 +344,9 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, expectedParams, queryContext);
         FilterSpec actualFilter = actualSpec.getFilters().get(0);
-        Assert.assertEquals(PathSpec.of("completed"), actualFilter.getPath());
-        Assert.assertEquals(FilterOperator.EQ, actualFilter.getOperator());
-        Assert.assertEquals(Boolean.TRUE, actualFilter.getValue());
+        Assertions.assertEquals(PathSpec.of("completed"), actualFilter.getPath());
+        Assertions.assertEquals(FilterOperator.EQ, actualFilter.getOperator());
+        Assertions.assertEquals(Boolean.TRUE, actualFilter.getValue());
     }
 
     @Test
@@ -353,9 +360,9 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, expectedParams, queryContext);
         FilterSpec actualFilter = actualSpec.getFilters().get(0);
-        Assert.assertEquals(PathSpec.of("completed"), actualFilter.getPath());
-        Assert.assertEquals(FilterOperator.NEQ, actualFilter.getOperator());
-        Assert.assertEquals(Boolean.TRUE, actualFilter.getValue());
+        Assertions.assertEquals(PathSpec.of("completed"), actualFilter.getPath());
+        Assertions.assertEquals(FilterOperator.NEQ, actualFilter.getOperator());
+        Assertions.assertEquals(Boolean.TRUE, actualFilter.getValue());
     }
 
     @Test
@@ -369,13 +376,13 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, expectedParams, queryContext);
         FilterSpec actualFilter = actualSpec.getFilters().get(0);
-        Assert.assertEquals(FilterOperator.OR, actualFilter.getOperator());
+        Assertions.assertEquals(FilterOperator.OR, actualFilter.getOperator());
 
-        Assert.assertEquals(1, actualFilter.getExpression().size());
+        Assertions.assertEquals(1, actualFilter.getExpression().size());
         FilterSpec nestedFilter = actualFilter.getExpression().get(0);
-        Assert.assertEquals(PathSpec.of("completed"), nestedFilter.getPath());
-        Assert.assertEquals(FilterOperator.NEQ, nestedFilter.getOperator());
-        Assert.assertEquals(Boolean.TRUE, nestedFilter.getValue());
+        Assertions.assertEquals(PathSpec.of("completed"), nestedFilter.getPath());
+        Assertions.assertEquals(FilterOperator.NEQ, nestedFilter.getOperator());
+        Assertions.assertEquals(Boolean.TRUE, nestedFilter.getValue());
     }
 
     @Test
@@ -384,9 +391,9 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(expectedParams, "filter[projects]", "{\"OR\":[{\"id\":[12,13,14]},{\"name\":\"Test\"}]}");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, expectedParams, queryContext);
-        Assert.assertTrue("must filter on related", actualSpec.getFilters().isEmpty());
+        Assertions.assertTrue(actualSpec.getFilters().isEmpty(), "must filter on related");
         QuerySpec actualRelatedSpec = actualSpec.getQuerySpec(Project.class);
-        Assert.assertNotNull(actualRelatedSpec);
+        Assertions.assertNotNull(actualRelatedSpec);
 
         FilterSpec idFilterSpec = PathSpec.of("id").filter(FilterOperator.EQ, Arrays.asList(12L, 13L, 14L));
         FilterSpec nameFilterSpec = PathSpec.of("name").filter(FilterOperator.EQ, "Test");
@@ -395,12 +402,12 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         QuerySpec expectedQuerySpec = new QuerySpec(Task.class);
         expectedQuerySpec.putRelatedSpec(Project.class, expectedRelatedQuerySpec);
 
-        Assert.assertEquals(expectedQuerySpec.getFilters(), actualSpec.getFilters());
-        Assert.assertEquals(expectedRelatedQuerySpec.getFilters(), actualRelatedSpec.getFilters());
-        Assert.assertEquals(expectedRelatedQuerySpec, actualRelatedSpec);
+        Assertions.assertEquals(expectedQuerySpec.getFilters(), actualSpec.getFilters());
+        Assertions.assertEquals(expectedRelatedQuerySpec.getFilters(), actualRelatedSpec.getFilters());
+        Assertions.assertEquals(expectedRelatedQuerySpec, actualRelatedSpec);
 
         Map<String, Set<String>> actualParams = urlMapper.serialize(actualSpec, queryContext);
-        Assert.assertEquals(expectedParams, actualParams);
+        Assertions.assertEquals(expectedParams, actualParams);
     }
 
     @Test
@@ -412,7 +419,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[name]", "null");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -426,7 +433,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[tasks][computedAttribute]", "13");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -438,15 +445,15 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[project.name]", "value");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
 
         Map<String, Set<String>> serialized = urlMapper.serialize(actualSpec, queryContext);
-        Assert.assertEquals(new HashSet(Arrays.asList("value")), serialized.get("filter[project.name]"));
+        Assertions.assertEquals(new HashSet(Arrays.asList("value")), serialized.get("filter[project.name]"));
     }
 
     @Test
     public void testFilterWithCommaSeparation() {
-        Assert.assertTrue(urlMapper.getAllowCommaSeparatedValue());
+        Assertions.assertTrue(urlMapper.getAllowCommaSeparatedValue());
         HashSet<String> values = new HashSet<>();
         values.add("john");
         values.add("jane");
@@ -457,7 +464,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[name]", "john,jane");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec.getFilters(), actualSpec.getFilters());
+        Assertions.assertEquals(expectedSpec.getFilters(), actualSpec.getFilters());
     }
 
     @Test
@@ -470,7 +477,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[name]", "john,jane");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec.getFilters(), actualSpec.getFilters());
+        Assertions.assertEquals(expectedSpec.getFilters(), actualSpec.getFilters());
     }
 
     @Test
@@ -483,10 +490,10 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
 
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
 
         Map<String, Set<String>> serialized = urlMapper.serialize(actualSpec, queryContext);
-        Assert.assertEquals(new HashSet(Arrays.asList("value")), serialized.get("filter[project.task.name]"));
+        Assertions.assertEquals(new HashSet(Arrays.asList("value")), serialized.get("filter[project.task.name]"));
     }
 
     @Test
@@ -500,20 +507,22 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[tasks][doesNotExists]", "value");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void testUnknownPropertyNotAllowed() {
-        QuerySpec expectedSpec = new QuerySpec(Task.class);
-        expectedSpec.addFilter(new FilterSpec(Arrays.asList("doesNotExists"), FilterOperator.EQ, "value"));
+		Assertions.assertThrows(BadRequestException.class, () -> {
+	        QuerySpec expectedSpec = new QuerySpec(Task.class);
+	        expectedSpec.addFilter(new FilterSpec(Arrays.asList("doesNotExists"), FilterOperator.EQ, "value"));
 
-        urlMapper.setAllowUnknownAttributes(false);
+	        urlMapper.setAllowUnknownAttributes(false);
 
-        Map<String, Set<String>> params = new HashMap<>();
-        add(params, "filter[tasks][doesNotExists]", "value");
+	        Map<String, Set<String>> params = new HashMap<>();
+	        add(params, "filter[tasks][doesNotExists]", "value");
 
-        urlMapper.deserialize(taskInformation, params, queryContext);
+	        urlMapper.deserialize(taskInformation, params, queryContext);
+		});
     }
 
     @Test
@@ -523,17 +532,19 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         Map<String, Set<String>> params = new HashMap<>();
         add(params, "doesNotExists[tasks]", "value");
 
-        Assert.assertNotNull(urlMapper.deserialize(taskInformation, params, queryContext));
+        Assertions.assertNotNull(urlMapper.deserialize(taskInformation, params, queryContext));
     }
 
-    @Test(expected = ParametersDeserializationException.class)
+    @Test
     public void testUnknownParameterNotAllowed() {
-        urlMapper.setAllowUnknownParameters(false);
+		Assertions.assertThrows(ParametersDeserializationException.class, () -> {
+	        urlMapper.setAllowUnknownParameters(false);
 
-        Map<String, Set<String>> params = new HashMap<>();
-        add(params, "doesNotExists[tasks]", "value");
+	        Map<String, Set<String>> params = new HashMap<>();
+	        add(params, "doesNotExists[tasks]", "value");
 
-        urlMapper.deserialize(taskInformation, params, queryContext);
+	        urlMapper.deserialize(taskInformation, params, queryContext);
+		});
     }
 
     @Test
@@ -545,7 +556,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[tasks][name][EQ]", "value");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -558,7 +569,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         params.put("filter[tasks][name][EQ]", new HashSet<>(Arrays.asList("value1", "value2")));
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -570,7 +581,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[tasks][id][EQ]", "1");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -582,7 +593,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[tasks][id][LE]", "1");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -594,7 +605,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[id][LE]", "1");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -607,7 +618,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "page[limit]", "2");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -620,39 +631,43 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
 
             @Override
             protected void deserializeUnknown(final QuerySpec querySpec, final QueryParameter parameter) {
-                Assert.assertEquals(QueryParameterType.UNKNOWN, parameter.getType());
-                Assert.assertEquals("doesNotExist[something]", parameter.getName());
-                Assert.assertNull(parameter.getResourceInformation());
-                Assert.assertEquals(FilterOperator.EQ, parameter.getOperator());
-                Assert.assertNull(parameter.getAttributePath());
-                Assert.assertEquals(1, parameter.getValues().size());
+                Assertions.assertEquals(QueryParameterType.UNKNOWN, parameter.getType());
+                Assertions.assertEquals("doesNotExist[something]", parameter.getName());
+                Assertions.assertNull(parameter.getResourceInformation());
+                Assertions.assertEquals(FilterOperator.EQ, parameter.getOperator());
+                Assertions.assertNull(parameter.getAttributePath());
+                Assertions.assertEquals(1, parameter.getValues().size());
                 deserialized[0] = true;
             }
         };
         urlMapper.init(deserializerContext);
         urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertTrue(deserialized[0]);
+        Assertions.assertTrue(deserialized[0]);
     }
 
 
-    @Test(expected = ParametersDeserializationException.class)
+    @Test
     public void testInvalidPagingType() {
-        Map<String, Set<String>> params = new HashMap<>();
-        add(params, "page[doesNotExist]", "1");
-        urlMapper.deserialize(taskInformation, params, queryContext);
+		Assertions.assertThrows(ParametersDeserializationException.class, () -> {
+	        Map<String, Set<String>> params = new HashMap<>();
+	        add(params, "page[doesNotExist]", "1");
+	        urlMapper.deserialize(taskInformation, params, queryContext);
+		});
     }
 
-    @Test(expected = ParametersDeserializationException.class)
+    @Test
     public void testPagingError() {
-        QuerySpec expectedSpec = new QuerySpec(Task.class);
-        expectedSpec.setLimit(2L);
-        expectedSpec.setOffset(1L);
+		Assertions.assertThrows(ParametersDeserializationException.class, () -> {
+	        QuerySpec expectedSpec = new QuerySpec(Task.class);
+	        expectedSpec.setLimit(2L);
+	        expectedSpec.setOffset(1L);
 
-        Map<String, Set<String>> params = new HashMap<>();
-        add(params, "page[offset]", "notANumber");
-        add(params, "page[limit]", "2");
+	        Map<String, Set<String>> params = new HashMap<>();
+	        add(params, "page[offset]", "notANumber");
+	        add(params, "page[limit]", "2");
 
-        urlMapper.deserialize(taskInformation, params, queryContext);
+	        urlMapper.deserialize(taskInformation, params, queryContext);
+		});
     }
 
     @Test
@@ -661,9 +676,11 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "page[offset]", "1");
         add(params, "page[limit]", "30");
 
-        expectedException.expect(BadRequestException.class);
-
-        urlMapper.deserialize(taskWithPagingBehaviorInformation, params, queryContext);
+        // RCS deprecated
+        // expectedException.expect(BadRequestException.class);
+        Assertions.assertThrows(BadRequestException.class, () -> {
+            urlMapper.deserialize(taskWithPagingBehaviorInformation, params, queryContext);
+        });
     }
 
     @Test
@@ -677,7 +694,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "page[limit]", "5");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -689,7 +706,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "include[tasks]", "project");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -701,7 +718,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "include", "project");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -713,7 +730,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "fields[tasks]", "name");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -725,7 +742,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "fields", "name");
 
         QuerySpec actualSpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -740,7 +757,7 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         ResourceInformation taskWithLookUpInformation =
                 resourceRegistry.getEntry(TaskWithLookup.class).getResourceInformation();
         QuerySpec actualSpec = urlMapper.deserialize(taskWithLookUpInformation, params, queryContext);
-        Assert.assertEquals(expectedSpec, actualSpec);
+        Assertions.assertEquals(expectedSpec, actualSpec);
     }
 
     @Test
@@ -749,10 +766,10 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[id]", "NotAnId");
         urlMapper.setIgnoreParseExceptions(true);
         QuerySpec querySpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(Task.class, querySpec.getResourceClass());
-        Assert.assertEquals(Arrays.asList("id"), querySpec.getFilters().get(0).getAttributePath());
-        Assert.assertEquals("NotAnId", querySpec.getFilters().get(0).getValue());
-        Assert.assertNull(querySpec.getQuerySpec(Project.class));
+        Assertions.assertEquals(Task.class, querySpec.getResourceClass());
+        Assertions.assertEquals(Arrays.asList("id"), querySpec.getFilters().get(0).getAttributePath());
+        Assertions.assertEquals("NotAnId", querySpec.getFilters().get(0).getValue());
+        Assertions.assertNull(querySpec.getQuerySpec(Project.class));
     }
 
     @Test
@@ -763,31 +780,35 @@ public abstract class DefaultQuerySpecUrlMapperDeserializerTestBase extends Abst
         add(params, "filter[completed]", "true");
         urlMapper.setIgnoreParseExceptions(false);
         QuerySpec querySpec = urlMapper.deserialize(taskInformation, params, queryContext);
-        Assert.assertEquals(Task.class, querySpec.getResourceClass());
-        Assert.assertEquals(Arrays.asList("id"), querySpec.getFilters().get(2).getAttributePath());
+        Assertions.assertEquals(Task.class, querySpec.getResourceClass());
+        Assertions.assertEquals(Arrays.asList("id"), querySpec.getFilters().get(2).getAttributePath());
         Long id = querySpec.getFilters().get(2).getValue();
-        Assert.assertEquals(Long.valueOf(12), id);
+        Assertions.assertEquals(Long.valueOf(12), id);
         String name = querySpec.getFilters().get(0).getValue();
-        Assert.assertEquals("test", name);
+        Assertions.assertEquals("test", name);
         Boolean completed = querySpec.getFilters().get(1).getValue();
-        Assert.assertEquals(Boolean.TRUE, completed);
-        Assert.assertNull(querySpec.getQuerySpec(Project.class));
+        Assertions.assertEquals(Boolean.TRUE, completed);
+        Assertions.assertNull(querySpec.getQuerySpec(Project.class));
     }
 
-    @Test(expected = ParametersDeserializationException.class)
+    @Test
     public void testFailOnParseException() {
-        Map<String, Set<String>> params = new HashMap<>();
-        add(params, "filter[id]", "NotAnId");
-        urlMapper.setIgnoreParseExceptions(false);
-        urlMapper.deserialize(taskInformation, params, queryContext);
+		Assertions.assertThrows(ParametersDeserializationException.class, () -> {
+	        Map<String, Set<String>> params = new HashMap<>();
+	        add(params, "filter[id]", "NotAnId");
+	        urlMapper.setIgnoreParseExceptions(false);
+	        urlMapper.deserialize(taskInformation, params, queryContext);
+		});
     }
 
-    @Test(expected = ParametersDeserializationException.class)
+    @Test
     public void testUnknownProperty() {
-        Map<String, Set<String>> params = new HashMap<>();
-        add(params, "group", "test");
-        urlMapper.setIgnoreParseExceptions(false);
-        urlMapper.deserialize(taskInformation, params, queryContext);
+		Assertions.assertThrows(ParametersDeserializationException.class, () -> {
+	        Map<String, Set<String>> params = new HashMap<>();
+	        add(params, "group", "test");
+	        urlMapper.setIgnoreParseExceptions(false);
+	        urlMapper.deserialize(taskInformation, params, queryContext);
+		});
     }
 
     protected void add(Map<String, Set<String>> params, String key, String... value) {

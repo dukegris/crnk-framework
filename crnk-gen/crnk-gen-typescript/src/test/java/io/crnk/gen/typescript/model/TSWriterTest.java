@@ -2,9 +2,9 @@ package io.crnk.gen.typescript.model;
 
 import io.crnk.gen.typescript.model.writer.TSCodeStyle;
 import io.crnk.gen.typescript.model.writer.TSWriter;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
 
@@ -14,7 +14,7 @@ public class TSWriterTest {
 
 	private TSCodeStyle codeStyle;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		codeStyle = new TSCodeStyle();
 		writer = new TSWriter(codeStyle);
@@ -24,7 +24,7 @@ public class TSWriterTest {
 	public void writeArray() {
 		TSArrayType arrayType = new TSArrayType(TSPrimitiveType.STRING);
 		arrayType.accept(writer);
-		Assert.assertEquals("Array<string>", writer.toString());
+		Assertions.assertEquals("Array<string>", writer.toString());
 	}
 
 	@Test
@@ -37,7 +37,7 @@ public class TSWriterTest {
 		classType.setSuperType(classSuperType);
 
 		classType.accept(writer);
-		Assert.assertEquals("\nclass Child extends Base {\n}", writer.toString());
+		Assertions.assertEquals("\nclass Child extends Base {\n}", writer.toString());
 	}
 
 	@Test
@@ -48,7 +48,7 @@ public class TSWriterTest {
 		enumType.getLiterals().add(new TSEnumLiteral("TEST_LITERAL_2"));
 
 		enumType.accept(writer);
-		Assert.assertEquals("\nenum TestEnum {\n" +
+		Assertions.assertEquals("\nenum TestEnum {\n" +
 				"\tTEST_LITERAL_1 = 'TEST_LITERAL_1',\n" +
 				"\tTEST_LITERAL_2 = 'TEST_LITERAL_2',\n" +
 				"}", writer.toString());
@@ -63,19 +63,19 @@ public class TSWriterTest {
 		enumType.getLiterals().add(new TSEnumLiteral("TEST_LITERAL_2"));
 
 		enumType.accept(writer);
-		Assert.assertEquals("\ntype TestEnum = 'TEST_LITERAL_1' | 'TEST_LITERAL_2';", writer.toString());
+		Assertions.assertEquals("\ntype TestEnum = 'TEST_LITERAL_1' | 'TEST_LITERAL_2';", writer.toString());
 	}
 
 	@Test
 	public void writePrimitiveType() {
 		TSPrimitiveType.STRING.accept(writer);
-		Assert.assertEquals("string", writer.toString());
+		Assertions.assertEquals("string", writer.toString());
 	}
 
 	@Test
 	public void writeAnyType() {
 		TSAny.INSTANCE.accept(writer);
-		Assert.assertEquals("any", writer.toString());
+		Assertions.assertEquals("any", writer.toString());
 	}
 
 	@Test
@@ -88,14 +88,14 @@ public class TSWriterTest {
 		classType.addImplementedInterface(interfaceType);
 
 		classType.accept(writer);
-		Assert.assertEquals("\nclass SomeClass implements SomeInterface {\n}", writer.toString());
+		Assertions.assertEquals("\nclass SomeClass implements SomeInterface {\n}", writer.toString());
 	}
 
 	@Test
 	public void writeMemberNotSupported() {
 		// must visit subtypes directly
 		TSMember member = Mockito.mock(TSMember.class);
-		Assertions.assertThrows(UnsupportedOperationException.class, () -> writer.visit(member));
+		 Assertions.assertThrows(UnsupportedOperationException.class, () -> writer.visit(member));
 	}
 
 	@Test
@@ -109,7 +109,7 @@ public class TSWriterTest {
 		classType.setIndexSignature(indexSignature);
 
 		classType.accept(writer);
-		Assert.assertEquals("\nclass Child {\n"
+		Assertions.assertEquals("\nclass Child {\n"
 				+ "\t[key: string]: number;\n"
 				+ "}", writer.toString());
 	}
@@ -127,7 +127,7 @@ public class TSWriterTest {
 		classType.setIndexSignature(indexSignature);
 
 		classType.accept(writer);
-		Assert.assertEquals("\nclass Child {\n"
+		Assertions.assertEquals("\nclass Child {\n"
 				+ "\t[key in SampleEnum]: number;\n"
 				+ "}", writer.toString());
 	}
@@ -142,13 +142,13 @@ public class TSWriterTest {
 		classType.setName("Child");
 		classType.setIndexSignature(indexSignature);
 
-		Assertions.assertThrows(UnsupportedOperationException.class, () -> classType.accept(writer));
+		 Assertions.assertThrows(UnsupportedOperationException.class, () -> classType.accept(writer));
 	}
 
 	@Test
 	public void writeParameterizedType() {
 		TSParameterizedType type = new TSParameterizedType(null);
-		Assertions.assertThrows(UnsupportedOperationException.class, () -> type.accept(writer));
+		 Assertions.assertThrows(UnsupportedOperationException.class, () -> type.accept(writer));
 	}
 
 	@Test
@@ -161,7 +161,7 @@ public class TSWriterTest {
 		export.addTypeName("b");
 
 		export.accept(writer);
-		Assert.assertEquals("export {a, b} from '@test';", writer.toString().trim());
+		Assertions.assertEquals("export {a, b} from '@test';", writer.toString().trim());
 	}
 
 	@Test
@@ -172,7 +172,7 @@ public class TSWriterTest {
 		export.setPath("@test");
 
 		export.accept(writer);
-		Assert.assertEquals("export * from '@test';", writer.toString().trim());
+		Assertions.assertEquals("export * from '@test';", writer.toString().trim());
 	}
 
 }

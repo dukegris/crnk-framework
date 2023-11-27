@@ -15,10 +15,10 @@ import io.crnk.core.repository.RelationshipMatcher;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.repository.foward.ForwardingDirection;
 import io.crnk.core.repository.foward.ForwardingRelationshipRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +36,7 @@ public class OppositeFowardingRelationshipRepositoryTest {
     private HttpRequestContextProvider requestContextProvider;
     private CoreTestContainer container;
 
-    @Before
+    @BeforeEach
     public void setup() {
         container = new CoreTestContainer();
         container.addModule(new CoreTestModule());
@@ -73,7 +73,7 @@ public class OppositeFowardingRelationshipRepositoryTest {
         QuerySpec querySpec = new QuerySpec(RelationIdTestResource.class);
         Object target = relRepository.findOneTarget(3L, "testNestedOpposite", querySpec);
 
-        Assert.assertNotNull(target);
+        Assertions.assertNotNull(target);
     }
 
 
@@ -94,7 +94,7 @@ public class OppositeFowardingRelationshipRepositoryTest {
         QuerySpec querySpec = new QuerySpec(RelationIdTestResource.class);
         Object target = relRepository.findOneTarget(3L, "testNestedOpposite", querySpec);
 
-        Assert.assertNotNull(target);
+        Assertions.assertNotNull(target);
     }
 
     @Test
@@ -119,11 +119,11 @@ public class OppositeFowardingRelationshipRepositoryTest {
 
         QuerySpec querySpec = new QuerySpec(Task.class);
         List<Task> tasks = relRepository.findManyTargets(42L, "tasks", querySpec);
-        Assert.assertEquals(1, tasks.size());
-        Assert.assertEquals(13L, tasks.get(0).getId().longValue());
+        Assertions.assertEquals(1, tasks.size());
+        Assertions.assertEquals(13L, tasks.get(0).getId().longValue());
 
         // must maintain meta/links information
-        Assert.assertTrue(tasks instanceof TaskList);
+        Assertions.assertTrue(tasks instanceof TaskList);
     }
 
     @Test
@@ -148,8 +148,8 @@ public class OppositeFowardingRelationshipRepositoryTest {
 
         QuerySpec querySpec = new QuerySpec(Schedule.class);
         List<Schedule> schedules = relRepository.findManyTargets(42L, "schedules", querySpec);
-        Assert.assertEquals(1, schedules.size());
-        Assert.assertEquals(13L, schedules.get(0).getId().longValue());
+        Assertions.assertEquals(1, schedules.size());
+        Assertions.assertEquals(13L, schedules.get(0).getId().longValue());
     }
 
 
@@ -175,11 +175,11 @@ public class OppositeFowardingRelationshipRepositoryTest {
 
         QuerySpec querySpec = new QuerySpec(Task.class);
         Project foundProject = (Project) relRepository.findOneTarget(13L, "project", querySpec);
-        Assert.assertEquals(42L, foundProject.getId().longValue());
+        Assertions.assertEquals(42L, foundProject.getId().longValue());
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void checkFindTargetWithInvalidNullReturnId() {
         ResourceRepository<Task, Object> taskRepository = container.getRepository(Task.class);
         Task task = new Task();
@@ -205,14 +205,14 @@ public class OppositeFowardingRelationshipRepositoryTest {
         QuerySpec querySpec = new QuerySpec(Task.class);
         try {
             relRepository.findOneTarget(13L, "project", querySpec);
-            Assert.fail();
+            Assertions.fail();
         } catch (IllegalStateException e) {
-            Assert.assertTrue(e.getMessage().contains("id is null"));
+            Assertions.assertTrue(e.getMessage().contains("id is null"));
         }
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void checkFindTargetWithNotLoadedRelationship() {
         ResourceRepository<Task, Object> taskRepository = container.getRepository(Task.class);
         Task task = new Task();
@@ -235,14 +235,14 @@ public class OppositeFowardingRelationshipRepositoryTest {
         QuerySpec querySpec = new QuerySpec(Task.class);
         try {
             relRepository.findOneTarget(13L, "project", querySpec);
-            Assert.fail();
+            Assertions.fail();
         } catch (IllegalStateException e) {
-            Assert.assertTrue(e.getMessage(), e.getMessage().contains("To make use of opposite forwarding behavior for resource lookup"));
+            Assertions.assertTrue(e.getMessage().contains("To make use of opposite forwarding behavior for resource lookup"), e.getMessage());
         }
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void checkFindTargetWithNullRelationshipValue() {
         ResourceRepository<Task, Object> taskRepository = container.getRepository(Task.class);
         Task task = new Task();
@@ -267,9 +267,9 @@ public class OppositeFowardingRelationshipRepositoryTest {
         QuerySpec querySpec = new QuerySpec(Task.class);
         try {
             relRepository.findOneTarget(13L, "project", querySpec);
-            Assert.fail();
+            Assertions.fail();
         } catch (IllegalStateException e) {
-            Assert.assertTrue(e.getMessage().contains("id is null for"));
+            Assertions.assertTrue(e.getMessage().contains("id is null for"));
         }
     }
 
@@ -296,21 +296,21 @@ public class OppositeFowardingRelationshipRepositoryTest {
         relRepository.setResourceRegistry(resourceRegistry);
         relRepository.setHttpRequestContextProvider(requestContextProvider);
 
-        Assert.assertNull(tasks.get(3).getProject());
-        Assert.assertNull(tasks.get(4).getProject());
+        Assertions.assertNull(tasks.get(3).getProject());
+        Assertions.assertNull(tasks.get(4).getProject());
         relRepository.addRelations(project, Arrays.asList(3L, 4L), "tasks");
-        Assert.assertSame(project, tasks.get(3).getProject());
-        Assert.assertSame(project, tasks.get(4).getProject());
+        Assertions.assertSame(project, tasks.get(3).getProject());
+        Assertions.assertSame(project, tasks.get(4).getProject());
 
         relRepository.addRelations(project, Arrays.asList(5L), "tasks");
-        Assert.assertSame(project, tasks.get(3).getProject());
-        Assert.assertSame(project, tasks.get(4).getProject());
-        Assert.assertSame(project, tasks.get(5).getProject());
+        Assertions.assertSame(project, tasks.get(3).getProject());
+        Assertions.assertSame(project, tasks.get(4).getProject());
+        Assertions.assertSame(project, tasks.get(5).getProject());
 
         relRepository.removeRelations(project, Arrays.asList(3L), "tasks");
-        Assert.assertNull(tasks.get(3).getProject());
-        Assert.assertSame(project, tasks.get(4).getProject());
-        Assert.assertSame(project, tasks.get(5).getProject());
+        Assertions.assertNull(tasks.get(3).getProject());
+        Assertions.assertSame(project, tasks.get(4).getProject());
+        Assertions.assertSame(project, tasks.get(5).getProject());
     }
 
     @Test
@@ -333,21 +333,23 @@ public class OppositeFowardingRelationshipRepositoryTest {
         relRepository.setHttpRequestContextProvider(requestContextProvider);
 
         relRepository.setRelation(task, project.getId(), "project");
-        Assert.assertTrue(project.getTasks().contains(task));
+        Assertions.assertTrue(project.getTasks().contains(task));
 
         // setup bi-directionality to allow removal
         task.setProject(project);
         relRepository.setRelation(task, null, "project");
-        Assert.assertFalse(project.getTasks().contains(task));
+        Assertions.assertFalse(project.getTasks().contains(task));
 
         // verify repeated removal has no impact
         task.setProject(null);
         relRepository.setRelation(task, null, "project");
-        Assert.assertFalse(project.getTasks().contains(task));
+        Assertions.assertFalse(project.getTasks().contains(task));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void checkSetRelationsNotYetImplemented() {
-        relRepository.setRelations(null, null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			relRepository.setRelations(null, null, null);
+		});
     }
 }

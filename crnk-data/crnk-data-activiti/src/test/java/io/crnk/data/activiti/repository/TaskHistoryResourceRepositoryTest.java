@@ -16,9 +16,9 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -34,7 +34,7 @@ public class TaskHistoryResourceRepositoryTest extends ActivitiTestBase {
 
     private ResourceRepository<ScheduleApprovalProcessInstance, String> processInstanceRepository;
 
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -76,14 +76,14 @@ public class TaskHistoryResourceRepositoryTest extends ActivitiTestBase {
     public void checkCompletedTaskNotFoundByMainRepository() {
         QuerySpec querySpec = new QuerySpec(HistoricApproveTask.class);
         querySpec.addFilter(new FilterSpec(Arrays.asList("id"), FilterOperator.EQ, task.getId()));
-        Assert.assertEquals(0, taskRepository.findAll(querySpec).size());
+        Assertions.assertEquals(0, taskRepository.findAll(querySpec).size());
     }
 
     @Test
     public void checkEqualsName() {
         QuerySpec querySpec = new QuerySpec(HistoricApproveTask.class);
         querySpec.addFilter(new FilterSpec(Arrays.asList("id"), FilterOperator.EQ, task.getId()));
-        Assert.assertEquals(1, historicTaskRepository.findAll(querySpec).size());
+        Assertions.assertEquals(1, historicTaskRepository.findAll(querySpec).size());
     }
 
     @Test
@@ -91,11 +91,11 @@ public class TaskHistoryResourceRepositoryTest extends ActivitiTestBase {
         QuerySpec querySpec = new QuerySpec(HistoricApproveTask.class);
         querySpec.addFilter(new FilterSpec(Arrays.asList("id"), FilterOperator.EQ, task.getId()));
         querySpec.addFilter(new FilterSpec(Arrays.asList("assignee"), FilterOperator.EQ, "john"));
-        Assert.assertEquals(1, historicTaskRepository.findAll(querySpec).size());
+        Assertions.assertEquals(1, historicTaskRepository.findAll(querySpec).size());
 
         querySpec = new QuerySpec(HistoricApproveTask.class);
         querySpec.addFilter(new FilterSpec(Arrays.asList("id"), FilterOperator.EQ, task.getId()));
         querySpec.addFilter(new FilterSpec(Arrays.asList("assignee"), FilterOperator.EQ, "doesNotExists"));
-        Assert.assertEquals(0, historicTaskRepository.findAll(querySpec).size());
+        Assertions.assertEquals(0, historicTaskRepository.findAll(querySpec).size());
     }
 }

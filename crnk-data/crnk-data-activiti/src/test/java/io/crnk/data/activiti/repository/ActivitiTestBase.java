@@ -15,8 +15,8 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Date;
 import java.util.List;
@@ -31,7 +31,7 @@ public abstract class ActivitiTestBase {
 
     protected ActivitiResourceMapper resourceMapper = new ActivitiResourceMapper(new TypeParser(), new DefaultDateTimeMapper());
 
-    @Before
+    @BeforeEach
     public void setup() {
         processEngine = ProcessEngines.getDefaultProcessEngine();
 
@@ -52,7 +52,7 @@ public abstract class ActivitiTestBase {
         return ApprovalTestApplication.createActivitiModule(processEngine);
     }
 
-    @After
+    @AfterEach
     public void teardown() {
         RuntimeService runtimeService = processEngine.getRuntimeService();
         List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().list();

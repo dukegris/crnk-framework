@@ -8,9 +8,9 @@ import io.crnk.core.repository.response.JsonApiResponse;
 import io.crnk.reactive.internal.adapter.ReactiveOneRelationshipRepositoryAdapter;
 import io.crnk.reactive.model.ReactiveProject;
 import io.crnk.reactive.model.ReactiveTask;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class ReactiveOneRelationshipRepositoryAdapterTest extends ReactiveTestBa
 
 	private ReactiveOneRelationshipRepositoryAdapter adapter;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -42,8 +42,8 @@ public class ReactiveOneRelationshipRepositoryAdapterTest extends ReactiveTestBa
 		adapter.setRelation(task, project.getId(), adapter.getResourceField(), queryAdapter).get();
 
 		Map<Long, Long> relationMap = taskToProject.getRelationMap();
-		Assert.assertEquals(1, relationMap.size());
-		Assert.assertEquals(Long.valueOf(2L), relationMap.get(Long.valueOf(1L)));
+		Assertions.assertEquals(1, relationMap.size());
+		Assertions.assertEquals(Long.valueOf(2L), relationMap.get(Long.valueOf(1L)));
 	}
 
 
@@ -54,7 +54,7 @@ public class ReactiveOneRelationshipRepositoryAdapterTest extends ReactiveTestBa
 		taskToProject.getRelationMap().put(1L, 2L);
 
 		JsonApiResponse response = adapter.findOneRelations(1L, adapter.getResourceField(), queryAdapter).get();
-		Assert.assertEquals(project, response.getEntity());
+		Assertions.assertEquals(project, response.getEntity());
 	}
 
 
@@ -66,35 +66,42 @@ public class ReactiveOneRelationshipRepositoryAdapterTest extends ReactiveTestBa
 
 		Map<Object, JsonApiResponse> responses =
 				adapter.findBulkOneTargets(Arrays.asList(1L), adapter.getResourceField(), queryAdapter).get();
-		Assert.assertEquals(1, responses.size());
-		Assert.assertEquals(project, responses.get(1L).getEntity());
+		Assertions.assertEquals(1, responses.size());
+		Assertions.assertEquals(project, responses.get(1L).getEntity());
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void setRelations() {
-		adapter.setRelations(null, null, null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			adapter.setRelations(null, null, null, null);
+		});
 	}
 
-
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void addRelations() {
-		adapter.addRelations(null, null, null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			adapter.addRelations(null, null, null, null);
+		});
 	}
 
-
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void removeRelations() {
-		adapter.removeRelations(null, null, null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			adapter.removeRelations(null, null, null, null);
+		});
 	}
 
-
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void findManyTargets() {
-		adapter.findManyRelations(null, null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			adapter.findManyRelations(null, null, null);
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void findBulkManyTargets() {
-		adapter.findBulkManyTargets(null, null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			adapter.findBulkManyTargets(null, null, null);
+		});
 	}
 }

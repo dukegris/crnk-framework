@@ -1,23 +1,22 @@
 package io.crnk.core.engine.internal.dispatcher.controller;
 
-import com.jayway.jsonpath.ReadContext;
 import io.crnk.core.engine.dispatcher.Response;
 import io.crnk.core.engine.internal.dispatcher.path.JsonPath;
 import io.crnk.core.mock.models.Project;
 import io.crnk.core.mock.models.Task;
 import io.crnk.core.mock.repository.TaskToProjectRepository;
 import io.crnk.core.repository.ResourceRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RelationshipsGetControllerTest extends ControllerTestBase {
 
@@ -25,7 +24,7 @@ public class RelationshipsGetControllerTest extends ControllerTestBase {
 
     private TaskToProjectRepository localTaskToProjectRepository;
 
-    @Before
+    @BeforeEach
     public void prepareTest() {
         localTaskToProjectRepository = (TaskToProjectRepository) container.getRepository(Task.class, "project");
       //  localTaskToProjectRepository.removeRelations("project");
@@ -85,7 +84,7 @@ public class RelationshipsGetControllerTest extends ControllerTestBase {
         Response response = sut.handle(jsonPath, emptyProjectQuery, null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
     }
 
     @Test
@@ -106,7 +105,7 @@ public class RelationshipsGetControllerTest extends ControllerTestBase {
         Response response = sut.handle(jsonPath, emptyProjectQuery, null);
 
         // THEN
-        Assert.assertNotNull(response);
+        Assertions.assertNotNull(response);
         String resultJson = objectMapper.writeValueAsString(response.getDocument());
         assertThatJson(resultJson).node("data.id").isStringEqualTo("42");
         assertThatJson(resultJson).node("data.type").isEqualTo("projects");
@@ -134,7 +133,7 @@ public class RelationshipsGetControllerTest extends ControllerTestBase {
 				emptyTaskQuery,
 				null);
 		// THEN
-		Assert.assertNotNull(baseResponseContext);
+		Assertions.assertNotNull(baseResponseContext);
 		String resultJson = objectMapper.writeValueAsString(baseResponseContext.getDocument());
 		assertThatJson(resultJson).node("data.id").isStringEqualTo("42");
 		assertThatJson(resultJson).node("data.type").isEqualTo("tasks");
@@ -149,14 +148,13 @@ public class RelationshipsGetControllerTest extends ControllerTestBase {
 		baseResponseContext = resourceGet.handle(jsonPath,
 				emptyTaskQuery,
 				null);
-		Assert.assertNotNull(baseResponseContext);
+		Assertions.assertNotNull(baseResponseContext);
 
 		resultJson = objectMapper.writeValueAsString(baseResponseContext.getDocument());
 		ReadContext resultCtx = com.jayway.jsonpath.JsonPath.parse(resultJson);
 		assertIncludeDoNotCareAboutOrder(new ArrayList<>(Arrays.asList("44", "45")), Arrays.asList(0, 1), resultCtx);
 
 	}
-	*/
 
     private void assertIncludeDoNotCareAboutOrder(List<String> ids, List<Integer> indexes, ReadContext resultCtx) {
 
@@ -178,4 +176,5 @@ public class RelationshipsGetControllerTest extends ControllerTestBase {
 
 
     }
+	*/
 }

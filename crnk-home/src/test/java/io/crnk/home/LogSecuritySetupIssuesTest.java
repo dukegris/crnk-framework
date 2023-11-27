@@ -14,9 +14,9 @@ import io.crnk.core.engine.internal.http.HttpRequestContextBaseAdapter;
 import io.crnk.core.engine.url.ConstantServiceUrlProvider;
 import io.crnk.core.module.SimpleModule;
 import io.crnk.test.mock.TestModule;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class LogSecuritySetupIssuesTest {
@@ -25,7 +25,7 @@ public class LogSecuritySetupIssuesTest {
 
 	private HomeModule homeModule;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		SimpleModule filterModule = new SimpleModule("filter");
 		filterModule.addResourceFilter(new ResourceFilter() {
@@ -61,8 +61,8 @@ public class LogSecuritySetupIssuesTest {
 		HttpRequestContextBaseAdapter contextAdapter = new HttpRequestContextBaseAdapter(context);
 
 		Mockito.when(context.getPath()).thenReturn("/");
-		Assert.assertFalse(homeModule.hasPotentialFilterIssues());
-		Assert.assertTrue(requestProcessor.accepts(contextAdapter));
-		Assert.assertTrue(homeModule.hasPotentialFilterIssues());
+		Assertions.assertFalse(homeModule.hasPotentialFilterIssues());
+		Assertions.assertTrue(requestProcessor.accepts(contextAdapter));
+		Assertions.assertTrue(homeModule.hasPotentialFilterIssues());
 	}
 }

@@ -5,17 +5,17 @@ import io.crnk.core.engine.registry.RegistryEntry;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.spring.app.BasicSpringBoot2Application;
 import io.crnk.test.mock.models.RenamedIdResource;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = BasicSpringBoot2Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 @TestPropertySource(properties = {"crnk.enforceIdName=true"})
@@ -28,6 +28,6 @@ public class SpringEnforceIdNameEnabledTest {
 	public void check() {
 		RegistryEntry entry = resourceRegistry.getIfAvailable().getEntry(RenamedIdResource.class);
 		ResourceField idField = entry.getResourceInformation().getIdField();
-		Assert.assertEquals("id", idField.getJsonName());
+		Assertions.assertEquals("id", idField.getJsonName());
 	}
 }

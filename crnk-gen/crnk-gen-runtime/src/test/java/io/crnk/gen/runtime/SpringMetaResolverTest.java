@@ -8,8 +8,8 @@ import io.crnk.meta.MetaLookupImpl;
 import io.crnk.meta.model.resource.MetaResource;
 import io.crnk.spring.setup.boot.core.CrnkCoreAutoConfiguration;
 import io.crnk.test.mock.TestModule;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +37,7 @@ public class SpringMetaResolverTest {
 
         MetaLookup lookup = captor.getValue();
         List<MetaResource> resources = lookup.findElements(MetaResource.class);
-        Assert.assertNotEquals(0, resources.stream().filter(it -> it.getName().contains("Task")).count());
+        Assertions.assertNotEquals(0, resources.stream().filter(it -> it.getName().contains("Task")).count());
     }
 
     @Configuration

@@ -7,7 +7,7 @@ import io.crnk.core.engine.internal.utils.UrlUtils;
 import io.crnk.servlet.internal.ServletRequestContext;
 import io.crnk.spring.boot.CrnkSpringBootProperties;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -76,4 +76,3 @@ public class SpringCrnkFilter implements Filter {
 		// nothing to do
 	}
 }
-

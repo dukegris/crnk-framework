@@ -1,7 +1,7 @@
 package io.crnk.core.engine.internal.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -13,7 +13,7 @@ public class PreconditionUtilTest {
 	public void testConstructorIsPrivate()
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		Constructor<PreconditionUtil> constructor = PreconditionUtil.class.getDeclaredConstructor();
-		Assert.assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+		Assertions.assertTrue(Modifier.isPrivate(constructor.getModifiers()));
 		constructor.setAccessible(true);
 		constructor.newInstance();
 	}
@@ -28,39 +28,53 @@ public class PreconditionUtilTest {
 		PreconditionUtil.assertNull(null, null);
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testObjectEqualsNotSatisfied() {
-		PreconditionUtil.assertEquals("message", new Object(), new Object());
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			PreconditionUtil.assertEquals("message", new Object(), new Object());
+		});
 	}
 
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testEqualsNotSatisfied() {
-		PreconditionUtil.assertEquals(null, 1, 2);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			PreconditionUtil.assertEquals(null, 1, 2);
+		});
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testEqualsNotSatisfied2() {
-		PreconditionUtil.assertEquals(null, "a", "b");
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			PreconditionUtil.assertEquals(null, "a", "b");
+		});
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testTrueNotSatisfied() {
-		PreconditionUtil.assertTrue(null, false);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			PreconditionUtil.assertTrue(null, false);
+		});
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testFalseNotSatisfied() {
-		PreconditionUtil.assertFalse(null, true);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			PreconditionUtil.assertFalse(null, true);
+		});
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testNotNullNotSatisfied() {
-		PreconditionUtil.assertNotNull(null, null);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			PreconditionUtil.assertNotNull(null, null);
+		});
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testNullNotSatisfied() {
-		PreconditionUtil.assertNull(null, "not null");
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			PreconditionUtil.assertNull(null, "not null");
+		});
 	}
 }

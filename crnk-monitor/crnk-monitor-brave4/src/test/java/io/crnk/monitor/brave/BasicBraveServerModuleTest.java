@@ -2,9 +2,9 @@ package io.crnk.monitor.brave;
 
 import brave.Tracing;
 import io.crnk.test.mock.ClassTestUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class BasicBraveServerModuleTest {
@@ -13,7 +13,7 @@ public class BasicBraveServerModuleTest {
 
 	private Tracing tracing;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		tracing = Mockito.mock(Tracing.class);
 		module = BraveServerModule.create(tracing);
@@ -26,11 +26,11 @@ public class BasicBraveServerModuleTest {
 
 	@Test
 	public void testGetName() {
-		Assert.assertEquals("brave-server", module.getModuleName());
+		Assertions.assertEquals("brave-server", module.getModuleName());
 	}
 
 	@Test
 	public void testGetBrave() {
-		Assert.assertSame(tracing, module.getTracing());
+		Assertions.assertSame(tracing, module.getTracing());
 	}
 }

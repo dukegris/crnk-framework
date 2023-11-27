@@ -8,9 +8,9 @@ import io.crnk.operations.client.OperationsCall;
 import io.crnk.operations.client.OperationsClient;
 import io.crnk.operations.model.MovieEntity;
 import io.crnk.operations.model.VoteEntity;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
@@ -20,7 +20,7 @@ public class OperationsSingleEntityTest extends AbstractOperationsTest {
 
 	private OperationsClient operationsClient;
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -41,7 +41,7 @@ public class OperationsSingleEntityTest extends AbstractOperationsTest {
 
 		// read
 		ResourceList<MovieEntity> movies = movieRepo.findAll(new QuerySpec(MovieEntity.class));
-		Assert.assertEquals(1, movies.size());
+		Assertions.assertEquals(1, movies.size());
 		movie = movies.get(0);
 
 
@@ -51,7 +51,7 @@ public class OperationsSingleEntityTest extends AbstractOperationsTest {
 		call.add(HttpMethod.PATCH, movie);
 		call.execute();
 		movie = call.getResponseObject(0, MovieEntity.class);
-		Assert.assertEquals("NewTitle", movie.getTitle());
+		Assertions.assertEquals("NewTitle", movie.getTitle());
 
 		// delete
 		call = operationsClient.createCall();
@@ -59,7 +59,7 @@ public class OperationsSingleEntityTest extends AbstractOperationsTest {
 		call.execute();
 
 		movies = movieRepo.findAll(new QuerySpec(MovieEntity.class));
-		Assert.assertEquals(0, movies.size());
+		Assertions.assertEquals(0, movies.size());
 	}
 
 	@Test
@@ -76,9 +76,9 @@ public class OperationsSingleEntityTest extends AbstractOperationsTest {
 
 		// read
 		ResourceList<VoteEntity> votes = voteRepo.findAll(new QuerySpec(VoteEntity.class));
-		Assert.assertEquals(1, votes.size());
+		Assertions.assertEquals(1, votes.size());
 		vote = votes.get(0);
-		Assert.assertEquals(1, vote.getId().intValue());
+		Assertions.assertEquals(1, vote.getId().intValue());
 
 		// update
 		vote.setNumStars(13);
@@ -86,8 +86,8 @@ public class OperationsSingleEntityTest extends AbstractOperationsTest {
 		call.add(HttpMethod.PATCH, vote);
 		call.execute();
 		vote = call.getResponseObject(0, VoteEntity.class);
-		Assert.assertEquals(13, vote.getNumStars());
-		Assert.assertEquals(1, vote.getId().intValue());
+		Assertions.assertEquals(13, vote.getNumStars());
+		Assertions.assertEquals(1, vote.getId().intValue());
 
 		// delete
 		call = operationsClient.createCall();
@@ -95,6 +95,6 @@ public class OperationsSingleEntityTest extends AbstractOperationsTest {
 		call.execute();
 
 		votes = voteRepo.findAll(new QuerySpec(VoteEntity.class));
-		Assert.assertEquals(0, votes.size());
+		Assertions.assertEquals(0, votes.size());
 	}
 }

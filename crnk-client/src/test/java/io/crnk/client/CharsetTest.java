@@ -18,8 +18,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.protocol.HttpContext;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
@@ -92,14 +92,14 @@ public class CharsetTest extends AbstractClientTest {
 		entity.setName("äöüé@¢€");
 		testRepo.create(entity);
 
-		Assert.assertEquals(HttpHeaders.JSONAPI_CONTENT_TYPE_AND_CHARSET, requestContentType);
-		Assert.assertEquals(HttpHeaders.JSONAPI_CONTENT_TYPE_AND_CHARSET, responseContentType);
+		Assertions.assertEquals(HttpHeaders.JSONAPI_CONTENT_TYPE_AND_CHARSET, requestContentType);
+		Assertions.assertEquals(HttpHeaders.JSONAPI_CONTENT_TYPE_AND_CHARSET, responseContentType);
 
 		Task savedEntity = testRepo.findOne(1L, new QuerySpec(Task.class));
-		Assert.assertEquals(entity.getName(), savedEntity.getName());
+		Assertions.assertEquals(entity.getName(), savedEntity.getName());
 
-		Assert.assertNull(requestContentType);
-		Assert.assertEquals(HttpHeaders.JSONAPI_CONTENT_TYPE_AND_CHARSET, responseContentType);
+		Assertions.assertNull(requestContentType);
+		Assertions.assertEquals(HttpHeaders.JSONAPI_CONTENT_TYPE_AND_CHARSET, responseContentType);
 	}
 
 }

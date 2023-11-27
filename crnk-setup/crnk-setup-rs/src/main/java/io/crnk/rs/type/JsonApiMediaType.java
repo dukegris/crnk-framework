@@ -1,6 +1,6 @@
 package io.crnk.rs.type;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 public final class JsonApiMediaType {
 
@@ -19,4 +19,3 @@ public final class JsonApiMediaType {
 	 */
 	public final static MediaType APPLICATION_JSON_API_TYPE = new MediaType("application", "vnd.api+json");
 }
-

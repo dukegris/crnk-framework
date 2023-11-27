@@ -12,7 +12,7 @@ import io.crnk.reactive.model.ReactiveProject;
 import io.crnk.reactive.model.ReactiveProjectToTasksRepository;
 import io.crnk.reactive.model.ReactiveTask;
 import io.crnk.reactive.model.ReactiveTaskToProjectRepository;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
 public abstract class ReactiveTestBase {
@@ -33,7 +33,7 @@ public abstract class ReactiveTestBase {
 
 	protected HttpRequestContextBase requestContextBase;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		taskRepository = new InMemoryReactiveResourceRepository(ReactiveTask.class);
 		projectRepository = new InMemoryReactiveResourceRepository(ReactiveProject.class);

@@ -7,11 +7,11 @@ import io.crnk.data.jpa.query.AbstractJpaTest;
 import io.crnk.data.jpa.query.JpaQueryFactory;
 import io.crnk.data.jpa.query.querydsl.QuerydslQueryFactory;
 import io.crnk.test.mock.ClassTestUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import java.util.Set;
 
 @Transactional
@@ -27,17 +27,17 @@ public class JpaModuleTest extends AbstractJpaTest {
     protected void setupModule(JpaModuleConfig module) {
         Set<Class<?>> resourceClasses = module.getResourceClasses();
         int n = resourceClasses.size();
-        Assert.assertNotEquals(0, n);
+        Assertions.assertNotEquals(0, n);
         module.removeRepository(TestEntity.class);
-        Assert.assertEquals(n - 1, module.getResourceClasses().size());
+        Assertions.assertEquals(n - 1, module.getResourceClasses().size());
         module.removeRepositories();
     }
 
     @Test
     public void test() {
-        Assert.assertEquals(0, module.getConfig().getResourceClasses().size());
+        Assertions.assertEquals(0, module.getConfig().getResourceClasses().size());
 
-        Assert.assertEquals("jpa", module.getModuleName());
+        Assertions.assertEquals("jpa", module.getModuleName());
     }
 
     @Override

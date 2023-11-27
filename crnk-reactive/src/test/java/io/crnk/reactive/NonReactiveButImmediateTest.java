@@ -15,8 +15,8 @@ import io.crnk.core.resource.list.ResourceList;
 import io.crnk.reactive.model.ImmediateSlowResourceRepository;
 import io.crnk.reactive.model.SlowResourceRepository;
 import io.crnk.reactive.model.SlowTask;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,15 +60,15 @@ public class NonReactiveButImmediateTest extends ReactiveTestBase {
 
 		List<JsonApiResponse> responses = zipped.get();
 		long dt = System.currentTimeMillis() - s;
-		Assert.assertEquals(n, responses.size());
+		Assertions.assertEquals(n, responses.size());
 
 		// should incur delay for each call as it supposed to be immediate and no worker thread used
 		int cpuIgnoreMargin = 1000;
-		Assert.assertTrue("dt=" + dt, dt > n * SlowResourceRepository.DELAY - cpuIgnoreMargin);
+		Assertions.assertTrue(dt > n * SlowResourceRepository.DELAY - cpuIgnoreMargin, "dt=" + dt);
 
 		for (JsonApiResponse response : responses) {
 			ResourceList list = (ResourceList) response.getEntity();
-			Assert.assertEquals(1, list.size());
+			Assertions.assertEquals(1, list.size());
 		}
 	}
 

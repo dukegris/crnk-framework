@@ -14,8 +14,8 @@ import io.crnk.core.repository.response.JsonApiResponse;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.reactive.model.SlowResourceRepository;
 import io.crnk.reactive.model.SlowTask;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,16 +53,16 @@ public class NonReactiveWithWorkerTest extends ReactiveTestBase {
 
 		List<JsonApiResponse> responses = zipped.get();
 		long dt = System.currentTimeMillis() - s;
-		Assert.assertEquals(n, responses.size());
+		Assertions.assertEquals(n, responses.size());
 
 		// should incur delay only once since all n items are run in parallel
 		int cpuIgnoreMargin = 5500;
-		Assert.assertTrue("dt=" + dt, dt < SlowResourceRepository.DELAY + cpuIgnoreMargin);
-		Assert.assertTrue("dt=" + dt, dt > SlowResourceRepository.DELAY - cpuIgnoreMargin);
+		Assertions.assertTrue(dt < SlowResourceRepository.DELAY + cpuIgnoreMargin, "dt=" + dt);
+		Assertions.assertTrue(dt > SlowResourceRepository.DELAY - cpuIgnoreMargin, "dt=" + dt);
 
 		for (JsonApiResponse response : responses) {
 			ResourceList list = (ResourceList) response.getEntity();
-			Assert.assertEquals(1, list.size());
+			Assertions.assertEquals(1, list.size());
 		}
 	}
 

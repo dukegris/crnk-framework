@@ -6,14 +6,14 @@ import io.crnk.core.engine.properties.PropertiesProvider;
 import io.crnk.core.engine.query.QueryAdapter;
 import io.crnk.core.mock.models.HierarchicalTask;
 import io.crnk.core.queryspec.QuerySpec;
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public abstract class AbstractIncludeBehaviorTest extends AbstractDocumentMapperTest {
 
 	protected HierarchicalTask h;
@@ -35,7 +35,7 @@ public abstract class AbstractIncludeBehaviorTest extends AbstractDocumentMapper
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
-	@Before
+	@BeforeEach
 	public void setup() {
 
 		super.setup();

@@ -5,8 +5,8 @@ import io.crnk.core.engine.query.QueryContext;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.engine.result.ImmediateResultFactory;
 import io.crnk.core.module.ModuleRegistry;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class HttpRequestContextProviderTest {
@@ -26,14 +26,14 @@ public class HttpRequestContextProviderTest {
 		QueryContext queryContext = new QueryContext();
 		Mockito.when(context.getQueryContext()).thenReturn(queryContext);
 
-		Assert.assertFalse(provider.hasThreadRequestContext());
+		Assertions.assertFalse(provider.hasThreadRequestContext());
 
 		provider.onRequestStarted(context);
-		Assert.assertTrue(provider.hasThreadRequestContext());
-		Assert.assertSame(context, provider.getRequestContext());
-		Assert.assertEquals("http://test", provider.getServiceUrlProvider().getUrl());
+		Assertions.assertTrue(provider.hasThreadRequestContext());
+		Assertions.assertSame(context, provider.getRequestContext());
+		Assertions.assertEquals("http://test", provider.getServiceUrlProvider().getUrl());
 		provider.onRequestFinished();
-		Assert.assertFalse(provider.hasThreadRequestContext());
-		Assert.assertEquals(2, queryContext.getRequestVersion()); // set to latest from registry
+		Assertions.assertFalse(provider.hasThreadRequestContext());
+		Assertions.assertEquals(2, queryContext.getRequestVersion()); // set to latest from registry
 	}
 }

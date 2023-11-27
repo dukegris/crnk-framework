@@ -4,7 +4,8 @@ import io.crnk.core.engine.document.ErrorData;
 import io.crnk.core.engine.error.ErrorResponse;
 import io.crnk.core.engine.http.HttpStatus;
 import io.crnk.core.engine.internal.exception.CrnkExceptionMapper;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -61,10 +62,12 @@ public class CrnkExceptionMapperTest {
 	}
 
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void invalidExceptionNotManagedByMapper() {
-		CrnkExceptionMapper mapper = new CrnkExceptionMapper();
-		mapper.fromErrorResponse(new ErrorResponse(null, 123));
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			CrnkExceptionMapper mapper = new CrnkExceptionMapper();
+			mapper.fromErrorResponse(new ErrorResponse(null, 123));
+		});
 	}
 
 	@Test

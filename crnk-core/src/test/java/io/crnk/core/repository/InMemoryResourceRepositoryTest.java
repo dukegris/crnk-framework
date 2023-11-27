@@ -3,7 +3,7 @@ package io.crnk.core.repository;
 import io.crnk.core.mock.models.Task;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.ResourceList;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class InMemoryResourceRepositoryTest {
@@ -16,6 +16,6 @@ public class InMemoryResourceRepositoryTest {
 		repository.create(task);
 
 		ResourceList<Task> list = repository.findAll(new QuerySpec(Task.class));
-		Assert.assertEquals(list.size(), 1);
+		Assertions.assertEquals(list.size(), 1);
 	}
 }

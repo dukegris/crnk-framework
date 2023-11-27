@@ -11,7 +11,7 @@ dependencies {
     implementation project(':crnk-core')
 
     implementation 'com.fasterxml.jackson.core:jackson-databind'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation project(':crnk-client')
@@ -19,6 +19,6 @@ dependencies {
     testImplementation project(':crnk-home')
     testImplementation project(':crnk-test')
 
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
 
 }

@@ -22,7 +22,9 @@ public class RestTemplateResponse implements HttpAdapterResponse {
     public RestTemplateResponse(ResponseEntity<String> response) {
         this.body = response.getBody();
         this.status = response.getStatusCodeValue();
-        this.message = response.getStatusCode().getReasonPhrase();
+        // RCS getReasonPhrase removed
+        // this.message = response.getStatusCode().getReasonPhrase();
+        this.message = response.getStatusCode().toString();
         this.headers = response.getHeaders();
     }
 

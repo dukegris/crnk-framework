@@ -25,13 +25,13 @@ import io.crnk.meta.MetaLookupImpl;
 import io.crnk.meta.model.MetaAttribute;
 import io.crnk.meta.model.MetaKey;
 import io.crnk.meta.model.resource.MetaResource;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +46,7 @@ public class DtoMappingTest extends AbstractJpaJerseyTest {
 	private TestDTOMapper dtoMapper;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 		testRepo = client.getRepositoryForType(TestEntity.class);
@@ -95,12 +95,12 @@ public class DtoMappingTest extends AbstractJpaJerseyTest {
 		MetaLookupImpl lookup = (MetaLookupImpl) metaModule.getLookup();
 		MetaResource meta = (MetaResource) lookup.getMetaById().get("resources.testDTO");
 		MetaKey primaryKey = meta.getPrimaryKey();
-		Assert.assertNotNull(primaryKey);
-		Assert.assertEquals(1, primaryKey.getElements().size());
-		Assert.assertEquals("id", primaryKey.getElements().get(0).getName());
+		Assertions.assertNotNull(primaryKey);
+		Assertions.assertEquals(1, primaryKey.getElements().size());
+		Assertions.assertEquals("id", primaryKey.getElements().get(0).getName());
 
 		MetaAttribute oneRelatedAttr = meta.getAttribute("oneRelatedValue");
-		Assert.assertTrue(oneRelatedAttr.isAssociation());
+		Assertions.assertTrue(oneRelatedAttr.isAssociation());
 	}
 
 	@Test
@@ -114,17 +114,17 @@ public class DtoMappingTest extends AbstractJpaJerseyTest {
 		// query as regular entity (you may want to disable that in a real application)
 		QuerySpec querySpec = new QuerySpec(TestEntity.class);
 		List<TestEntity> list = testRepo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		Mockito.verify(dtoMapper, Mockito.times(0)).unmapQuerySpec(Mockito.any(QuerySpec.class));
 
 		// query the mapped DTO
 		ResourceRepository<TestDTO, Serializable> dtoRepo = client.getRepositoryForType(TestDTO.class);
 		List<TestDTO> dtos = dtoRepo.findAll(new QuerySpec(TestDTO.class));
-		Assert.assertEquals(1, dtos.size());
+		Assertions.assertEquals(1, dtos.size());
 		TestDTO dto = dtos.get(0);
-		Assert.assertEquals(2L, dto.getId().longValue());
-		Assert.assertEquals("test", dto.getStringValue());
-		Assert.assertEquals("TEST", dto.getComputedUpperStringValue());
+		Assertions.assertEquals(2L, dto.getId().longValue());
+		Assertions.assertEquals("test", dto.getStringValue());
+		Assertions.assertEquals("TEST", dto.getComputedUpperStringValue());
 		Mockito.verify(dtoMapper, Mockito.times(1)).unmapQuerySpec(Mockito.eq(querySpec));
 
 		// update the mapped dto
@@ -133,9 +133,9 @@ public class DtoMappingTest extends AbstractJpaJerseyTest {
 
 		// read again
 		dto = dtoRepo.findOne(2L, new QuerySpec(TestDTO.class));
-		Assert.assertEquals(2L, dto.getId().longValue());
-		Assert.assertEquals("newValue", dto.getStringValue());
-		Assert.assertEquals("NEWVALUE", dto.getComputedUpperStringValue());
+		Assertions.assertEquals(2L, dto.getId().longValue());
+		Assertions.assertEquals("newValue", dto.getStringValue());
+		Assertions.assertEquals("NEWVALUE", dto.getComputedUpperStringValue());
 
 	}
 
@@ -161,22 +161,22 @@ public class DtoMappingTest extends AbstractJpaJerseyTest {
 		// test relationship access
 		RelatedDTO actualRelated = relRepo.findOneTarget(test.getId(), TestEntity.ATTR_oneRelatedValue,
 				new QuerySpec(RelatedDTO.class));
-		Assert.assertNotNull(actualRelated);
-		Assert.assertEquals(related.getId(), actualRelated.getId());
+		Assertions.assertNotNull(actualRelated);
+		Assertions.assertEquals(related.getId(), actualRelated.getId());
 
 		// test include
 		QuerySpec querySpec = new QuerySpec(TestDTO.class);
 		querySpec.includeRelation(Arrays.asList(TestEntity.ATTR_oneRelatedValue));
 		ResourceList<TestDTO> list = testRepo.findAll(querySpec);
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		TestDTO actualTest = list.get(0);
 		actualRelated = actualTest.getOneRelatedValue();
-		Assert.assertNotNull(actualRelated);
-		Assert.assertEquals(related.getId(), actualRelated.getId());
+		Assertions.assertNotNull(actualRelated);
+		Assertions.assertEquals(related.getId(), actualRelated.getId());
 	}
 
 	@Test
-    @Ignore
+    @Disabled
 	public void testMappedManyRelation() {
 		ResourceRepository<TestDTO, Serializable> testRepo = client.getRepositoryForType(TestDTO.class);
 		ResourceRepository<RelatedDTO, Serializable> relatedRepo = client.getRepositoryForType(RelatedDTO.class);
@@ -198,34 +198,34 @@ public class DtoMappingTest extends AbstractJpaJerseyTest {
 		related2.setStringValue("related2");
 		related2 = relatedRepo.create(related2);
 
-		Assert.assertEquals(1, testRepo.findAll(new QuerySpec(TestDTO.class)).size());
+		Assertions.assertEquals(1, testRepo.findAll(new QuerySpec(TestDTO.class)).size());
 		relRepo.addRelations(test, Arrays.asList(related1.getId(), related2.getId()), TestEntity.ATTR_manyRelatedValues);
-		Assert.assertEquals(1, testRepo.findAll(new QuerySpec(TestDTO.class)).size());
+		Assertions.assertEquals(1, testRepo.findAll(new QuerySpec(TestDTO.class)).size());
 
 		// test relationship access
 		List<RelatedDTO> actualRelatedList = relRepo.findManyTargets(test.getId(), TestEntity.ATTR_manyRelatedValues,
 				new QuerySpec(RelatedDTO.class));
-		Assert.assertEquals(2, actualRelatedList.size());
+		Assertions.assertEquals(2, actualRelatedList.size());
 
 		// test include
-		Assert.assertEquals(1, testRepo.findAll(new QuerySpec(TestDTO.class)).size());
+		Assertions.assertEquals(1, testRepo.findAll(new QuerySpec(TestDTO.class)).size());
 
 		// TODO distinct problem in H2 to investigate
 		//		QuerySpec querySpec = new QuerySpec(TestDTO.class);
 		//		querySpec.includeRelation(Arrays.asList(TestEntity.ATTR_manyRelatedValues));
 		//		ResourceList<TestDTO> list = testRepo.findAll(querySpec);
-		//		Assert.assertEquals(1, list.size());
+		//		Assertions.assertEquals(1, list.size());
 		//		TestDTO actualTest = list.get(0);
 		//		actualRelatedList = actualTest.getManyRelatedValues();
-		//		Assert.assertEquals(2, actualRelatedList.size());
+		//		Assertions.assertEquals(2, actualRelatedList.size());
 
 		// test removal
 		// TODO DELETE request with body not supported by jersey?
 		//		relRepo.removeRelations(test, Arrays.asList(related2.getId()), TestEntity.ATTR_manyRelatedValues);
 		//		actualRelatedList = relRepo.findRelations(test.getId(), TestEntity.ATTR_manyRelatedValues,
 		//				new QuerySpec(RelatedDTO.class));
-		//		Assert.assertEquals(1, actualRelatedList.size());
-		//		Assert.assertEquals(related1.getId(), actualRelatedList.get(0).getId());
+		//		Assertions.assertEquals(1, actualRelatedList.size());
+		//		Assertions.assertEquals(related1.getId(), actualRelatedList.get(0).getId());
 	}
 
 	@Test
@@ -237,20 +237,20 @@ public class DtoMappingTest extends AbstractJpaJerseyTest {
 		dto.setId(2L);
 		dto.setStringValue("createdDto");
 		dto = dtoRepo.create(dto);
-		Assert.assertEquals("createdDto", dto.getStringValue());
-		Assert.assertEquals("CREATEDDTO", dto.getComputedUpperStringValue());
+		Assertions.assertEquals("createdDto", dto.getStringValue());
+		Assertions.assertEquals("CREATEDDTO", dto.getComputedUpperStringValue());
 
 		// check both exists
 		ResourceList<TestDTO> dtos = dtoRepo.findAll(new QuerySpec(TestDTO.class));
-		Assert.assertEquals(1, dtos.size());
+		Assertions.assertEquals(1, dtos.size());
 		dto = dtos.get(0);
-		Assert.assertEquals("createdDto", dto.getStringValue());
-		Assert.assertEquals("CREATEDDTO", dto.getComputedUpperStringValue());
+		Assertions.assertEquals("createdDto", dto.getStringValue());
+		Assertions.assertEquals("CREATEDDTO", dto.getComputedUpperStringValue());
 
 		// test delete
 		dtoRepo.delete(dto.getId());
 		dtos = dtoRepo.findAll(new QuerySpec(TestDTO.class));
-		Assert.assertEquals(0, dtos.size());
+		Assertions.assertEquals(0, dtos.size());
 	}
 
 	@Test
@@ -273,12 +273,12 @@ public class DtoMappingTest extends AbstractJpaJerseyTest {
 		// querySpec.addSort(new SortSpec(Arrays.asList(TestDTO.ATTR_COMPUTED_NUMBER_OF_SMALLER_IDS), Direction.DESC));
 
 		ResourceList<TestDTO> dtos = dtoRepo.findAll(querySpec);
-		Assert.assertEquals(4, dtos.size());
+		Assertions.assertEquals(4, dtos.size());
 		for (int i = 0; i < dtos.size(); i++) {
 			TestDTO dto = dtos.get(i);
 			int j = i;// 4 - i;
-			Assert.assertEquals(100 + j, dto.getId().longValue());
-			Assert.assertEquals(j, dto.getComputedNumberOfSmallerIds());
+			Assertions.assertEquals(100 + j, dto.getId().longValue());
+			Assertions.assertEquals(j, dto.getComputedNumberOfSmallerIds());
 		}
 	}
 
@@ -289,8 +289,8 @@ public class DtoMappingTest extends AbstractJpaJerseyTest {
 		final String stringValue = "ID is going to be autogenerated";
 		newSequence.setStringValue(stringValue);
 		SequenceDTO createdSequence = sequenceRepo.create(newSequence);
-		Assert.assertNotNull(createdSequence);
-		Assert.assertNotNull(createdSequence.getId());
-		Assert.assertEquals(stringValue, createdSequence.getStringValue());
+		Assertions.assertNotNull(createdSequence);
+		Assertions.assertNotNull(createdSequence.getId());
+		Assertions.assertEquals(stringValue, createdSequence.getStringValue());
 	}
 }

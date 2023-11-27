@@ -7,8 +7,8 @@ import io.crnk.core.engine.http.HttpMethod;
 import io.crnk.core.utils.Nullable;
 import io.crnk.operations.server.order.DependencyOrderStrategy;
 import io.crnk.operations.server.order.OrderedOperation;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,20 +22,22 @@ public class DependencyOrderStrategyTest {
 	@Test
 	public void testEmpty() {
 		List<Operation> result = toOperations(strategy.order((List) Collections.emptyList()));
-		Assert.assertTrue(result.isEmpty());
+		Assertions.assertTrue(result.isEmpty());
 	}
 
 	@Test
 	public void testSingleResource() {
 		Operation operation = createOperation("movie", "test", HttpMethod.POST);
 		List<Operation> results = toOperations(strategy.order(Arrays.asList(operation)));
-		Assert.assertEquals(1, results.size());
+		Assertions.assertEquals(1, results.size());
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void testCannotOrderDuplicateObjects() {
-		Operation operation = createOperation("movie", "test", HttpMethod.POST);
-		toOperations(strategy.order(Arrays.asList(operation, operation)));
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			Operation operation = createOperation("movie", "test", HttpMethod.POST);
+			toOperations(strategy.order(Arrays.asList(operation, operation)));
+		});
 	}
 
 	@Test
@@ -43,9 +45,9 @@ public class DependencyOrderStrategyTest {
 		Operation op1 = createOperation("movie", "test1", HttpMethod.POST);
 		Operation op2 = createOperation("movie", "test2", HttpMethod.POST);
 		List<Operation> results = toOperations(strategy.order(Arrays.asList(op1, op2)));
-		Assert.assertEquals(2, results.size());
-		Assert.assertEquals(op1, results.get(0));
-		Assert.assertEquals(op2, results.get(1));
+		Assertions.assertEquals(2, results.size());
+		Assertions.assertEquals(op1, results.get(0));
+		Assertions.assertEquals(op2, results.get(1));
 	}
 
 	@Test
@@ -53,9 +55,9 @@ public class DependencyOrderStrategyTest {
 		Operation op1 = createOperation("movie", "test1", HttpMethod.POST);
 		Operation op2 = createOperation("movie", "test2", HttpMethod.DELETE);
 		List<Operation> results = toOperations(strategy.order(Arrays.asList(op1, op2)));
-		Assert.assertEquals(2, results.size());
-		Assert.assertEquals(op1, results.get(0));
-		Assert.assertEquals(op2, results.get(1));
+		Assertions.assertEquals(2, results.size());
+		Assertions.assertEquals(op1, results.get(0));
+		Assertions.assertEquals(op2, results.get(1));
 	}
 
 	@Test
@@ -63,9 +65,9 @@ public class DependencyOrderStrategyTest {
 		Operation op1 = createOperation("movie", "test1", HttpMethod.DELETE);
 		Operation op2 = createOperation("movie", "test2", HttpMethod.POST);
 		List<Operation> results = toOperations(strategy.order(Arrays.asList(op1, op2)));
-		Assert.assertEquals(2, results.size());
-		Assert.assertEquals(op2, results.get(0));
-		Assert.assertEquals(op1, results.get(1));
+		Assertions.assertEquals(2, results.size());
+		Assertions.assertEquals(op2, results.get(0));
+		Assertions.assertEquals(op1, results.get(1));
 	}
 
 	@Test
@@ -75,9 +77,9 @@ public class DependencyOrderStrategyTest {
 		addOneDependency(op1, op2, "directors");
 
 		List<Operation> results = toOperations(strategy.order(Arrays.asList(op1, op2)));
-		Assert.assertEquals(2, results.size());
-		Assert.assertEquals(op2, results.get(0));
-		Assert.assertEquals(op1, results.get(1));
+		Assertions.assertEquals(2, results.size());
+		Assertions.assertEquals(op2, results.get(0));
+		Assertions.assertEquals(op1, results.get(1));
 	}
 
 	@Test
@@ -87,20 +89,21 @@ public class DependencyOrderStrategyTest {
 		addManyDependency(op1, op2, "directors");
 
 		List<Operation> results = toOperations(strategy.order(Arrays.asList(op1, op2)));
-		Assert.assertEquals(2, results.size());
-		Assert.assertEquals(op2, results.get(0));
-		Assert.assertEquals(op1, results.get(1));
+		Assertions.assertEquals(2, results.size());
+		Assertions.assertEquals(op2, results.get(0));
+		Assertions.assertEquals(op1, results.get(1));
 	}
 
-
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testCyclicPost() {
-		Operation op1 = createOperation("movie", "test1", HttpMethod.POST);
-		Operation op2 = createOperation("person", "test2", HttpMethod.POST);
-		addManyDependency(op1, op2, "directors");
-		addManyDependency(op2, op1, "directors");
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			Operation op1 = createOperation("movie", "test1", HttpMethod.POST);
+			Operation op2 = createOperation("person", "test2", HttpMethod.POST);
+			addManyDependency(op1, op2, "directors");
+			addManyDependency(op2, op1, "directors");
 
-		strategy.order(Arrays.asList(op1, op2));
+			strategy.order(Arrays.asList(op1, op2));
+		});
 	}
 
 	@Test
@@ -110,9 +113,9 @@ public class DependencyOrderStrategyTest {
 		addManyDependency(op2, op1, "writers");
 
 		List<Operation> results = toOperations(strategy.order(Arrays.asList(op1, op2)));
-		Assert.assertEquals(2, results.size());
-		Assert.assertEquals(op1, results.get(0));
-		Assert.assertEquals(op2, results.get(1));
+		Assertions.assertEquals(2, results.size());
+		Assertions.assertEquals(op1, results.get(0));
+		Assertions.assertEquals(op2, results.get(1));
 	}
 
 	@Test
@@ -122,9 +125,9 @@ public class DependencyOrderStrategyTest {
 		addManyDependency(op2, op1, "writers");
 
 		List<Operation> results = toOperations(strategy.order(Arrays.asList(op1, op2)));
-		Assert.assertEquals(2, results.size());
-		Assert.assertEquals(op1, results.get(0));
-		Assert.assertEquals(op2, results.get(1));
+		Assertions.assertEquals(2, results.size());
+		Assertions.assertEquals(op1, results.get(0));
+		Assertions.assertEquals(op2, results.get(1));
 	}
 
 	@Test
@@ -134,9 +137,9 @@ public class DependencyOrderStrategyTest {
 		addManyDependency(op1, op2, "writers");
 
 		List<Operation> results = toOperations(strategy.order(Arrays.asList(op1, op2)));
-		Assert.assertEquals(2, results.size());
-		Assert.assertEquals(op1, results.get(0));
-		Assert.assertEquals(op2, results.get(1));
+		Assertions.assertEquals(2, results.size());
+		Assertions.assertEquals(op1, results.get(0));
+		Assertions.assertEquals(op2, results.get(1));
 	}
 
 
@@ -147,9 +150,9 @@ public class DependencyOrderStrategyTest {
 		addUnitializedDependency(op1, "writers");
 
 		List<Operation> results = toOperations(strategy.order(Arrays.asList(op1, op2)));
-		Assert.assertEquals(2, results.size());
-		Assert.assertEquals(op2, results.get(1));
-		Assert.assertEquals(op1, results.get(0));
+		Assertions.assertEquals(2, results.size());
+		Assertions.assertEquals(op2, results.get(1));
+		Assertions.assertEquals(op1, results.get(0));
 	}
 
 	@Test
@@ -159,9 +162,9 @@ public class DependencyOrderStrategyTest {
 		addUnitializedDependency(op2, "writers");
 
 		List<Operation> results = toOperations(strategy.order(Arrays.asList(op1, op2)));
-		Assert.assertEquals(2, results.size());
-		Assert.assertEquals(op2, results.get(1));
-		Assert.assertEquals(op1, results.get(0));
+		Assertions.assertEquals(2, results.size());
+		Assertions.assertEquals(op2, results.get(1));
+		Assertions.assertEquals(op1, results.get(0));
 	}
 
 	private List<Operation> toOperations(List<OrderedOperation> orderedOperations) {

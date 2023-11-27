@@ -7,7 +7,7 @@ import io.crnk.core.mock.models.Task;
 import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.PathSpec;
 import io.crnk.core.queryspec.QuerySpec;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,9 +35,9 @@ public class JsonApiUrlBuilderTest {
 	public void test() {
 		QuerySpec querySpec = new QuerySpec(Task.class);
 		querySpec.addFilter(PathSpec.of("name").filter(FilterOperator.EQ, "bar"));
-		Assert.assertEquals("http://foo.com/api/tasks/42", urlBuilder.buildUrl(context, task));
-		Assert.assertEquals("http://foo.com/api/tasks/42?filter[name]=bar", urlBuilder.buildUrl(context, task, querySpec));
-		Assert.assertEquals("http://foo.com/api/tasks/42/relationships/project", urlBuilder.buildUrl(context, task, null, "project", true));
-		Assert.assertEquals("http://foo.com/api/tasks/42/project", urlBuilder.buildUrl(context, task, null, "project", false));
+		Assertions.assertEquals("http://foo.com/api/tasks/42", urlBuilder.buildUrl(context, task));
+		Assertions.assertEquals("http://foo.com/api/tasks/42?filter[name]=bar", urlBuilder.buildUrl(context, task, querySpec));
+		Assertions.assertEquals("http://foo.com/api/tasks/42/relationships/project", urlBuilder.buildUrl(context, task, null, "project", true));
+		Assertions.assertEquals("http://foo.com/api/tasks/42/project", urlBuilder.buildUrl(context, task, null, "project", false));
 	}
 }

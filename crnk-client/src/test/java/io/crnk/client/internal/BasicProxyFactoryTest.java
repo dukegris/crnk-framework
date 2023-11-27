@@ -8,9 +8,9 @@ import io.crnk.core.resource.list.ResourceList;
 import io.crnk.test.mock.models.Schedule;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.ScheduleRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Collection;
@@ -19,7 +19,7 @@ public class BasicProxyFactoryTest {
 
     private BasicProxyFactory factory;
 
-    @Before
+    @BeforeEach
     public void setup() {
         factory = new BasicProxyFactory();
         ClientProxyFactoryContext context = Mockito.mock(ClientProxyFactoryContext.class);
@@ -29,32 +29,36 @@ public class BasicProxyFactoryTest {
     @Test
     public void testCollectionProxy() {
         Collection<Task> col = factory.createCollectionProxy(Task.class, ResourceList.class, "http://127.0.0.1:99999", null, null);
-        Assert.assertTrue(col instanceof ResourceList);
-        Assert.assertTrue(col instanceof ObjectProxy);
+        Assertions.assertTrue(col instanceof ResourceList);
+        Assertions.assertTrue(col instanceof ObjectProxy);
         ObjectProxy proxy = (ObjectProxy) col;
-        Assert.assertFalse(proxy.isLoaded());
-        Assert.assertEquals("http://127.0.0.1:99999", proxy.getUrl());
+        Assertions.assertFalse(proxy.isLoaded());
+        Assertions.assertEquals("http://127.0.0.1:99999", proxy.getUrl());
     }
 
     @Test
     public void testWrappedCollectionProxy() {
         Collection<Schedule> col = factory.createCollectionProxy(Schedule.class, ScheduleRepository.ScheduleList.class, "http://127.0.0.1:99999", null, null);
-        Assert.assertTrue(col instanceof ScheduleRepository.ScheduleList);
+        Assertions.assertTrue(col instanceof ScheduleRepository.ScheduleList);
 
         ScheduleRepository.ScheduleList list = (ScheduleRepository.ScheduleList) col;
-        Assert.assertTrue(list.getWrappedList() instanceof ObjectProxy);
+        Assertions.assertTrue(list.getWrappedList() instanceof ObjectProxy);
         ObjectProxy proxy = (ObjectProxy) list.getWrappedList();
-        Assert.assertFalse(proxy.isLoaded());
-        Assert.assertEquals("http://127.0.0.1:99999", proxy.getUrl());
+        Assertions.assertFalse(proxy.isLoaded());
+        Assertions.assertEquals("http://127.0.0.1:99999", proxy.getUrl());
     }
 
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testInvalidList() {
-        factory.createCollectionProxy(Task.class, InvalidList.class, "http://127.0.0.1:99999", null, null);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			factory.createCollectionProxy(Task.class, InvalidList.class, "http://127.0.0.1:99999", null, null);
+		});
     }
 
-    public static class InvalidList extends DefaultResourceList {
+    // RCS
+    // public static class InvalidList extends DefaultResourceList {
+    public static class InvalidList<T> extends DefaultResourceList {
 
         public InvalidList(String invalidParameter) { // NOSONAR
         }

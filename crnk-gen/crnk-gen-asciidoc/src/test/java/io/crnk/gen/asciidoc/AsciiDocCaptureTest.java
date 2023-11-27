@@ -17,9 +17,9 @@ import io.crnk.test.mock.TestModule;
 import io.crnk.test.mock.models.Project;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.models.TaskStatus;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ public class AsciiDocCaptureTest {
 
     private AsciidocCaptureModule asciidoc;
 
-    @Before
+    @BeforeEach
     public void setup() {
         CrnkBoot boot = setupServer();
 
@@ -86,7 +86,7 @@ public class AsciiDocCaptureTest {
         querySpec.setOffset(0);
         querySpec.setLimit(5L);
         ResourceList<Task> list = asciidoc.capture("Find Task by Name").call(() -> taskRepository.findAll(querySpec));
-        Assert.assertNotEquals(0, list.size());
+        Assertions.assertNotEquals(0, list.size());
 
         createdTask.setName("Updated Task");
         asciidoc.capture("Update a Task").call(() -> taskRepository.save(createdTask));

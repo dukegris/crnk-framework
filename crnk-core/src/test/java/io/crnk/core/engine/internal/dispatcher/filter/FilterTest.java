@@ -13,17 +13,17 @@ import io.crnk.core.engine.internal.http.HttpRequestDispatcherImpl;
 import io.crnk.core.engine.query.QueryAdapter;
 import io.crnk.core.engine.result.ImmediateResult;
 import io.crnk.core.module.SimpleModule;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -44,7 +44,7 @@ public class FilterTest {
 	private CoreTestContainer container;
 
 
-	@Before
+	@BeforeEach
 	public void prepare() {
 		// GIVEN
 		filter = mock(TestFilter.class);
@@ -86,8 +86,8 @@ public class FilterTest {
 		verify(filter, times(1)).filter(any(DocumentFilterContext.class), any(DocumentFilterChain.class));
 
 		DocumentFilterContext value = captor.getValue();
-		Assert.assertEquals("tasks", value.getJsonPath().getRootEntry().getResourceInformation().getResourceType());
-		Assert.assertEquals(requestBody, value.getRequestBody());
-		Assert.assertEquals("GET", value.getMethod());
+		Assertions.assertEquals("tasks", value.getJsonPath().getRootEntry().getResourceInformation().getResourceType());
+		Assertions.assertEquals(requestBody, value.getRequestBody());
+		Assertions.assertEquals("GET", value.getMethod());
 	}
 }

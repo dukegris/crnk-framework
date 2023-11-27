@@ -1,8 +1,8 @@
 package io.crnk.core.queryspec.pagingspec;
 
 import io.crnk.core.exception.BadRequestException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class PagingSpecConversionTest {
 
@@ -11,30 +11,30 @@ public class PagingSpecConversionTest {
 	public void checkWithOffsetAndLimit() {
 		OffsetLimitPagingSpec offsetSpec = new OffsetLimitPagingSpec(20L, 10L);
 		NumberSizePagingSpec numberSpec = offsetSpec.convert(NumberSizePagingSpec.class);
-		Assert.assertEquals(3, numberSpec.getNumber());
-		Assert.assertEquals(10, numberSpec.getSize().intValue());
+		Assertions.assertEquals(3, numberSpec.getNumber());
+		Assertions.assertEquals(10, numberSpec.getSize().intValue());
 		OffsetLimitPagingSpec convertedOffsetSpec = numberSpec.convert(OffsetLimitPagingSpec.class);
-		Assert.assertEquals(offsetSpec, convertedOffsetSpec);
+		Assertions.assertEquals(offsetSpec, convertedOffsetSpec);
 	}
 
 	@Test
 	public void checkEmpty() {
 		OffsetLimitPagingSpec offsetSpec = new OffsetLimitPagingSpec(0L, null);
 		NumberSizePagingSpec numberSpec = offsetSpec.convert(NumberSizePagingSpec.class);
-		Assert.assertEquals(1, numberSpec.getNumber());
-		Assert.assertNull(numberSpec.getSize());
+		Assertions.assertEquals(1, numberSpec.getNumber());
+		Assertions.assertNull(numberSpec.getSize());
 		OffsetLimitPagingSpec convertedOffsetSpec = numberSpec.convert(OffsetLimitPagingSpec.class);
-		Assert.assertEquals(offsetSpec, convertedOffsetSpec);
+		Assertions.assertEquals(offsetSpec, convertedOffsetSpec);
 	}
 
 	@Test
 	public void checkWithLimit() {
 		OffsetLimitPagingSpec offsetSpec = new OffsetLimitPagingSpec(0L, 10L);
 		NumberSizePagingSpec numberSpec = offsetSpec.convert(NumberSizePagingSpec.class);
-		Assert.assertEquals(1, numberSpec.getNumber());
-		Assert.assertEquals(10, numberSpec.getSize().intValue());
+		Assertions.assertEquals(1, numberSpec.getNumber());
+		Assertions.assertEquals(10, numberSpec.getSize().intValue());
 		OffsetLimitPagingSpec convertedOffsetSpec = numberSpec.convert(OffsetLimitPagingSpec.class);
-		Assert.assertEquals(offsetSpec, convertedOffsetSpec);
+		Assertions.assertEquals(offsetSpec, convertedOffsetSpec);
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class PagingSpecConversionTest {
 		try {
 			offsetSpec.convert(NumberSizePagingSpec.class);
 		} catch (BadRequestException e) {
-			Assert.assertEquals("offset=5 must be multiple of limit=10 to support page number/size conversion", e.getMessage());
+			Assertions.assertEquals("offset=5 must be multiple of limit=10 to support page number/size conversion", e.getMessage());
 		}
 	}
 }

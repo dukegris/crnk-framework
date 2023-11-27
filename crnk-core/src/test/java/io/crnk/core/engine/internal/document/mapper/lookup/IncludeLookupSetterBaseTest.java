@@ -19,22 +19,22 @@ import io.crnk.core.mock.models.HierarchicalTask;
 import io.crnk.core.mock.models.Project;
 import io.crnk.core.mock.models.Task;
 import io.crnk.core.queryspec.QuerySpec;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class IncludeLookupSetterBaseTest extends AbstractDocumentMapperTest {
 
     private HierarchicalTask h;
@@ -48,7 +48,7 @@ public class IncludeLookupSetterBaseTest extends AbstractDocumentMapperTest {
     private PropertiesProvider propertiesProvider = Mockito.mock(PropertiesProvider.class);
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -148,7 +148,7 @@ public class IncludeLookupSetterBaseTest extends AbstractDocumentMapperTest {
 
         Relationship childrenRelationship = document.getSingleData().get().getRelationships().get("children");
         List<ResourceIdentifier> childIds = childrenRelationship.getCollectionData().get();
-        Assert.assertEquals(2, childIds.size());
+        Assertions.assertEquals(2, childIds.size());
     }
 
     @Test
@@ -169,7 +169,7 @@ public class IncludeLookupSetterBaseTest extends AbstractDocumentMapperTest {
 
         Relationship childrenRelationship = document.getSingleData().get().getRelationships().get("children");
         List<ResourceIdentifier> childIds = childrenRelationship.getCollectionData().get();
-        Assert.assertEquals(1, childIds.size());
+        Assertions.assertEquals(1, childIds.size());
     }
 
     protected final PropertiesProvider getPropertiesProvider() {

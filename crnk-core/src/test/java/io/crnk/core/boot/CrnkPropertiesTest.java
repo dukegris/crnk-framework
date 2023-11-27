@@ -1,7 +1,7 @@
 package io.crnk.core.boot;
 
 import io.crnk.core.engine.internal.utils.CoreClassTestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CrnkPropertiesTest {
 

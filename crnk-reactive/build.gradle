@@ -10,18 +10,18 @@ dependencies {
     implementation project(':crnk-core')
 
     implementation 'com.fasterxml.jackson.core:jackson-annotations'
-    implementation 'io.projectreactor:reactor-core:3.2.3.RELEASE'
+    implementation 'io.projectreactor:reactor-core:3.5.11'
     implementation 'net.jodah:typetools:0.6.3'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation project(':crnk-core')
 
     testImplementation 'com.fasterxml.jackson.core:jackson-annotations'
-    testImplementation 'io.projectreactor:reactor-test:3.2.3.RELEASE'
+    testImplementation 'io.projectreactor:reactor-test:3.5.11'
     testImplementation 'com.fasterxml.jackson.core:jackson-core'
     testImplementation 'com.fasterxml.jackson.core:jackson-databind'
 
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
 
 }

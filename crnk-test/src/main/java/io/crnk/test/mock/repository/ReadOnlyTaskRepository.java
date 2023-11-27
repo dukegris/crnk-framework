@@ -5,7 +5,7 @@ import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.annotations.JsonApiExposed;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.test.mock.models.ReadOnlyTask;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,18 +41,18 @@ public class ReadOnlyTaskRepository implements ResourceRepository<ReadOnlyTask, 
 
     @Override
     public <S extends ReadOnlyTask> S save(S resource) {
-        Assert.fail();
+        Assertions.fail();
         return null;
     }
 
     @Override
     public <S extends ReadOnlyTask> S create(S resource) {
-        Assert.fail();
+        Assertions.fail();
         return null;
     }
 
     @Override
     public void delete(Long id) {
-        Assert.fail();
+        Assertions.fail();
     }
 }

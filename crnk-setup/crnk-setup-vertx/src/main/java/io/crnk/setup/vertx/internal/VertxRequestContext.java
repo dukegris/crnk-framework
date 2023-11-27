@@ -83,7 +83,9 @@ public class VertxRequestContext extends DefaultHttpRequestContextBase {
 
 	@Override
 	public String getMethod() {
-		return serverRequest.rawMethod();
+		// RCS deprecated
+		// return serverRequest.rawMethod();
+		return serverRequest.method().name();
 	}
 
 	@Override

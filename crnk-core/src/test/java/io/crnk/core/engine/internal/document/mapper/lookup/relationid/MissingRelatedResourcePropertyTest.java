@@ -2,7 +2,7 @@ package io.crnk.core.engine.internal.document.mapper.lookup.relationid;
 
 import io.crnk.core.boot.CrnkProperties;
 import io.crnk.core.engine.properties.PropertiesProvider;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MissingRelatedResourcePropertyTest extends MissingRelatedResourceTest {
 

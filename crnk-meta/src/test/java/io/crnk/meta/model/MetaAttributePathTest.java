@@ -1,8 +1,8 @@
 package io.crnk.meta.model;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
@@ -16,7 +16,7 @@ public class MetaAttributePathTest {
 
 	private MetaAttribute attr2;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		attr1 = Mockito.mock(MetaAttribute.class);
 		attr2 = Mockito.mock(MetaAttribute.class);
@@ -27,9 +27,11 @@ public class MetaAttributePathTest {
 	}
 
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void invalidConstructorArgumentsThrowsException() {
-		new MetaAttributePath((MetaAttribute[]) null);
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {		
+			new MetaAttributePath((MetaAttribute[]) null);
+		});
 	}
 
 
@@ -37,13 +39,13 @@ public class MetaAttributePathTest {
 	public void concat() {
 		MetaAttribute attr3 = Mockito.mock(MetaAttribute.class);
 		Mockito.when(attr3.getName()).thenReturn("c");
-		Assert.assertEquals("a.b.c", path.concat(attr3).toString());
+		Assertions.assertEquals("a.b.c", path.concat(attr3).toString());
 	}
 
 
 	@Test
 	public void toStringForEmptyPath() {
-		Assert.assertEquals("", MetaAttributePath.EMPTY_PATH.toString());
+		Assertions.assertEquals("", MetaAttributePath.EMPTY_PATH.toString());
 	}
 
 	@Test
@@ -51,7 +53,7 @@ public class MetaAttributePathTest {
 		MetaAttribute attr3 = Mockito.mock(MetaAttribute.class);
 		Mockito.when(attr3.getName()).thenReturn("c");
 		path = new MetaAttributePath(Arrays.asList(attr3));
-		Assert.assertEquals("c", path.toString());
+		Assertions.assertEquals("c", path.toString());
 	}
 
 
@@ -62,68 +64,68 @@ public class MetaAttributePathTest {
 		MetaAttributePath path2 = new MetaAttributePath(Arrays.asList(attr3));
 		MetaAttributePath path3 = new MetaAttributePath(Arrays.asList(attr3));
 
-		Assert.assertNotEquals(path2.hashCode(), path.hashCode());
-		Assert.assertEquals(path2.hashCode(), path3.hashCode());
+		Assertions.assertNotEquals(path2.hashCode(), path.hashCode());
+		Assertions.assertEquals(path2.hashCode(), path3.hashCode());
 	}
 
 
 	@Test
 	public void length() {
-		Assert.assertEquals(2, path.length());
+		Assertions.assertEquals(2, path.length());
 	}
 
 	@Test
 	public void getLast() {
-		Assert.assertEquals(attr2, path.getLast());
+		Assertions.assertEquals(attr2, path.getLast());
 	}
 
 
 	@Test
 	public void iterator() {
 		Iterator<MetaAttribute> iterator = path.iterator();
-		Assert.assertTrue(iterator.hasNext());
-		Assert.assertEquals("a", iterator.next().getName());
-		Assert.assertEquals("b", iterator.next().getName());
-		Assert.assertFalse(iterator.hasNext());
+		Assertions.assertTrue(iterator.hasNext());
+		Assertions.assertEquals("a", iterator.next().getName());
+		Assertions.assertEquals("b", iterator.next().getName());
+		Assertions.assertFalse(iterator.hasNext());
 	}
 
 
 	@Test
 	public void getLastForEmptyPath() {
-		Assert.assertNull(MetaAttributePath.EMPTY_PATH.getLast());
+		Assertions.assertNull(MetaAttributePath.EMPTY_PATH.getLast());
 	}
 
 
 	@Test
 	public void getElement() {
-		Assert.assertEquals(attr1, path.getElement(0));
-		Assert.assertEquals(attr2, path.getElement(1));
+		Assertions.assertEquals(attr1, path.getElement(0));
+		Assertions.assertEquals(attr2, path.getElement(1));
 	}
 
 
 	@Test
 	public void subPath() {
 		MetaAttributePath subPath = path.subPath(1);
-		Assert.assertEquals(1, subPath.length());
-		Assert.assertEquals(attr2, subPath.getElement(0));
+		Assertions.assertEquals(1, subPath.length());
+		Assertions.assertEquals(attr2, subPath.getElement(0));
 	}
 
 	@Test
 	public void subRangePath() {
 		MetaAttributePath subPath = path.subPath(1, 2);
-		Assert.assertEquals(1, subPath.length());
-		Assert.assertEquals(attr2, subPath.getElement(0));
+		Assertions.assertEquals(1, subPath.length());
+		Assertions.assertEquals(attr2, subPath.getElement(0));
 	}
 
 
 	@Test
 	public void render() {
-		Assert.assertEquals("a.b", path.toString());
+		Assertions.assertEquals("a.b", path.toString());
 	}
 
 	@Test
 	public void equals() {
-		Assert.assertTrue(path.equals(path));
-		Assert.assertFalse(path.equals(new Object()));
+		Assertions.assertTrue(path.equals(path));
+		Assertions.assertFalse(path.equals(new Object()));
 	}
 }

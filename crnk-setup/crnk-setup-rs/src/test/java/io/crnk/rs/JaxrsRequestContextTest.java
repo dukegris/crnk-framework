@@ -3,16 +3,16 @@ package io.crnk.rs;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.util.Arrays;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.core.Configuration;
-import javax.ws.rs.core.FeatureContext;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.FeatureContext;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.UriInfo;
 
 import io.crnk.core.engine.http.HttpResponse;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
@@ -25,9 +25,9 @@ public class JaxrsRequestContextTest {
 
 	private JaxrsRequestContext context;
 
-	private javax.ws.rs.core.UriInfo uriInfo;
+	private jakarta.ws.rs.core.UriInfo uriInfo;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		FeatureContext featureContext = Mockito.mock(FeatureContext.class);
 		Mockito.when(featureContext.getConfiguration()).thenReturn(Mockito.mock(Configuration.class));
@@ -48,7 +48,7 @@ public class JaxrsRequestContextTest {
 		HttpResponse response = new HttpResponse();
 		response.setHeader("a", "b");
 		context.setResponse(response);
-		Assert.assertEquals("b", context.getResponse().getHeader("a"));
+		Assertions.assertEquals("b", context.getResponse().getHeader("a"));
 	}
 
 	@Test
@@ -58,8 +58,8 @@ public class JaxrsRequestContextTest {
 
 		byte[] copy1 = context.getRequestBody();
 		byte[] copy2 = context.getRequestBody();
-		Assert.assertSame(copy1, copy2);
-		Assert.assertTrue(Arrays.equals(copy1, body));
+		Assertions.assertSame(copy1, copy2);
+		Assertions.assertTrue(Arrays.equals(copy1, body));
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class JaxrsRequestContextTest {
 		Mockito.when(feature.getWebPathPrefix()).thenReturn(null);
 		Mockito.when(uriInfo.getBaseUri()).thenReturn(URI.create("/base"));
 
-		Assert.assertEquals("/base", context.getBaseUrl());;
+		Assertions.assertEquals("/base", context.getBaseUrl());;
 	}
 
 	@Test
@@ -75,6 +75,6 @@ public class JaxrsRequestContextTest {
 		Mockito.when(feature.getWebPathPrefix()).thenReturn("/api");
 		Mockito.when(uriInfo.getBaseUri()).thenReturn(URI.create("/base"));
 
-		Assert.assertEquals("/base/api", context.getBaseUrl());;
+		Assertions.assertEquals("/base/api", context.getBaseUrl());;
 	}
 }

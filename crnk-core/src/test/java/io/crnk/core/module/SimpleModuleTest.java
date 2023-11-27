@@ -40,9 +40,9 @@ import io.crnk.core.module.discovery.ServiceDiscovery;
 import io.crnk.core.queryspec.pagingspec.OffsetLimitPagingBehavior;
 import io.crnk.core.queryspec.pagingspec.PagingBehavior;
 import io.crnk.core.repository.decorate.RepositoryDecoratorFactory;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public class SimpleModuleTest {
 
     private SimpleModule module;
 
-    @Before
+    @BeforeEach
     public void setup() {
         context = new TestModuleContext();
         module = new SimpleModule("simple");
@@ -62,72 +62,72 @@ public class SimpleModuleTest {
 
     @Test
     public void testGetModuleName() {
-        Assert.assertEquals("simple", module.getModuleName());
+        Assertions.assertEquals("simple", module.getModuleName());
     }
 
     @Test
     public void testResourceInformationBuilder() {
         module.addResourceInformationProvider(new TestResourceInformationProvider());
-        Assert.assertEquals(1, module.getResourceInformationProviders().size());
+        Assertions.assertEquals(1, module.getResourceInformationProviders().size());
         module.setupModule(context);
 
-        Assert.assertEquals(1, context.numResourceInformationBuilds);
-        Assert.assertEquals(0, context.numResourceLookups);
-        Assert.assertEquals(0, context.numFilters);
-        Assert.assertEquals(0, context.numJacksonModules);
-        Assert.assertEquals(0, context.numRepositories);
+        Assertions.assertEquals(1, context.numResourceInformationBuilds);
+        Assertions.assertEquals(0, context.numResourceLookups);
+        Assertions.assertEquals(0, context.numFilters);
+        Assertions.assertEquals(0, context.numJacksonModules);
+        Assertions.assertEquals(0, context.numRepositories);
     }
 
     @Test
     public void testNamingStrategy() {
         NamingStrategy namingStrategy = Mockito.mock(NamingStrategy.class);
         module.addNamingStrategy(namingStrategy);
-        Assert.assertEquals(1, module.getNamingStrategies().size());
+        Assertions.assertEquals(1, module.getNamingStrategies().size());
         module.setupModule(context);
 
-        Assert.assertEquals(1, context.numNamingStrategies++);
-        Assert.assertEquals(0, context.numRepositories);
+        Assertions.assertEquals(1, context.numNamingStrategies++);
+        Assertions.assertEquals(0, context.numRepositories);
     }
 
 
     @Test
     public void testRepositoryInformationBuilder() {
         module.addRepositoryInformationBuilder(Mockito.mock(RepositoryInformationProvider.class));
-        Assert.assertEquals(1, module.getRepositoryInformationProviders().size());
+        Assertions.assertEquals(1, module.getRepositoryInformationProviders().size());
         module.setupModule(context);
 
-        Assert.assertEquals(1, context.numRepositoryInformationBuilds);
-        Assert.assertEquals(0, context.numResourceInformationBuilds);
-        Assert.assertEquals(0, context.numResourceLookups);
-        Assert.assertEquals(0, context.numFilters);
-        Assert.assertEquals(0, context.numJacksonModules);
-        Assert.assertEquals(0, context.numRepositories);
+        Assertions.assertEquals(1, context.numRepositoryInformationBuilds);
+        Assertions.assertEquals(0, context.numResourceInformationBuilds);
+        Assertions.assertEquals(0, context.numResourceLookups);
+        Assertions.assertEquals(0, context.numFilters);
+        Assertions.assertEquals(0, context.numJacksonModules);
+        Assertions.assertEquals(0, context.numRepositories);
     }
 
     @Test
     public void testResourceLookup() {
         module.addResourceLookup(new TestResourceLookup());
-        Assert.assertEquals(1, module.getResourceLookups().size());
+        Assertions.assertEquals(1, module.getResourceLookups().size());
         module.setupModule(context);
 
-        Assert.assertEquals(0, context.numResourceInformationBuilds);
-        Assert.assertEquals(1, context.numResourceLookups);
-        Assert.assertEquals(0, context.numFilters);
-        Assert.assertEquals(0, context.numJacksonModules);
-        Assert.assertEquals(0, context.numRepositories);
+        Assertions.assertEquals(0, context.numResourceInformationBuilds);
+        Assertions.assertEquals(1, context.numResourceLookups);
+        Assertions.assertEquals(0, context.numFilters);
+        Assertions.assertEquals(0, context.numJacksonModules);
+        Assertions.assertEquals(0, context.numRepositories);
     }
 
     @Test
     public void testPagingBehaviorsBuilder() {
         module.addPagingBehavior(Mockito.mock(OffsetLimitPagingBehavior.class));
-        Assert.assertEquals(1, module.getPagingBehaviors().size());
+        Assertions.assertEquals(1, module.getPagingBehaviors().size());
         module.setupModule(context);
-        Assert.assertEquals(1, context.numPagingBehaviors);
-        Assert.assertEquals(0, context.numResourceInformationBuilds);
-        Assert.assertEquals(0, context.numResourceLookups);
-        Assert.assertEquals(0, context.numFilters);
-        Assert.assertEquals(0, context.numJacksonModules);
-        Assert.assertEquals(0, context.numRepositories);
+        Assertions.assertEquals(1, context.numPagingBehaviors);
+        Assertions.assertEquals(0, context.numResourceInformationBuilds);
+        Assertions.assertEquals(0, context.numResourceLookups);
+        Assertions.assertEquals(0, context.numFilters);
+        Assertions.assertEquals(0, context.numJacksonModules);
+        Assertions.assertEquals(0, context.numRepositories);
     }
 
     @Test
@@ -137,7 +137,7 @@ public class SimpleModuleTest {
         // adding the same paging behavior a second time should cause an exception
         try {
             module.addPagingBehavior(Mockito.mock(OffsetLimitPagingBehavior.class));
-            Assert.fail("IllegalArgumentException expected, paging was added already");
+            Assertions.fail("IllegalArgumentException expected, paging was added already");
         } catch (IllegalArgumentException e) {
         }
     }
@@ -145,27 +145,27 @@ public class SimpleModuleTest {
     @Test
     public void testFilter() {
         module.addFilter(new TestFilter());
-        Assert.assertEquals(1, module.getFilters().size());
+        Assertions.assertEquals(1, module.getFilters().size());
         module.setupModule(context);
 
-        Assert.assertEquals(0, context.numResourceInformationBuilds);
-        Assert.assertEquals(0, context.numResourceLookups);
-        Assert.assertEquals(1, context.numFilters);
-        Assert.assertEquals(0, context.numJacksonModules);
-        Assert.assertEquals(0, context.numRepositories);
+        Assertions.assertEquals(0, context.numResourceInformationBuilds);
+        Assertions.assertEquals(0, context.numResourceLookups);
+        Assertions.assertEquals(1, context.numFilters);
+        Assertions.assertEquals(0, context.numJacksonModules);
+        Assertions.assertEquals(0, context.numRepositories);
     }
 
     @Test
     public void testRepositoryDecorator() {
         module.addRepositoryDecoratorFactory(new TestRepositoryDecorator());
-        Assert.assertEquals(1, module.getRepositoryDecoratorFactories().size());
+        Assertions.assertEquals(1, module.getRepositoryDecoratorFactories().size());
         module.setupModule(context);
 
-        Assert.assertEquals(0, context.numResourceInformationBuilds);
-        Assert.assertEquals(0, context.numResourceLookups);
-        Assert.assertEquals(1, context.numDecorators);
-        Assert.assertEquals(0, context.numJacksonModules);
-        Assert.assertEquals(0, context.numRepositories);
+        Assertions.assertEquals(0, context.numResourceInformationBuilds);
+        Assertions.assertEquals(0, context.numResourceLookups);
+        Assertions.assertEquals(1, context.numDecorators);
+        Assertions.assertEquals(0, context.numJacksonModules);
+        Assertions.assertEquals(0, context.numRepositories);
     }
 
     @Test
@@ -179,59 +179,59 @@ public class SimpleModuleTest {
                 return "test";
             }
         });
-        Assert.assertEquals(1, module.getJacksonModules().size());
+        Assertions.assertEquals(1, module.getJacksonModules().size());
         module.setupModule(context);
 
-        Assert.assertEquals(0, context.numResourceInformationBuilds);
-        Assert.assertEquals(0, context.numResourceLookups);
-        Assert.assertEquals(0, context.numFilters);
-        Assert.assertEquals(1, context.numJacksonModules);
-        Assert.assertEquals(0, context.numRepositories);
+        Assertions.assertEquals(0, context.numResourceInformationBuilds);
+        Assertions.assertEquals(0, context.numResourceLookups);
+        Assertions.assertEquals(0, context.numFilters);
+        Assertions.assertEquals(1, context.numJacksonModules);
+        Assertions.assertEquals(0, context.numRepositories);
     }
 
     @Test
     public void testAddRepository() {
         TestRelationshipRepository repository = new TestRelationshipRepository();
         module.addRepository(repository);
-        Assert.assertEquals(1, module.getRepositories().size());
+        Assertions.assertEquals(1, module.getRepositories().size());
 
         module.setupModule(context);
 
-        Assert.assertEquals(0, context.numResourceInformationBuilds);
-        Assert.assertEquals(0, context.numResourceLookups);
-        Assert.assertEquals(0, context.numFilters);
-        Assert.assertEquals(0, context.numJacksonModules);
-        Assert.assertEquals(1, context.numRepositories);
-        Assert.assertEquals(0, context.numExceptionMapperLookup);
+        Assertions.assertEquals(0, context.numResourceInformationBuilds);
+        Assertions.assertEquals(0, context.numResourceLookups);
+        Assertions.assertEquals(0, context.numFilters);
+        Assertions.assertEquals(0, context.numJacksonModules);
+        Assertions.assertEquals(1, context.numRepositories);
+        Assertions.assertEquals(0, context.numExceptionMapperLookup);
     }
 
     @Test
     public void testExceptionMapperLookup() {
         module.addExceptionMapperLookup(new TestExceptionMapperLookup());
-        Assert.assertEquals(1, module.getExceptionMapperLookups().size());
+        Assertions.assertEquals(1, module.getExceptionMapperLookups().size());
         module.setupModule(context);
 
-        Assert.assertEquals(0, context.numResourceInformationBuilds);
-        Assert.assertEquals(0, context.numResourceLookups);
-        Assert.assertEquals(0, context.numFilters);
-        Assert.assertEquals(0, context.numJacksonModules);
-        Assert.assertEquals(0, context.numRepositories);
-        Assert.assertEquals(1, context.numExceptionMapperLookup);
+        Assertions.assertEquals(0, context.numResourceInformationBuilds);
+        Assertions.assertEquals(0, context.numResourceLookups);
+        Assertions.assertEquals(0, context.numFilters);
+        Assertions.assertEquals(0, context.numJacksonModules);
+        Assertions.assertEquals(0, context.numRepositories);
+        Assertions.assertEquals(1, context.numExceptionMapperLookup);
     }
 
     @Test
     public void testAddExceptionMapper() {
         module.addExceptionMapper(new IllegalStateExceptionMapper());
 
-        Assert.assertEquals(1, module.getExceptionMapperLookups().size());
+        Assertions.assertEquals(1, module.getExceptionMapperLookups().size());
         module.setupModule(context);
 
-        Assert.assertEquals(0, context.numResourceInformationBuilds);
-        Assert.assertEquals(0, context.numResourceLookups);
-        Assert.assertEquals(0, context.numFilters);
-        Assert.assertEquals(0, context.numJacksonModules);
-        Assert.assertEquals(0, context.numRepositories);
-        Assert.assertEquals(1, context.numExceptionMapperLookup);
+        Assertions.assertEquals(0, context.numResourceInformationBuilds);
+        Assertions.assertEquals(0, context.numResourceLookups);
+        Assertions.assertEquals(0, context.numFilters);
+        Assertions.assertEquals(0, context.numJacksonModules);
+        Assertions.assertEquals(0, context.numRepositories);
+        Assertions.assertEquals(1, context.numExceptionMapperLookup);
     }
 
     class TestExceptionMapperLookup implements ExceptionMapperLookup {

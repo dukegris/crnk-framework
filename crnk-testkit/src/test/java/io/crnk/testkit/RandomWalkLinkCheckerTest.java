@@ -10,8 +10,8 @@ import io.crnk.core.repository.InMemoryResourceRepository;
 import io.crnk.home.HomeModule;
 import io.crnk.test.mock.models.BulkTask;
 import io.crnk.test.mock.models.HistoricTask;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class RandomWalkLinkCheckerTest {
 
@@ -32,11 +32,11 @@ public class RandomWalkLinkCheckerTest {
 		RandomWalkLinkChecker checker = new RandomWalkLinkChecker(adapter);
 		checker.addStartUrl(baseUrl + "/");
 		Set<String> visited = checker.performCheck();
-		Assert.assertTrue(visited.contains("http://localhost/tasks/history"));
-		Assert.assertTrue(visited.contains("http://localhost/"));
-		Assert.assertTrue(visited.contains("http://localhost/bulkTasks"));
-		Assert.assertTrue(visited.contains("http://localhost/tasks/"));
-		Assert.assertEquals(4, visited.size());
+		Assertions.assertTrue(visited.contains("http://localhost/tasks/history"));
+		Assertions.assertTrue(visited.contains("http://localhost/"));
+		Assertions.assertTrue(visited.contains("http://localhost/bulkTasks"));
+		Assertions.assertTrue(visited.contains("http://localhost/tasks/"));
+		Assertions.assertEquals(4, visited.size());
 	}
 
 }

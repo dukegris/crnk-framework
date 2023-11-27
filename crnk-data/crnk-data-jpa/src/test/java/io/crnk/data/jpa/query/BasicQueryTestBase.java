@@ -1,16 +1,16 @@
 package io.crnk.data.jpa.query;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
-import javax.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.JoinType;
 
 import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.FilterOperator;
@@ -22,8 +22,8 @@ import io.crnk.data.jpa.model.TestEntity;
 import io.crnk.data.jpa.model.TestSubclassWithSuperclassPk;
 import io.crnk.data.jpa.model.UuidTestEntity;
 import org.hibernate.Hibernate;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -52,10 +52,10 @@ public abstract class BasicQueryTestBase extends AbstractJpaTest {
 		JpaQuery<RelatedEntity> builder = queryFactory.query(TestEntity.class, TestEntity.ATTR_oneRelatedValue, "id", ids);
 		builder.addParentIdSelection();
 		List<Tuple> tuples = builder.buildExecutor().getResultTuples();
-		Assert.assertEquals(1, tuples.size());
+		Assertions.assertEquals(1, tuples.size());
 		Tuple tuple = tuples.get(0);
 		assertEquals(1L, tuple.get(0, Object.class));
-		Assert.assertEquals(101L, tuple.get(1, RelatedEntity.class).getId().longValue());
+		Assertions.assertEquals(101L, tuple.get(1, RelatedEntity.class).getId().longValue());
 	}
 
 	@Test
@@ -64,10 +64,10 @@ public abstract class BasicQueryTestBase extends AbstractJpaTest {
 		query.addSortBy(Arrays.asList(TestEntity.ATTR_stringValue), Direction.ASC);
 		query.addSelection(Arrays.asList(TestEntity.ATTR_stringValue));
 		List<Tuple> resultTuples = query.buildExecutor().getResultTuples();
-		Assert.assertEquals(5, resultTuples.size());
+		Assertions.assertEquals(5, resultTuples.size());
 		for (int i = 0; i < resultTuples.size(); i++) {
 			Tuple tuple = resultTuples.get(i);
-			Assert.assertEquals("test" + i, tuple.get(TestEntity.ATTR_stringValue, String.class));
+			Assertions.assertEquals("test" + i, tuple.get(TestEntity.ATTR_stringValue, String.class));
 		}
 	}
 
@@ -279,15 +279,19 @@ public abstract class BasicQueryTestBase extends AbstractJpaTest {
 				.buildExecutor().getUniqueResult(false).getId());
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testThrowExceptionOnNonUnique() {
-		builder().buildExecutor().getUniqueResult(false);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			builder().buildExecutor().getUniqueResult(false);
+		});
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testThrowExceptionOnNonNullableUnique() {
-		builder().addFilter(TestEntity.ATTR_stringValue, FilterOperator.EQ, "doesNotExist").buildExecutor()
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			builder().addFilter(TestEntity.ATTR_stringValue, FilterOperator.EQ, "doesNotExist").buildExecutor()
 				.getUniqueResult(false);
+		});
 	}
 
 	@Test
@@ -602,7 +606,7 @@ public abstract class BasicQueryTestBase extends AbstractJpaTest {
 
 		JpaQuery<TestSubclassWithSuperclassPk> query = queryFactory.query(TestSubclassWithSuperclassPk.class);
 		List<TestSubclassWithSuperclassPk> list = query.buildExecutor().getResultList();
-		Assert.assertEquals(1, list.size());
+		Assertions.assertEquals(1, list.size());
 		TestSubclassWithSuperclassPk testEntity = list.get(0);
 		assertEquals("testId", testEntity.getId());
 
@@ -612,11 +616,11 @@ public abstract class BasicQueryTestBase extends AbstractJpaTest {
 		JpaQueryExecutor<Object> relatedExecutor = relatedQuery.buildExecutor();
 		List<Tuple> resultTuples = relatedExecutor.getResultTuples();
 
-		Assert.assertEquals(1, resultTuples.size());
+		Assertions.assertEquals(1, resultTuples.size());
 		Tuple resultTuple = resultTuples.get(0);
 		assertEquals("testId", resultTuple.get(0, String.class));
 		RelatedEntity relatedEntity = resultTuple.get(1, RelatedEntity.class);
-		Assert.assertEquals(23423L, relatedEntity.getId().longValue());
+		Assertions.assertEquals(23423L, relatedEntity.getId().longValue());
 	}
 
 }

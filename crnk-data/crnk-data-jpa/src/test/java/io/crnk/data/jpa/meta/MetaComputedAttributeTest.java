@@ -1,20 +1,25 @@
 package io.crnk.data.jpa.meta;
 
 import io.crnk.data.jpa.internal.query.MetaComputedAttribute;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class MetaComputedAttributeTest {
 
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void getValueNotSupported() {
-		MetaComputedAttribute attr = new MetaComputedAttribute();
-		attr.getValue(null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			MetaComputedAttribute attr = new MetaComputedAttribute();
+			attr.getValue(null);
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void setValueNotSupported() {
-		MetaComputedAttribute attr = new MetaComputedAttribute();
-		attr.setValue(null, null);
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			MetaComputedAttribute attr = new MetaComputedAttribute();
+			attr.setValue(null, null);
+		});
 	}
 }

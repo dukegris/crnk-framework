@@ -14,9 +14,9 @@ import org.activiti.engine.form.TaskFormData;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskInfo;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class ActivitiResourceMapperTest {
 
 	private TestForm formResource;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		processResource = new TestProcess();
 		processResource.setBooleanValue(true);
@@ -52,10 +52,10 @@ public class ActivitiResourceMapperTest {
 	@Test
 	public void checkProcessInstance() {
 		Map<String, Object> variables = mapper.mapToVariables(processResource);
-		Assert.assertEquals(3, variables.size());
-		Assert.assertEquals("someString", variables.get("stringValue"));
-		Assert.assertEquals(13, variables.get("nestedBean.intValue"));
-		Assert.assertEquals(Boolean.TRUE, variables.get("booleanValue"));
+		Assertions.assertEquals(3, variables.size());
+		Assertions.assertEquals("someString", variables.get("stringValue"));
+		Assertions.assertEquals(13, variables.get("nestedBean.intValue"));
+		Assertions.assertEquals(Boolean.TRUE, variables.get("booleanValue"));
 
 		TestProcess processCopy = new TestProcess();
 		mapper.mapFromVariables(processCopy, variables);
@@ -67,16 +67,16 @@ public class ActivitiResourceMapperTest {
 		Mockito.when(processInstance.getProcessVariables()).thenReturn(variables);
 		TestProcess processResourceCopy = mapper.mapToResource(TestProcess.class, processInstance);
 		checkProcessResource(processResourceCopy);
-		Assert.assertEquals("someProcess", processResourceCopy.getName());
-		Assert.assertEquals("someBusinessKey", processResourceCopy.getBusinessKey());
+		Assertions.assertEquals("someProcess", processResourceCopy.getName());
+		Assertions.assertEquals("someBusinessKey", processResourceCopy.getBusinessKey());
 	}
 
 
 	@Test
 	public void checkTask() {
 		Map<String, Object> variables = mapper.mapToVariables(taskResource);
-		Assert.assertEquals(1, variables.size());
-		Assert.assertEquals(47, variables.get("someIntValue"));
+		Assertions.assertEquals(1, variables.size());
+		Assertions.assertEquals(47, variables.get("someIntValue"));
 
 		TestTask taskCopy = new TestTask();
 		mapper.mapFromVariables(taskCopy, variables);
@@ -87,7 +87,7 @@ public class ActivitiResourceMapperTest {
 		Mockito.when(task.getTaskLocalVariables()).thenReturn(variables);
 		TestTask taskResourceCopy = mapper.mapToResource(TestTask.class, task);
 		checkTaskResource(taskResourceCopy);
-		Assert.assertEquals("someTask", taskResourceCopy.getName());
+		Assertions.assertEquals("someTask", taskResourceCopy.getName());
 
 		Map<String, Object> updatedVariables = Mockito.spy(new HashMap<String, Object>());
 		Task updatedTask = Mockito.mock(Task.class);
@@ -103,8 +103,8 @@ public class ActivitiResourceMapperTest {
 	@Test
 	public void checkForm() {
 		Map<String, Object> variables = mapper.mapToVariables(formResource);
-		Assert.assertEquals(1, variables.size());
-		Assert.assertEquals(Boolean.TRUE, variables.get("approved"));
+		Assertions.assertEquals(1, variables.size());
+		Assertions.assertEquals(Boolean.TRUE, variables.get("approved"));
 
 		TestForm resourceCopy = new TestForm();
 		mapper.mapFromVariables(resourceCopy, variables);
@@ -123,22 +123,22 @@ public class ActivitiResourceMapperTest {
 		Mockito.when(formData.getTask()).thenReturn(task);
 		TestForm formCopy = mapper.mapToResource(TestForm.class, formData);
 		checkFormResource(formCopy);
-		Assert.assertEquals("someTask", formCopy.getId());
+		Assertions.assertEquals("someTask", formCopy.getId());
 	}
 
 
 	private void checkProcessResource(TestProcess resource) {
-		Assert.assertEquals("someString", resource.getStringValue());
-		Assert.assertTrue(resource.isBooleanValue());
-		Assert.assertEquals(13, resource.getNestedBean().getIntValue());
+		Assertions.assertEquals("someString", resource.getStringValue());
+		Assertions.assertTrue(resource.isBooleanValue());
+		Assertions.assertEquals(13, resource.getNestedBean().getIntValue());
 	}
 
 	private void checkFormResource(TestForm resource) {
-		Assert.assertTrue(resource.isApproved());
+		Assertions.assertTrue(resource.isApproved());
 	}
 
 	private void checkTaskResource(TestTask resource) {
-		Assert.assertEquals(47, resource.getSomeIntValue());
+		Assertions.assertEquals(47, resource.getSomeIntValue());
 	}
 
 	@JsonApiResource(type = "test/form")

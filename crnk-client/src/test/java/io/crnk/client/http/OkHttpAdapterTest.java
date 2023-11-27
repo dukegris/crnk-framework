@@ -2,8 +2,8 @@ package io.crnk.client.http;
 
 import io.crnk.client.http.okhttp.OkHttpAdapter;
 import io.crnk.client.http.okhttp.OkHttpAdapterListener;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.concurrent.TimeUnit;
@@ -18,7 +18,7 @@ public class OkHttpAdapterTest {
 
 		try {
 			adapter.addListener(Mockito.mock(OkHttpAdapterListener.class));
-			Assert.fail();
+			Assertions.fail();
 		} catch (IllegalStateException e) {
 			// ok
 		}
@@ -31,7 +31,7 @@ public class OkHttpAdapterTest {
 
 		try {
 			adapter.setReceiveTimeout(0, TimeUnit.DAYS);
-			Assert.fail();
+			Assertions.fail();
 		} catch (IllegalStateException e) {
 			// ok
 		}

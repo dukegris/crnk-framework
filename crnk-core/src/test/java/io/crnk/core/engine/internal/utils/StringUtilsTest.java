@@ -1,15 +1,15 @@
 package io.crnk.core.engine.internal.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static junit.framework.TestCase.assertFalse;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StringUtilsTest {
 
@@ -49,14 +49,14 @@ public class StringUtilsTest {
 
 	@Test
 	public void onJoinOfNulls() {
-		Assert.assertEquals("null,null", StringUtils.join(",", Arrays.asList(null, null)));
+		Assertions.assertEquals("null,null", StringUtils.join(",", Arrays.asList(null, null)));
 	}
 
 	@Test
 	public void checkDecapitalize() {
-		Assert.assertEquals("", StringUtils.decapitalize(""));
-		Assert.assertEquals("test", StringUtils.decapitalize("Test"));
-		Assert.assertEquals("someTest", StringUtils.decapitalize("SomeTest"));
+		Assertions.assertEquals("", StringUtils.decapitalize(""));
+		Assertions.assertEquals("test", StringUtils.decapitalize("Test"));
+		Assertions.assertEquals("someTest", StringUtils.decapitalize("SomeTest"));
 	}
 
 

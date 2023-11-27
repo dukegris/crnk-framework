@@ -1,7 +1,7 @@
 package io.crnk.core.module.discovery;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DefaultServiceDiscoveryFactoryTest {
 
@@ -9,6 +9,6 @@ public class DefaultServiceDiscoveryFactoryTest {
 	public void test() {
 		DefaultServiceDiscoveryFactory factory = new DefaultServiceDiscoveryFactory();
 		ServiceDiscovery instance = factory.getInstance();
-		Assert.assertTrue(instance instanceof TestServiceDiscovery);
+		Assertions.assertTrue(instance instanceof TestServiceDiscovery);
 	}
 }

@@ -9,8 +9,8 @@ import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.SortSpec;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +44,7 @@ public class CrnkProcessorTest {
         assertThat(compilation).succeededWithoutWarnings();
 
         ImmutableList<JavaFileObject> generatedFiles = compilation.generatedFiles();
-        Assert.assertEquals(3 + 3 + 9 + 1, generatedFiles.size());
+        Assertions.assertEquals(3 + 3 + 9 + 1, generatedFiles.size());
 
         URLClassLoader classLoader = toClassLoader(generatedFiles);
         Class<?> testClass = classLoader.loadClass("test.TypedQuerySpecTest");
@@ -57,29 +57,29 @@ public class CrnkProcessorTest {
         FilterSpec filterSpec = (FilterSpec) testClass.getMethod("createFilterSpec").invoke(testObject);
         SortSpec sortSpec = (SortSpec) testClass.getMethod("createSortSpec").invoke(testObject);
 
-        Assert.assertEquals(1, querySpec.getFilters().size());
-        Assert.assertEquals(1, querySpec.getSort().size());
-        Assert.assertEquals(1, querySpec.getIncludedFields().size());
-        Assert.assertEquals(1, querySpec.getIncludedRelations().size());
+        Assertions.assertEquals(1, querySpec.getFilters().size());
+        Assertions.assertEquals(1, querySpec.getSort().size());
+        Assertions.assertEquals(1, querySpec.getIncludedFields().size());
+        Assertions.assertEquals(1, querySpec.getIncludedRelations().size());
 
         FilterSpec queryFilterSpec = querySpec.getFilters().get(0);
-        Assert.assertEquals(FilterOperator.EQ, queryFilterSpec.getOperator());
-        Assert.assertEquals("projects.id", queryFilterSpec.getPath().toString());
-        Assert.assertEquals((Integer) 12, queryFilterSpec.getValue());
+        Assertions.assertEquals(FilterOperator.EQ, queryFilterSpec.getOperator());
+        Assertions.assertEquals("projects.id", queryFilterSpec.getPath().toString());
+        Assertions.assertEquals((Integer) 12, queryFilterSpec.getValue());
 
         SortSpec querySortSpec = querySpec.getSort().get(0);
-        Assert.assertEquals(Direction.DESC, querySortSpec.getDirection());
-        Assert.assertEquals("loginId", querySortSpec.getPath().toString());
+        Assertions.assertEquals(Direction.DESC, querySortSpec.getDirection());
+        Assertions.assertEquals("loginId", querySortSpec.getPath().toString());
 
-        Assert.assertEquals("projects", querySpec.getIncludedRelations().get(0).getPath().toString());
-        Assert.assertEquals("loginId", querySpec.getIncludedFields().get(0).getPath().toString());
+        Assertions.assertEquals("projects", querySpec.getIncludedRelations().get(0).getPath().toString());
+        Assertions.assertEquals("loginId", querySpec.getIncludedFields().get(0).getPath().toString());
 
-        Assert.assertEquals(FilterOperator.EQ, filterSpec.getOperator());
-        Assert.assertEquals("projects.id", filterSpec.getPath().toString());
-        Assert.assertEquals((Integer) 12, filterSpec.getValue());
+        Assertions.assertEquals(FilterOperator.EQ, filterSpec.getOperator());
+        Assertions.assertEquals("projects.id", filterSpec.getPath().toString());
+        Assertions.assertEquals((Integer) 12, filterSpec.getValue());
 
-        Assert.assertEquals(Direction.DESC, sortSpec.getDirection());
-        Assert.assertEquals("projects.id", sortSpec.getPath().toString());
+        Assertions.assertEquals(Direction.DESC, sortSpec.getDirection());
+        Assertions.assertEquals("projects.id", sortSpec.getPath().toString());
     }
 
     private URLClassLoader toClassLoader(ImmutableList<JavaFileObject> generatedFiles) throws IOException {

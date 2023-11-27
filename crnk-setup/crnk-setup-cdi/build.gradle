@@ -9,20 +9,23 @@ dependencies {
 
     implementation project(':crnk-core')
 
-    implementation 'javax:javaee-api:7.0'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1'
+    implementation 'jakarta.transaction:jakarta.transaction-api:2.0.1'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation  project(':crnk-core')
 
     // RCS unneeded:
-    // testCompileOnly 'javax:javaee-api:7.0'
-    testCompileOnly 'org.apache.deltaspike.modules:deltaspike-test-control-module-api:1.7.1'
+    // testCompileOnly 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1'
+    // testCompileOnly 'jakarta.transaction:jakarta.transaction-api:2.0.1'
+    testCompileOnly 'org.apache.deltaspike.modules:deltaspike-test-control-module-api:1.9.6:jakarta'
+    testCompileOnly 'com.github.cschabl.cdi-unit-junit5:cdi-unit-junit5:0.4'
 
-    testRuntimeOnly 'org.apache.deltaspike.modules:deltaspike-test-control-module-impl:1.7.1'
-    testRuntimeOnly 'org.apache.deltaspike.cdictrl:deltaspike-cdictrl-weld:1.7.1'
+    testRuntimeOnly 'org.apache.deltaspike.modules:deltaspike-test-control-module-impl:1.9.6:jakarta'
+    testRuntimeOnly 'org.apache.deltaspike.cdictrl:deltaspike-cdictrl-weld:1.9.6'
     testRuntimeOnly 'org.jboss.weld.se:weld-se-core:2.4.0.Final'
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
 
 }
 

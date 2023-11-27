@@ -3,9 +3,9 @@ package io.crnk.core.engine.internal.jackson;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.crnk.core.resource.links.*;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -21,7 +21,7 @@ public class LinksInformationSerializerTest {
 	private TestCustomLinksInformation customLink;
 	private TestCustomStringBasedLinksInformation customStringLink;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		selfLink = new TestSelfLinksInformation("/self");
 
@@ -42,17 +42,17 @@ public class LinksInformationSerializerTest {
 
 		String serialized = mapper.writeValueAsString(selfLink);
 		String expected = createSingleLinkJson(LINK, "self", selfLink.getSelf().getHref());
-		Assert.assertEquals(expected, serialized);
+		Assertions.assertEquals(expected, serialized);
 
 		serialized = mapper.writeValueAsString(pagedLink);
 		expected = createMultiLinkJson(LINK,
 				Arrays.asList("first", "last", "next"),
 				Arrays.asList(pagedLink.getFirst().getHref(), pagedLink.getLast().getHref(), pagedLink.getNext().getHref()));
-		Assert.assertEquals(expected, serialized);
+		Assertions.assertEquals(expected, serialized);
 
 		serialized = mapper.writeValueAsString(customLink);
 		expected = createSingleLinkJson(LINK, "imdb", customLink.getImdb().getHref());
-		Assert.assertEquals(expected, serialized);
+		Assertions.assertEquals(expected, serialized);
 	}*/
 
 	@Test
@@ -62,21 +62,21 @@ public class LinksInformationSerializerTest {
 
 		String serialized = mapper.writeValueAsString(selfLink);
 		String expected = createSingleLinkJson(OBJECT_LINK, "self", selfLink.getSelf().getHref());
-		Assert.assertEquals(expected, serialized);
+		Assertions.assertEquals(expected, serialized);
 
 		serialized = mapper.writeValueAsString(pagedLink);
 		// methods are not ordered when retrieved via reflection -> check individual links
-		Assert.assertTrue(serialized.contains(createSingleLinkJson(OBJECT_LINK, "first", pagedLink.getFirst().getHref(), false)));
-		Assert.assertTrue(serialized.contains(createSingleLinkJson(OBJECT_LINK, "last", pagedLink.getLast().getHref(), false)));
-		Assert.assertTrue(serialized.contains(createSingleLinkJson(OBJECT_LINK, "next", pagedLink.getNext().getHref(), false)));
+		Assertions.assertTrue(serialized.contains(createSingleLinkJson(OBJECT_LINK, "first", pagedLink.getFirst().getHref(), false)));
+		Assertions.assertTrue(serialized.contains(createSingleLinkJson(OBJECT_LINK, "last", pagedLink.getLast().getHref(), false)));
+		Assertions.assertTrue(serialized.contains(createSingleLinkJson(OBJECT_LINK, "next", pagedLink.getNext().getHref(), false)));
 
 		serialized = mapper.writeValueAsString(customLink);
 		expected = createMultiLinkJson(OBJECT_LINK, Arrays.asList("imdb", "another-imdb"), Arrays.asList(customLink.getImdb().getHref(), customLink.getAnotherImdb().getHref()));
-		Assert.assertEquals(expected, serialized);
+		Assertions.assertEquals(expected, serialized);
 
 		serialized = mapper.writeValueAsString(customStringLink);
 		expected = createMultiLinkJson(OBJECT_LINK, Arrays.asList("imdb", "another_imdb"), Arrays.asList(customStringLink.getImdb(), customStringLink.getAnotherImdb()));
-		Assert.assertEquals(expected, serialized);
+		Assertions.assertEquals(expected, serialized);
 	}
 
 	private String createSingleLinkJson(String template, String title, String url) {

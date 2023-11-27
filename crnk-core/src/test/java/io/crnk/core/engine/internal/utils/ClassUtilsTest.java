@@ -7,10 +7,10 @@ import io.crnk.core.mock.repository.ProjectRepository;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.repository.ResourceRepositoryBase;
 import io.crnk.core.resource.annotations.JsonApiResource;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Assertions;
+// import org.junit.Rule;
+import org.junit.jupiter.api.Test;
+// import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -18,12 +18,13 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ClassUtilsTest {
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    // RCS innecesario
+    // @Rule
+    // public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void hasPrivateConstructor() {
@@ -32,12 +33,12 @@ public class ClassUtilsTest {
 
     @Test
     public void stringMustExist() {
-        Assert.assertTrue(ClassUtils.existsClass(String.class.getName()));
+        Assertions.assertTrue(ClassUtils.existsClass(String.class.getName()));
     }
 
     @Test
     public void unknownClassMustNotExist() {
-        Assert.assertFalse(ClassUtils.existsClass("does.not.exist"));
+        Assertions.assertFalse(ClassUtils.existsClass("does.not.exist"));
     }
 
     @Test
@@ -58,9 +59,11 @@ public class ClassUtilsTest {
         assertThat(result).isEqualTo(String.class);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void exceptionForUnknownRawType() {
-        ClassUtils.getRawType(null);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			ClassUtils.getRawType(null);
+		});
     }
 
     @Test
@@ -210,16 +213,20 @@ public class ClassUtilsTest {
 
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void onClassWithCrushingConstructorShouldThrowException() {
-        // WHEN
-        ClassUtils.newInstance(ClassWithCrashingConstructor.class);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+	        // WHEN
+	        ClassUtils.newInstance(ClassWithCrashingConstructor.class);
+		});
     }
 
-    @Test(expected = ResourceException.class)
+    @Test
     public void onClassWithoutDefaultConstructorShouldThrowException() {
-        // WHEN
-        ClassUtils.newInstance(ClassWithoutDefaultConstructor.class);
+		Assertions.assertThrows(ResourceException.class, () -> {
+	        // WHEN
+	        ClassUtils.newInstance(ClassWithoutDefaultConstructor.class);
+		});
     }
 
     @Test

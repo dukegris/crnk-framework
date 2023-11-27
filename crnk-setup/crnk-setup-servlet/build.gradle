@@ -9,8 +9,8 @@ dependencies {
 
     implementation project(':crnk-core')
 
-    compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation testCompileOnly project(':crnk-core')
@@ -18,16 +18,16 @@ dependencies {
     testImplementation project(':crnk-reactive')
     testImplementation project(':crnk-test')
 
-    testImplementation 'net.javacrumbs.json-unit:json-unit:1.5.3'
-    testImplementation 'org.springframework:spring-beans:4.3.30.RELEASE'
-    testImplementation 'org.springframework:spring-test:4.3.30.RELEASE'
-    testImplementation 'org.springframework:spring-web:4.3.30.RELEASE'
-    testImplementation 'org.springframework.boot:spring-boot:1.5.22.RELEASE'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:1.5.22.RELEASE'
-    testImplementation 'org.springframework.boot:spring-boot-starter-web:1.5.22.RELEASE'
+    testImplementation 'net.javacrumbs.json-unit:json-unit:3.2.2'
+    testImplementation 'org.springframework:spring-beans:6.0.13'
+    testImplementation 'org.springframework:spring-test:6.0.13'
+    testImplementation 'org.springframework:spring-web:6.0.13'
+    testImplementation 'org.springframework.boot:spring-boot:3.1.5'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.5'
+    testImplementation 'org.springframework.boot:spring-boot-starter-web:3.1.5'
 
-    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-tomcat:1.5.22.RELEASE'
-    testRuntimeOnly 'javax.servlet:javax.servlet-api:3.1.0'
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-tomcat:3.1.5'
+    testRuntimeOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
 
 }

@@ -16,11 +16,11 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 
 class OpenAPIGeneratorTestBase {
-  @Before
+  @BeforeEach
   public void resetYamlSingleton() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
      Field instance = Yaml.class.getDeclaredField("mapper");
      instance.setAccessible(true);
@@ -44,7 +44,7 @@ class OpenAPIGeneratorTestBase {
       List<String> responses = new ArrayList<>(operation.getResponses().keySet());
       List<String> sorted = new ArrayList<>(responses);
       Collections.sort(sorted);
-      Assert.assertEquals("Responses should be sorted.", sorted, responses);
+      Assertions.assertEquals(sorted, responses, "Responses should be sorted.");
     }
   }
 
@@ -66,9 +66,9 @@ class OpenAPIGeneratorTestBase {
     String[] expectedLines = org.apache.commons.lang3.StringUtils.split(expectedSource, '\n');
     String[] actualLines = org.apache.commons.lang3.StringUtils.split(actualSource, '\n');
     for (int i = 0; i < expectedLines.length; i++) {
-      Assert.assertEquals("line: " + i + ", " + expectedLines[i], expectedLines[i], actualLines[i]);
+      Assertions.assertEquals(expectedLines[i], actualLines[i], "line: " + i + ", " + expectedLines[i]);
     }
-    Assert.assertEquals(expectedLines.length, actualLines.length);
+    Assertions.assertEquals(expectedLines.length, actualLines.length);
   }
 
   private static void assertOperationResponseCodes(Operation operation, List<String> codes) {
@@ -78,7 +78,7 @@ class OpenAPIGeneratorTestBase {
 
     ApiResponses responses = operation.getResponses();
     for (String code : codes) {
-      Assert.assertTrue("Operation missing response code " + code, responses.containsKey(code));
+      Assertions.assertTrue(responses.containsKey(code), "Operation missing response code " + code);
     }
   }
 

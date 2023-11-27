@@ -1,6 +1,7 @@
 package io.crnk.core.repository;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import io.crnk.core.exception.MethodNotAllowedException;
 import io.crnk.core.queryspec.QuerySpec;
@@ -15,18 +16,24 @@ public class ReadOnlyResourceRepositoryBaseTest {
 		}
 	};
 
-	@Test(expected = MethodNotAllowedException.class)
+	@Test
 	public void save() {
-		repo.save(null);
+		Assertions.assertThrows(MethodNotAllowedException.class, () -> {
+			repo.save(null);
+		});
 	}
 
-	@Test(expected = MethodNotAllowedException.class)
+	@Test
 	public void create() {
-		repo.create(null);
+		Assertions.assertThrows(MethodNotAllowedException.class, () -> {
+			repo.create(null);
+		});
 	}
 
-	@Test(expected = MethodNotAllowedException.class)
+	@Test
 	public void delete() {
-		repo.delete(null);
+		Assertions.assertThrows(MethodNotAllowedException.class, () -> {
+			repo.delete(null);
+		});
 	}
 }

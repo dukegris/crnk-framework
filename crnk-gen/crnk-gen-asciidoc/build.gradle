@@ -12,8 +12,8 @@ dependencies {
     implementation project(':crnk-gen:crnk-gen-base')
     implementation project(':crnk-meta')
 
-    implementation 'guru.nidi:graphviz-java:0.12.1'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'guru.nidi:graphviz-java:0.18.1'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation project(':crnk-client')
@@ -23,9 +23,10 @@ dependencies {
     testImplementation project(':crnk-format:crnk-format-plain-json')
     testImplementation project(':crnk-test')
 
-    testImplementation 'commons-io:commons-io:2.5'
+    testImplementation 'commons-io:commons-io:2.15.0'
 
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+	testRuntimeOnly 'guru.nidi:graphviz-java-all-j2v8:0.18.1'
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
 
 }
 

@@ -11,8 +11,9 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryBase;
 import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceList;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ResourceRepositoryBaseTest {
 
@@ -30,7 +31,7 @@ public class ResourceRepositoryBaseTest {
 		}
 	}
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		CoreTestContainer container = new CoreTestContainer();
 		container.addModule(new CoreTestModule());
@@ -50,23 +51,31 @@ public class ResourceRepositoryBaseTest {
 		repository.setResourceRegistry(container.getResourceRegistry());
 	}
 
-	@Test(expected = ResourceNotFoundException.class)
+	@Test
 	public void checkThrowExceptionWhenResourceNotFound() {
-		repository.findOne(-1, new QuerySpec(Task.class));
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+			repository.findOne(-1, new QuerySpec(Task.class));
+		});
 	}
 
-	@Test(expected = MethodNotAllowedException.class)
+	@Test
 	public void saveNotSupported() {
-		repository.save(null);
+		Assertions.assertThrows(MethodNotAllowedException.class, () -> {
+			repository.save(null);
+		});
 	}
 
-	@Test(expected = MethodNotAllowedException.class)
+	@Test
 	public void createNotSupported() {
-		repository.create(null);
+		Assertions.assertThrows(MethodNotAllowedException.class, () -> {
+			repository.create(null);
+		});
 	}
 
-	@Test(expected = MethodNotAllowedException.class)
+	@Test
 	public void deleteNotSupported() {
-		repository.delete(null);
+		Assertions.assertThrows(MethodNotAllowedException.class, () -> {
+			repository.delete(null);
+		});
 	}
 }

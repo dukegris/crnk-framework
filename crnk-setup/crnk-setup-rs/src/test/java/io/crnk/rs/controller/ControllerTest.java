@@ -5,12 +5,12 @@ import io.crnk.test.JerseyTestBase;
 import io.crnk.test.mock.TestExceptionMapper;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.TaskRepository;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 
 import static io.crnk.rs.type.JsonApiMediaType.APPLICATION_JSON_API_TYPE;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class ControllerTest extends JerseyTestBase {
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		TaskRepository repo = new TaskRepository();
 
@@ -29,7 +29,7 @@ public abstract class ControllerTest extends JerseyTestBase {
 		repo.save(task);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		super.tearDown();
 		TaskRepository.clear();
@@ -44,7 +44,7 @@ public abstract class ControllerTest extends JerseyTestBase {
 				.get(String.class);
 
 		// THEN
-		Assert.assertNotNull(taskCollectionResponse);
+		Assertions.assertNotNull(taskCollectionResponse);
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public abstract class ControllerTest extends JerseyTestBase {
 				.get(String.class);
 
 		// THEN
-		Assert.assertNotNull(taskResourceResponse);
+		Assertions.assertNotNull(taskResourceResponse);
 	}
 
 	@Test

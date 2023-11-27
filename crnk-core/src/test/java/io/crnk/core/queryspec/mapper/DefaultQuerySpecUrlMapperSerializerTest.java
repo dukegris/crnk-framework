@@ -19,16 +19,16 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.SortSpec;
 import io.crnk.core.queryspec.pagingspec.NumberSizePagingBehavior;
 import io.crnk.core.queryspec.pagingspec.OffsetLimitPagingBehavior;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DefaultQuerySpecUrlMapperSerializerTest {
 
@@ -40,7 +40,7 @@ public class DefaultQuerySpecUrlMapperSerializerTest {
 
 	private QueryContext queryContext;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		CoreTestContainer container = new CoreTestContainer();
 		container.addModule(new CoreTestModule());
@@ -56,7 +56,7 @@ public class DefaultQuerySpecUrlMapperSerializerTest {
 
 	@Test
 	public void dotSeparatorEnabledByDefault() {
-		Assert.assertTrue(urlMapper.getEnforceDotPathSeparator());
+		Assertions.assertTrue(urlMapper.getEnforceDotPathSeparator());
 	}
 
 	@Test
@@ -84,11 +84,13 @@ public class DefaultQuerySpecUrlMapperSerializerTest {
 		check("https://127.0.0.1:1234/tasks", null, new QuerySpec(Task.class));
 	}
 
-	@Test(expected = RepositoryNotFoundException.class)
+	@Test
 	public void unknownResourceShouldThrowException() {
-		RegistryEntry entry = resourceRegistry.getEntry(Task.class);
-		Class<?> notAResourceClass = String.class;
-		urlBuilder.buildUrl(queryContext, entry.getResourceInformation(), null, new QuerySpec(notAResourceClass));
+		Assertions.assertThrows(RepositoryNotFoundException.class, () -> {
+			RegistryEntry entry = resourceRegistry.getEntry(Task.class);
+			Class<?> notAResourceClass = String.class;
+			urlBuilder.buildUrl(queryContext, entry.getResourceInformation(), null, new QuerySpec(notAResourceClass));
+		});
 	}
 
 	@Test
@@ -169,7 +171,7 @@ public class DefaultQuerySpecUrlMapperSerializerTest {
 
 	@Test
 	public void testFilterWithCommaSeparation() {
-		Assert.assertTrue(urlMapper.getAllowCommaSeparatedValue());
+		Assertions.assertTrue(urlMapper.getAllowCommaSeparatedValue());
 
 		QuerySpec querySpec = new QuerySpec(Task.class);
 		querySpec.addFilter(new FilterSpec(Arrays.asList("name"), FilterOperator.LIKE, Arrays.asList("john", "jane")));

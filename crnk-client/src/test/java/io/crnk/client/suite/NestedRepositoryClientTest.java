@@ -5,8 +5,8 @@ import io.crnk.test.mock.models.nested.PostComment;
 import io.crnk.test.mock.models.nested.PostCommentId;
 import io.crnk.test.mock.models.nested.PostHeader;
 import io.crnk.test.suite.NestedRepositoryAccessTestBase;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class NestedRepositoryClientTest extends NestedRepositoryAccessTestBase {
 
@@ -24,8 +24,8 @@ public class NestedRepositoryClientTest extends NestedRepositoryAccessTestBase {
         resource.setValue("nested");
         String postUrl = stub.computeUrl(resource, true);
         String patchUrl = stub.computeUrl(resource, false);
-        Assert.assertTrue(postUrl.endsWith("/post/a/postHeader"));
-        Assert.assertTrue(patchUrl.endsWith("/post/a/postHeader"));
+        Assertions.assertTrue(postUrl.endsWith("/post/a/postHeader"));
+        Assertions.assertTrue(patchUrl.endsWith("/post/a/postHeader"));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class NestedRepositoryClientTest extends NestedRepositoryAccessTestBase {
         resource.setValue("nested");
         String postUrl = stub.computeUrl(resource, true);
         String patchUrl = stub.computeUrl(resource, false);
-        Assert.assertTrue(postUrl.endsWith("/post/a/comments"));
-        Assert.assertTrue(patchUrl.endsWith("/post/a/comments/b"));
+        Assertions.assertTrue(postUrl.endsWith("/post/a/comments"));
+        Assertions.assertTrue(patchUrl.endsWith("/post/a/comments/b"));
     }
 }

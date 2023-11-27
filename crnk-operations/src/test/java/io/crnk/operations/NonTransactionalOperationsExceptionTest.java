@@ -7,9 +7,9 @@ import io.crnk.core.repository.ResourceRepository;
 import io.crnk.operations.client.OperationsCall;
 import io.crnk.operations.client.OperationsClient;
 import io.crnk.operations.model.PersonEntity;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +23,7 @@ public class NonTransactionalOperationsExceptionTest extends AbstractOperationsT
         return false;
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -44,12 +44,12 @@ public class NonTransactionalOperationsExceptionTest extends AbstractOperationsT
         insertCall.add(HttpMethod.POST, person2);
         insertCall.execute();
 
-        Assert.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY_422, insertCall.getResponse(0).getStatus());
-        Assert.assertEquals(HttpStatus.CREATED_201, insertCall.getResponse(1).getStatus());
+        Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY_422, insertCall.getResponse(0).getStatus());
+        Assertions.assertEquals(HttpStatus.CREATED_201, insertCall.getResponse(1).getStatus());
 
         QuerySpec querySpec = new QuerySpec(PersonEntity.class);
         ResourceRepository<PersonEntity, UUID> personRepo = client.getRepositoryForType(PersonEntity.class);
         List<PersonEntity> list = personRepo.findAll(querySpec);
-        Assert.assertEquals(1, list.size());
+        Assertions.assertEquals(1, list.size());
     }
 }

@@ -4,8 +4,8 @@ import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.engine.query.QueryContext;
 import io.crnk.core.engine.url.ConstantServiceUrlProvider;
 import io.crnk.core.module.SimpleModule;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.List;
@@ -28,10 +28,10 @@ public class HomeModuleExtensionTest {
 		boot.boot();
 
 		List<String> list = module.list("/", new QueryContext());
-		Assert.assertTrue(list.toString(), list.contains("test/"));
+		Assertions.assertTrue(list.contains("test/"), list.toString());
 
 		list = module.list("/test/", new QueryContext());
-		Assert.assertTrue(list.toString(), list.contains("directory/"));
-		Assert.assertTrue(list.toString(), list.contains("something"));
+		Assertions.assertTrue(list.contains("directory/"), list.toString());
+		Assertions.assertTrue(list.contains("something"), list.toString());
 	}
 }

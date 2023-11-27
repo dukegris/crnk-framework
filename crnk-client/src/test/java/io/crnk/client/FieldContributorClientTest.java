@@ -9,8 +9,8 @@ import io.crnk.core.engine.registry.RegistryEntry;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.module.SimpleModule;
 import io.crnk.test.mock.models.Task;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class FieldContributorClientTest extends AbstractClientTest {
 
@@ -35,6 +35,6 @@ public class FieldContributorClientTest extends AbstractClientTest {
 		ResourceRegistry resourceRegistry = client.getModuleRegistry().getResourceRegistry();
 		RegistryEntry entry = resourceRegistry.findEntry(Task.class);
 		ResourceInformation resourceInformation = entry.getResourceInformation();
-		Assert.assertNotNull(resourceInformation.findFieldByName("test"));
+		Assertions.assertNotNull(resourceInformation.findFieldByName("test"));
 	}
 }

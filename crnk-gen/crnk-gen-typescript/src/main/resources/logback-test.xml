@@ -9,7 +9,7 @@
 		</filter>
 		<encoder>
 			<charset>UTF-8</charset>
-			<pattern>%d{HH:mm:ss,SSS} %-5.5p [%15.15t] [%30.30c] %X{indent}%m%n
+			<pattern>%d{HH:mm:ss.SSS} %-5.5p [%15.15t] [%30.30c] %X{indent}%m%n
 			</pattern>
 		</encoder>
 	</appender>
@@ -19,7 +19,7 @@
 		<file>build/tmp/crnk.gen.typescript.log</file>
 		<encoder>
 			<charset>UTF-8</charset>
-			<pattern>%d{HH:mm:ss,SSS} %-5.5p [%15.15t] [%30.30c] %X{indent}%m%n
+			<pattern>%d{HH:mm:ss.SSS} %-5.5p [%15.15t] [%30.30c] %X{indent}%m%n
 			</pattern>
 		</encoder>
 	</appender>

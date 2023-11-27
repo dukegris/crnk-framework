@@ -3,8 +3,8 @@ package io.crnk.core.engine.internal.information.resource;
 import io.crnk.core.engine.document.Resource;
 import io.crnk.core.engine.information.resource.ResourceFieldType;
 import io.crnk.core.engine.information.resource.ResourceInformation;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class ResourceFieldImplTest {
@@ -19,7 +19,7 @@ public class ResourceFieldImplTest {
 		Mockito.when(resourceInformation.getImplementationClass()).thenReturn((Class) Resource.class);
 		impl.setResourceInformation(resourceInformation);
 
-		Assert.assertEquals("ResourceFieldImpl[resourceClass=io.crnk.core.engine.document.Resource, name=testName,resourceType=someResource]", impl.toString());
+		Assertions.assertEquals("ResourceFieldImpl[resourceClass=io.crnk.core.engine.document.Resource, name=testName,resourceType=someResource]", impl.toString());
 	}
 
 }

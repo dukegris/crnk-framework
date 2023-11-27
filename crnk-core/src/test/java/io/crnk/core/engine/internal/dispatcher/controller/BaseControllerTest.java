@@ -11,7 +11,7 @@ import io.crnk.core.engine.properties.NullPropertiesProvider;
 import io.crnk.core.engine.query.QueryAdapter;
 import io.crnk.core.engine.query.QueryContext;
 import io.crnk.core.engine.result.Result;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
 public class BaseControllerTest {
@@ -30,7 +30,7 @@ public class BaseControllerTest {
 
     private QueryContext queryContext = Mockito.mock(QueryContext.class);
 
-    @Before
+    @BeforeEach
     public void setup() {
         ControllerContext context = Mockito.mock(ControllerContext.class);
         ResourceFilterDirectory filterDirectory = Mockito.mock(ResourceFilterDirectory.class);

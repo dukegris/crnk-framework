@@ -1,7 +1,7 @@
 package io.crnk.monitor.opentracing;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.engine.http.HttpHeaders;
@@ -9,8 +9,8 @@ import io.crnk.servlet.CrnkServlet;
 import io.crnk.test.mock.TestModule;
 import io.opentracing.Span;
 import io.opentracing.Tracer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -27,7 +27,7 @@ public class OpenTracingServerModuleTest {
 
 	private boolean simpleTransactionNames = false;
 
-	@Before
+	@BeforeEach
 	public void setup() throws ServletException {
 		simpleTransactionNames = false;
 

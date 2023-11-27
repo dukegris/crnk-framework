@@ -20,8 +20,8 @@ import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class OASUtilsTest {
     type.setResourceType("MyType");
 
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertEquals("#/components/schemas/MyTypeResourceReference", schema.get$ref());
+    Assertions.assertEquals("#/components/schemas/MyTypeResourceReference", schema.get$ref());
   }
 
   @Test
@@ -51,8 +51,8 @@ public class OASUtilsTest {
     type.setElementType(childType);
 
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof ArraySchema);
-    Assert.assertEquals(true, schema.getUniqueItems());
+    Assertions.assertTrue(schema instanceof ArraySchema);
+    Assertions.assertEquals(true, schema.getUniqueItems());
   }
 
   @Test
@@ -65,8 +65,8 @@ public class OASUtilsTest {
     type.setElementType(childType);
 
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof ArraySchema);
-    Assert.assertEquals(false, schema.getUniqueItems());
+    Assertions.assertTrue(schema instanceof ArraySchema);
+    Assertions.assertEquals(false, schema.getUniqueItems());
   }
 
   @Test
@@ -74,7 +74,7 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("string");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof StringSchema);
+    Assertions.assertTrue(schema instanceof StringSchema);
   }
 
   @Test
@@ -82,8 +82,8 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("integer");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof IntegerSchema);
-    Assert.assertEquals("int32", schema.getFormat());
+    Assertions.assertTrue(schema instanceof IntegerSchema);
+    Assertions.assertEquals("int32", schema.getFormat());
   }
 
   @Test
@@ -91,10 +91,10 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("short");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof IntegerSchema);
-    Assert.assertEquals("int32", schema.getFormat());
-    Assert.assertEquals(new BigDecimal(-32768), schema.getMinimum());
-    Assert.assertEquals(new BigDecimal(32767), schema.getMaximum());
+    Assertions.assertTrue(schema instanceof IntegerSchema);
+    Assertions.assertEquals("int32", schema.getFormat());
+    Assertions.assertEquals(new BigDecimal(-32768), schema.getMinimum());
+    Assertions.assertEquals(new BigDecimal(32767), schema.getMaximum());
   }
 
   @Test
@@ -102,8 +102,8 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("long");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof IntegerSchema);
-    Assert.assertEquals("int64", schema.getFormat());
+    Assertions.assertTrue(schema instanceof IntegerSchema);
+    Assertions.assertEquals("int64", schema.getFormat());
   }
 
   @Test
@@ -111,8 +111,8 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("float");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof NumberSchema);
-    Assert.assertEquals("float", schema.getFormat());
+    Assertions.assertTrue(schema instanceof NumberSchema);
+    Assertions.assertEquals("float", schema.getFormat());
   }
 
   @Test
@@ -120,8 +120,8 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("double");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof NumberSchema);
-    Assert.assertEquals("double", schema.getFormat());
+    Assertions.assertTrue(schema instanceof NumberSchema);
+    Assertions.assertEquals("double", schema.getFormat());
   }
 
   @Test
@@ -129,7 +129,7 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("boolean");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof BooleanSchema);
+    Assertions.assertTrue(schema instanceof BooleanSchema);
   }
 
   @Test
@@ -137,7 +137,7 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("byte");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof ByteArraySchema);
+    Assertions.assertTrue(schema instanceof ByteArraySchema);
   }
 
   @Test
@@ -145,7 +145,7 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("date");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof DateSchema);
+    Assertions.assertTrue(schema instanceof DateSchema);
   }
 
   @Test
@@ -153,7 +153,7 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("offsetDateTime");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof DateTimeSchema);
+    Assertions.assertTrue(schema instanceof DateTimeSchema);
   }
 
   @Test
@@ -161,7 +161,7 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("localDate");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof DateSchema);
+    Assertions.assertTrue(schema instanceof DateSchema);
   }
 
   @Test
@@ -169,7 +169,7 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("localDateTime");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof DateTimeSchema);
+    Assertions.assertTrue(schema instanceof DateTimeSchema);
   }
 
   @Test
@@ -177,7 +177,7 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("json");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof ObjectSchema);
+    Assertions.assertTrue(schema instanceof ObjectSchema);
   }
 
   @Test
@@ -185,7 +185,7 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("json.object");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof ObjectSchema);
+    Assertions.assertTrue(schema instanceof ObjectSchema);
   }
 
   @Test
@@ -193,7 +193,7 @@ public class OASUtilsTest {
     MetaPrimitiveType type = new MetaPrimitiveType();
     type.setName("json.array");
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof ArraySchema);
+    Assertions.assertTrue(schema instanceof ArraySchema);
   }
 
   @Test
@@ -211,9 +211,9 @@ public class OASUtilsTest {
 
     type.setChildren(people);
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof StringSchema);
+    Assertions.assertTrue(schema instanceof StringSchema);
     for (int i = 0; i < 3; i++) {
-      Assert.assertEquals(names.get(i), schema.getEnum().get(i));
+      Assertions.assertEquals(names.get(i), schema.getEnum().get(i));
     }
   }
 
@@ -232,20 +232,20 @@ public class OASUtilsTest {
 
     type.setChildren(people);
     Schema schema = OASUtils.transformMetaResourceField(type);
-    Assert.assertTrue(schema instanceof ObjectSchema);
-    Assert.assertEquals(true, schema.getAdditionalProperties());
+    Assertions.assertTrue(schema instanceof ObjectSchema);
+    Assertions.assertEquals(true, schema.getAdditionalProperties());
   }
 
   @Test
   public void testOneToMany() {
     MetaResourceField metaResourceField = new MetaResourceField();
     metaResourceField.setType(new MetaSetType());
-    Assert.assertTrue(OASUtils.oneToMany(metaResourceField));
+    Assertions.assertTrue(OASUtils.oneToMany(metaResourceField));
 
     metaResourceField.setType(new MetaMapType());
-    Assert.assertTrue(OASUtils.oneToMany(metaResourceField));
+    Assertions.assertTrue(OASUtils.oneToMany(metaResourceField));
 
     metaResourceField.setType(new MetaPrimitiveType());
-    Assert.assertFalse(OASUtils.oneToMany(metaResourceField));
+    Assertions.assertFalse(OASUtils.oneToMany(metaResourceField));
   }
 }

@@ -11,9 +11,9 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class OpenAPIGeneratorSimpleTest extends OpenAPIGeneratorTestBase {
   private MetaModule metaModule;
   private OpenAPIGeneratorModule generatorModule;
 
-  @Before
+  @BeforeEach
   public void setup() throws IOException {
     File buildDir = new File("build/tmp/openapi");
 
@@ -59,23 +59,23 @@ public class OpenAPIGeneratorSimpleTest extends OpenAPIGeneratorTestBase {
     OpenAPI openApiTemplate = new OpenAPIV3Parser().read(templatePath);
 
     // Compare templated metadata and generated metadata
-    Assert.assertEquals(openApiTemplate.getOpenapi(), openApi.getOpenapi());
-    Assert.assertEquals(openApiTemplate.getInfo(), openApi.getInfo());
-    Assert.assertEquals(openApiTemplate.getServers(), openApi.getServers());
+    Assertions.assertEquals(openApiTemplate.getOpenapi(), openApi.getOpenapi());
+    Assertions.assertEquals(openApiTemplate.getInfo(), openApi.getInfo());
+    Assertions.assertEquals(openApiTemplate.getServers(), openApi.getServers());
 
     Operation templateGetTasks = openApiTemplate.getPaths().get("/simpleTasks").getGet();
     Operation generatedGetTasks = openApi.getPaths().get("/simpleTasks").getGet();
 
     // Compare templated and generated GET /simpleTasks
-    Assert.assertEquals(templateGetTasks.getSummary(), generatedGetTasks.getSummary());
-    Assert.assertEquals(templateGetTasks.getDescription(), generatedGetTasks.getDescription());
-    Assert.assertEquals(templateGetTasks.getOperationId(), generatedGetTasks.getOperationId());
-    Assert.assertEquals(templateGetTasks.getExtensions(), generatedGetTasks.getExtensions());
+    Assertions.assertEquals(templateGetTasks.getSummary(), generatedGetTasks.getSummary());
+    Assertions.assertEquals(templateGetTasks.getDescription(), generatedGetTasks.getDescription());
+    Assertions.assertEquals(templateGetTasks.getOperationId(), generatedGetTasks.getOperationId());
+    Assertions.assertEquals(templateGetTasks.getExtensions(), generatedGetTasks.getExtensions());
 
     // Compare templated and generated GET /simpleTasks
     Operation templateGetTaskById = openApiTemplate.getPaths().get("/simpleTasks/{id}").getGet();
     Operation generatedGetTaskById = openApi.getPaths().get("/simpleTasks/{id}").getGet();
-    Assert.assertEquals(templateGetTaskById.getExtensions(), generatedGetTaskById.getExtensions());
+    Assertions.assertEquals(templateGetTaskById.getExtensions(), generatedGetTaskById.getExtensions());
 
     // Ensure responses satisfy minimal requirements for JSON:API compliance
     for (Map.Entry<String, PathItem> entry : openApi.getPaths().entrySet()) {

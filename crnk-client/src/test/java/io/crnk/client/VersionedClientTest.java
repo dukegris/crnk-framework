@@ -15,9 +15,9 @@ import io.crnk.core.exception.ForbiddenException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.test.mock.models.VersionedTask;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class VersionedClientTest extends AbstractClientTest {
 
@@ -25,7 +25,7 @@ public class VersionedClientTest extends AbstractClientTest {
 
 	private CrnkBoot boot;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 
@@ -37,22 +37,22 @@ public class VersionedClientTest extends AbstractClientTest {
 	@Test
 	public void versionsAvailableFromInformationModel() {
 		ResourceInformation resourceInformation = boot.getResourceRegistry().getEntry(VersionedTask.class).getResourceInformation();
-		Assert.assertEquals(0, resourceInformation.getVersionRange().getMin());
-		Assert.assertEquals(5, resourceInformation.getVersionRange().getMax());
+		Assertions.assertEquals(0, resourceInformation.getVersionRange().getMin());
+		Assertions.assertEquals(5, resourceInformation.getVersionRange().getMax());
 
 		ResourceField field = resourceInformation.findFieldByUnderlyingName("completed");
-		Assert.assertEquals(1, field.getVersionRange().getMin());
-		Assert.assertEquals(3, field.getVersionRange().getMax());
-		Assert.assertSame(field, resourceInformation.findFieldByJsonName("completed", 1));
-		Assert.assertSame(field, resourceInformation.findFieldByJsonName("completed", 2));
-		Assert.assertSame(field, resourceInformation.findFieldByJsonName("completed", 3));
+		Assertions.assertEquals(1, field.getVersionRange().getMin());
+		Assertions.assertEquals(3, field.getVersionRange().getMax());
+		Assertions.assertSame(field, resourceInformation.findFieldByJsonName("completed", 1));
+		Assertions.assertSame(field, resourceInformation.findFieldByJsonName("completed", 2));
+		Assertions.assertSame(field, resourceInformation.findFieldByJsonName("completed", 3));
 
 		ResourceField newField = resourceInformation.findFieldByUnderlyingName("newCompleted");
-		Assert.assertEquals(5, newField.getVersionRange().getMin());
-		Assert.assertEquals(Integer.MAX_VALUE, newField.getVersionRange().getMax());
-		Assert.assertSame(newField, resourceInformation.findFieldByJsonName("completed", 5));
-		Assert.assertSame(newField, resourceInformation.findFieldByJsonName("completed", 6));
-		Assert.assertSame(newField, resourceInformation.findFieldByJsonName("completed", 7));
+		Assertions.assertEquals(5, newField.getVersionRange().getMin());
+		Assertions.assertEquals(Integer.MAX_VALUE, newField.getVersionRange().getMax());
+		Assertions.assertSame(newField, resourceInformation.findFieldByJsonName("completed", 5));
+		Assertions.assertSame(newField, resourceInformation.findFieldByJsonName("completed", 6));
+		Assertions.assertSame(newField, resourceInformation.findFieldByJsonName("completed", 7));
 	}
 
 	@Test
@@ -87,17 +87,17 @@ public class VersionedClientTest extends AbstractClientTest {
 		task.setCompleted(true);
 		task.setName("someTask");
 		task = taskRepo.create(task);
-		Assert.assertTrue(task.isCompleted());
+		Assertions.assertTrue(task.isCompleted());
 
 		// check within range
 		client.setVersion(3);
 		task = taskRepo.findOne(task.getId(), new QuerySpec(VersionedTask.class));
-		Assert.assertTrue(task.isCompleted());
+		Assertions.assertTrue(task.isCompleted());
 
 		// check outside range
 		client.setVersion(4); // completed only 1 to 3
 		task = taskRepo.findOne(task.getId(), new QuerySpec(VersionedTask.class));
-		Assert.assertFalse(task.isCompleted());
+		Assertions.assertFalse(task.isCompleted());
 	}
 
 	@Test
@@ -108,11 +108,11 @@ public class VersionedClientTest extends AbstractClientTest {
 		task.setCompleted(true);
 		task.setName("someTask");
 		task = taskRepo.create(task);
-		Assert.assertFalse(task.isCompleted());
+		Assertions.assertFalse(task.isCompleted());
 
 		client.setVersion(3);
 		task = taskRepo.findOne(task.getId(), new QuerySpec(VersionedTask.class));
-		Assert.assertFalse(task.isCompleted());
+		Assertions.assertFalse(task.isCompleted());
 	}
 
 	@Test
@@ -124,18 +124,18 @@ public class VersionedClientTest extends AbstractClientTest {
 		task.setNewCompleted(VersionedTask.CompletionStatus.IN_PROGRESS);
 		task.setName("someTask");
 		task = taskRepo.create(task);
-		Assert.assertFalse(task.isCompleted());
-		Assert.assertEquals(VersionedTask.CompletionStatus.IN_PROGRESS, task.getNewCompleted());
+		Assertions.assertFalse(task.isCompleted());
+		Assertions.assertEquals(VersionedTask.CompletionStatus.IN_PROGRESS, task.getNewCompleted());
 
 		task = taskRepo.findOne(task.getId(), new QuerySpec(VersionedTask.class));
-		Assert.assertFalse(task.isCompleted());
-		Assert.assertEquals(VersionedTask.CompletionStatus.IN_PROGRESS, task.getNewCompleted());
+		Assertions.assertFalse(task.isCompleted());
+		Assertions.assertEquals(VersionedTask.CompletionStatus.IN_PROGRESS, task.getNewCompleted());
 
 		// move out of new version range
 		client.setVersion(3);
 		task = taskRepo.findOne(task.getId(), new QuerySpec(VersionedTask.class));
-		Assert.assertFalse(task.isCompleted());
-		Assert.assertNull(task.getNewCompleted());
+		Assertions.assertFalse(task.isCompleted());
+		Assertions.assertNull(task.getNewCompleted());
 	}
 
 	@Test
@@ -144,7 +144,7 @@ public class VersionedClientTest extends AbstractClientTest {
 		HttpAdapter httpAdapter = client.getHttpAdapter();
 		HttpAdapterRequest request = httpAdapter.newRequest(url, HttpMethod.GET, null);
 		HttpAdapterResponse response = request.execute();
-		Assert.assertEquals(200, response.code());
+		Assertions.assertEquals(200, response.code());
 	}
 
 
@@ -154,21 +154,23 @@ public class VersionedClientTest extends AbstractClientTest {
 		HttpAdapter httpAdapter = client.getHttpAdapter();
 		HttpAdapterRequest request = httpAdapter.newRequest(url, HttpMethod.GET, null);
 		HttpAdapterResponse response = request.execute();
-		Assert.assertEquals(403, response.code());
+		Assertions.assertEquals(403, response.code());
 	}
 
 
-	@Test(expected = ForbiddenException.class)
+	@Test
 	public void resourceNotAvailableOutOfRange() {
-		client.setVersion(6); // leave range of entire resource
-		VersionedTask task = new VersionedTask();
-		task.setId(1L);
-		taskRepo.create(task);
+		Assertions.assertThrows( ForbiddenException.class, () -> {
+			client.setVersion(6); // leave range of entire resource
+			VersionedTask task = new VersionedTask();
+			task.setId(1L);
+			taskRepo.create(task);
+		});
 	}
 
 	@Test
 	public void registryHoldsProperLatestVersion() {
-		Assert.assertEquals(5, boot.getResourceRegistry().getLatestVersion());
+		Assertions.assertEquals(5, boot.getResourceRegistry().getLatestVersion());
 	}
 
 	protected void setupFeature(CrnkTestFeature feature) {

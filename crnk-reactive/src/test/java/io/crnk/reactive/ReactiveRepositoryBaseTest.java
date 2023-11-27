@@ -7,9 +7,9 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.reactive.model.SlowTask;
 import io.crnk.reactive.repository.ReactiveResourceRepositoryBase;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class ReactiveRepositoryBaseTest {
 	};
 	private SlowTask task;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		tasks.clear();
 
@@ -50,33 +50,41 @@ public class ReactiveRepositoryBaseTest {
 	public void checkFindAll() {
 		QuerySpec querySpec = new QuerySpec(SlowTask.class);
 		Mono<ResourceList> mono = base.findAll(querySpec);
-		Assert.assertEquals(1, mono.block().size());
+		Assertions.assertEquals(1, mono.block().size());
 	}
 
 	@Test
 	public void checkFindExistingOne() {
 		QuerySpec querySpec = new QuerySpec(SlowTask.class);
-		Assert.assertSame(task, base.findOne(1L, querySpec).block());
+		Assertions.assertSame(task, base.findOne(1L, querySpec).block());
 	}
 
-	@Test(expected = ResourceNotFoundException.class)
+	@Test
 	public void checkFindNonExistingOne() {
-		QuerySpec querySpec = new QuerySpec(SlowTask.class);
-		base.findOne(2L, querySpec).block();
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+			QuerySpec querySpec = new QuerySpec(SlowTask.class);
+			base.findOne(2L, querySpec).block();
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void cannotCreateByDefault() {
-		base.create(null).block();
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			base.create(null).block();
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void cannotUpdateByDefault() {
-		base.save(null).block();
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			base.save(null).block();
+		});
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void cannotDeleteByDefault() {
-		base.delete(null).block();
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+			base.delete(null).block();
+		});
 	}
 }

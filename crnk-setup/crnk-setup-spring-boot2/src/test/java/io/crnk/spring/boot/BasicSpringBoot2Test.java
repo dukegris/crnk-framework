@@ -1,11 +1,11 @@
 package io.crnk.spring.boot;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.io.Serializable;
-import javax.security.auth.message.config.AuthConfigFactory;
+import jakarta.security.auth.message.config.AuthConfigFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.crnk.client.CrnkClient;
@@ -49,8 +49,12 @@ import io.crnk.test.mock.repository.ScheduleRepositoryImpl;
 import io.crnk.test.mock.repository.TaskRepository;
 import net.javacrumbs.jsonunit.fluent.JsonFluentAssert;
 import org.apache.catalina.authenticator.jaspic.AuthConfigFactoryImpl;
-import org.junit.*;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,12 +66,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = BasicSpringBoot2Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.error.include-message=always")
 @DirtiesContext
 public class BasicSpringBoot2Test {
@@ -120,7 +124,7 @@ public class BasicSpringBoot2Test {
 	@Autowired
 	private PlainJsonFormatProperties plainJsonFormatProperties;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		TestModule.clear();
 
@@ -130,23 +134,23 @@ public class BasicSpringBoot2Test {
 		}
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		TestModule.clear();
 	}
 
 	@Test
 	public void testProperties() {
-		Assert.assertTrue(uiProperties.isEnabled());
-		Assert.assertTrue(homeProperties.isEnabled());
-		Assert.assertTrue(securityProperties.getIfAvailable() == null);
-		Assert.assertTrue(coreProperties.isEnabled());
-		Assert.assertTrue(operationsProperties.isEnabled());
-		Assert.assertTrue(validationProperties.isEnabled());
-		Assert.assertTrue(uiProperties.isEnabled());
-		Assert.assertTrue(metaProperties.isEnabled());
-		Assert.assertTrue(facetProperties.isEnabled());
-		Assert.assertTrue(plainJsonFormatProperties.isEnabled());
+		Assertions.assertTrue(uiProperties.isEnabled());
+		Assertions.assertTrue(homeProperties.isEnabled());
+		Assertions.assertTrue(securityProperties.getIfAvailable() == null);
+		Assertions.assertTrue(coreProperties.isEnabled());
+		Assertions.assertTrue(operationsProperties.isEnabled());
+		Assertions.assertTrue(validationProperties.isEnabled());
+		Assertions.assertTrue(uiProperties.isEnabled());
+		Assertions.assertTrue(metaProperties.isEnabled());
+		Assertions.assertTrue(facetProperties.isEnabled());
+		Assertions.assertTrue(plainJsonFormatProperties.isEnabled());
 		facetProperties.setEnabled(true); // just call to have it covered
 		plainJsonFormatProperties.setEnabled(true); // just call to have it covered
 
@@ -154,12 +158,12 @@ public class BasicSpringBoot2Test {
 		Mockito.verify(jpaConfigurer, Mockito.times(1)).configure(Mockito.any(JpaModuleConfig.class));
 		Mockito.verify(facetModuleConfigurer, Mockito.times(1)).configure(Mockito.any(FacetModuleConfig.class));
 
-		Assert.assertEquals("spring.mvc", mvcModule.getModuleName());
+		Assertions.assertEquals("spring.mvc", mvcModule.getModuleName());
 
 		CrnkSecurityProperties unmanagedSecurityProperties = new CrnkSecurityProperties();
-		Assert.assertTrue(unmanagedSecurityProperties.isEnabled());
+		Assertions.assertTrue(unmanagedSecurityProperties.isEnabled());
 		unmanagedSecurityProperties.setEnabled(false);
-		Assert.assertFalse(unmanagedSecurityProperties.isEnabled());
+		Assertions.assertFalse(unmanagedSecurityProperties.isEnabled());
 	}
 
 
@@ -216,22 +220,22 @@ public class BasicSpringBoot2Test {
 		QuerySpec querySpec = new QuerySpec(FacetResource.class);
 		querySpec.addFilter(PathSpec.of(FacetResource.ATTR_VALUES, "name").filter(FilterOperator.SELECT, "doe"));
 		ResourceList<FacetResource> facets = repository.findAll(querySpec);
-		Assert.assertNotEquals(0, facets.size());
+		Assertions.assertNotEquals(0, facets.size());
 	}
 
 	@Test
 	public void testDeserializerInjected() {
-		Assert.assertSame(boot.getUrlMapper(), urlMapper);
+		Assertions.assertSame(boot.getUrlMapper(), urlMapper);
 	}
 
 	@Test
 	public void testPagingBehaviorInjected() {
-		Assert.assertEquals(1, boot.getPagingBehaviors().size());
-		Assert.assertTrue(boot.getPagingBehaviors().get(0) instanceof OffsetLimitPagingBehavior);
+		Assertions.assertEquals(1, boot.getPagingBehaviors().size());
+		Assertions.assertTrue(boot.getPagingBehaviors().get(0) instanceof OffsetLimitPagingBehavior);
 	}
 
 	@Test
-	@Ignore // currently not maintained
+	@Disabled // currently not maintained
 	public void testUiModuleRunning() {
 		RestTemplate testRestTemplate = new RestTemplate();
 		ResponseEntity<String> response = testRestTemplate
@@ -245,7 +249,7 @@ public class BasicSpringBoot2Test {
 		try {
 			testRestTemplate
 					.getForEntity("http://localhost:" + this.port + "/tasks", String.class);
-			Assert.fail();
+			Assertions.fail();
 		}
 		catch (HttpStatusCodeException e) {
 			assertEquals(HttpStatus.NOT_FOUND, e.getStatusCode());
@@ -275,7 +279,7 @@ public class BasicSpringBoot2Test {
 		QuerySpec querySpec = new QuerySpec(Schedule.class);
 		querySpec.addFilter(new FilterSpec("{\"OR\": {\"name\": \"Great Schedule\", \"LE\": {\"id\": 122}}}"));
 		ResourceList<Schedule> schedules = repository.findAll(querySpec);
-		Assert.assertEquals(2, schedules.size());
+		Assertions.assertEquals(2, schedules.size());
 	}
 
 	@Test
@@ -293,7 +297,7 @@ public class BasicSpringBoot2Test {
 		try {
 			testRestTemplate
 					.getForEntity("http://localhost:" + this.port + "/doesNotExist", String.class);
-			Assert.fail();
+			Assertions.fail();
 		}
 		catch (HttpClientErrorException e) {
 			assertEquals(HttpStatus.NOT_FOUND, e.getStatusCode());
@@ -303,11 +307,11 @@ public class BasicSpringBoot2Test {
 			mapper.registerModule(JacksonModule.createJacksonModule());
 			Document document = mapper.readerFor(Document.class).readValue(body);
 
-			Assert.assertEquals(1, document.getErrors().size());
+			Assertions.assertEquals(1, document.getErrors().size());
 			ErrorData errorData = document.getErrors().get(0);
-			Assert.assertEquals("404", errorData.getStatus());
-			Assert.assertEquals("Not Found", errorData.getTitle());
-			Assert.assertEquals("No message available", errorData.getDetail());
+			Assertions.assertEquals("404", errorData.getStatus());
+			Assertions.assertEquals("Not Found", errorData.getTitle());
+			Assertions.assertEquals("No message available", errorData.getDetail());
 		}
 	}
 }

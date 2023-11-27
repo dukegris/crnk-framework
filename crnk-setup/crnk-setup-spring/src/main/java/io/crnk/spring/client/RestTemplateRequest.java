@@ -60,7 +60,9 @@ public class RestTemplateRequest implements HttpAdapterRequest {
                 java.net.URL url = new java.net.URL(this.url);
                 listeners.stream().forEach(it -> it.onRequest(this));
                 HttpEntity<String> entityReq = new HttpEntity<>(requestBody, headers);
-                ResponseEntity<String> response = template.exchange(url.toURI(), HttpMethod.resolve(method.name()), entityReq, String.class);
+                // RCS deprecated
+                // ResponseEntity<String> response = template.exchange(url.toURI(), HttpMethod.resolve(method.name()), entityReq, String.class);
+                ResponseEntity<String> response = template.exchange(url.toURI(), HttpMethod.valueOf(method.name()), entityReq, String.class);
                 RestTemplateResponse adapterResponse = new RestTemplateResponse(response);
                 listeners.stream().forEach(it -> it.onResponse(this, adapterResponse));
                 return adapterResponse;
@@ -70,7 +72,10 @@ public class RestTemplateRequest implements HttpAdapterRequest {
                 throw new IllegalStateException(e);
             }
         } catch (HttpClientErrorException e) {
-            return new RestTemplateResponse(e.getRawStatusCode(), e.getStatusCode().getReasonPhrase(), e.getResponseBodyAsString
+        	// RCS getReasonPhrase removed
+            // return new RestTemplateResponse(e.getRawStatusCode(), e.getStatusCode().getReasonPhrase(), e.getResponseBodyAsString
+            //        (), e.getResponseHeaders());
+            return new RestTemplateResponse(e.getRawStatusCode(), e.getStatusCode().toString(), e.getResponseBodyAsString
                     (), e.getResponseHeaders());
         }
     }

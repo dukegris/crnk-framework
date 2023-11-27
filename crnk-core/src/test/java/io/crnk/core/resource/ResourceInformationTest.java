@@ -22,9 +22,9 @@ import io.crnk.core.resource.annotations.JsonIncludeStrategy;
 import io.crnk.core.resource.annotations.LookupIncludeBehavior;
 import io.crnk.core.resource.annotations.RelationshipRepositoryBehavior;
 import io.crnk.core.resource.annotations.SerializeType;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
@@ -42,7 +42,7 @@ public class ResourceInformationTest {
 
     private ResourceFieldImpl valueField;
 
-    @Before
+    @BeforeEach
     public void setup() {
         ResourceField idField = new ResourceFieldImpl("id", "id", ResourceFieldType.ID, Long.class, Long.class, null);
         ResourceFieldAccessor valueIdAccessor = Mockito.mock(ResourceFieldAccessor.class);
@@ -62,8 +62,8 @@ public class ResourceInformationTest {
 
     @Test
     public void toIdString() {
-        Assert.assertNull(sut.toIdString(null));
-        Assert.assertEquals("13", sut.toIdString(13));
+        Assertions.assertNull(sut.toIdString(null));
+        Assertions.assertEquals("13", sut.toIdString(13));
     }
 
     @Test
@@ -76,33 +76,33 @@ public class ResourceInformationTest {
         task.setId(13L);
 
         ResourceIdentifier expected = new ResourceIdentifier("13", "tasks");
-        Assert.assertSame(expected, sut.toResourceIdentifier(expected));
-        Assert.assertNull(sut.toResourceIdentifier(null));
-        Assert.assertEquals(expected, sut.toResourceIdentifier("13"));
-        Assert.assertEquals(expected, sut.toResourceIdentifier(13L));
-        Assert.assertEquals(expected, sut.toResourceIdentifier(task));
-        Assert.assertEquals(expected, sut.toResourceIdentifier(resource));
-        Assert.assertNotSame(resource, sut.toResourceIdentifier(resource));
+        Assertions.assertSame(expected, sut.toResourceIdentifier(expected));
+        Assertions.assertNull(sut.toResourceIdentifier(null));
+        Assertions.assertEquals(expected, sut.toResourceIdentifier("13"));
+        Assertions.assertEquals(expected, sut.toResourceIdentifier(13L));
+        Assertions.assertEquals(expected, sut.toResourceIdentifier(task));
+        Assertions.assertEquals(expected, sut.toResourceIdentifier(resource));
+        Assertions.assertNotSame(resource, sut.toResourceIdentifier(resource));
     }
 
     @Test
     public void getFields() {
-        Assert.assertEquals(2, sut.getFields().size());
+        Assertions.assertEquals(2, sut.getFields().size());
     }
 
     @Test
     public void checkIdAccess() {
         Task task = new Task();
         sut.setId(task, 13L);
-        Assert.assertEquals(13L, task.getId().longValue());
-        Assert.assertEquals(13L, sut.getId(task));
+        Assertions.assertEquals(13L, task.getId().longValue());
+        Assertions.assertEquals(13L, sut.getId(task));
     }
 
 
     @Test
     public void checkGetAccessor() {
-        Assert.assertSame(valueField.getIdAccessor(), sut.getAccessor("valueId"));
-        Assert.assertSame(valueField.getAccessor(), sut.getAccessor("value"));
+        Assertions.assertSame(valueField.getIdAccessor(), sut.getAccessor("valueId"));
+        Assertions.assertSame(valueField.getAccessor(), sut.getAccessor("value"));
     }
 
     @Test
@@ -116,20 +116,24 @@ public class ResourceInformationTest {
         AnyResourceFieldAccessor accessor = sut.getAnyFieldAccessor();
 
         Map<String, Object> map = accessor.getValues(resource);
-        Assert.assertNull(map.get("test"));
+        Assertions.assertNull(map.get("test"));
         accessor.setValue(resource, "test", "testValue");
-        Assert.assertEquals("testValue", map.get("test"));
-        Assert.assertEquals("testValue", resource.getProperties().get("test"));
+        Assertions.assertEquals("testValue", map.get("test"));
+        Assertions.assertEquals("testValue", resource.getProperties().get("test"));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void attributeCannotBeNamedLinks() {
-        new ResourceFieldImpl("links", "id", ResourceFieldType.ATTRIBUTE, Long.class, Long.class, null);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			new ResourceFieldImpl("links", "id", ResourceFieldType.ATTRIBUTE, Long.class, Long.class, null);
+		});
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void attributeCannotBeNamedMeta() {
-        new ResourceFieldImpl("meta", "id", ResourceFieldType.ATTRIBUTE, Long.class, Long.class, null);
+		Assertions.assertThrows(IllegalStateException.class, () -> {
+			new ResourceFieldImpl("meta", "id", ResourceFieldType.ATTRIBUTE, Long.class, Long.class, null);
+		});
     }
 
     @Test
@@ -143,26 +147,30 @@ public class ResourceInformationTest {
         AnyResourceFieldAccessor accessor = sut.getAnyFieldAccessor();
         Object o = accessor.getValues(resource);
         Map<String, Object> map = accessor.getValues(resource);
-        Assert.assertNull(map.get("notAllowed"));
+        Assertions.assertNull(map.get("notAllowed"));
     }
 
-    @Test(expected = ResourceException.class)
+    @Test
     public void checkSetAnyWithInvalidKey() {
-        ResourceField idField = new ResourceFieldImpl("id", "id", ResourceFieldType.ID, Long.class, Long.class, null);
-        sut = new ResourceInformation(typeParser, ResourceWithAny.class, "tasks", null, Arrays.asList(idField),
-                OffsetLimitPagingSpec.class);
+		Assertions.assertThrows(ResourceException.class, () -> {
+	        ResourceField idField = new ResourceFieldImpl("id", "id", ResourceFieldType.ID, Long.class, Long.class, null);
+	        sut = new ResourceInformation(typeParser, ResourceWithAny.class, "tasks", null, Arrays.asList(idField),
+	                OffsetLimitPagingSpec.class);
 
-        ResourceWithAny resource = new ResourceWithAny();
+	        ResourceWithAny resource = new ResourceWithAny();
 
-        AnyResourceFieldAccessor accessor = sut.getAnyFieldAccessor();
-        accessor.setValue(resource, "notAllowed", "testValue");
+	        AnyResourceFieldAccessor accessor = sut.getAnyFieldAccessor();
+	        accessor.setValue(resource, "notAllowed", "testValue");
+		});
     }
 
-    @Test(expected = InvalidResourceException.class)
+    @Test
     public void checkAnyAccessorWithoutSetterThrowsException() {
-        ResourceField idField = new ResourceFieldImpl("id", "id", ResourceFieldType.ID, Long.class, Long.class, null);
-        new ResourceInformation(typeParser, ResourceWithAnyWithoutSetter.class, "tasks", null, Arrays.asList(idField),
-                OffsetLimitPagingSpec.class);
+		Assertions.assertThrows(InvalidResourceException.class, () -> {
+	        ResourceField idField = new ResourceFieldImpl("id", "id", ResourceFieldType.ID, Long.class, Long.class, null);
+	        new ResourceInformation(typeParser, ResourceWithAnyWithoutSetter.class, "tasks", null, Arrays.asList(idField),
+	        		OffsetLimitPagingSpec.class);
+		});
     }
 
     @JsonApiResource(type = "test")

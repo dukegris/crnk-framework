@@ -7,9 +7,9 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import io.crnk.core.engine.internal.http.HttpRequestContextBaseAdapter;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class HttpRequestContextBaseAdapterTest {
@@ -18,7 +18,7 @@ public class HttpRequestContextBaseAdapterTest {
 
     private HttpRequestContextBase base;
 
-    @Before
+    @BeforeEach
     public void setup() {
         base = Mockito.mock(HttpRequestContextBase.class);
         adapter = new HttpRequestContextBaseAdapter(base);
@@ -26,23 +26,23 @@ public class HttpRequestContextBaseAdapterTest {
 
     @Test
     public void testHasResponse() throws IOException {
-        Assert.assertFalse(adapter.hasResponse());
+        Assertions.assertFalse(adapter.hasResponse());
         byte[] data = new byte[0];
 
         HttpResponse response = new HttpResponse();
         response.setBody(data);
         response.setStatusCode(12);
         adapter.setResponse(response);
-        Assert.assertTrue(adapter.hasResponse());
+        Assertions.assertTrue(adapter.hasResponse());
     }
 
     @Test
     public void testAccepts() {
         Mockito.when(base.getRequestHeader(Mockito.eq(HttpHeaders.HTTP_HEADER_ACCEPT))).thenReturn("text/html,application/json");
-        Assert.assertTrue(adapter.accepts("text/html"));
-        Assert.assertFalse(adapter.accepts("application/xy"));
-        Assert.assertTrue(adapter.accepts("application/json"));
-        Assert.assertEquals(-1, adapter.getQueryContext().getRequestVersion());
+        Assertions.assertTrue(adapter.accepts("text/html"));
+        Assertions.assertFalse(adapter.accepts("application/xy"));
+        Assertions.assertTrue(adapter.accepts("application/json"));
+        Assertions.assertEquals(-1, adapter.getQueryContext().getRequestVersion());
     }
 
 
@@ -51,9 +51,9 @@ public class HttpRequestContextBaseAdapterTest {
         Mockito.when(base.getRequestHeader(Mockito.eq(HttpHeaders.HTTP_HEADER_ACCEPT))).thenReturn("text/html,application/json;version=3");
 
         adapter = new HttpRequestContextBaseAdapter(base);
-        Assert.assertFalse(adapter.accepts("application/xy"));
-        Assert.assertTrue(adapter.accepts("application/json"));
-        Assert.assertEquals(3, adapter.getQueryContext().getRequestVersion());
+        Assertions.assertFalse(adapter.accepts("application/xy"));
+        Assertions.assertTrue(adapter.accepts("application/json"));
+        Assertions.assertEquals(3, adapter.getQueryContext().getRequestVersion());
     }
 
 	@Test
@@ -61,9 +61,9 @@ public class HttpRequestContextBaseAdapterTest {
 		Mockito.when(base.getRequestHeader(Mockito.eq(HttpHeaders.HTTP_HEADER_ACCEPT))).thenReturn("application/json;version=3,text/html");
 
 		adapter = new HttpRequestContextBaseAdapter(base);
-		Assert.assertFalse(adapter.accepts("application/xy"));
-		Assert.assertTrue(adapter.accepts("application/json"));
-		Assert.assertEquals(3, adapter.getQueryContext().getRequestVersion());
+		Assertions.assertFalse(adapter.accepts("application/xy"));
+		Assertions.assertTrue(adapter.accepts("application/json"));
+		Assertions.assertEquals(3, adapter.getQueryContext().getRequestVersion());
 	}
 
     @Test
@@ -74,27 +74,27 @@ public class HttpRequestContextBaseAdapterTest {
         Mockito.when(base.getRequestParameters()).thenReturn(parameters);
 
         adapter = new HttpRequestContextBaseAdapter(base);
-        Assert.assertFalse(adapter.accepts("application/xy"));
-        Assert.assertTrue(adapter.accepts("application/json"));
-        Assert.assertEquals(3, adapter.getQueryContext().getRequestVersion());
+        Assertions.assertFalse(adapter.accepts("application/xy"));
+        Assertions.assertTrue(adapter.accepts("application/json"));
+        Assertions.assertEquals(3, adapter.getQueryContext().getRequestVersion());
     }
 
     @Test
     public void testAcceptsAny() {
         Mockito.when(base.getRequestHeader(Mockito.eq(HttpHeaders.HTTP_HEADER_ACCEPT))).thenReturn("text/html,application/json");
-        Assert.assertFalse(adapter.acceptsAny());
+        Assertions.assertFalse(adapter.acceptsAny());
         Mockito.when(base.getRequestHeader(Mockito.eq(HttpHeaders.HTTP_HEADER_ACCEPT))).thenReturn("application/json,*");
-        Assert.assertTrue(adapter.acceptsAny());
+        Assertions.assertTrue(adapter.acceptsAny());
         Mockito.when(base.getRequestHeader(Mockito.eq(HttpHeaders.HTTP_HEADER_ACCEPT))).thenReturn("application/json,*/*");
-        Assert.assertTrue(adapter.acceptsAny());
+        Assertions.assertTrue(adapter.acceptsAny());
     }
 
     @Test
     public void testAcceptsAllIfNoHeader() {
         Mockito.when(base.getRequestHeader(Mockito.eq(HttpHeaders.HTTP_HEADER_ACCEPT))).thenReturn(null);
-        Assert.assertFalse(adapter.accepts("text/html"));
-        Assert.assertFalse(adapter.accepts("application/json"));
-        Assert.assertTrue(adapter.acceptsAny());
+        Assertions.assertFalse(adapter.accepts("text/html"));
+        Assertions.assertFalse(adapter.accepts("application/json"));
+        Assertions.assertTrue(adapter.acceptsAny());
     }
 
     @Test
@@ -135,8 +135,8 @@ public class HttpRequestContextBaseAdapterTest {
 
     @Test
     public void unwrap() {
-        Assert.assertSame(adapter, adapter.unwrap(HttpRequestContextBaseAdapter.class));
-        Assert.assertSame(base, adapter.unwrap(base.getClass()));
-        Assert.assertNull(adapter.unwrap(String.class));
+        Assertions.assertSame(adapter, adapter.unwrap(HttpRequestContextBaseAdapter.class));
+        Assertions.assertSame(base, adapter.unwrap(base.getClass()));
+        Assertions.assertNull(adapter.unwrap(String.class));
     }
 }

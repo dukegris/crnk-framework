@@ -16,9 +16,9 @@ import io.crnk.test.mock.models.Task;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.parser.OpenAPIV3Parser;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class OpenAPIGeneratorComplexTest extends OpenAPIGeneratorTestBase {
   private OneRelationshipRepository<Task, Long, Project, Long> taskToProjectOneRelationRepository;
   private ManyRelationshipRepository<Task, Long, Project, Long> taskToProjectManyRelationRepository;
 
-  @Before
+  @BeforeEach
   public void setup() {
     CrnkBoot boot = setupServer();
     CrnkClient client = setupClient(boot);
@@ -81,9 +81,9 @@ public class OpenAPIGeneratorComplexTest extends OpenAPIGeneratorTestBase {
 
     OpenAPI openApi = new OpenAPIV3Parser().read(outputPath);
 
-    Assert.assertEquals("Generated Title", openApi.getInfo().getTitle());
-    Assert.assertEquals("Generated Description", openApi.getInfo().getDescription());
-    Assert.assertEquals("0.1.0", openApi.getInfo().getVersion());
+    Assertions.assertEquals(openApi.getInfo().getTitle(), "Generated Title");
+    Assertions.assertEquals(openApi.getInfo().getDescription(), "Generated Description");
+    Assertions.assertEquals(openApi.getInfo().getVersion(), "0.1.0");
 
     // Ensure responses satisfy minimal requirements for JSON:API compliance
     for (Map.Entry<String, PathItem> entry : openApi.getPaths().entrySet()) {

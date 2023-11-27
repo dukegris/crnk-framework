@@ -13,10 +13,10 @@ import io.crnk.test.mock.models.Project;
 import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.ProjectRepository;
 import io.crnk.test.mock.repository.TaskRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 public abstract class SleuthModuleTest extends JerseyTestBase {
@@ -44,7 +44,7 @@ public abstract class SleuthModuleTest extends JerseyTestBase {
 	private ResourceRepository<Project, Serializable> projectRepo;
 
 
-	@Before
+	@BeforeEach
 	@SuppressWarnings("unchecked")
 	public void setup() {
 		RestTemplateAdapter httpAdapter = new RestTemplateAdapter();
@@ -68,15 +68,15 @@ public abstract class SleuthModuleTest extends JerseyTestBase {
 		ArgumentCaptor<Span> clientSpanCaptor = ArgumentCaptor.forClass(Span.class);
 		List<Span> clientSpans = clientSpanCaptor.getAllValues();
 		Span callSpan = clientSpans.get(0);
-		Assert.assertEquals("post", callSpan.getName());
-		Assert.assertTrue(callSpan.toString().contains("\"cs\""));
-		Assert.assertTrue(callSpan.toString().contains("\"cr\""));
+		Assertions.assertEquals("post", callSpan.getName());
+		Assertions.assertTrue(callSpan.toString().contains("\"cs\""));
+		Assertions.assertTrue(callSpan.toString().contains("\"cr\""));
 
 		// check server local span
-		Assert.assertEquals(1, reportedSpans.spans.size());
+		Assertions.assertEquals(1, reportedSpans.spans.size());
 		Span repositorySpan = reportedSpans.spans.get(0);
-		Assert.assertEquals("crnk:post:/tasks/13", repositorySpan.getName());
-		Assert.assertTrue(repositorySpan.toString().contains("\"lc\""));
+		Assertions.assertEquals("crnk:post:/tasks/13", repositorySpan.getName());
+		Assertions.assertTrue(repositorySpan.toString().contains("\"lc\""));
 
 		assertBinaryAnnotation(repositorySpan, "lc", "crnk");
 		assertBinaryAnnotation(repositorySpan, "crnk.query", "?");
@@ -96,16 +96,16 @@ public abstract class SleuthModuleTest extends JerseyTestBase {
 		ArgumentCaptor<Span> clientSpanCaptor = ArgumentCaptor.forClass(Span.class);
 		List<Span> clientSpans = clientSpanCaptor.getAllValues();
 		Span callSpan = clientSpans.get(0);
-		Assert.assertEquals("post", callSpan.getName());
-		Assert.assertTrue(callSpan.toString().contains("\"cs\""));
-		Assert.assertTrue(callSpan.toString().contains("\"cr\""));
+		Assertions.assertEquals("post", callSpan.getName());
+		Assertions.assertTrue(callSpan.toString().contains("\"cs\""));
+		Assertions.assertTrue(callSpan.toString().contains("\"cr\""));
 		assertBinaryAnnotation(callSpan, "http.status_code", "500");
 
 		// check server local span
-		Assert.assertEquals(1, reportedSpans.spans.size());
+		Assertions.assertEquals(1, reportedSpans.spans.size());
 		Span repositorySpan = reportedSpans.spans.get(0);
-		Assert.assertEquals("crnk:post:/tasks/13", repositorySpan.getName());
-		Assert.assertTrue(repositorySpan.toString().contains("\"lc\""));
+		Assertions.assertEquals("crnk:post:/tasks/13", repositorySpan.getName());
+		Assertions.assertTrue(repositorySpan.toString().contains("\"lc\""));
 
 		assertBinaryAnnotation(repositorySpan, "lc", "crnk");
 		assertBinaryAnnotation(repositorySpan, "crnk.query", "?");
@@ -125,15 +125,15 @@ public abstract class SleuthModuleTest extends JerseyTestBase {
 		ArgumentCaptor<Span> clientSpanCaptor = ArgumentCaptor.forClass(Span.class);
 		List<Span> clientSpans = clientSpanCaptor.getAllValues();
 		Span callSpan = clientSpans.get(0);
-		Assert.assertEquals("get", callSpan.getName());
-		Assert.assertTrue(callSpan.toString().contains("\"cs\""));
-		Assert.assertTrue(callSpan.toString().contains("\"cr\""));
+		Assertions.assertEquals("get", callSpan.getName());
+		Assertions.assertTrue(callSpan.toString().contains("\"cs\""));
+		Assertions.assertTrue(callSpan.toString().contains("\"cr\""));
 
 		// check server local span
-		Assert.assertEquals(1, reportedSpans.spans.size());
+		Assertions.assertEquals(1, reportedSpans.spans.size());
 		Span repositorySpan = reportedSpans.spans.get(0);
-		Assert.assertEquals("crnk:get:/tasks", repositorySpan.getName());
-		Assert.assertTrue(repositorySpan.toString().contains("\"lc\""));
+		Assertions.assertEquals("crnk:get:/tasks", repositorySpan.getName());
+		Assertions.assertTrue(repositorySpan.toString().contains("\"lc\""));
 
 		assertBinaryAnnotation(repositorySpan, "lc", "crnk");
 		assertBinaryAnnotation(repositorySpan, "crnk.query", "?filter[tasks][name][EQ]=doe");
@@ -151,24 +151,24 @@ public abstract class SleuthModuleTest extends JerseyTestBase {
 		ArgumentCaptor<Span> clientSpanCaptor = ArgumentCaptor.forClass(Span.class);
 		List<Span> clientSpans = clientSpanCaptor.getAllValues();
 		Span callSpan = clientSpans.get(0);
-		Assert.assertEquals("get", callSpan.getName());
-		Assert.assertTrue(callSpan.toString().contains("\"cs\""));
-		Assert.assertTrue(callSpan.toString().contains("\"cr\""));
+		Assertions.assertEquals("get", callSpan.getName());
+		Assertions.assertTrue(callSpan.toString().contains("\"cs\""));
+		Assertions.assertTrue(callSpan.toString().contains("\"cr\""));
 
 		// check server local span
-		Assert.assertEquals(2, reportedSpans.spans.size());
+		Assertions.assertEquals(2, reportedSpans.spans.size());
 
 		Span repositorySpan0 = reportedSpans.spans.get(0);
-		Assert.assertEquals("crnk:get:/tasks", repositorySpan0.getName());
-		Assert.assertTrue(repositorySpan0.toString().contains("\"lc\""));
+		Assertions.assertEquals("crnk:get:/tasks", repositorySpan0.getName());
+		Assertions.assertTrue(repositorySpan0.toString().contains("\"lc\""));
 
 		assertBinaryAnnotation(repositorySpan0, "lc", "crnk");
 		assertBinaryAnnotation(repositorySpan0, "crnk.results", "0");
 		assertBinaryAnnotation(repositorySpan0, "crnk.status", "OK");
 
 		Span repositorySpan1 = reportedSpans.spans.get(1);
-		Assert.assertEquals("crnk:get:/projects/123/tasks", repositorySpan1.getName());
-		Assert.assertTrue(repositorySpan1.toString().contains("\"lc\""));
+		Assertions.assertEquals("crnk:get:/projects/123/tasks", repositorySpan1.getName());
+		Assertions.assertTrue(repositorySpan1.toString().contains("\"lc\""));
 
 		assertBinaryAnnotation(repositorySpan1, "lc", "crnk");
 		assertBinaryAnnotation(repositorySpan1, "crnk.query", "?");
@@ -177,6 +177,6 @@ public abstract class SleuthModuleTest extends JerseyTestBase {
 	}
 
 	private void assertBinaryAnnotation(Span span, String key, String value) {
-		Assert.assertEquals(value, span.tags().get(key));
+		Assertions.assertEquals(value, span.tags().get(key));
 	}
 }

@@ -4,7 +4,7 @@ import io.crnk.core.CoreTestModule;
 import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.engine.url.ConstantServiceUrlProvider;
 import io.crnk.core.module.Module;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class HttpRequestContextAwareTest {

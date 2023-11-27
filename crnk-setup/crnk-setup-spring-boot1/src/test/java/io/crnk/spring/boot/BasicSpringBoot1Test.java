@@ -1,10 +1,10 @@
 package io.crnk.spring.boot;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import javax.security.auth.message.config.AuthConfigFactory;
+import jakarta.security.auth.message.config.AuthConfigFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.crnk.core.boot.CrnkBoot;
@@ -23,8 +23,12 @@ import io.crnk.test.mock.repository.ProjectRepository;
 import io.crnk.test.mock.repository.TaskRepository;
 import net.javacrumbs.jsonunit.fluent.JsonFluentAssert;
 import org.apache.catalina.authenticator.jaspic.AuthConfigFactoryImpl;
-import org.junit.*;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +42,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringRunner.class)
 @SpringBootTest(classes = BasicSpringBootApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 public class BasicSpringBoot1Test {
@@ -80,7 +84,7 @@ public class BasicSpringBoot1Test {
 	@Autowired
 	private SpringMvcModule mvcModule;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		TestModule.clear();
 
@@ -90,7 +94,7 @@ public class BasicSpringBoot1Test {
 		}
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		TestModule.clear();
 	}
@@ -106,24 +110,24 @@ public class BasicSpringBoot1Test {
 
 	@Test
 	public void testProperties() {
-		Assert.assertTrue(uiProperties.getEnabled());
-		Assert.assertTrue(homeProperties.getEnabled());
-		Assert.assertTrue(securityProperties.getIfAvailable() == null);
-		Assert.assertTrue(coreProperties.isEnabled());
-		Assert.assertTrue(operationsProperties.getEnabled());
-		Assert.assertTrue(validationProperties.getEnabled());
-		Assert.assertTrue(uiProperties.getEnabled());
-		Assert.assertTrue(metaProperties.getEnabled());
+		Assertions.assertTrue(uiProperties.getEnabled());
+		Assertions.assertTrue(homeProperties.getEnabled());
+		Assertions.assertTrue(securityProperties.getIfAvailable() == null);
+		Assertions.assertTrue(coreProperties.isEnabled());
+		Assertions.assertTrue(operationsProperties.getEnabled());
+		Assertions.assertTrue(validationProperties.getEnabled());
+		Assertions.assertTrue(uiProperties.getEnabled());
+		Assertions.assertTrue(metaProperties.getEnabled());
 
 		Mockito.verify(metaConfigurer, Mockito.times(1)).configure(Mockito.any(MetaModuleConfig.class));
 		Mockito.verify(jpaConfigurer, Mockito.times(1)).configure(Mockito.any(JpaModuleConfig.class));
 
-		Assert.assertEquals("spring.mvc", mvcModule.getModuleName());
+		Assertions.assertEquals("spring.mvc", mvcModule.getModuleName());
 
 		CrnkSecurityProperties unmanagedSecurityProperties = new CrnkSecurityProperties();
-		Assert.assertTrue(unmanagedSecurityProperties.getEnabled());
+		Assertions.assertTrue(unmanagedSecurityProperties.getEnabled());
 		unmanagedSecurityProperties.setEnabled(false);
-		Assert.assertFalse(unmanagedSecurityProperties.getEnabled());
+		Assertions.assertFalse(unmanagedSecurityProperties.getEnabled());
 	}
 
 	@Test
@@ -158,12 +162,12 @@ public class BasicSpringBoot1Test {
 
 	@Test
 	public void testPagingBehaviorInjected() {
-		Assert.assertEquals(1, boot.getPagingBehaviors().size());
-		Assert.assertTrue(boot.getPagingBehaviors().get(0) instanceof OffsetLimitPagingBehavior);
+		Assertions.assertEquals(1, boot.getPagingBehaviors().size());
+		Assertions.assertTrue(boot.getPagingBehaviors().get(0) instanceof OffsetLimitPagingBehavior);
 	}
 
 	@Test
-	@Ignore // currently not maintained
+	@Disabled // currently not maintained
 	public void testUiModuleRunning() {
 		RestTemplate testRestTemplate = new RestTemplate();
 		ResponseEntity<String> response = testRestTemplate
@@ -177,7 +181,7 @@ public class BasicSpringBoot1Test {
 		try {
 			testRestTemplate
 					.getForEntity("http://localhost:" + this.port + "/tasks", String.class);
-			Assert.fail();
+			Assertions.fail();
 		} catch (HttpStatusCodeException e) {
 			assertEquals(HttpStatus.NOT_FOUND, e.getStatusCode());
 		}
@@ -198,7 +202,7 @@ public class BasicSpringBoot1Test {
 		try {
 			testRestTemplate
 					.getForEntity("http://localhost:" + this.port + "/doesNotExist", String.class);
-			Assert.fail();
+			Assertions.fail();
 		} catch (HttpClientErrorException e) {
 			assertEquals(HttpStatus.NOT_FOUND, e.getStatusCode());
 
@@ -207,11 +211,11 @@ public class BasicSpringBoot1Test {
 			mapper.registerModule(JacksonModule.createJacksonModule());
 			Document document = mapper.readerFor(Document.class).readValue(body);
 
-			Assert.assertEquals(1, document.getErrors().size());
+			Assertions.assertEquals(1, document.getErrors().size());
 			ErrorData errorData = document.getErrors().get(0);
-			Assert.assertEquals("404", errorData.getStatus());
-			Assert.assertEquals("Not Found", errorData.getTitle());
-			Assert.assertEquals("No message available", errorData.getDetail());
+			Assertions.assertEquals("404", errorData.getStatus());
+			Assertions.assertEquals("Not Found", errorData.getTitle());
+			Assertions.assertEquals("No message available", errorData.getDetail());
 		}
 	}
 }

@@ -10,7 +10,7 @@ dependencies {
     implementation project(':crnk-core')
 
     implementation 'com.fasterxml.jackson.core:jackson-annotations'
-    implementation 'org.slf4j:slf4j-api:1.7.13'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // RCS unneeded:
     // testImplementation project(':crnk-core')
@@ -18,6 +18,6 @@ dependencies {
 
     testImplementation 'com.fasterxml.jackson.core:jackson-annotations'
 
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
 
 }

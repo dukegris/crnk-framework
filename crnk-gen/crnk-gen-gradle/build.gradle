@@ -36,4 +36,6 @@ dependencies {
     // testImplementation project(':crnk-gen:crnk-gen-typescript')
     testImplementation project(':crnk-core')
 
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
+
 }

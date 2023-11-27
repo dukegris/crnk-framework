@@ -25,9 +25,9 @@ import io.crnk.core.repository.RelationshipMatcher;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.repository.foward.ForwardingDirection;
 import io.crnk.core.repository.foward.ForwardingRelationshipRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class OwnerFowardingRelationshipRepositoryTest {
 
@@ -58,7 +58,7 @@ public class OwnerFowardingRelationshipRepositoryTest {
 
 	private ForwardingRelationshipRepository projectTaskRepository;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		CoreTestContainer container = new CoreTestContainer();
 		container.addModule(new CoreTestModule());
@@ -125,92 +125,94 @@ public class OwnerFowardingRelationshipRepositoryTest {
 	@Test
 	public void checkSetRelationId() {
 		relRepository.setRelation(resource, 3L, "testSerializeEager");
-		Assert.assertEquals(3L, resource.getTestSerializeEagerId().longValue());
-		Assert.assertNull(resource.getTestSerializeEager());
+		Assertions.assertEquals(3L, resource.getTestSerializeEagerId().longValue());
+		Assertions.assertNull(resource.getTestSerializeEager());
 
-		Assert.assertSame(schedule3,
+		Assertions.assertSame(schedule3,
 				relRepository.findOneTarget(resource.getId(), "testSerializeEager", new QuerySpec(Schedule.class)));
 
 		MultivaluedMap targets =
 				relRepository.findTargets(Arrays.asList(resource.getId()), "testSerializeEager", new QuerySpec(Schedule.class));
-		Assert.assertEquals(1, targets.keySet().size());
+		Assertions.assertEquals(1, targets.keySet().size());
 		Object target = targets.getUnique(resource.getId());
-		Assert.assertEquals(schedule3, target);
+		Assertions.assertEquals(schedule3, target);
 
 		relRepository.setRelation(resource, null, "testSerializeEager");
-		Assert.assertNull(resource.getTestSerializeEagerId());
-		Assert.assertNull(resource.getTestSerializeEager());
+		Assertions.assertNull(resource.getTestSerializeEagerId());
+		Assertions.assertNull(resource.getTestSerializeEager());
 	}
 
-	@Test(expected = ResourceNotFoundException.class)
+	@Test
 	public void checkSetRelationIdNotFound() {
-		relRepository.setRelation(resource, 123123L, "testSerializeEager");
-		Assert.assertEquals(123123L, resource.getTestSerializeEagerId().longValue());
-		Assert.assertNull(resource.getTestSerializeEager());
-		relRepository.findOneTarget(resource.getId(), "testSerializeEager", new QuerySpec(Schedule.class));
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+			relRepository.setRelation(resource, 123123L, "testSerializeEager");
+			Assertions.assertEquals(123123L, resource.getTestSerializeEagerId().longValue());
+			Assertions.assertNull(resource.getTestSerializeEager());
+			relRepository.findOneTarget(resource.getId(), "testSerializeEager", new QuerySpec(Schedule.class));
+		});
 	}
 
 	@Test
 	public void checkSetRelationIdToNull() {
 		relRepository.setRelation(resource, null, "testSerializeEager");
-		Assert.assertEquals(null, resource.getTestSerializeEagerId());
-		Assert.assertNull(resource.getTestSerializeEager());
-		Assert.assertNull(relRepository.findOneTarget(resource.getId(), "testSerializeEager", new QuerySpec(Schedule.class)));
+		Assertions.assertEquals(null, resource.getTestSerializeEagerId());
+		Assertions.assertNull(resource.getTestSerializeEager());
+		Assertions.assertNull(relRepository.findOneTarget(resource.getId(), "testSerializeEager", new QuerySpec(Schedule.class)));
 	}
 
 	@Test
 	public void checkSetRelationIds() {
 		relRepository.setRelations(resource, Arrays.asList(3L, 4L), "testMultipleValues");
-		Assert.assertEquals(Arrays.asList(3L, 4L), resource.getTestMultipleValueIds());
+		Assertions.assertEquals(Arrays.asList(3L, 4L), resource.getTestMultipleValueIds());
 
 		List<Schedule> targets =
 				relRepository.findManyTargets(resource.getId(), "testMultipleValues", new QuerySpec(Schedule.class));
-		Assert.assertEquals(2, targets.size());
-		Assert.assertSame(schedule3, targets.get(0));
-		Assert.assertSame(4L, targets.get(1).getId().longValue());
+		Assertions.assertEquals(2, targets.size());
+		Assertions.assertSame(schedule3, targets.get(0));
+		Assertions.assertSame(4L, targets.get(1).getId().longValue());
 
 		MultivaluedMap targetsMap =
 				relRepository.findTargets(Arrays.asList(resource.getId()), "testMultipleValues", new QuerySpec(Schedule.class));
-		Assert.assertEquals(1, targetsMap.keySet().size());
+		Assertions.assertEquals(1, targetsMap.keySet().size());
 		targets = targetsMap.getList(resource.getId());
-		Assert.assertEquals(2, targets.size());
-		Assert.assertSame(3L, targets.get(0).getId().longValue());
-		Assert.assertSame(4L, targets.get(1).getId().longValue());
+		Assertions.assertEquals(2, targets.size());
+		Assertions.assertSame(3L, targets.get(0).getId().longValue());
+		Assertions.assertSame(4L, targets.get(1).getId().longValue());
 	}
 
 	@Test
 	public void checkAddRemoveRelationIds() {
 		relRepository.addRelations(resource, Arrays.asList(3L, 4L), "testMultipleValues");
-		Assert.assertEquals(Arrays.asList(3L, 4L), resource.getTestMultipleValueIds());
+		Assertions.assertEquals(Arrays.asList(3L, 4L), resource.getTestMultipleValueIds());
 
 		relRepository.addRelations(resource, Arrays.asList(5L), "testMultipleValues");
-		Assert.assertEquals(Arrays.asList(3L, 4L, 5L), resource.getTestMultipleValueIds());
+		Assertions.assertEquals(Arrays.asList(3L, 4L, 5L), resource.getTestMultipleValueIds());
 
 		relRepository.removeRelations(resource, Arrays.asList(3L), "testMultipleValues");
-		Assert.assertEquals(Arrays.asList(4L, 5L), resource.getTestMultipleValueIds());
+		Assertions.assertEquals(Arrays.asList(4L, 5L), resource.getTestMultipleValueIds());
 	}
 
 	@Test
 	public void checkSetRelation() {
 		taskProjectRepository.setRelation(task, 42L, "project");
-		Assert.assertEquals(42L, task.getProject().getId().longValue());
+		Assertions.assertEquals(42L, task.getProject().getId().longValue());
 
 		Project target = (Project) taskProjectRepository.findOneTarget(task.getId(), "project", new QuerySpec(Task.class));
-		Assert.assertSame(42L, target.getId().longValue());
+		Assertions.assertSame(42L, target.getId().longValue());
 	}
 
 	@Test
 	public void checkSetRelations() {
 		taskProjectRepository.setRelations(task, Arrays.asList(42L), "projects");
-		Assert.assertEquals(1, task.getProjects().size());
-		Assert.assertEquals(42L, task.getProjects().iterator().next().getId().longValue());
+		Assertions.assertEquals(1, task.getProjects().size());
+		Assertions.assertEquals(42L, task.getProjects().iterator().next().getId().longValue());
 
 		MultivaluedMap targets =
 				taskProjectRepository.findTargets(Arrays.asList(task.getId()), "projects", new QuerySpec(Task.class));
-		Assert.assertEquals(1, targets.keySet().size());
-		Assert.assertEquals(task.getId(), targets.keySet().iterator().next());
+		Assertions.assertEquals(1, targets.keySet().size());
+		Assertions.assertEquals(task.getId(), targets.keySet().iterator().next());
 		Project target = (Project) targets.getUnique(task.getId());
-		Assert.assertEquals(42L, target.getId().longValue());
+		Assertions.assertEquals(42L, target.getId().longValue());
 	}
 
 
@@ -218,21 +220,21 @@ public class OwnerFowardingRelationshipRepositoryTest {
 	public void checkAddRemoveRelations() {
 		projectTaskRepository.addRelations(project, Arrays.asList(13L, 14L), "tasks");
 		Set<Long> taskIds = project.getTasks().stream().map(it -> it.getId()).collect(Collectors.toSet());
-		Assert.assertTrue(taskIds.contains(13L));
-		Assert.assertTrue(taskIds.contains(14L));
+		Assertions.assertTrue(taskIds.contains(13L));
+		Assertions.assertTrue(taskIds.contains(14L));
 
 		projectTaskRepository.addRelations(project, Arrays.asList(15L), "tasks");
-		Assert.assertEquals(3, project.getTasks().size());
+		Assertions.assertEquals(3, project.getTasks().size());
 		taskIds = project.getTasks().stream().map(it -> it.getId()).collect(Collectors.toSet());
-		Assert.assertTrue(taskIds.contains(13L));
-		Assert.assertTrue(taskIds.contains(14L));
-		Assert.assertTrue(taskIds.contains(15L));
+		Assertions.assertTrue(taskIds.contains(13L));
+		Assertions.assertTrue(taskIds.contains(14L));
+		Assertions.assertTrue(taskIds.contains(15L));
 
 		projectTaskRepository.removeRelations(project, Arrays.asList(13L), "tasks");
-		Assert.assertEquals(2, project.getTasks().size());
+		Assertions.assertEquals(2, project.getTasks().size());
 		taskIds = project.getTasks().stream().map(it -> it.getId()).collect(Collectors.toSet());
-		Assert.assertTrue(taskIds.contains(14L));
-		Assert.assertTrue(taskIds.contains(15L));
+		Assertions.assertTrue(taskIds.contains(14L));
+		Assertions.assertTrue(taskIds.contains(15L));
 	}
 
 	@Test
@@ -250,8 +252,8 @@ public class OwnerFowardingRelationshipRepositoryTest {
 				projectTaskRepository.findTargets(Arrays.asList(project.getId()), "tasks", querySpecTask);
 		MultivaluedMap targetsMap =
 				relRepository.findTargets(Arrays.asList(resource.getId()), "testMultipleValues", querySpecSchedules);
-		Assert.assertEquals(3, targetsTasks.getList(project.getId()).size());
-		Assert.assertEquals(2, targetsMap.getList(resource.getId()).size());
+		Assertions.assertEquals(3, targetsTasks.getList(project.getId()).size());
+		Assertions.assertEquals(2, targetsMap.getList(resource.getId()).size());
 
 		querySpecTask.addFilter(filterTasks);
 		querySpecSchedules.addFilter(filterSchedules);
@@ -261,7 +263,7 @@ public class OwnerFowardingRelationshipRepositoryTest {
 		targetsMap =
 				relRepository.findTargets(Arrays.asList(resource.getId()), "testMultipleValues", querySpecSchedules);
 
-		Assert.assertEquals(2, targetsTasks.getList(project.getId()).size());
-		Assert.assertEquals(1, targetsMap.getList(resource.getId()).size());
+		Assertions.assertEquals(2, targetsTasks.getList(project.getId()).size());
+		Assertions.assertEquals(1, targetsMap.getList(resource.getId()).size());
 	}
 }

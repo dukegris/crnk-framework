@@ -12,9 +12,9 @@ import io.crnk.test.mock.TestException;
 import io.crnk.test.mock.TestExceptionMapper;
 import io.crnk.test.mock.repository.ProjectRepository;
 import io.crnk.test.mock.repository.TaskRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +32,7 @@ public class GuiceServiceDiscoveryTest {
 		}
 	}
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		Injector injector = Guice.createInjector(new TestModule());
 		discovery = new GuiceServiceDiscovery(injector);
@@ -42,12 +42,12 @@ public class GuiceServiceDiscoveryTest {
 	@Test
 	public void repositoryDiscovery() {
 		List<?> repositories = discovery.getInstancesByType(Repository.class);
-		Assert.assertEquals(2, repositories.size());
-		Assert.assertTrue(repositories.get(0) instanceof ProjectRepository);
+		Assertions.assertEquals(2, repositories.size());
+		Assertions.assertTrue(repositories.get(0) instanceof ProjectRepository);
 
 		repositories = discovery.getInstancesByAnnotation(JsonApiExposed.class);
-		Assert.assertEquals(1, repositories.size());
-		Assert.assertTrue(repositories.get(0) instanceof TaskRepository);
+		Assertions.assertEquals(1, repositories.size());
+		Assertions.assertTrue(repositories.get(0) instanceof TaskRepository);
 	}
 
 	@Test
@@ -57,7 +57,7 @@ public class GuiceServiceDiscoveryTest {
 		boot.boot();
 
 		Optional<ExceptionMapper> mapper = boot.getExceptionMapperRegistry().findMapperFor(TestException.class);
-		Assert.assertTrue(mapper.isPresent());
-		Assert.assertTrue(mapper.get() instanceof TestExceptionMapper);
+		Assertions.assertTrue(mapper.isPresent());
+		Assertions.assertTrue(mapper.get() instanceof TestExceptionMapper);
 	}
 }

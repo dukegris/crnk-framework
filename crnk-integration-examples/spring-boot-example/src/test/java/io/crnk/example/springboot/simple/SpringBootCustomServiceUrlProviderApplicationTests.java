@@ -1,9 +1,9 @@
 package io.crnk.example.springboot.simple;
 
-import com.jayway.restassured.RestAssured;
+import io.restassured.RestAssured;
 import io.crnk.core.boot.CrnkBoot;
 import io.crnk.example.springboot.SpringBootExampleApplication;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.test.context.SpringBootTest;

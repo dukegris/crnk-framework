@@ -12,9 +12,9 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import io.crnk.core.resource.annotations.LookupIncludeBehavior;
 import io.crnk.core.resource.annotations.RelationshipRepositoryBehavior;
 import io.crnk.core.resource.list.ResourceList;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -28,7 +28,7 @@ public class InheritanceWithoutSubtypeRepositoryClientTest extends AbstractClien
 
     private static RelationshipRepository relationshipRepository = new RelationshipRepository();
 
-    @Before
+    @BeforeEach
     public void before() {
         repository.clear();
         relatedRepository.clear();
@@ -57,17 +57,17 @@ public class InheritanceWithoutSubtypeRepositoryClientTest extends AbstractClien
         TestResourceB resource = new TestResourceB();
         resource.setId("test1");
         TestResourceB createdResource = repository.create(resource);
-        Assert.assertNotNull(createdResource);
+        Assertions.assertNotNull(createdResource);
 
         // get
         TestResourceA getResource = repository.findOne("test1", new QuerySpec(TestResourceA.class));
-        Assert.assertNotNull(getResource);
+        Assertions.assertNotNull(getResource);
 
         // delete
         repository.delete(resource.getId());
         try {
             repository.findOne("test1", new QuerySpec(TestResourceA.class));
-            Assert.fail();
+            Assertions.fail();
         } catch (ResourceNotFoundException e) {
             // ok
         }
@@ -82,11 +82,11 @@ public class InheritanceWithoutSubtypeRepositoryClientTest extends AbstractClien
         ResourceRepository<TestResourceA, Serializable> repository = client.getRepositoryForType(TestResourceA.class);
 
         ResourceList<TestResourceA> list = repository.findAll(new QuerySpec(TestResourceA.class));
-        Assert.assertEquals(1, list.size());
+        Assertions.assertEquals(1, list.size());
 
         TestResourceA test = list.get(0);
-        Assert.assertTrue(test instanceof TestResourceB);
-        Assert.assertEquals("test0", test.getId());
+        Assertions.assertTrue(test instanceof TestResourceB);
+        Assertions.assertEquals("test0", test.getId());
     }
 
     @JsonApiResource(type = "testA", subTypes = TestResourceB.class)

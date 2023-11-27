@@ -10,9 +10,9 @@ import io.crnk.core.mock.repository.ScheduleRepositoryImpl;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.utils.Nullable;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -24,7 +24,7 @@ public class LookupNoneRelationIdLookupTest extends AbstractDocumentMapperTest {
     private Schedule schedule;
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -40,9 +40,9 @@ public class LookupNoneRelationIdLookupTest extends AbstractDocumentMapperTest {
     public void checkOnlyIdSet() {
         try {
             check(false, true);
-            Assert.fail();
+            Assertions.fail();
         } catch (IllegalStateException e) {
-            Assert.assertTrue(e.getMessage().contains("inconsistent relationship"));
+            Assertions.assertTrue(e.getMessage().contains("inconsistent relationship"));
         }
     }
 
@@ -72,21 +72,21 @@ public class LookupNoneRelationIdLookupTest extends AbstractDocumentMapperTest {
 
         Document document = mapper.toDocument(toResponse(entity), toAdapter(querySpec), mappingConfig).get();
         Resource resource = document.getSingleData().get();
-        Assert.assertEquals("2", resource.getId());
-        Assert.assertEquals("relationIdTest", resource.getType());
-        Assert.assertEquals("test", resource.getAttributes().get("name").asText());
+        Assertions.assertEquals("2", resource.getId());
+        Assertions.assertEquals("relationIdTest", resource.getType());
+        Assertions.assertEquals("test", resource.getAttributes().get("name").asText());
 
         Nullable<ResourceIdentifier> data = resource.getRelationships().get("testLookupNone").getSingleData();
-        Assert.assertTrue(data.isPresent());
-        Assert.assertEquals(0, scheduleRepository.getNumFindAll());
+        Assertions.assertTrue(data.isPresent());
+        Assertions.assertEquals(0, scheduleRepository.getNumFindAll());
         if (setRelatedEntity) {
-            Assert.assertNotNull(data.get());
-            Assert.assertEquals(1, document.getIncluded().size());
-            Assert.assertEquals("3", document.getIncluded().get(0).getId());
+            Assertions.assertNotNull(data.get());
+            Assertions.assertEquals(1, document.getIncluded().size());
+            Assertions.assertEquals("3", document.getIncluded().get(0).getId());
         } else if (setRelatedId) {
-            Assert.fail("without lookup related entity should be set if related id is set");
+            Assertions.fail("without lookup related entity should be set if related id is set");
         } else {
-            Assert.assertNull(data.get());
+            Assertions.assertNull(data.get());
         }
     }
 

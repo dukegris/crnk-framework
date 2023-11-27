@@ -11,9 +11,9 @@ import io.crnk.core.repository.RelationshipRepository;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.test.mock.models.Project;
 import io.crnk.test.mock.models.Task;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -27,7 +27,7 @@ public class QuerySpecDisallowUnknownAttributeClientTest extends AbstractClientT
 
     private DefaultQuerySpecUrlMapper urlMapper;
 
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
 
@@ -54,7 +54,7 @@ public class QuerySpecDisallowUnknownAttributeClientTest extends AbstractClientT
         try {
             taskRepo.findAll(querySpec);
         } catch (BadRequestException e) {
-            Assert.assertTrue(e.getMessage().contains("Failed to resolve path to field 'unknownAttr' from"));
+            Assertions.assertTrue(e.getMessage().contains("Failed to resolve path to field 'unknownAttr' from"));
         }
     }
 
