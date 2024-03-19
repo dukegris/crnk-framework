@@ -128,6 +128,9 @@ public class FacetModule implements ModuleExtensionAware<FacetModuleExtension> {
 					if (accessor instanceof ReflectionFieldAccessor) {
 						ReflectionFieldAccessor reflectionFieldAccessor = (ReflectionFieldAccessor) accessor;
 						Field classField = reflectionFieldAccessor.getField();
+						// RCS absurdo
+						// ReflectionFieldAccessor pone los campos a null, con lo que nunca encuentra la anotación
+						// Los campos facet deben ser públicos para evitarlo
 						if (classField == null) {
 							continue;
 						}

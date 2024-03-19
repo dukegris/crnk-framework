@@ -17,8 +17,6 @@ dependencies {
     // RCS unneeded:
     // testImplementation project(':crnk-core')
 
-    testImplementation 'com.fasterxml.jackson.core:jackson-annotations'
-    testImplementation 'io.projectreactor:reactor-test:3.5.11'
     testImplementation 'com.fasterxml.jackson.core:jackson-core'
     testImplementation 'com.fasterxml.jackson.core:jackson-databind'
 

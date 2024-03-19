@@ -57,7 +57,11 @@ public class TestEntity extends TestMappedSuperclass {
 
     @Column
     @Facet
-    private long longValue;
+	// RCS absurdo
+	// ReflectionFieldAccessor pone los campos a null, con lo que nunca encuentra la anotación
+	// Los campos facet deben ser públicos para evitarlo
+    // private long longValue;
+    public long longValue;
 
     @Column
     private byte[] bytesValue;

@@ -1,0 +1,28 @@
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.crnk</groupId>
+		<artifactId>crnk-framework</artifactId>
+		<version>4.0</version>
+	</parent>
+	<artifactId>crnk-integration-examples</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<!--
+		<module>dagger-vertx-example</module>
+		-->
+		<module>dropwizard-simple-example</module>
+		<module>jersey-example</module>
+		<module>openliberty-microprofile-example</module>
+		<module>spring-boot-example</module>
+		<module>spring-boot-minimal-example</module>
+		<module>spring-boot-microservice-example</module>
+		<module>wildfly-example</module>
+	</modules>
+
+</project>
